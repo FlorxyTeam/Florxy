@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         body: Container(
           padding: EdgeInsets.only(top: 60),
-          child: Inter(text: "FLORXYs", size: 30, color: Colors.black, fontWeight: f.m)
+          child: Inter(text: "test", size: 30, color: Colors.black, fontWeight: f.m)
         ),
       )
     );
