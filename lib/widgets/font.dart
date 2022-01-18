@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 
 class Poppins extends StatelessWidget {
-  double size;
-  double? letterSpacing;
+  final double size;
+  final double? letterSpacing;
   final String text;
   final Color color;
   final FontWeight fontWeight;
@@ -25,19 +25,41 @@ class Poppins extends StatelessWidget {
 }
 
 class Inter extends StatelessWidget {
-  double size;
-  double? letterSpacing;
+  final double size;
+  final double? letterSpacing;
   final String text;
   final Color color;
   final FontWeight fontWeight;
+  final FontStyle? fontStyle;
 
-  Inter({Key? key, required this.text,required this.size,required this.color ,required this.fontWeight, this.letterSpacing}) : super(key: key);
+  Inter({Key? key, required this.text,required this.size,required this.color, this.fontStyle = FontStyle.normal ,required this.fontWeight, this.letterSpacing}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Text(
         text,
         style: GoogleFonts.inter(
+            textStyle: TextStyle(color: color,fontSize: size,fontWeight: fontWeight, letterSpacing: letterSpacing )
+        )
+    );
+  }
+}
+
+class Roboto extends StatelessWidget {
+  final double size;
+  final double? letterSpacing;
+  final String text;
+  final Color color;
+  final FontWeight fontWeight;
+  final FontStyle? fontStyle;
+
+  Roboto({Key? key, required this.text,required this.size,required this.color , this.fontStyle = FontStyle.normal ,required this.fontWeight, this.letterSpacing}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+        text,
+        style: GoogleFonts.roboto(
             textStyle: TextStyle(color: color,fontSize: size,fontWeight: fontWeight, letterSpacing: letterSpacing )
         )
     );
