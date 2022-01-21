@@ -6,6 +6,7 @@ import 'package:Florxy/pages/PostReply.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Florxy/pages/searchpage.dart';
+import 'package:Florxy/widgets/ModalBottomSheet.dart';
 
 Widget profileHeaderWidget(BuildContext context) {
   return Container(
@@ -50,7 +51,9 @@ Widget profileHeaderWidget(BuildContext context) {
                                 ),
                               ),
                               IconButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  ModalBottomSheet.Modal_Settings(context);
+                                },
                                 icon: Icon(Boxicons.bx_dots_vertical_rounded),
                               ),
                             ],
@@ -107,3 +110,19 @@ Widget profileHeaderWidget(BuildContext context) {
     ),
   );
 }
+
+// void _ModaBottomSheet(context) {
+//   showModalBottomSheet(
+//       context: context,
+//       builder: (context) {
+//         return Column(
+//           children: [
+//             ListTile(
+//               leading: Icon(Icons.ac_unit),
+//               title: Text('Kuay'),
+//               onTap: () {},
+//             )
+//           ],
+//         );
+//       });
+// }
