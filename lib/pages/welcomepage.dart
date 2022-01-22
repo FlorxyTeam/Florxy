@@ -1,4 +1,5 @@
-import 'package:Florxy/pages/createaccount.dart';
+import 'package:Florxy/pages/createaccount1.dart';
+import 'package:Florxy/pages/registerpage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
@@ -62,7 +63,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       GestureDetector(
                         onTap: () {
                           print('click!!');
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateAccount()));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateAccount1()));
                         },
                         child: WhiteButton(
                           text: 'REGISTER',

@@ -17,6 +17,7 @@ class Poppins extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
+      textAlign: TextAlign.center,
       style: GoogleFonts.poppins(
         textStyle: TextStyle(color: color,fontSize: size,fontWeight: fontWeight, fontStyle: fontStyle, letterSpacing: letterSpacing )
       )
@@ -38,6 +39,7 @@ class Inter extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
         text,
+        textAlign: TextAlign.center,
         style: GoogleFonts.inter(
             textStyle: TextStyle(color: color,fontSize: size,fontWeight: fontWeight, letterSpacing: letterSpacing )
         )
@@ -59,6 +61,7 @@ class Roboto extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
         text,
+        textAlign: TextAlign.center,
         style: GoogleFonts.roboto(
             textStyle: TextStyle(color: color,fontSize: size,fontWeight: fontWeight, letterSpacing: letterSpacing )
         )
