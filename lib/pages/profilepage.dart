@@ -6,7 +6,6 @@ import 'package:Florxy/pages/FavPost.dart';
 import 'package:Florxy/pages/PostReply.dart';
 import 'package:Florxy/pages/savedPro.dart';
 import 'package:Florxy/widgets/pro_header_widget.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);

@@ -18,16 +18,10 @@ class Navbar extends StatefulWidget {
 }
 
 class _NavbarState extends State<Navbar> {
-  List pages = [
-    HomePage(),
-    SearchPage(),
-    NotificationPage(),
-    ProfilePage()
-  ];
+  List pages = [HomePage(), SearchPage(), NotificationPage(), ProfilePage()];
   int _currentIndex = 0;
   @override
   Widget build(BuildContext context) {
-
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -53,7 +47,9 @@ class _NavbarState extends State<Navbar> {
                         width: 45,
                         height: 45,
                         decoration: BoxDecoration(
-                            color: _currentIndex==0?c.greenLight2.withOpacity(0.8):Colors.white,
+                            color: _currentIndex == 0
+                                ? c.greenLight2.withOpacity(0.8)
+                                : Colors.white,
                             borderRadius: BorderRadius.circular(10)),
                         child: IconButton(
                             padding: EdgeInsets.zero,
@@ -64,12 +60,15 @@ class _NavbarState extends State<Navbar> {
                             },
                             icon: Icon(Boxicons.bx_home_circle),
                             iconSize: 30,
-                            color: _currentIndex==0?c.greenMain:c.greyMain)),
+                            color:
+                                _currentIndex == 0 ? c.greenMain : c.greyMain)),
                     Container(
                         width: 45,
                         height: 45,
                         decoration: BoxDecoration(
-                            color: _currentIndex==1?c.greenLight2.withOpacity(0.8):Colors.white,
+                            color: _currentIndex == 1
+                                ? c.greenLight2.withOpacity(0.8)
+                                : Colors.white,
                             borderRadius: BorderRadius.circular(10)),
                         child: IconButton(
                             padding: EdgeInsets.zero,
@@ -78,16 +77,18 @@ class _NavbarState extends State<Navbar> {
                               setState(() {
                                 _currentIndex = 1;
                               });
-
                             },
                             icon: Icon(Boxicons.bx_search),
                             iconSize: 30,
-                            color: _currentIndex==1?c.greenMain:c.greyMain)),
+                            color:
+                                _currentIndex == 1 ? c.greenMain : c.greyMain)),
                     Container(
                         width: 45,
                         height: 45,
                         decoration: BoxDecoration(
-                            color: _currentIndex==2?c.greenLight2.withOpacity(0.8):Colors.white,
+                            color: _currentIndex == 2
+                                ? c.greenLight2.withOpacity(0.8)
+                                : Colors.white,
                             borderRadius: BorderRadius.circular(10)),
                         child: IconButton(
                             padding: EdgeInsets.zero,
@@ -98,12 +99,15 @@ class _NavbarState extends State<Navbar> {
                             },
                             icon: Icon(Boxicons.bx_bell),
                             iconSize: 30,
-                            color: _currentIndex==2?c.greenMain:c.greyMain)),
+                            color:
+                                _currentIndex == 2 ? c.greenMain : c.greyMain)),
                     Container(
                         width: 45,
                         height: 45,
                         decoration: BoxDecoration(
-                            color: _currentIndex==3?c.greenLight2.withOpacity(0.8):Colors.white,
+                            color: _currentIndex == 3
+                                ? c.greenLight2.withOpacity(0.8)
+                                : Colors.white,
                             borderRadius: BorderRadius.circular(10)),
                         child: IconButton(
                             padding: EdgeInsets.zero,
@@ -114,7 +118,8 @@ class _NavbarState extends State<Navbar> {
                             },
                             icon: Icon(Boxicons.bx_user_circle),
                             iconSize: 30,
-                            color: _currentIndex==3?c.greenMain:c.greyMain)),
+                            color:
+                                _currentIndex == 3 ? c.greenMain : c.greyMain)),
                   ],
                 ),
               ))

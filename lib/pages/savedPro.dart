@@ -14,7 +14,7 @@ class _SavedProState extends State<SavedPro> {
   Widget build(BuildContext context) {
     return Center(
       child: Poppins(
-          text: "Post&Reply",
+          text: "Saved Product",
           size: 20,
           color: c.greenMain,
           fontWeight: f.medium),

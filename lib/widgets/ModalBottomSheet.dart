@@ -12,7 +12,7 @@ import 'package:Florxy/pages/EditProfile.dart';
 import 'package:Florxy/pages/Setting.dart';
 
 // class ModalBottomSheet {
-//   static Modal_Settings(context) {
+//   static Dialog_Settings(context) {
 //     showModalBottomSheet(
 //         backgroundColor: Colors.transparent,
 //         context: context,
@@ -65,8 +65,10 @@ Column _buildBottomNavigationMenu(context) {
               size: 14,
               color: c.blackMain,
               fontWeight: f.semiBold),
-          onTap: () {
-            Navigator.of(context).push(_createRoute());
+          onTap: () async {
+            Future.delayed(Duration(microseconds: 0));
+            closeDialog(context);
+            await Navigator.of(context).push(_createRoute());
           },
         ),
         decoration: BoxDecoration(
@@ -99,7 +101,7 @@ Column _buildBottomNavigationMenu(context) {
       ),
       Container(
         child: ListTile(
-          leading: Icon(Icons.archive_outlined),
+          leading: Icon(Icons.post_add_outlined),
           iconColor: c.blackMain,
           textColor: c.blackMain,
           title: Inter(
@@ -126,8 +128,10 @@ Column _buildBottomNavigationMenu(context) {
               size: 14,
               color: c.blackMain,
               fontWeight: f.semiBold),
-          onTap: () {
-            Navigator.of(context).push(_createRoute1());
+          onTap: () async {
+            // Future.delayed(Duration(microseconds: 0));
+            closeDialog(context);
+            await Navigator.of(context).push(_createRoute1());
           },
         ),
         decoration: BoxDecoration(
@@ -154,6 +158,12 @@ Column _buildBottomNavigationMenu(context) {
   );
 }
 
+//close Dialog
+void closeDialog(context) {
+  Navigator.of(context).pop();
+}
+
+//Edit
 Route _createRoute() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => const EditPage(),
@@ -172,6 +182,7 @@ Route _createRoute() {
   );
 }
 
+//Setting
 Route _createRoute1() {
   return PageRouteBuilder(
     pageBuilder: (context, animation, secondaryAnimation) => const Setting(),

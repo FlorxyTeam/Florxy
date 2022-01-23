@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:slide_popup_dialog_null_safety/pill_gesture.dart';
-import 'package:slide_popup_dialog_null_safety/slide_dialog.dart';
-import 'package:slide_popup_dialog_null_safety/slide_popup_dialog.dart';
 
 class EditPage extends StatelessWidget {
   const EditPage({Key? key}) : super(key: key);
