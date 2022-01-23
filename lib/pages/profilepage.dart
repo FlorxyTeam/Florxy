@@ -23,48 +23,64 @@ class _ProfilePageState extends State<ProfilePage> {
       body: DefaultTabController(
         length: 3,
         child: NestedScrollView(
-          headerSliverBuilder: (context, _) {
-            return [
-              SliverList(
-                  delegate:
-                      SliverChildListDelegate([profileHeaderWidget(context)]))
-            ];
-          },
-          body: Column(
-            children: [
-              Container(
-                color: Colors.white,
-                child: TabBar(
-                  labelColor: c.greenMain,
-                  unselectedLabelColor: c.greyMain,
-                  indicator: BoxDecoration(
-                    color: c.greenLight2.withOpacity(0.8),
-                    borderRadius: BorderRadius.circular(40),
-                  ),
-                  tabs: [
-                    Tab(
-                      text: 'Post and replies',
-                    ),
-                    Tab(
-                      text: 'Favorite post',
-                    ),
-                    Tab(
-                      text: 'Saved Product',
-                    ),
-                  ],
-                ),
-              ),
-              Expanded(
-                  child: TabBarView(
+            headerSliverBuilder: (context, _) {
+              return [
+                SliverList(
+                    delegate:
+                        SliverChildListDelegate([profileHeaderWidget(context)]))
+              ];
+            },
+            body: Container(
+              color: c.textWhite,
+              child: Column(
                 children: [
-                  PostReply(),
-                  FavPost(),
-                  SavedPro(),
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 10, bottom: 10, left: 10, right: 10),
+                    child: Container(
+                      height: 25,
+                      color: c.textWhite,
+                      child: TabBar(
+                        labelColor: c.greenMain,
+                        unselectedLabelColor: c.greyMain,
+                        indicator: BoxDecoration(
+                          color: c.greenLight1.withOpacity(0.8),
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        tabs: [
+                          Tab(
+                            child: Inter_1(
+                                text: "Post and replies",
+                                size: 11,
+                                fontWeight: f.bold),
+                          ),
+                          Tab(
+                            child: Inter_1(
+                                text: "Favorite post",
+                                size: 11,
+                                fontWeight: f.bold),
+                          ),
+                          Tab(
+                            child: Inter_1(
+                                text: "Saved Product",
+                                size: 11,
+                                fontWeight: f.bold),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                      child: TabBarView(
+                    children: [
+                      PostReply(),
+                      FavPost(),
+                      SavedPro(),
+                    ],
+                  ))
                 ],
-              ))
-            ],
-          ),
-        ),
+              ),
+            )),
       ),
     ));
   }
