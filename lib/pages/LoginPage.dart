@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
                       alignment: Alignment.topLeft,
                       child: Inter(
                         text: 'LOGIN',
-                        size: 25,
+                        size: 28,
                         color: c.greenMain,
                         fontWeight: f.bold,
                       ),
@@ -71,18 +71,32 @@ class _LoginPageState extends State<LoginPage> {
                       alignment: Alignment.topLeft,
                       child: Inter(
                         text: 'ACCOUNT',
-                        size: 25,
+                        size: 28,
                         color: c.greenMain,
                         fontWeight: f.bold,
                       ),
                     ),
-                    if(isKeyboard)Align(
-                      alignment: Alignment.topLeft,
-                      child: Inter(
-                        text: 'LOGIN ACCOUNT',
-                        size: 25,
-                        color: c.greenMain,
-                        fontWeight: f.bold,
+                    if(isKeyboard)Padding(
+                      padding: EdgeInsets.only(top: 60),
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(right: 10),
+                            child: Image(
+                              image: AssetImage('assets/img/icon2.png'),
+                              height: 40,
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Inter(
+                              text: 'LOGIN ACCOUNT',
+                              size: 26,
+                              color: c.greenMain,
+                              fontWeight: f.bold,
+                            ),
+                          )
+                        ],
                       ),
                     ),
                     SizedBox(height: 30),
