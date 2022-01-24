@@ -1,3 +1,4 @@
+import 'package:Florxy/pages/navbar.dart';
 import 'package:Florxy/widgets/button.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
@@ -174,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
                       padding: EdgeInsets.only(left: 45,right: 45),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LastThingPage()), (route) => false);
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Navbar()));
                         },
                         child: GreenButton(
                           text: 'LOGIN',
