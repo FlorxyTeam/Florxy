@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+
+import 'navbar.dart';
 // import 'package:flutter_tags/flutter_tags.dart';
 // import 'package:flutter_typeahead/flutter_typeahead.dart';
 
@@ -51,11 +53,17 @@ class LastThingPage extends StatelessWidget {
                               ),
                             ],
                           ),
-                          Inter(
-                            text: 'SKIP',
-                            size: 14,
-                            color: c.greyMain,
-                            fontWeight: f.semiBold,
+                          Expanded(child: Container()),
+                          GestureDetector(
+                            onTap: (){
+                              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Navbar()), (route) => false);
+                            },
+                            child: Inter(
+                              text: 'SKIP',
+                              size: 14,
+                              color: c.greyMain,
+                              fontWeight: f.semiBold,
+                            ),
                           ),
                           Column(
                             children: [
@@ -89,7 +97,7 @@ class LastThingPage extends StatelessWidget {
                       padding: EdgeInsets.only(left: 45,right: 45),
                       child: GestureDetector(
                         onTap: () {
-
+                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Navbar()), (route) => false);
                         },
                         child: GreenButton(
                           text: 'FINISH!',

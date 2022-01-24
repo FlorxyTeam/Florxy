@@ -28,7 +28,7 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: c.textWhite,
+        backgroundColor: c.textWhite,
       body: Stack(
         children: [
           list[_currentIndex],

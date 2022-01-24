@@ -49,9 +49,10 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                           image: AssetImage('assets/img/icon2.png'),
                           height: 43,
                         ),
-                        Icon(
-                          Icons.close_rounded,
-                          size: 34,
+                        IconButton(onPressed: () { Navigator.pop(context); }, icon: Icon(Icons.close_rounded,size: 36,),
+
+
+
                         ),
                       ],
                     ),
@@ -217,7 +218,7 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                       padding: EdgeInsets.only(left: 45,right: 45),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => LastThingPage()));
+                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LastThingPage()), (route) => false);
                         },
                         child: GreenButton(
                           text: 'CONTINUE',
