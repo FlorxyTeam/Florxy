@@ -103,12 +103,9 @@ Column _buildLoginMenu(context) {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                IconButton(
-                  icon: Icon(Boxicons.bxl_facebook_circle),
-                  iconSize: 30,
-                  color: Color(0xFF156ACF),
-                  onPressed: () {},
-                ),
+                Padding(
+                    padding: EdgeInsets.only(right: 7),
+                    child: Icon(Boxicons.bxl_facebook_circle, size: 30,color: Color(0xFF156ACF))),
                 Inter(
                     text: 'Continue with Facebook',
                     size: 13,
@@ -170,12 +167,9 @@ Column _buildLoginMenu(context) {
                             color: Colors.black,
                           ),
                           child: Center(
-                            child: IconButton(
+                            child: Padding(
                               padding: EdgeInsets.all(0),
-                              icon: Icon(Boxicons.bxs_phone),
-                              iconSize: 18,
-                              color: Colors.white,
-                              onPressed: () {},
+                              child: Icon(Boxicons.bxs_phone,size: 18,color: Colors.white)
                             ),
                           ),
                         ),
