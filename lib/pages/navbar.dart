@@ -34,7 +34,7 @@ class _NavbarState extends State<Navbar> {
               left: 0,
               child: Container(
                 width: size.width,
-                height: 95,
+                height: 70,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(

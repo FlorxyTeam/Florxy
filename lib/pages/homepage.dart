@@ -15,7 +15,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarIconBrightness: Brightness.dark,statusBarColor: Colors.white),);
     return Center(
       child: Poppins(text: "Home Page", size: 20, color: c.greenMain, fontWeight: f.medium),
     );
