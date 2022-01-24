@@ -9,47 +9,47 @@ import 'package:flutter/widgets.dart';
 import 'package:slide_popup_dialog_null_safety/slide_popup_dialog.dart'
     as slideDialog;
 import 'package:Florxy/pages/EditProfile.dart';
-import 'package:Florxy/pages/Setting.dart';
-
-// class ModalBottomSheet {
-//   static Dialog_Settings(context) {
-//     showModalBottomSheet(
-//         backgroundColor: Colors.transparent,
-//         context: context,
-//         builder: (context) {
-//           return Container(
-//             color: Colors.transparent,
-//             height: 390,
-//             child: Container(
-//               child: Padding(
-//                 padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
-//                 child: _buildBottomNavigationMenu(context),
-//               ),
-//               decoration: BoxDecoration(
-//                   color: Theme.of(context).canvasColor,
-//                   borderRadius: BorderRadius.only(
-//                       topLeft: const Radius.circular(40),
-//                       topRight: const Radius.circular(40))),
-//             ),
-//           );
-//         });
-//   }
-// }
+import 'package:Florxy/pages/setting.dart';
 
 class ModalBottomSheet {
   static Dialog_Settings(context) {
-    slideDialog.showSlideDialog(
-      context: context,
-      pillColor: c.greyMain,
-      child: Container(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
-          child: _buildBottomNavigationMenu(context),
-        ),
-      ),
-    );
+    showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (context) {
+          return Container(
+            color: Colors.transparent,
+            height: 390,
+            child: Container(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
+                child: _buildBottomNavigationMenu(context),
+              ),
+              decoration: BoxDecoration(
+                  color: Theme.of(context).canvasColor,
+                  borderRadius: BorderRadius.only(
+                      topLeft: const Radius.circular(40),
+                      topRight: const Radius.circular(40))),
+            ),
+          );
+        });
   }
 }
+
+// class ModalBottomSheet {
+//   static Dialog_Settings(context) {
+//     slideDialog.showSlideDialog(
+//       context: context,
+//       pillColor: c.greyMain,
+//       child: Container(
+//         child: Padding(
+//           padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+//           child: _buildBottomNavigationMenu(context),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 Column _buildBottomNavigationMenu(context) {
   return Column(

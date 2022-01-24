@@ -7,7 +7,7 @@ import 'package:Florxy/pages/PostReply.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Florxy/pages/searchpage.dart';
-import 'package:Florxy/widgets/ModalBottomSheet.dart';
+import 'package:Florxy/widgets/Modalsetting.dart';
 
 Widget profileHeaderWidget(BuildContext context) {
   final Size size = MediaQuery.of(context).size;
@@ -128,13 +128,11 @@ Widget profileHeaderWidget(BuildContext context) {
                         child: Padding(
                           padding: const EdgeInsets.only(
                               right: 7, left: 7, top: 4, bottom: 4),
-                          child: Center(
-                            child: Inter(
-                                text: "Beauty Advisor",
-                                size: 10,
-                                color: Colors.white,
-                                fontWeight: f.semiBold),
-                          ),
+                          child: Inter(
+                              text: "Beauty Advisor",
+                              size: 10,
+                              color: Colors.white,
+                              fontWeight: f.semiBold),
                         ),
                         decoration: BoxDecoration(
                             color: c.greenMain,
