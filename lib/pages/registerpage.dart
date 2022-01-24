@@ -33,7 +33,7 @@ class _RegisterPageState extends State<RegisterPage> {
         children: [
           list[_currentIndex],
           Positioned(
-            bottom: 40,
+            bottom: 35,
             child: Column(
               children: [
                 Center(

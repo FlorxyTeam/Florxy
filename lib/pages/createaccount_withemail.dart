@@ -204,7 +204,7 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
               )
           ),
           Positioned(
-              bottom: 50,
+              bottom: 35,
               child: Column(
                 children: [
                   Center(

@@ -192,12 +192,9 @@ class _CreateAccountState extends State<CreateAccount3> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                IconButton(
-                                  icon: Icon(Boxicons.bxs_envelope),
-                                  iconSize: 30,
-                                  color: Colors.black,
-                                  onPressed: () {},
-                                ),
+                                Padding(
+                                    padding: EdgeInsets.only(right: 10),
+                                    child: Icon(Boxicons.bxs_envelope, size: 30,color: Colors.black)),
                                 Inter(
                                     text: 'Email  ',
                                     size: 14,
