@@ -15,12 +15,23 @@ class CreateAccount1 extends StatefulWidget {
 }
 
 class _CreateAccountState extends State<CreateAccount1> {
-  
+  List<FocusNode> _focusNodes = [
+    FocusNode(),
+    FocusNode(),
+  ];
+
+  @override
+  void initState() {
+    _focusNodes.forEach((node){
+      node.addListener(() {
+        setState(() {});
+      });
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    FocusNode myFocusNode1 = new FocusNode();
-    FocusNode myFocusNode2 = new FocusNode();
-
     return Scaffold(
         backgroundColor: Color(0xffF9F9F9),
         body: Stack(
@@ -114,13 +125,14 @@ class _CreateAccountState extends State<CreateAccount1> {
                     padding: const EdgeInsets.only(left: 40, right: 40),
                     height: 60,
                     child: TextField(
-                      focusNode: myFocusNode1,
+                      focusNode: _focusNodes[0],
+                      // onTap: _requestFocus,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Fullname',
                         hintText: 'Enter your fullname',
-                        hintStyle: TextStyle(fontSize: 16, color: c.greyMain),
-                        labelStyle: TextStyle(fontSize: 16, color: myFocusNode1.hasFocus ? c.greenMain : c.greyMain),
+                        hintStyle: TextStyle(fontSize: 15, color: c.greyMain),
+                        labelStyle: TextStyle(fontSize: 15, color: _focusNodes[0].hasFocus ? c.greenMain : c.greyMain),
                         enabledBorder: myinputborder(),
                         focusedBorder: myfocusborder(),
                       ),
@@ -132,18 +144,13 @@ class _CreateAccountState extends State<CreateAccount1> {
                     padding: const EdgeInsets.only(left: 40, right: 40),
                     height: 60,
                     child: TextField(
-                      // onTap: () {
-                      //   setState(() {
-                      //     myFocusNode2.hasFocus=true;
-                      //   });
-                      // },
-                      focusNode: myFocusNode2,
+                      focusNode: _focusNodes[1],
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Username',
                         hintText: 'Enter your username',
-                        hintStyle: TextStyle(fontSize: 16, color: c.greyMain),
-                        labelStyle: TextStyle(fontSize: 16, color: myFocusNode2.hasFocus ? c.greyMain : c.greenMain),
+                        hintStyle: TextStyle(fontSize: 15, color: c.greyMain),
+                        labelStyle: TextStyle(fontSize: 15, color: _focusNodes[1].hasFocus ? c.greenMain : c.greyMain),
                         enabledBorder: myinputborder(),
                         focusedBorder: myfocusborder(),
                       ),
@@ -154,34 +161,34 @@ class _CreateAccountState extends State<CreateAccount1> {
               ),
           ),
             ),
-            Positioned(
-              bottom: 55,
-              child: Column(
-                children: [
-                  Center(
-                    child: Roboto(text: 'By continuing, you agree to Florxy’s Terms & Conditions\nand Pricacy Policy.', size: 11.5, color: Color(0xFFAFC8A9), fontWeight: f.medium)
-                  ),
-                  SizedBox(height: 15),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Padding(
-                    padding: EdgeInsets.only(left: 40,right: 40),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateAccount2()));
-                      },
-                      child: GreenButton(
-                        text: 'NEXT',
-                        size: 16,
-                        color: c.textWhite,
-                        height: 65,
-                        ),
-                    ),
-                    ),
-                  )
-                ],
-              ),
-            ),
+            // Positioned(
+            //   bottom: 55,
+            //   child: Column(
+            //     children: [
+            //       Center(
+            //         child: Roboto(text: 'By continuing, you agree to Florxy’s Terms & Conditions\nand Pricacy Policy.', size: 11.5, color: Color(0xFFAFC8A9), fontWeight: f.medium)
+            //       ),
+            //       SizedBox(height: 15),
+            //       Container(
+            //         width: MediaQuery.of(context).size.width,
+            //         child: Padding(
+            //         padding: EdgeInsets.only(left: 40,right: 40),
+            //         child: GestureDetector(
+            //           onTap: () {
+            //             Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateAccount2()));
+            //           },
+            //           child: GreenButton(
+            //             text: 'NEXT',
+            //             size: 16,
+            //             color: c.textWhite,
+            //             height: 65,
+            //             ),
+            //         ),
+            //         ),
+            //       )
+            //     ],
+            //   ),
+            // ),
           ],
         )
     );

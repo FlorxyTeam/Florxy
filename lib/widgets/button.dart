@@ -1,3 +1,4 @@
+import 'package:boxicons/boxicons.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
@@ -67,33 +68,4 @@ class WhiteButton extends StatelessWidget {
 
 }
 
-class NormalButton extends StatelessWidget {
-  bool? isResponsive;
-  double? width;
-  double? height;
-  String? text;
-  Color? color;
-  double? size;
-  NormalButton({Key? key, this.width, this.height, this.text, this.color, this.size, this.isResponsive=false}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(50),
-          color: Colors.white,
-        ),
-        child: Center(
-            child: Inter(
-              text: text!,
-              size: size!,
-              color: color!,
-              fontWeight: f.bold
-            )
-        )
-    );
-  }
-
-}
