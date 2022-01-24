@@ -36,7 +36,7 @@ class _NavbarState extends State<Navbar> {
               left: 0,
               child: Container(
                 width: size.width,
-                height: Platform==Platform.isAndroid?70:95,
+                height: Theme.of(context).platform==TargetPlatform.android?70:95,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
