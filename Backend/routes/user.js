@@ -51,7 +51,7 @@ router.route("/login").post((req, res) => {
         msg: "success",
       });
     } else {
-      res.status(403).json("password or Email is incorrect");
+      return res.status(400).json("password or Email is incorrect");
     }
   });
 });
@@ -65,13 +65,12 @@ router.route("/register").post((req, res) => {
   user
     .save()
     .then(() => {
-      console.log("User Registered");
-      res.status(200).json("Added");
+      console.log("user registered");
+      res.status(200).json({ msg: "User Successfully Registered" });
     })
     .catch((err) => {
-      res.status(403).json({ msg_error: err });
+      res.status(403).json({ msg: err });
     });
-  res.json("registered");
 });
 
 router.route("/update/:email").patch(middleware.checkToken,(req, res) => {
