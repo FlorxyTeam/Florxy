@@ -1,3 +1,4 @@
+import 'package:Florxy/pages/LoginFrank.dart';
 import 'package:Florxy/pages/createaccount1.dart';
 import 'package:Florxy/pages/registerpage.dart';
 import 'package:flutter/cupertino.dart';
@@ -78,7 +79,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       SizedBox(height: 25),
                       GestureDetector(
                         onTap: (){
-                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Navbar()), (route) => false);
+                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginFrank()), (route) => false);
                         },
                         child: GreenButton(
                           text: 'LOGIN',
