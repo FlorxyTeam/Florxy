@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:Florxy/pages/homepage.dart';
 import 'package:Florxy/pages/notificationpage.dart';
 import 'package:Florxy/pages/profilepage.dart';
@@ -34,7 +36,7 @@ class _NavbarState extends State<Navbar> {
               left: 0,
               child: Container(
                 width: size.width,
-                height: 70,
+                height: Platform==Platform.isAndroid?70:95,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
