@@ -3,19 +3,19 @@ import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 // import 'package:flutter_tags/flutter_tags.dart';
 // import 'package:flutter_typeahead/flutter_typeahead.dart';
 
-class LastThingPage extends StatefulWidget {
+var suggestTag = [
+  'apple',
+  'bird',
+  'circle',
+  'dick',
+];
+
+class LastThingPage extends StatelessWidget {
   const LastThingPage({Key? key}) : super(key: key);
-
-  @override
-  _LastThingPageState createState() => _LastThingPageState();
-}
-
-class _LastThingPageState extends State<LastThingPage> {
-  List<String> tagsList = ['apple', 'banana', 'orange', 'kiwi', ''];
-  List<String> selectedTags = [];
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +57,17 @@ class _LastThingPageState extends State<LastThingPage> {
                             color: c.greyMain,
                             fontWeight: f.semiBold,
                           ),
-
+                          Column(
+                            children: [
+                              // TypeAheadField(
+                              //   suggestionsCallback: (String pattern) {
+                              //
+                              //   },
+                              //   itemBuilder: itemBuilder,
+                              //   onSuggestionSelected: onSuggestionSelected
+                              // )
+                            ],
+                          )
                         ],
                       ),
                     ),
@@ -66,7 +76,7 @@ class _LastThingPageState extends State<LastThingPage> {
               )
           ),
           Positioned(
-              bottom: 50,
+              bottom: 35,
               child: Column(
                 children: [
                   Center(
@@ -97,3 +107,5 @@ class _LastThingPageState extends State<LastThingPage> {
     );
   }
 }
+
+

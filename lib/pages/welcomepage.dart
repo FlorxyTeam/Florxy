@@ -20,6 +20,7 @@ class _WelcomePageState extends State<WelcomePage> {
       body: Stack(
         children: [
           Container(
+            height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage("assets/img/SE4-fix.gif"),
