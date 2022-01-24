@@ -1,20 +1,18 @@
 import 'package:Florxy/widgets/button.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
-import 'package:boxicons/boxicons.dart';
 import 'package:Florxy/pages/lastthingspage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class CreateWithEmail extends StatefulWidget {
-  const CreateWithEmail({Key? key}) : super(key: key);
-
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  _CreateWithEmailState createState() => _CreateWithEmailState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _CreateWithEmailState extends State<CreateWithEmail> {
+class _LoginPageState extends State<LoginPage> {
   List<FocusNode> _focusNodes = [
     FocusNode(),
     FocusNode(),
@@ -60,7 +58,7 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                     Align(
                       alignment: Alignment.topLeft,
                       child: Inter(
-                        text: 'CREATE A NEW',
+                        text: 'LOGIN',
                         size: 25,
                         color: c.greenMain,
                         fontWeight: f.bold,
@@ -82,10 +80,10 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                         Align(
                           alignment: Alignment.topLeft,
                           child: Poppins(
-                            text: 'Email',
-                            size: 12,
-                            color: c.blackSub,
-                            fontWeight: f.medium),
+                              text: 'Email',
+                              size: 12,
+                              color: c.blackSub,
+                              fontWeight: f.medium),
                         ),
                         SizedBox(height: 5),
                         Container(
@@ -95,25 +93,25 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                             borderRadius: BorderRadius.all(Radius.circular(13.0)),
                           ),
                           child: TextField(
-                          focusNode: _focusNodes[0],
-                          decoration: InputDecoration(
-                            hintText: 'Email Address',
-                            hintStyle: TextStyle(fontSize: 14, color: c.graySub2, fontWeight: f.regular),
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.only(right: 13, left: 20),
-                              child: Icon(
-                                  Icons.email, size: 25, color: _focusNodes[0].hasFocus ? c.greenMain : c.graySub2
-                              ),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                              borderSide: BorderSide(color: c.graySub2.withOpacity(0), width: 2),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                              borderSide: BorderSide(color: c.greenMain, width: 2),
-                            ),
-                          )),
+                              focusNode: _focusNodes[0],
+                              decoration: InputDecoration(
+                                hintText: 'Email Address',
+                                hintStyle: TextStyle(fontSize: 14, color: c.graySub2, fontWeight: f.regular),
+                                prefixIcon: Padding(
+                                  padding: EdgeInsets.only(right: 13, left: 20),
+                                  child: Icon(
+                                      Icons.email, size: 25, color: _focusNodes[0].hasFocus ? c.greenMain : c.graySub2
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                                  borderSide: BorderSide(color: c.graySub2.withOpacity(0), width: 2),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                                  borderSide: BorderSide(color: c.greenMain, width: 2),
+                                ),
+                              )),
                         ),
                       ],
                     ),
@@ -158,48 +156,6 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 18),
-                    Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Poppins(
-                              text: 'Confirm Password',
-                              size: 12,
-                              color: c.blackSub,
-                              fontWeight: f.medium),
-                        ),
-                        SizedBox(height: 5),
-                        Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                          ),
-                          child: TextField(
-                              focusNode: _focusNodes[2],
-                              decoration: InputDecoration(
-                                hintText: 'Confirm Password',
-                                hintStyle: TextStyle(fontSize: 14, color: c.graySub2, fontWeight: f.regular),
-                                prefixIcon: Padding(
-                                  padding: EdgeInsets.only(right: 13, left: 20),
-                                  child: Icon(
-                                      Icons.lock_rounded, size: 25, color: _focusNodes[2].hasFocus ? c.greenMain : c.graySub2
-                                  ),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                                  borderSide: BorderSide(color: c.graySub2.withOpacity(0), width: 2),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                                  borderSide: BorderSide(color: c.greenMain, width: 2),
-                                ),
-                              )),
-                        ),
-
-                      ],
-                    )
                   ],
                 ),
               )
@@ -221,7 +177,7 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                           Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LastThingPage()), (route) => false);
                         },
                         child: GreenButton(
-                          text: 'CONTINUE',
+                          text: 'LOGIN',
                           size: 16,
                           color: c.textWhite,
                           height: 60,

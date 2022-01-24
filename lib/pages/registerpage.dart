@@ -35,9 +35,14 @@ class _RegisterPageState extends State<RegisterPage> {
           Positioned(
             bottom: 35,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Center(
-                  child: Roboto(text: 'By continuing, you agree to Florxy’s Terms & Conditions\nand Pricacy Policy.', size: 11.5, color: Color(0xFFAFC8A9), fontWeight: f.medium)
+                  child: Roboto_Center(
+                      text: 'By continuing, you agree to Florxy’s Terms & Conditions\nand Pricacy Policy.',
+                      size: 11.5, color: Color(0xFFAFC8A9),
+                      fontWeight: f.medium,
+                  )
                 ),
                 SizedBox(height: 15),
                 Container(

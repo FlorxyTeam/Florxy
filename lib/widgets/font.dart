@@ -113,3 +113,35 @@ class Roboto extends StatelessWidget {
                 letterSpacing: letterSpacing)));
   }
 }
+
+class Roboto_Center extends StatelessWidget {
+  final double size;
+  final double? letterSpacing;
+  final String text;
+  final Color color;
+  final FontWeight fontWeight;
+  final FontStyle? fontStyle;
+
+  Roboto_Center(
+      {Key? key,
+        required this.text,
+        required this.size,
+        required this.color,
+        this.fontStyle = FontStyle.normal,
+        required this.fontWeight,
+        this.letterSpacing})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(text,
+        style: GoogleFonts.roboto(
+            textStyle: TextStyle(
+                color: color,
+                fontSize: size,
+                fontWeight: fontWeight,
+                letterSpacing: letterSpacing)),
+        textAlign: TextAlign.center,
+    );
+  }
+}
