@@ -50,19 +50,19 @@ class _ProfilePageState extends State<ProfilePage> {
                           Tab(
                             child: Inter_1(
                                 text: "Post and replies",
-                                size: 11,
+                                size: 12,
                                 fontWeight: f.bold),
                           ),
                           Tab(
                             child: Inter_1(
                                 text: "Favorite post",
-                                size: 11,
+                                size: 12,
                                 fontWeight: f.bold),
                           ),
                           Tab(
                             child: Inter_1(
                                 text: "Saved Product",
-                                size: 11,
+                                size: 12,
                                 fontWeight: f.bold),
                           ),
                         ],

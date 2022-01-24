@@ -6,6 +6,8 @@ import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/button.dart';
 import 'package:flutter/material.dart';
 
+import 'navbar.dart';
+
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
 
@@ -74,11 +76,16 @@ class _WelcomePageState extends State<WelcomePage> {
                         ),
                       ),
                       SizedBox(height: 25),
-                      GreenButton(
-                        text: 'LOGIN',
-                        size: 16,
-                        color: c.textWhite,
-                        height: 60,
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Navbar()), (route) => false);
+                        },
+                        child: GreenButton(
+                          text: 'LOGIN',
+                          size: 16,
+                          color: c.textWhite,
+                          height: 60,
+                        ),
                       )
                     ],
                   )
