@@ -32,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isKeyboard = MediaQuery.of(context).viewInsets.bottom!= 0;
     return Scaffold(
       backgroundColor: Color(0xffF9F9F9),
       body: Stack(
@@ -41,7 +42,7 @@ class _LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.only(left: 40, right: 40, top: 20),
                 child: Column(
                   children: [
-                    Row(
+                    if(!isKeyboard)Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Image(
@@ -55,8 +56,8 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 25),
-                    Align(
+                    if(!isKeyboard)SizedBox(height: 25),
+                    if(!isKeyboard)Align(
                       alignment: Alignment.topLeft,
                       child: Inter(
                         text: 'LOGIN',
@@ -65,11 +66,20 @@ class _LoginPageState extends State<LoginPage> {
                         fontWeight: f.bold,
                       ),
                     ),
-                    SizedBox(height: 10),
-                    Align(
+                    if(!isKeyboard)SizedBox(height: 10),
+                    if(!isKeyboard)Align(
                       alignment: Alignment.topLeft,
                       child: Inter(
                         text: 'ACCOUNT',
+                        size: 25,
+                        color: c.greenMain,
+                        fontWeight: f.bold,
+                      ),
+                    ),
+                    if(isKeyboard)Align(
+                      alignment: Alignment.topLeft,
+                      child: Inter(
+                        text: 'LOGIN ACCOUNT',
                         size: 25,
                         color: c.greenMain,
                         fontWeight: f.bold,
@@ -165,7 +175,7 @@ class _LoginPageState extends State<LoginPage> {
               bottom: 35,
               child: Column(
                 children: [
-                  Center(
+                  if(!isKeyboard) Center(
                       child: Roboto_Center(text: 'By continuing, you agree to Florxy’s Terms & Conditions\nand Pricacy Policy.', size: 11.5, color: Color(0xFFAFC8A9), fontWeight: f.medium)
                   ),
                   SizedBox(height: 15),

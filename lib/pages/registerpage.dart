@@ -27,6 +27,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isKeyboard = MediaQuery.of(context).viewInsets.bottom!= 0;
+
     return Scaffold(
         backgroundColor: c.textWhite,
       body: Stack(
@@ -37,7 +39,7 @@ class _RegisterPageState extends State<RegisterPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Center(
+                if(!isKeyboard) Center(
                   child: Roboto_Center(
                       text: 'By continuing, you agree to Florxy’s Terms & Conditions\nand Pricacy Policy.',
                       size: 11.5, color: Color(0xFFAFC8A9),
