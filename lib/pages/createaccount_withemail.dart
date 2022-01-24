@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:Florxy/NetworkHandler.dart';
-import 'package:Florxy/pages/LoginFrank.dart';
+import 'package:Florxy/pages/LoginPage.dart';
 import 'package:Florxy/pages/welcomepage.dart';
 import 'package:Florxy/widgets/button.dart';
 import 'package:Florxy/widgets/font.dart';
@@ -271,7 +271,7 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                         onTap: () {
                           Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                  builder: (context) => LoginFrank()),
+                                  builder: (context) => LoginPage()),
                               (route) => false);
                         },
                         child: Container(child: Text('Click here to E duean')),

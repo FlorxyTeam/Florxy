@@ -1,4 +1,3 @@
-import 'package:Florxy/pages/LoginFrank.dart';
 import 'package:Florxy/pages/createaccount1.dart';
 import 'package:Florxy/pages/registerpage.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,6 +5,7 @@ import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/button.dart';
 import 'package:flutter/material.dart';
+import 'package:Florxy/widgets/ModalLogin.dart';
 
 import 'navbar.dart';
 
@@ -79,7 +79,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       SizedBox(height: 25),
                       GestureDetector(
                         onTap: (){
-                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginFrank()), (route) => false);
+                          ModalLogin.Dialog_Settings(context);
                         },
                         child: GreenButton(
                           text: 'LOGIN',
