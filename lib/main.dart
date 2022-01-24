@@ -1,4 +1,6 @@
 import 'package:Florxy/pages/navbar.dart';
+import 'package:Florxy/pages/registerpage.dart';
+import 'package:Florxy/pages/welcomepage.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Florxy',
         theme: ThemeData(),
-        home: Navbar()
+        home: WelcomePage()
         );
   }
 }
