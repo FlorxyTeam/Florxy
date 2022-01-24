@@ -29,15 +29,29 @@ class NetworkHandler {
   Future<http.Response> post(String url, Map<String, String> body) async {
     String? token = await storage.read(key:"token");
     url = formater(url);
-    var response = await http.post(
-      Uri.parse(url),
-      headers: {
-        "Content-type": "application/json",
-        "Authorization":"Bearer $token"
-      },
-      body: json.encode(body),
-    );
-    return response;
+    if(url == "http://192.168.1.14:8080/user/register"){
+      var response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: json.encode(body),
+      );
+      return response;
+    }
+    else{
+      var response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Content-type": "application/json",
+          "Authorization":"Bearer $token"
+        },
+        body: json.encode(body),
+      );
+      return response;
+    }
+
+
   }
   Future<http.StreamedResponse> patchImage(String url,String filepath) async{
     url = formater(url);
