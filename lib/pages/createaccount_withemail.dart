@@ -43,40 +43,38 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                 padding: const EdgeInsets.only(left: 40, right: 40, top: 20),
                 child: Column(
                   children: [
-                    Row(
+                    if(!isKeyboard) Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Image(
                           image: AssetImage('assets/img/icon2.png'),
                           height: 43,
                         ),
-                        IconButton(onPressed: () { Navigator.pop(context); }, icon: Icon(Icons.close_rounded,size: 36,),
-
-
-
+                        IconButton(onPressed: () { Navigator.pop(context); }, icon: Icon(Icons.close_rounded,size: 32,),
                         ),
                       ],
                     ),
-                    SizedBox(height: 25),
-                    Align(
+                    if(!isKeyboard) SizedBox(height: 25),
+                    if(!isKeyboard) Align(
                       alignment: Alignment.topLeft,
                       child: Inter(
                         text: 'CREATE A NEW',
-                        size: 25,
+                        size: 27,
                         color: c.greenMain,
                         fontWeight: f.bold,
                       ),
                     ),
-                    SizedBox(height: 10),
-                    Align(
+                    if(!isKeyboard) SizedBox(height: 10),
+                    if(!isKeyboard) Align(
                       alignment: Alignment.topLeft,
                       child: Inter(
                         text: 'ACCOUNT',
-                        size: 25,
+                        size: 27,
                         color: c.greenMain,
                         fontWeight: f.bold,
                       ),
                     ),
+                    if(isKeyboard) SizedBox(height: 20),
                     SizedBox(height: 30),
                     Column(
                       children: [
