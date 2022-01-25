@@ -362,6 +362,16 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                               Map<String, dynamic> output = json.decode(response.body);
                               print(output["msg"]);
                               await storage.write(key: "token", value: output["token"]);
+                              String? username = await storage.read(key: "username");
+                              String? fullname = await storage.read(key: "fullname");
+
+                              Map<String, String> data = {
+                                "username": "$username",
+                                "fullname": "$fullname",
+                                "DOB": "SampleDOB",
+                              };
+                              var response2 = await networkHandler.post("/profile/add", data);
+                              print(response2);
                               setState(() {
                                 validate=true;
                                 circular=false;
@@ -385,13 +395,16 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                           });
                         }
                       },
-                      child: circular
-                          ? CircularProgressIndicator()
-                          : Container(
+                      child: Container(
                         width: MediaQuery.of(context).size.width,
                         child: Padding(
                           padding: EdgeInsets.only(left: 45, right: 45),
-                          child: GestureDetector(
+                          child: circular
+                              ? Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                child: Center(child: CircularProgressIndicator()),
+                              )
+                              :GestureDetector(
                             child: GreenButton(
                               text: 'CONTINUE',
                               size: 16,
