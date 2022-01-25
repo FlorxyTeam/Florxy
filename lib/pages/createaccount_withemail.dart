@@ -48,58 +48,62 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
 
   @override
   Widget build(BuildContext context) {
-    final isKeyboard = MediaQuery.of(context).viewInsets.bottom!= 0;
     return Scaffold(
       backgroundColor: Color(0xffF9F9F9),
       body: Form(
         key: _globalkey,
-      body: Stack(
-        children: [
-          SafeArea(
-              child: Container(
-                padding: const EdgeInsets.only(left: 40, right: 40, top: 20),
-                child: Column(
-                  children: [
-                    if(!isKeyboard) Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Image(
-                          image: AssetImage('assets/img/icon2.png'),
-                          height: 43,
+        child: Stack(
+          children: [
+            SafeArea(
+                child: Container(
+              padding: const EdgeInsets.only(left: 40, right: 40, top: 20),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Image(
+                        image: AssetImage('assets/img/icon2.png'),
+                        height: 43,
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute
+                            (builder: (context)=>WelcomePage()), (route) => false);
+                        },
+                        icon: Icon(
+                          Icons.close_rounded,
+                          size: 36,
                         ),
-                        IconButton(onPressed: () { Navigator.pop(context); }, icon: Icon(Icons.close_rounded,size: 32,),
-                        ),
-                      ],
-                    ),
                       ),
                     ],
                   ),
-                  if(!isKeyboard) SizedBox(height: 25),
-                    if(!isKeyboard) Align(
-                      alignment: Alignment.topLeft,
-                      child: Inter(
-                        text: 'CREATE A NEW',
-                        size: 27,
-                        color: c.greenMain,
-                        fontWeight: f.bold,
+                  SizedBox(height: 25),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Inter(
+                      text: 'CREATE A NEW',
+                      size: 25,
+                      color: c.greenMain,
+                      fontWeight: f.bold,
                     ),
-                    if(!isKeyboard) SizedBox(height: 10),
-                    if(!isKeyboard) Align(
-                      alignment: Alignment.topLeft,
-                      child: Inter(
-                        text: 'ACCOUNT',
-                        size: 27,
-                        color: c.greenMain,
-                        fontWeight: f.bold,
-                      ),
+                  ),
+                  SizedBox(height: 10),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Inter(
+                      text: 'ACCOUNT',
+                      size: 25,
+                      color: c.greenMain,
+                      fontWeight: f.bold,
                     ),
-                    if(isKeyboard) SizedBox(height: 20),
-                    SizedBox(height: 30),
-                    Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Poppins(
+                  ),
+                  SizedBox(height: 30),
+                  Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Poppins(
                             text: 'Email',
                             size: 12,
                             color: c.blackSub,
@@ -281,8 +285,13 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                 bottom: 35,
                 child: Column(
                   children: [
-                  if(!isKeyboard) Center(
-                      child: Roboto_Center(text: 'By continuing, you agree to Florxy’s Terms & Conditions\nand Pricacy Policy.', size: 11.5, color: Color(0xFFAFC8A9), fontWeight: f.medium),
+                    Center(
+                        child: Roboto(
+                            text:
+                                'By continuing, you agree to Florxy’s Terms & Conditions\nand Pricacy Policy.',
+                            size: 11.5,
+                            color: Color(0xFFAFC8A9),
+                            fontWeight: f.medium)),
                     SizedBox(height: 15),
                     InkWell(
                       onTap: () async {

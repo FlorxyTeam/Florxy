@@ -135,14 +135,13 @@ class Roboto_Center extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(text,
-        style: GoogleFonts.roboto(
-            textStyle: TextStyle(
-                color: color,
-                fontSize: size,
-                fontWeight: fontWeight,
-                letterSpacing: letterSpacing)),
-        textAlign: TextAlign.center,
+      style: GoogleFonts.roboto(
+          textStyle: TextStyle(
+              color: color,
+              fontSize: size,
+              fontWeight: fontWeight,
+              letterSpacing: letterSpacing)),
+      textAlign: TextAlign.center,
     );
   }
 }
-
