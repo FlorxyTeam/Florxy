@@ -137,7 +137,7 @@ class _LoginPageState extends State<LoginPage> {
                                 decoration: InputDecoration(
                                   errorText: validate ? null : errorText,
                                   hintText: 'Email Address',
-                                  hintStyle: TextStyle(fontSize: 14, color: c.graySub2, fontWeight: f.regular),
+                                  hintStyle: TextStyle(fontSize: 14, color: c.graySub2, fontWeight: f.medium),
                                   prefixIcon: Padding(
                                     padding: EdgeInsets.only(right: 13, left: 20),
                                     child: Icon(
@@ -180,17 +180,20 @@ class _LoginPageState extends State<LoginPage> {
                                 obscureText: vis,
                                 decoration: InputDecoration(
                                   errorText: validate ? null: errorText,
-                                  suffixIcon: IconButton(
-                                    icon: Icon(vis ? Icons.visibility_off : Icons.visibility),
-                                    onPressed: () {
-                                      setState(() {
-                                        vis = !vis;
-                                      });
-                                    },
-                                    color: Colors.black,
+                                  suffixIcon: Padding(
+                                    padding: EdgeInsets.only(right: 10),
+                                    child: IconButton(
+                                      icon: Icon(vis ? Icons.visibility_off : Icons.visibility, size: 18, color: c.greySub),
+                                      onPressed: () {
+                                        setState(() {
+                                          vis = !vis;
+                                        });
+                                      },
+                                      color: Colors.black,
+                                    ),
                                   ),
                                   hintText: 'Password',
-                                  hintStyle: TextStyle(fontSize: 14, color: c.graySub2, fontWeight: f.regular),
+                                  hintStyle: TextStyle(fontSize: 14, color: c.graySub2, fontWeight: f.medium),
                                   prefixIcon: Padding(
                                     padding: EdgeInsets.only(right: 13, left: 20),
                                     child: Icon(
@@ -207,17 +210,21 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 )),
                           ),
-                          SizedBox(height: 20,),
-                          InkWell(
+                          SizedBox(height: 26,),
+                          if(!isKeyboard) Align(
+                          alignment: Alignment.topRight,
+                          child: InkWell(
                             onTap: (){
                               Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateWithEmail()));
                             },
-                              child: Text('Create an account ?',style:
-                                TextStyle(
-                                  fontWeight: f.bold,
-                                  fontSize: 12
-                                ),)
+                              child: Container(child: Roboto(
+                                text: "Don't have an account?  Create account",
+                                fontWeight: f.medium,
+                                color: c.blackSub,
+                                size: 12,
+                              )),
                           ),
+                          )
                         ],
                       ),
                     ],

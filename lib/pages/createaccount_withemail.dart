@@ -48,6 +48,7 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
 
   @override
   Widget build(BuildContext context) {
+    final isKeyboard = MediaQuery.of(context).viewInsets.bottom!= 0;
     return Scaffold(
       backgroundColor: Color(0xffF9F9F9),
       body: Form(
@@ -59,7 +60,7 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
               padding: const EdgeInsets.only(left: 40, right: 40, top: 20),
               child: Column(
                 children: [
-                  Row(
+                  if(!isKeyboard) Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Image(
@@ -78,8 +79,8 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 25),
-                  Align(
+                  if(!isKeyboard) SizedBox(height: 25),
+                  if(!isKeyboard) Align(
                     alignment: Alignment.topLeft,
                     child: Inter(
                       text: 'CREATE A NEW',
@@ -88,8 +89,8 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                       fontWeight: f.bold,
                     ),
                   ),
-                  SizedBox(height: 10),
-                  Align(
+                  if(!isKeyboard) SizedBox(height: 10),
+                  if(!isKeyboard) Align(
                     alignment: Alignment.topLeft,
                     child: Inter(
                       text: 'ACCOUNT',
@@ -98,6 +99,7 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                       fontWeight: f.bold,
                     ),
                   ),
+                  if(isKeyboard) SizedBox(height: 20),
                   SizedBox(height: 30),
                   Column(
                     children: [
@@ -125,7 +127,7 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                               hintStyle: TextStyle(
                                   fontSize: 14,
                                   color: c.graySub2,
-                                  fontWeight: f.regular),
+                                  fontWeight: f.medium),
                               prefixIcon: Padding(
                                 padding: EdgeInsets.only(right: 13, left: 20),
                                 child: Icon(Icons.email,
@@ -178,20 +180,23 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                             },
                             obscureText: vis,
                             decoration: InputDecoration(
-                              suffixIcon: IconButton(
-                                icon: Icon(vis ? Icons.visibility_off : Icons.visibility),
-                                onPressed: () {
-                                  setState(() {
-                                    vis = !vis;
-                                  });
-                                },
-                                color: Colors.black,
+                              suffixIcon: Padding(
+                                padding: EdgeInsets.only(right: 10),
+                                child: IconButton(
+                                  icon: Icon(vis ? Icons.visibility_off : Icons.visibility, size: 18, color: c.greySub),
+                                  onPressed: () {
+                                    setState(() {
+                                      vis = !vis;
+                                    });
+                                  },
+                                  color: Colors.black,
+                                ),
                               ),
                               hintText: 'Password',
                               hintStyle: TextStyle(
                                   fontSize: 14,
                                   color: c.graySub2,
-                                  fontWeight: f.regular),
+                                  fontWeight: f.medium),
                               prefixIcon: Padding(
                                 padding: EdgeInsets.only(right: 13, left: 20),
                                 child: Icon(Icons.lock_rounded,
@@ -241,7 +246,7 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                               hintStyle: TextStyle(
                                   fontSize: 14,
                                   color: c.graySub2,
-                                  fontWeight: f.regular),
+                                  fontWeight: f.medium),
                               prefixIcon: Padding(
                                 padding: EdgeInsets.only(right: 13, left: 20),
                                 child: Icon(Icons.lock_rounded,
@@ -265,19 +270,44 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                             )),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: 26,
                       ),
-                      InkWell(
-                        onTap: () {
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                  builder: (context) => LoginPage()),
-                              (route) => false);
-                        },
-                        child: Container(child: Text('Click here to E duean')),
+                      if(!isKeyboard) Align(
+                        alignment: Alignment.topRight,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => LoginPage()),
+                                    (route) => false);
+                          },
+                          child: Container(child: Roboto(
+                            text: 'Already have an account? Login',
+                            fontWeight: f.medium,
+                            color: c.blackSub,
+                            size: 12,
+                          )),
+                        ),
                       )
                     ],
-                  )
+                  ),
+                  // if(!isKeyboard) Align(
+                  //   alignment: Alignment.topRight,
+                  //   child: InkWell(
+                  //     onTap: () {
+                  //       Navigator.of(context).pushAndRemoveUntil(
+                  //           MaterialPageRoute(
+                  //               builder: (context) => LoginPage()),
+                  //               (route) => false);
+                  //     },
+                  //     child: Container(child: Roboto(
+                  //       text: 'Already have an account? Login',
+                  //       fontWeight: f.medium,
+                  //       color: c.greyMain,
+                  //       size: 11.5,
+                  //     )),
+                  //   ),
+                  // )
                 ],
               ),
             )),
@@ -285,8 +315,8 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                 bottom: 35,
                 child: Column(
                   children: [
-                    Center(
-                        child: Roboto(
+                    if(!isKeyboard) Center(
+                        child: Roboto_Center(
                             text:
                                 'By continuing, you agree to Florxy’s Terms & Conditions\nand Pricacy Policy.',
                             size: 11.5,
