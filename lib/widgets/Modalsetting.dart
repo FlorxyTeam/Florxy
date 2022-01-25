@@ -154,6 +154,8 @@ Column _buildBottomNavigationMenu(context) {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(40.0))),
               title: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
                     Icons.cake_outlined,
