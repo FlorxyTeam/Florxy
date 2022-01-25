@@ -1,8 +1,3 @@
-import 'dart:convert';
-
-import 'package:Florxy/NetworkHandler.dart';
-import 'package:Florxy/pages/LoginPage.dart';
-import 'package:Florxy/pages/welcomepage.dart';
 import 'package:Florxy/widgets/button.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
@@ -10,26 +5,16 @@ import 'package:boxicons/boxicons.dart';
 import 'package:Florxy/pages/lastthingspage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class CreateWithEmail extends StatefulWidget {
   const CreateWithEmail({Key? key}) : super(key: key);
+
 
   @override
   _CreateWithEmailState createState() => _CreateWithEmailState();
 }
 
 class _CreateWithEmailState extends State<CreateWithEmail> {
-  bool vis = true;
-  final _globalkey = GlobalKey<FormState>();
-  NetworkHandler networkHandler = NetworkHandler();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  String? errorText;
-  bool validate = false;
-  bool circular = false;
-  final storage = new FlutterSecureStorage();
-
   List<FocusNode> _focusNodes = [
     FocusNode(),
     FocusNode(),
@@ -38,7 +23,7 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
 
   @override
   void initState() {
-    _focusNodes.forEach((node) {
+    _focusNodes.forEach((node){
       node.addListener(() {
         setState(() {});
       });
@@ -78,15 +63,15 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 25),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Inter(
-                      text: 'CREATE A NEW',
-                      size: 25,
-                      color: c.greenMain,
-                      fontWeight: f.bold,
-                    ),
+                    if(!isKeyboard) SizedBox(height: 25),
+                    if(!isKeyboard) Align(
+                      alignment: Alignment.topLeft,
+                      child: Inter(
+                        text: 'CREATE A NEW',
+                        size: 27,
+                        color: c.greenMain,
+                        fontWeight: f.bold,
+                      ),
                   ),
                   SizedBox(height: 10),
                   Align(
@@ -108,131 +93,47 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                             size: 12,
                             color: c.blackSub,
                             fontWeight: f.medium),
-                      ),
-                      SizedBox(height: 5),
-                      Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(13.0)),
                         ),
-                        child: TextFormField(
-                            controller: _emailController,
-                            focusNode: _focusNodes[0],
-                            decoration: InputDecoration(
-                              errorText: validate ? null : errorText,
-                              hintText: 'Email Address',
-                              hintStyle: TextStyle(
-                                  fontSize: 14,
-                                  color: c.graySub2,
-                                  fontWeight: f.regular),
-                              prefixIcon: Padding(
-                                padding: EdgeInsets.only(right: 13, left: 20),
-                                child: Icon(Icons.email,
-                                    size: 25,
-                                    color: _focusNodes[0].hasFocus
-                                        ? c.greenMain
-                                        : c.graySub2),
+                        SizedBox(height: 5),
+                        Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                          ),
+                          child: TextField(
+                          focusNode: _focusNodes[0],
+                          decoration: InputDecoration(
+                            hintText: 'Email Address',
+                            hintStyle: TextStyle(fontSize: 14, color: c.graySub2, fontWeight: f.regular),
+                            prefixIcon: Padding(
+                              padding: EdgeInsets.only(right: 13, left: 20),
+                              child: Icon(
+                                  Icons.email, size: 25, color: _focusNodes[0].hasFocus ? c.greenMain : c.graySub2
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(13.0)),
-                                borderSide: BorderSide(
-                                    color: c.graySub2.withOpacity(0), width: 2),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(13.0)),
-                                borderSide:
-                                    BorderSide(color: c.greenMain, width: 2),
-                              ),
-                            )),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 18),
-                  Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Poppins(
-                            text: 'Password',
-                            size: 12,
-                            color: c.blackSub,
-                            fontWeight: f.medium),
-                      ),
-                      SizedBox(height: 5),
-                      Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                              borderSide: BorderSide(color: c.graySub2.withOpacity(0), width: 2),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                              borderSide: BorderSide(color: c.greenMain, width: 2),
+                            ),
+                          )),
                         ),
-                        child: TextFormField(
-                          controller: _passwordController,
-                            focusNode: _focusNodes[1],
-                            validator: (value) {
-                              if (value!.isEmpty) return "Password can't be empty";
-                              if (value.length < 8) return "Password lenght must have >=8";
-                              return null;
-                            },
-                            obscureText: vis,
-                            decoration: InputDecoration(
-                              suffixIcon: IconButton(
-                                icon: Icon(vis ? Icons.visibility_off : Icons.visibility),
-                                onPressed: () {
-                                  setState(() {
-                                    vis = !vis;
-                                  });
-                                },
-                                color: Colors.black,
-                              ),
-                              hintText: 'Password',
-                              hintStyle: TextStyle(
-                                  fontSize: 14,
-                                  color: c.graySub2,
-                                  fontWeight: f.regular),
-                              prefixIcon: Padding(
-                                padding: EdgeInsets.only(right: 13, left: 20),
-                                child: Icon(Icons.lock_rounded,
-                                    size: 25,
-                                    color: _focusNodes[1].hasFocus
-                                        ? c.greenMain
-                                        : c.graySub2),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(13.0)),
-                                borderSide: BorderSide(
-                                    color: c.graySub2.withOpacity(0), width: 2),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(13.0)),
-                                borderSide:
-                                    BorderSide(color: c.greenMain, width: 2),
-                              ),
-                            )),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 18),
-                  Column(
-                    children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: Poppins(
-                            text: 'Confirm Password',
-                            size: 12,
-                            color: c.blackSub,
-                            fontWeight: f.medium),
-                      ),
-                      SizedBox(height: 5),
-                      Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                      ],
+                    ),
+                    SizedBox(height: 18),
+                    Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Poppins(
+                              text: 'Password',
+                              size: 12,
+                              color: c.blackSub,
+                              fontWeight: f.medium),
                         ),
                         child: TextField(
                             focusNode: _focusNodes[2],
@@ -355,41 +256,104 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                               height: 60,
                             ),
                           ),
+                          child: TextField(
+                              focusNode: _focusNodes[1],
+                              decoration: InputDecoration(
+                                hintText: 'Password',
+                                hintStyle: TextStyle(fontSize: 14, color: c.graySub2, fontWeight: f.regular),
+                                prefixIcon: Padding(
+                                  padding: EdgeInsets.only(right: 13, left: 20),
+                                  child: Icon(
+                                      Icons.lock_rounded, size: 25, color: _focusNodes[1].hasFocus ? c.greenMain : c.graySub2
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                                  borderSide: BorderSide(color: c.graySub2.withOpacity(0), width: 2),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                                  borderSide: BorderSide(color: c.greenMain, width: 2),
+                                ),
+                              )),
                         ),
-                      ),
+                      ],
+                    ),
+                    SizedBox(height: 18),
+                    Column(
+                      children: [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Poppins(
+                              text: 'Confirm Password',
+                              size: 12,
+                              color: c.blackSub,
+                              fontWeight: f.medium),
+                        ),
+                        SizedBox(height: 5),
+                        Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                          ),
+                          child: TextField(
+                              focusNode: _focusNodes[2],
+                              decoration: InputDecoration(
+                                hintText: 'Confirm Password',
+                                hintStyle: TextStyle(fontSize: 14, color: c.graySub2, fontWeight: f.regular),
+                                prefixIcon: Padding(
+                                  padding: EdgeInsets.only(right: 13, left: 20),
+                                  child: Icon(
+                                      Icons.lock_rounded, size: 25, color: _focusNodes[2].hasFocus ? c.greenMain : c.graySub2
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                                  borderSide: BorderSide(color: c.graySub2.withOpacity(0), width: 2),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                                  borderSide: BorderSide(color: c.greenMain, width: 2),
+                                ),
+                              )),
+                        ),
+
+                      ],
                     )
                   ],
-                ))
-          ],
-        ),
+                ),
+              )
+          ),
+          Positioned(
+              bottom: 35,
+              child: Column(
+                children: [
+                  if(!isKeyboard) Center(
+                      child: Roboto_Center(text: 'By continuing, you agree to Florxy’s Terms & Conditions\nand Pricacy Policy.', size: 11.5, color: Color(0xFFAFC8A9), fontWeight: f.medium)
+                  ),
+                  SizedBox(height: 15),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 45,right: 45),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LastThingPage()), (route) => false);
+                        },
+                        child: GreenButton(
+                          text: 'CONTINUE',
+                          size: 16,
+                          color: c.textWhite,
+                          height: 60,
+                        ),
+                      ),
+                    ),
+                  )],
+              )
+          )
+        ],
       ),
     );
-  }
-
-  checkEmail() async {
-    if (_emailController.text.isEmpty) {
-      setState(() {
-        // circular=false;
-        validate = false;
-        errorText = "Email can't be empty!";
-      });
-    } else {
-      print("/user/checkemail/${_emailController.text}");
-      var response =
-          await networkHandler.get("/user/checkemail/${_emailController.text}");
-      print(_emailController.text);
-      if (response['Status']) {
-        setState(() {
-          // circular=false;
-          validate = false;
-          errorText = "Email already taken!";
-        });
-      } else {
-        setState(() {
-          // circular=false;
-          validate = true;
-        });
-      }
-    }
   }
 }

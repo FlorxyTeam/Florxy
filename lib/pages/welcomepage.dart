@@ -5,7 +5,6 @@ import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/button.dart';
 import 'package:flutter/material.dart';
-import 'package:Florxy/widgets/ModalLogin.dart';
 
 import 'navbar.dart';
 

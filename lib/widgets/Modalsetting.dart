@@ -1,4 +1,3 @@
-import 'package:Florxy/pages/welcomepage.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/material.dart';
@@ -7,14 +6,12 @@ import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/pages/EditProfile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:slide_popup_dialog_null_safety/slide_popup_dialog.dart'
     as slideDialog;
 import 'package:Florxy/pages/EditProfile.dart';
 import 'package:Florxy/pages/setting.dart';
 
 class ModalBottomSheet {
-
   static Dialog_Settings(context) {
     showModalBottomSheet(
         backgroundColor: Colors.transparent,
@@ -55,7 +52,6 @@ class ModalBottomSheet {
 // }
 
 Column _buildBottomNavigationMenu(context) {
-  final storage = new FlutterSecureStorage();
   return Column(
     children: [
       Container(
@@ -146,7 +142,6 @@ Column _buildBottomNavigationMenu(context) {
             )),
       ),
       Container(
-
         child: ListTile(
           leading: Icon(Icons.logout_outlined),
           iconColor: c.redMain,
@@ -156,11 +151,7 @@ Column _buildBottomNavigationMenu(context) {
               size: 14,
               color: c.redMain,
               fontWeight: f.semiBold),
-          onTap: () async{
-            await storage.delete(key: "token");
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute
-              (builder: (context)=>WelcomePage()), (route) => false);
-          },
+          onTap: () {},
         ),
       ),
     ],
