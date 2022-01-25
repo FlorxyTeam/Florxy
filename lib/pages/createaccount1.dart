@@ -215,6 +215,11 @@ class _CreateAccountState extends State<CreateAccount1> {
                                 circular = false;
                                 });
                               }
+                              else {
+                                setState(() {
+                                  circular = false;
+                                });
+                              }
                              }
                             else {
                               setState(() {

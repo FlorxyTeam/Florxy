@@ -25,7 +25,9 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
   NetworkHandler networkHandler = NetworkHandler();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmpasswordController = TextEditingController();
   String? errorText;
+  String? errorpassText;
   bool validate = false;
   bool circular = false;
   final storage = new FlutterSecureStorage();
@@ -48,7 +50,7 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
 
   @override
   Widget build(BuildContext context) {
-    final isKeyboard = MediaQuery.of(context).viewInsets.bottom!= 0;
+    final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
     return Scaffold(
       backgroundColor: Color(0xffF9F9F9),
       body: Form(
@@ -60,46 +62,52 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
               padding: const EdgeInsets.only(left: 40, right: 40, top: 20),
               child: Column(
                 children: [
-                  if(!isKeyboard) Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Image(
-                        image: AssetImage('assets/img/icon2.png'),
-                        height: 43,
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute
-                            (builder: (context)=>WelcomePage()), (route) => false);
-                        },
-                        icon: Icon(
-                          Icons.close_rounded,
-                          size: 36,
+                  if (!isKeyboard)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Image(
+                          image: AssetImage('assets/img/icon2.png'),
+                          height: 43,
                         ),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => WelcomePage()),
+                                (route) => false);
+                          },
+                          icon: Icon(
+                            Icons.close_rounded,
+                            size: 36,
+                          ),
+                        ),
+                      ],
+                    ),
+                  if (!isKeyboard) SizedBox(height: 25),
+                  if (!isKeyboard)
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Inter(
+                        text: 'CREATE A NEW',
+                        size: 25,
+                        color: c.greenMain,
+                        fontWeight: f.bold,
                       ),
-                    ],
-                  ),
-                  if(!isKeyboard) SizedBox(height: 25),
-                  if(!isKeyboard) Align(
-                    alignment: Alignment.topLeft,
-                    child: Inter(
-                      text: 'CREATE A NEW',
-                      size: 25,
-                      color: c.greenMain,
-                      fontWeight: f.bold,
                     ),
-                  ),
-                  if(!isKeyboard) SizedBox(height: 10),
-                  if(!isKeyboard) Align(
-                    alignment: Alignment.topLeft,
-                    child: Inter(
-                      text: 'ACCOUNT',
-                      size: 25,
-                      color: c.greenMain,
-                      fontWeight: f.bold,
+                  if (!isKeyboard) SizedBox(height: 10),
+                  if (!isKeyboard)
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: Inter(
+                        text: 'ACCOUNT',
+                        size: 25,
+                        color: c.greenMain,
+                        fontWeight: f.bold,
+                      ),
                     ),
-                  ),
-                  if(isKeyboard) SizedBox(height: 20),
+                  if (isKeyboard) SizedBox(height: 20),
                   SizedBox(height: 30),
                   Column(
                     children: [
@@ -149,12 +157,16 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                                     BorderSide(color: c.greenMain, width: 2),
                               ),
                               errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: c.redMain, width: 2),
-                                borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                                borderSide:
+                                    BorderSide(color: c.redMain, width: 2),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(13.0)),
                               ),
                               focusedErrorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: c.redMain, width: 2),
-                                borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                                borderSide:
+                                    BorderSide(color: c.redMain, width: 2),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(13.0)),
                               ),
                             )),
                       ),
@@ -179,11 +191,13 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                           borderRadius: BorderRadius.all(Radius.circular(13.0)),
                         ),
                         child: TextFormField(
-                          controller: _passwordController,
+                            controller: _passwordController,
                             focusNode: _focusNodes[1],
                             validator: (value) {
-                              if (value!.isEmpty) return "Password can't be empty";
-                              if (value.length < 8) return "Password lenght must have >=8";
+                              if (value!.isEmpty)
+                                return "Password can't be empty";
+                              if (value.length < 8)
+                                return "Password lenght must have >=8";
                               return null;
                             },
                             obscureText: vis,
@@ -191,7 +205,12 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                               suffixIcon: Padding(
                                 padding: EdgeInsets.only(right: 10),
                                 child: IconButton(
-                                  icon: Icon(vis ? Icons.visibility_off : Icons.visibility, size: 18, color: c.greySub),
+                                  icon: Icon(
+                                      vis
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
+                                      size: 18,
+                                      color: c.greySub),
                                   onPressed: () {
                                     setState(() {
                                       vis = !vis;
@@ -214,22 +233,29 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                                         : c.graySub2),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(13.0)),
                                 borderSide: BorderSide(
                                     color: c.graySub2.withOpacity(0), width: 2),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                                borderSide: BorderSide(color: c.greenMain, width: 2),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(13.0)),
+                                borderSide:
+                                    BorderSide(color: c.greenMain, width: 2),
                               ),
                               errorBorder: OutlineInputBorder(
-                                borderSide: BorderSide(color: c.redMain, width: 2),
-                                borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                                borderSide:
+                                    BorderSide(color: c.redMain, width: 2),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(13.0)),
                               ),
                               focusedErrorBorder: OutlineInputBorder(
                                 gapPadding: 6,
-                                borderSide: BorderSide(color: c.redMain, width: 2),
-                                borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                                borderSide:
+                                    BorderSide(color: c.redMain, width: 2),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(13.0)),
                               ),
                             )),
                       ),
@@ -253,9 +279,12 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                           color: Colors.white,
                           borderRadius: BorderRadius.all(Radius.circular(13.0)),
                         ),
-                        child: TextField(
+                        child: TextFormField(
+                            controller: _confirmpasswordController,
                             focusNode: _focusNodes[2],
+                            obscureText: vis,
                             decoration: InputDecoration(
+                              errorText: validate ? null : errorpassText,
                               hintText: 'Confirm Password',
                               hintStyle: TextStyle(
                                   fontSize: 14,
@@ -286,23 +315,25 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                       SizedBox(
                         height: 26,
                       ),
-                      if(!isKeyboard) Align(
-                        alignment: Alignment.topRight,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.of(context).pushAndRemoveUntil(
-                                MaterialPageRoute(
-                                    builder: (context) => LoginPage()),
-                                    (route) => false);
-                          },
-                          child: Container(child: Roboto(
-                            text: 'Already have an account? Login',
-                            fontWeight: f.medium,
-                            color: c.blackSub,
-                            size: 12,
-                          )),
-                        ),
-                      )
+                      if (!isKeyboard)
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginPage()),
+                                  (route) => false);
+                            },
+                            child: Container(
+                                child: Roboto(
+                              text: 'Already have an account? Login',
+                              fontWeight: f.medium,
+                              color: c.blackSub,
+                              size: 12,
+                            )),
+                          ),
+                        )
                     ],
                   ),
                   // if(!isKeyboard) Align(
@@ -329,13 +360,14 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                 bottom: 35,
                 child: Column(
                   children: [
-                    if(!isKeyboard) Center(
-                        child: Roboto_Center(
-                            text:
-                                'By continuing, you agree to Florxy’s Terms & Conditions\nand Pricacy Policy.',
-                            size: 11.5,
-                            color: Color(0xFFAFC8A9),
-                            fontWeight: f.medium)),
+                    if (!isKeyboard)
+                      Center(
+                          child: Roboto_Center(
+                              text:
+                                  'By continuing, you agree to Florxy’s Terms & Conditions\nand Pricacy Policy.',
+                              size: 11.5,
+                              color: Color(0xFFAFC8A9),
+                              fontWeight: f.medium)),
                     SizedBox(height: 15),
                     InkWell(
                       onTap: () async {
@@ -348,47 +380,65 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                             "email": _emailController.text,
                             "password": _passwordController.text,
                           };
-                          var responseRegister =  await networkHandler.post("/user/register", data);
 
-                          if(responseRegister.statusCode==200||
-                              responseRegister.statusCode==201){
-                            Map<String, String> data = {
-                              "email": _emailController.text,
-                              "password": _passwordController.text,
-                            };
-                            var response = await networkHandler.post("/user/login", data);
+                          await checkPassword();
+                          if (validate == true) {
+                            var responseRegister = await networkHandler.post(
+                                "/user/register", data);
 
-                            if(response.statusCode==200|| response.statusCode==201){
-                              Map<String, dynamic> output = json.decode(response.body);
-                              print(output["msg"]);
-                              await storage.write(key: "token", value: output["token"]);
-                              String? username = await storage.read(key: "username");
-                              String? fullname = await storage.read(key: "fullname");
-
+                            if (responseRegister.statusCode == 200 ||
+                                responseRegister.statusCode == 201) {
                               Map<String, String> data = {
-                                "username": "$username",
-                                "fullname": "$fullname",
-                                "DOB": "SampleDOB",
+                                "email": _emailController.text,
+                                "password": _passwordController.text,
                               };
-                              var response2 = await networkHandler.post("/profile/add", data);
-                              print(response2);
-                              setState(() {
-                                validate=true;
-                                circular=false;
-                              });
-                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute
-                                (builder: (context)=>LastThingPage()), (route) => false);
-                            }else{
-                              Scaffold.of(context).showSnackBar(
-                                  SnackBar(content: Text("Network Error"))
-                              );
-                            }
-                          }
+                              var response = await networkHandler.post(
+                                  "/user/login", data);
 
-                          print(data);
-                          setState(() {
-                            circular = false;
-                          });
+                              if (response.statusCode == 200 ||
+                                  response.statusCode == 201) {
+                                Map<String, dynamic> output =
+                                    json.decode(response.body);
+                                print(output["msg"]);
+                                await storage.write(
+                                    key: "token", value: output["token"]);
+                                String? username =
+                                    await storage.read(key: "username");
+                                String? fullname =
+                                    await storage.read(key: "fullname");
+
+                                Map<String, String> data = {
+                                  "username": "$username",
+                                  "fullname": "$fullname",
+                                  "DOB": "SampleDOB",
+                                };
+                                var response2 = await networkHandler.post(
+                                    "/profile/add", data);
+                                print(response2);
+                                setState(() {
+                                  validate = true;
+                                  circular = false;
+                                });
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LastThingPage()),
+                                    (route) => false);
+                              } else {
+                                Scaffold.of(context).showSnackBar(
+                                    SnackBar(content: Text("Network Error")));
+                              }
+                            }
+
+                            print(data);
+                            setState(() {
+                              circular = false;
+                            });
+                          } else {
+                            setState(() {
+                              circular = false;
+                            });
+                          }
                         } else {
                           setState(() {
                             circular = false;
@@ -401,17 +451,19 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                           padding: EdgeInsets.only(left: 45, right: 45),
                           child: circular
                               ? Padding(
-                                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                                child: Center(child: CircularProgressIndicator()),
-                              )
-                              :GestureDetector(
-                            child: GreenButton(
-                              text: 'CONTINUE',
-                              size: 16,
-                              color: c.textWhite,
-                              height: 60,
-                            ),
-                          ),
+                                  padding:
+                                      const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                                  child: Center(
+                                      child: CircularProgressIndicator()),
+                                )
+                              : GestureDetector(
+                                  child: GreenButton(
+                                    text: 'CONTINUE',
+                                    size: 16,
+                                    color: c.textWhite,
+                                    height: 60,
+                                  ),
+                                ),
                         ),
                       ),
                     )
@@ -423,6 +475,33 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
     );
   }
 
+  checkPassword() async {
+    if (_confirmpasswordController.text.isEmpty) {
+      setState(() {
+        // circular=false;
+        validate = false;
+        errorpassText = "Confirm password can't be empty!";
+      });
+    }else{
+      if (_confirmpasswordController.text == _passwordController.text) {
+        print(_passwordController.text);
+        setState(() {
+          // circular=false;
+          errorpassText = null;
+          validate = true;
+        });
+      } else {
+        setState(() {
+          // circular=false;
+          errorpassText = "Password dosen't match!";
+          validate = false;
+        });
+      }
+    }
+
+
+  }
+
   checkEmail() async {
     if (_emailController.text.isEmpty) {
       setState(() {
@@ -431,20 +510,29 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
         errorText = "Email can't be empty!";
       });
     } else {
-      print("/user/checkemail/${_emailController.text}");
-      var response =
-          await networkHandler.get("/user/checkemail/${_emailController.text}");
-      print(_emailController.text);
-      if (response['Status']) {
-        setState(() {
-          // circular=false;
-          validate = false;
-          errorText = "Email already taken!";
-        });
+      if (_emailController.text.contains("@")) {
+        print("/user/checkemail/${_emailController.text}");
+        var response = await networkHandler
+            .get("/user/checkemail/${_emailController.text}");
+        print(_emailController.text);
+        if (response['Status']) {
+          setState(() {
+            // circular=false;
+            validate = false;
+            errorText = "Email already taken!";
+          });
+        } else {
+          setState(() {
+            errorText = null;
+            // circular=false;
+            validate = true;
+          });
+        }
       } else {
         setState(() {
           // circular=false;
-          validate = true;
+          validate = false;
+          errorText = "Email is Invalid!";
         });
       }
     }
