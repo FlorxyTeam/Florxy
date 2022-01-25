@@ -1,3 +1,7 @@
+
+import 'dart:convert';
+import 'package:Florxy/NetworkHandler.dart';
+import 'package:Florxy/pages/createaccount_withemail.dart';
 import 'package:Florxy/pages/navbar.dart';
 import 'package:Florxy/widgets/button.dart';
 import 'package:Florxy/widgets/font.dart';
@@ -5,6 +9,7 @@ import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/pages/lastthingspage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -14,6 +19,16 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  bool vis = true;
+  final _globalkey = GlobalKey<FormState>();
+  NetworkHandler networkHandler = NetworkHandler();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  String? errorText;
+  bool validate = false;
+  bool circular = false;
+  final storage = new FlutterSecureStorage();
+
   List<FocusNode> _focusNodes = [
     FocusNode(),
     FocusNode(),

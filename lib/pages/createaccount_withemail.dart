@@ -33,27 +33,36 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
 
   @override
   Widget build(BuildContext context) {
-    final isKeyboard = MediaQuery.of(context).viewInsets.bottom!= 0;
     return Scaffold(
       backgroundColor: Color(0xffF9F9F9),
-      body: Stack(
-        children: [
-          SafeArea(
-              child: Container(
-                padding: const EdgeInsets.only(left: 40, right: 40, top: 20),
-                child: Column(
-                  children: [
-                    if(!isKeyboard) Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Image(
-                          image: AssetImage('assets/img/icon2.png'),
-                          height: 43,
+      body: Form(
+        key: _globalkey,
+        child: Stack(
+          children: [
+            SafeArea(
+                child: Container(
+              padding: const EdgeInsets.only(left: 40, right: 40, top: 20),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Image(
+                        image: AssetImage('assets/img/icon2.png'),
+                        height: 43,
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute
+                            (builder: (context)=>WelcomePage()), (route) => false);
+                        },
+                        icon: Icon(
+                          Icons.close_rounded,
+                          size: 36,
                         ),
-                        IconButton(onPressed: () { Navigator.pop(context); }, icon: Icon(Icons.close_rounded,size: 32,),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
+                  ),
                     if(!isKeyboard) SizedBox(height: 25),
                     if(!isKeyboard) Align(
                       alignment: Alignment.topLeft,
@@ -63,24 +72,23 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                         color: c.greenMain,
                         fontWeight: f.bold,
                       ),
+                  ),
+                  SizedBox(height: 10),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Inter(
+                      text: 'ACCOUNT',
+                      size: 25,
+                      color: c.greenMain,
+                      fontWeight: f.bold,
                     ),
-                    if(!isKeyboard) SizedBox(height: 10),
-                    if(!isKeyboard) Align(
-                      alignment: Alignment.topLeft,
-                      child: Inter(
-                        text: 'ACCOUNT',
-                        size: 27,
-                        color: c.greenMain,
-                        fontWeight: f.bold,
-                      ),
-                    ),
-                    if(isKeyboard) SizedBox(height: 20),
-                    SizedBox(height: 30),
-                    Column(
-                      children: [
-                        Align(
-                          alignment: Alignment.topLeft,
-                          child: Poppins(
+                  ),
+                  SizedBox(height: 30),
+                  Column(
+                    children: [
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Poppins(
                             text: 'Email',
                             size: 12,
                             color: c.blackSub,
@@ -127,12 +135,126 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                               color: c.blackSub,
                               fontWeight: f.medium),
                         ),
-                        SizedBox(height: 5),
-                        Container(
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                        child: TextField(
+                            focusNode: _focusNodes[2],
+                            decoration: InputDecoration(
+                              hintText: 'Confirm Password',
+                              hintStyle: TextStyle(
+                                  fontSize: 14,
+                                  color: c.graySub2,
+                                  fontWeight: f.regular),
+                              prefixIcon: Padding(
+                                padding: EdgeInsets.only(right: 13, left: 20),
+                                child: Icon(Icons.lock_rounded,
+                                    size: 25,
+                                    color: _focusNodes[2].hasFocus
+                                        ? c.greenMain
+                                        : c.graySub2),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(13.0)),
+                                borderSide: BorderSide(
+                                    color: c.graySub2.withOpacity(0), width: 2),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(13.0)),
+                                borderSide:
+                                    BorderSide(color: c.greenMain, width: 2),
+                              ),
+                            )),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => LoginPage()),
+                              (route) => false);
+                        },
+                        child: Container(child: Text('Click here to E duean')),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            )),
+            Positioned(
+                bottom: 35,
+                child: Column(
+                  children: [
+                    Center(
+                        child: Roboto(
+                            text:
+                                'By continuing, you agree to Florxy’s Terms & Conditions\nand Pricacy Policy.',
+                            size: 11.5,
+                            color: Color(0xFFAFC8A9),
+                            fontWeight: f.medium)),
+                    SizedBox(height: 15),
+                    InkWell(
+                      onTap: () async {
+                        setState(() {
+                          circular = true;
+                        });
+                        await checkEmail();
+                        if (_globalkey.currentState!.validate() && validate) {
+                          Map<String, String> data = {
+                            "email": _emailController.text,
+                            "password": _passwordController.text,
+                          };
+                          var responseRegister =  await networkHandler.post("/user/register", data);
+
+                          if(responseRegister.statusCode==200||
+                              responseRegister.statusCode==201){
+                            Map<String, String> data = {
+                              "email": _emailController.text,
+                              "password": _passwordController.text,
+                            };
+                            var response = await networkHandler.post("/user/login", data);
+
+                            if(response.statusCode==200|| response.statusCode==201){
+                              Map<String, dynamic> output = json.decode(response.body);
+                              print(output["msg"]);
+                              await storage.write(key: "token", value: output["token"]);
+                              setState(() {
+                                validate=true;
+                                circular=false;
+                              });
+                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute
+                                (builder: (context)=>LastThingPage()), (route) => false);
+                            }else{
+                              Scaffold.of(context).showSnackBar(
+                                  SnackBar(content: Text("Network Error"))
+                              );
+                            }
+                          }
+
+                          print(data);
+                          setState(() {
+                            circular = false;
+                          });
+                        } else {
+                          setState(() {
+                            circular = false;
+                          });
+                        }
+                      },
+                      child: circular
+                          ? CircularProgressIndicator()
+                          : Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 45, right: 45),
+                          child: GestureDetector(
+                            child: GreenButton(
+                              text: 'CONTINUE',
+                              size: 16,
+                              color: c.textWhite,
+                              height: 60,
+                            ),
                           ),
                           child: TextField(
                               focusNode: _focusNodes[1],

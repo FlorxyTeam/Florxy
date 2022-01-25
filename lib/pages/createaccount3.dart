@@ -152,9 +152,11 @@ class _CreateAccountState extends State<CreateAccount3> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Padding(
-                                padding: EdgeInsets.only(right: 8),
-                                child: Icon(Boxicons.bxl_facebook_circle,size: 32,color: Color(0xFF156ACF)),
+                              IconButton(
+                                icon: Icon(Boxicons.bxl_facebook_circle),
+                                iconSize: 32,
+                                color: Color(0xFF156ACF),
+                                onPressed: () {},
                               ),
                               Inter(
                                   text: 'Continue with Facebook',
@@ -217,9 +219,12 @@ class _CreateAccountState extends State<CreateAccount3> {
                                         color: Colors.black,
                                       ),
                                       child: Center(
-                                        child: Padding(
+                                        child: IconButton(
                                           padding: EdgeInsets.all(0),
-                                          child: Icon(Boxicons.bxs_phone,size: 19,color: Colors.white,)
+                                          icon: Icon(Boxicons.bxs_phone),
+                                          iconSize: 19,
+                                          color: Colors.white,
+                                          onPressed: () {},
                                         ),
                                       ),
                                     ),

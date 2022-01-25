@@ -168,8 +168,8 @@ Column _buildLoginMenu(context) {
                           ),
                           child: Center(
                             child: Padding(
-                              padding: EdgeInsets.all(0),
-                              child: Icon(Boxicons.bxs_phone,size: 18,color: Colors.white)
+                                padding: EdgeInsets.all(0),
+                                child: Icon(Boxicons.bxs_phone,size: 18,color: Colors.white)
                             ),
                           ),
                         ),
