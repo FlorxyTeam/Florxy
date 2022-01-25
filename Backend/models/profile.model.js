@@ -9,11 +9,24 @@ const Profile = Schema(
       required: true,
       unique: true,
     },
-    name: String,
-    profession: String,
+    username: {
+      type: String,
+      unique: true
+    },
+    fullname: String,
     DOB: String,
-    titleline: String,
-    about: String,
+    professor: {
+      type: String,
+      default: "",
+    },
+    influencer: {
+      type: String,
+      default: "",
+    },
+    bio: {
+      type: String,
+      default: "",
+    },
     img: {
       type: String,
       default: "",
