@@ -20,68 +20,68 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-      body: DefaultTabController(
-        length: 3,
-        child: NestedScrollView(
-            headerSliverBuilder: (context, _) {
-              return [
-                SliverList(
-                    delegate:
+          body: DefaultTabController(
+            length: 3,
+            child: NestedScrollView(
+                headerSliverBuilder: (context, _) {
+                  return [
+                    SliverList(
+                        delegate:
                         SliverChildListDelegate([profileHeaderWidget(context)]))
-              ];
-            },
-            body: Container(
-              color: c.textWhite,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 10, bottom: 10, left: 10, right: 10),
-                    child: Container(
-                      height: 25,
-                      color: c.textWhite,
-                      child: TabBar(
-                        labelColor: c.greenMain,
-                        unselectedLabelColor: c.greyMain,
-                        indicator: BoxDecoration(
-                          color: c.greenLight1.withOpacity(0.8),
-                          borderRadius: BorderRadius.circular(40),
-                        ),
-                        tabs: [
-                          Tab(
-                            child: Inter_1(
-                                text: "Post and replies",
-                                size: 12,
-                                fontWeight: f.bold),
-                          ),
-                          Tab(
-                            child: Inter_1(
-                                text: "Favorite post",
-                                size: 12,
-                                fontWeight: f.bold),
-                          ),
-                          Tab(
-                            child: Inter_1(
-                                text: "Saved Product",
-                                size: 12,
-                                fontWeight: f.bold),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                      child: TabBarView(
+                  ];
+                },
+                body: Container(
+                  color: c.textWhite,
+                  child: Column(
                     children: [
-                      PostReply(),
-                      FavPost(),
-                      SavedPro(),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 10, bottom: 10, left: 7, right: 7),
+                        child: Container(
+                          height: 25,
+                          color: c.textWhite,
+                          child: TabBar(
+                            labelColor: c.greenMain,
+                            unselectedLabelColor: c.greyMain,
+                            indicator: BoxDecoration(
+                              color: c.greenLight1.withOpacity(0.8),
+                              borderRadius: BorderRadius.circular(40),
+                            ),
+                            tabs: [
+                              Tab(
+                                child: Inter_1(
+                                    text: "Post and replies",
+                                    size: 12,
+                                    fontWeight: f.bold),
+                              ),
+                              Tab(
+                                child: Inter_1(
+                                    text: "Favorite post",
+                                    size: 12,
+                                    fontWeight: f.bold),
+                              ),
+                              Tab(
+                                child: Inter_1(
+                                    text: "Saved Product",
+                                    size: 12,
+                                    fontWeight: f.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                          child: TabBarView(
+                            children: [
+                              PostReply(),
+                              FavPost(),
+                              SavedPro(),
+                            ],
+                          ))
                     ],
-                  ))
-                ],
-              ),
-            )),
-      ),
-    ));
+                  ),
+                )),
+          ),
+        ));
   }
 }
