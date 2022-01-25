@@ -125,35 +125,31 @@ class _LoginPageState extends State<LoginPage> {
                                 fontWeight: f.medium),
                           ),
                           SizedBox(height: 5),
-                          Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                            ),
-                            child: TextFormField(
-                                focusNode: _focusNodes[0],
-                                controller: _emailController,
-                                decoration: InputDecoration(
-                                  errorText: validate ? null : errorText,
-                                  hintText: 'Email Address',
-                                  hintStyle: TextStyle(fontSize: 14, color: c.graySub2, fontWeight: f.medium),
-                                  prefixIcon: Padding(
-                                    padding: EdgeInsets.only(right: 13, left: 20),
-                                    child: Icon(
-                                        Icons.email, size: 25, color: _focusNodes[0].hasFocus ? c.greenMain : c.graySub2
-                                    ),
+                          TextFormField(
+                              focusNode: _focusNodes[0],
+                              controller: _emailController,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                                errorText: validate ? null : errorText,
+                                hintText: 'Email Address',
+                                hintStyle: TextStyle(fontSize: 14, color: c.graySub2, fontWeight: f.medium),
+                                prefixIcon: Padding(
+                                  padding: EdgeInsets.only(right: 13, left: 20),
+                                  child: Icon(
+                                      Icons.email, size: 25, color: _focusNodes[0].hasFocus ? c.greenMain : c.graySub2
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                                    borderSide: BorderSide(color: c.graySub2.withOpacity(0), width: 2),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                                    borderSide: BorderSide(color: c.greenMain, width: 2),
-                                  ),
-                                )),
-                          ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                                  borderSide: BorderSide(color: c.graySub2.withOpacity(0), width: 2),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                                  borderSide: BorderSide(color: c.greenMain, width: 2),
+                                ),
+                              )),
                         ],
                       ),
                       SizedBox(height: 18),
@@ -168,48 +164,44 @@ class _LoginPageState extends State<LoginPage> {
                                 fontWeight: f.medium),
                           ),
                           SizedBox(height: 5),
-                          Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                            ),
-                            child: TextFormField(
-                                focusNode: _focusNodes[1],
-                                controller: _passwordController,
-                                obscureText: vis,
-                                decoration: InputDecoration(
-                                  errorText: validate ? null: errorText,
-                                  suffixIcon: Padding(
-                                    padding: EdgeInsets.only(right: 10),
-                                    child: IconButton(
-                                      icon: Icon(vis ? Icons.visibility_off : Icons.visibility, size: 18, color: c.greySub),
-                                      onPressed: () {
-                                        setState(() {
-                                          vis = !vis;
-                                        });
-                                      },
-                                      color: Colors.black,
-                                    ),
+                          TextFormField(
+                              focusNode: _focusNodes[1],
+                              controller: _passwordController,
+                              obscureText: vis,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                                errorText: validate ? null: errorText,
+                                suffixIcon: Padding(
+                                  padding: EdgeInsets.only(right: 10),
+                                  child: IconButton(
+                                    icon: Icon(vis ? Icons.visibility_off : Icons.visibility, size: 18, color: c.greySub),
+                                    onPressed: () {
+                                      setState(() {
+                                        vis = !vis;
+                                      });
+                                    },
+                                    color: Colors.black,
                                   ),
-                                  hintText: 'Password',
-                                  hintStyle: TextStyle(fontSize: 14, color: c.graySub2, fontWeight: f.medium),
-                                  prefixIcon: Padding(
-                                    padding: EdgeInsets.only(right: 13, left: 20),
-                                    child: Icon(
-                                        Icons.lock_rounded, size: 25, color: _focusNodes[1].hasFocus ? c.greenMain : c.graySub2
-                                    ),
+                                ),
+                                hintText: 'Password',
+                                hintStyle: TextStyle(fontSize: 14, color: c.graySub2, fontWeight: f.medium),
+                                prefixIcon: Padding(
+                                  padding: EdgeInsets.only(right: 13, left: 20),
+                                  child: Icon(
+                                      Icons.lock_rounded, size: 25, color: _focusNodes[1].hasFocus ? c.greenMain : c.graySub2
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                                    borderSide: BorderSide(color: c.graySub2.withOpacity(0), width: 2),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                                    borderSide: BorderSide(color: c.greenMain, width: 2),
-                                  ),
-                                )),
-                          ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                                  borderSide: BorderSide(color: c.graySub2.withOpacity(0), width: 2),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                                  borderSide: BorderSide(color: c.greenMain, width: 2),
+                                ),
+                              )),
                           SizedBox(height: 26,),
                           if(!isKeyboard) Align(
                           alignment: Alignment.topRight,
