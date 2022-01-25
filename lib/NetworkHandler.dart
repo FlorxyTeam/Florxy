@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
@@ -40,6 +41,21 @@ class NetworkHandler {
     return response;
   }
 
+  Future<http.Response> patch(String url, Map<String, String> body) async {
+    String? token = await storage.read(key: "token");
+    url = formater(url);
+    log.d(body);
+    var response = await http.patch(
+      Uri.parse(url),
+      headers: {
+        "Content-type": "application/json",
+        "Authorization": "Bearer $token"
+      },
+      body: json.encode(body),
+    );
+    return response;
+  }
+
   Future<http.StreamedResponse> patchImage(String url,String filepath) async{
     url = formater(url);
     String? token = await storage.read(key:"token");
@@ -52,9 +68,16 @@ class NetworkHandler {
     var response = request.send();
     return response;
   }
+
   String formater(String url) {
     print(baseurl+url);
     return baseurl + url;
-
   }
+  NetworkImage getImage(String email){
+    String url = formater("/uploads//$email.jpg");
+    return NetworkImage(url);
+  }
+
+
+
 }

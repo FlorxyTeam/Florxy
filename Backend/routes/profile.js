@@ -123,13 +123,8 @@ router.route("/update").patch(middleware.checkToken, async (req, res) => {
     { email: req.decoded.email },
     {
       $set: {
-        name: req.body.name ? req.body.name : profile.name,
-        profession: req.body.profession
-          ? req.body.profession
-          : profile.profession,
-        DOB: req.body.DOB ? req.body.DOB : profile.DOB,
-        titleline: req.body.titleline ? req.body.titleline : profile.titleline,
-        about: req.body.about ? req.body.about : profile.about, //about:""
+           fullname: req.body.fullname ? req.body.fullname : profile.fullname,
+           bio: req.body.bio ? req.body.bio : profile.bio,
       },
     },
     { new: true },
