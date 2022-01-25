@@ -113,34 +113,34 @@ class _CreateAccountState extends State<CreateAccount2> {
                 ),
               ),
             ),
-            Positioned(
-              bottom: 55,
-              child: Column(
-                children: [
-                  Center(
-                      child: Roboto(text: 'By continuing, you agree to Florxy’s Terms & Conditions\nand Pricacy Policy.', size: 11.5, color: Color(0xFFAFC8A9), fontWeight: f.medium)
-                  ),
-                  SizedBox(height: 15),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 40,right: 40),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateAccount3()));
-                        },
-                        child: GreenButton(
-                          text: 'NEXT',
-                          size: 16,
-                          color: c.textWhite,
-                          height: 65,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
+            // Positioned(
+            //   bottom: 55,
+            //   child: Column(
+            //     children: [
+            //       Center(
+            //           child: Roboto(text: 'By continuing, you agree to Florxy’s Terms & Conditions\nand Pricacy Policy.', size: 11.5, color: Color(0xFFAFC8A9), fontWeight: f.medium)
+            //       ),
+            //       SizedBox(height: 15),
+            //       Container(
+            //         width: MediaQuery.of(context).size.width,
+            //         child: Padding(
+            //           padding: EdgeInsets.only(left: 40,right: 40),
+            //           child: GestureDetector(
+            //             onTap: () {
+            //               Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateAccount3()));
+            //             },
+            //             child: GreenButton(
+            //               text: 'NEXT',
+            //               size: 16,
+            //               color: c.textWhite,
+            //               height: 65,
+            //             ),
+            //           ),
+            //         ),
+            //       )
+            //     ],
+            //   ),
+            // ),
           ],
         )
     );
