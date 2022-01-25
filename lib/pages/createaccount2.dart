@@ -5,7 +5,9 @@ import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:boxicons/boxicons.dart';
-
+import 'package:flutter_linear_datepicker/flutter_datepicker.dart';
+import 'package:flutter_linear_datepicker/number_picker.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class CreateAccount2 extends StatefulWidget {
   const CreateAccount2({Key? key}) : super(key: key);
@@ -19,7 +21,6 @@ class _CreateAccountState extends State<CreateAccount2> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         backgroundColor: Color(0xffF9F9F9),
         body: Stack(
@@ -96,7 +97,9 @@ class _CreateAccountState extends State<CreateAccount2> {
                         )
                       ],
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(
+                      height: 20,
+                    ),
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -108,26 +111,77 @@ class _CreateAccountState extends State<CreateAccount2> {
                         )
                       ],
                     ),
+                    SizedBox(
+                      height: 60,
+                    ),
                     SizedBox(height: 40),
                   ],
                 ),
               ),
             ),
+
+            Positioned(
+                bottom: 280,
+                left: 60,
+                child: Container(
+                  height: 40,
+                  width: 290,
+                  decoration: BoxDecoration(
+                      color: Color(0xFFB8E68C).withOpacity(0.43),
+                      borderRadius: BorderRadius.circular(20)),
+                )),
+            Positioned(
+              bottom: 250,
+              left: 60,
+              child: LinearDatePicker(
+                startDate: "1960/01/01",
+                endDate: "2022/01/01",
+                initialDate: "2016/10/15",
+                dateChangeListener: (String selectedDate) {
+                  print(selectedDate);
+                },
+                showDay: true,
+                selectedRowStyle: GoogleFonts.inter(
+                  textStyle: TextStyle(color: c.greenMain,fontWeight: f.semiBold,fontSize: 17)
+                ),
+                unselectedRowStyle: TextStyle(
+                  fontFamily: 'sans',
+                  fontSize: 16.0,
+                  color: Colors.blueGrey,
+                ),
+                columnWidth: 100,
+                showMonthName: true,
+                showLabels: false,
+              ),
+            ),
+            // Positioned(
+            //     bottom: 380,
+            //     left: 60,
+            //     child: Container(
+            //       height: 30,
+            //       width: 290,
+            //       color: c.greyLight,
+            //     )),
             Positioned(
               bottom: 55,
               child: Column(
                 children: [
                   Center(
-                      child: Roboto(text: 'By continuing, you agree to Florxy’s Terms & Conditions\nand Pricacy Policy.', size: 11.5, color: Color(0xFFAFC8A9), fontWeight: f.medium)
-                  ),
+                      child: Roboto(
+                          text:
+                              'By continuing, you agree to Florxy’s Terms & Conditions\nand Pricacy Policy.',
+                          size: 11.5,
+                          color: Color(0xFFAFC8A9),
+                          fontWeight: f.medium)),
                   SizedBox(height: 15),
                   Container(
                     width: MediaQuery.of(context).size.width,
                     child: Padding(
-                      padding: EdgeInsets.only(left: 40,right: 40),
+                      padding: EdgeInsets.only(left: 40, right: 40),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateAccount3()));
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => CreateAccount3()));
                         },
                         child: GreenButton(
                           text: 'NEXT',
@@ -142,7 +196,6 @@ class _CreateAccountState extends State<CreateAccount2> {
               ),
             ),
           ],
-        )
-    );
+        ));
   }
 }
