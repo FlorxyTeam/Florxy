@@ -9,12 +9,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:slide_popup_dialog_null_safety/slide_popup_dialog.dart'
-    as slideDialog;
+as slideDialog;
 import 'package:Florxy/pages/EditProfile.dart';
 import 'package:Florxy/pages/setting.dart';
 
 class ModalBottomSheet {
-
   static Dialog_Settings(context) {
     showModalBottomSheet(
         backgroundColor: Colors.transparent,
@@ -25,7 +24,7 @@ class ModalBottomSheet {
             height: 390,
             child: Container(
               child: Padding(
-                padding: const EdgeInsets.only(top: 30, left: 20, right: 20),
+                padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
                 child: _buildBottomNavigationMenu(context),
               ),
               decoration: BoxDecoration(
@@ -39,25 +38,19 @@ class ModalBottomSheet {
   }
 }
 
-// class ModalBottomSheet {
-//   static Dialog_Settings(context) {
-//     slideDialog.showSlideDialog(
-//       context: context,
-//       pillColor: c.greyMain,
-//       child: Container(
-//         child: Padding(
-//           padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
-//           child: _buildBottomNavigationMenu(context),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 Column _buildBottomNavigationMenu(context) {
   final storage = new FlutterSecureStorage();
   return Column(
     children: [
+      Container(
+        width: 88,
+        child: Divider(
+          height: 0,
+          color: c.greyMain,
+          thickness: 4,
+        ),
+      ),
+      SizedBox(height: 10),
       Container(
         child: ListTile(
           // shape: Border.,
@@ -66,7 +59,7 @@ Column _buildBottomNavigationMenu(context) {
           textColor: c.blackMain,
           title: Inter(
               text: "Edit profile",
-              size: 14,
+              size: 15,
               color: c.blackMain,
               fontWeight: f.semiBold),
           onTap: () async {
@@ -78,8 +71,7 @@ Column _buildBottomNavigationMenu(context) {
         decoration: BoxDecoration(
             color: c.textWhite,
             border: Border(
-              bottom:
-                  BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.5)),
+              bottom: BorderSide(width: 0.8, color: c.greyMain),
             )),
       ),
       Container(
@@ -91,7 +83,7 @@ Column _buildBottomNavigationMenu(context) {
           textColor: c.blackMain,
           title: Inter(
               text: "Product seen",
-              size: 14,
+              size: 15,
               color: c.blackMain,
               fontWeight: f.semiBold),
           onTap: () {},
@@ -99,8 +91,7 @@ Column _buildBottomNavigationMenu(context) {
         decoration: BoxDecoration(
             color: c.textWhite,
             border: Border(
-              bottom:
-                  BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.5)),
+              bottom: BorderSide(width: 0.8, color: c.greyMain),
             )),
       ),
       Container(
@@ -110,7 +101,7 @@ Column _buildBottomNavigationMenu(context) {
           textColor: c.blackMain,
           title: Inter(
               text: "Archive post",
-              size: 14,
+              size: 15,
               color: c.blackMain,
               fontWeight: f.semiBold),
           onTap: () {},
@@ -119,7 +110,7 @@ Column _buildBottomNavigationMenu(context) {
             color: c.textWhite,
             border: Border(
               bottom:
-                  BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.5)),
+              BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.4)),
             )),
       ),
       Container(
@@ -129,7 +120,7 @@ Column _buildBottomNavigationMenu(context) {
           textColor: c.blackMain,
           title: Inter(
               text: "Settings",
-              size: 14,
+              size: 15,
               color: c.blackMain,
               fontWeight: f.semiBold),
           onTap: () async {
@@ -142,25 +133,93 @@ Column _buildBottomNavigationMenu(context) {
             color: c.textWhite,
             border: Border(
               bottom:
-                  BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.5)),
+              BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.4)),
             )),
       ),
       Container(
-
         child: ListTile(
           leading: Icon(Icons.logout_outlined),
           iconColor: c.redMain,
           textColor: c.redMain,
           title: Inter(
               text: "Log out",
-              size: 14,
+              size: 15,
               color: c.redMain,
               fontWeight: f.semiBold),
-          onTap: () async{
-            await storage.delete(key: "token");
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute
-              (builder: (context)=>WelcomePage()), (route) => false);
-          },
+          onTap: () => showDialog<String>(
+            barrierDismissible: false,
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              backgroundColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(40.0))),
+              title: Row(
+                children: [
+                  Icon(
+                    Icons.cake_outlined,
+                    color: c.blackMain,
+                    size: 20.0,
+                  ),
+                  Inter(
+                    text: "Log out @bababaconnnn",
+                    color: c.blackMain,
+                    fontWeight: f.bold,
+                    size: 16,
+                  ),
+                ],
+              ),
+              content: Inter(
+                text: "Logging out will remove all post data from this device",
+                color: c.greyMain,
+                fontWeight: f.regular,
+                size: 14,
+              ),
+              actions: <Widget>[
+                Column(
+                  children: [
+                    Container(
+                        decoration: BoxDecoration(
+
+                            border: Border(
+                              bottom:
+                              BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.8)),
+                              top:
+                              BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.8)),
+                            )),
+                        child: ListTile(
+                            onTap: () async {
+                              await storage.delete(key: "token");
+                              Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => WelcomePage()),
+                                      (route) => false);
+                            },
+                            title: Center(
+                              child: Inter(
+                                text: "Log out",
+                                color: c.redMain,
+                                size: 14,
+                                fontWeight: f.bold,
+
+                              ),
+                            )
+                        )),
+                    Container(
+                        child: TextButton(
+                          onPressed: () => Navigator.pop(context, 'Cancel'),
+                          child: Inter(
+                            text: "Cancle",
+                            color: c.blackMain,
+                            size: 14,
+                            fontWeight: f.bold,
+                          ),
+                        ))
+                  ],
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     ],
