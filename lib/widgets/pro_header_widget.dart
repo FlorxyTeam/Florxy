@@ -8,8 +8,53 @@ import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Florxy/pages/searchpage.dart';
 import 'package:Florxy/widgets/Modalsetting.dart';
+import 'package:Florxy/NetworkHandler.dart';
+import 'package:Florxy/Model/profileModel.dart';
 
-Widget profileHeaderWidget(BuildContext context) {
+
+class ProHeader extends StatefulWidget {
+  const ProHeader({Key? key}) : super(key: key);
+
+  @override
+  _ProHeaderState createState() => _ProHeaderState();
+}
+
+class _ProHeaderState extends State<ProHeader> {
+  bool circular = true;
+  NetworkHandler networkHandler = NetworkHandler();
+  ProfileModel profileModel = ProfileModel(
+      DOB: '',
+      img: '',
+      influencer: '',
+      fullname: '',
+      bio: '',
+      email: '',
+      professor: '',
+      username: '');
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    fetchData();
+  }
+  void fetchData() async{
+    var response = await networkHandler.get("/profile/getData");
+    setState(() {
+      profileModel = ProfileModel.fromJson(response["data"]);
+      circular = false;
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Container(height: 0 ,width: 0,);
+  }
+
+
+
+
+Widget profileHeader1Widget(BuildContext context) {
   final Size size = MediaQuery.of(context).size;
 
   return Container(
@@ -46,11 +91,10 @@ Widget profileHeaderWidget(BuildContext context) {
                         Row(
                           children: [
                             Poppins(
-                                text: "Putita Techapat",
+                                text: profileModel.fullname,
                                 size: 20,
                                 color: c.blackMain,
                                 fontWeight: f.semiBold),
-
                           ],
                         )
                       ],
@@ -98,25 +142,26 @@ Widget profileHeaderWidget(BuildContext context) {
                     ),
                   ),
                 ],
-              ),SizedBox(
+              ),
+              SizedBox(
                 width: 17,
               ),
-
-              Expanded(child: Column(
-                verticalDirection: VerticalDirection.down,
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      ModalBottomSheet.Dialog_Settings(context);
-                    },
-                    icon: Icon(Boxicons.bx_dots_vertical_rounded),
-                  ),
-                  SizedBox(
-                    height: 36,
-
-                  )
-                ],
-              ),)
+              Expanded(
+                child: Column(
+                  verticalDirection: VerticalDirection.down,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        ModalBottomSheet.Dialog_Settings(context);
+                      },
+                      icon: Icon(Boxicons.bx_dots_vertical_rounded),
+                    ),
+                    SizedBox(
+                      height: 36,
+                    )
+                  ],
+                ),
+              )
             ],
           ),
           SizedBox(
@@ -178,7 +223,7 @@ Widget profileHeaderWidget(BuildContext context) {
             padding: const EdgeInsets.only(top: 7, bottom: 7),
             child: Inter(
                 text:
-                "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+                    "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
                 size: 13,
                 color: c.greyMain,
                 fontWeight: f.semiBold),
@@ -202,4 +247,6 @@ Widget profileHeaderWidget(BuildContext context) {
       ),
     ),
   );
+}
+
 }

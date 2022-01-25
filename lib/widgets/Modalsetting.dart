@@ -1,3 +1,4 @@
+import 'package:Florxy/pages/FrankEditProfile.dart';
 import 'package:Florxy/pages/welcomepage.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:boxicons/boxicons.dart';
@@ -236,7 +237,7 @@ void closeDialog(context) {
 //Edit
 Route _createRoute() {
   return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => const EditPage(),
+    pageBuilder: (context, animation, secondaryAnimation) => const CreateProfile(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(0.0, 1.0);
       const end = Offset.zero;
