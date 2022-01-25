@@ -58,11 +58,9 @@ router
 router.route("/add").post(middleware.checkToken, (req, res) => {
   const profile = Profile({
     email: req.decoded.email,
-    name: req.body.name,
-    profession: req.body.profession,
+    username: req.body.username,
+    fullname: req.body.fullname,
     DOB: req.body.DOB,
-    titleline: req.body.titleline,
-    about: req.body.about,
   });
   profile
     .save()
@@ -84,6 +82,24 @@ router.route("/checkProfile").get(middleware.checkToken, (req, res) => {
     }
   });
 });
+
+router.route("/checkusername/:username").get((req,res)=>{
+  Profile.findOne({ username: req.params.username }, (err, result) => {
+      if (err) res.status(500).json({ msg: err });
+      if(result!==null){
+          return res.json({
+              Status: true,
+
+          });
+      }
+      else return res.json({
+          Status: false,
+
+      })
+
+    });
+    console.log('Username - Checked')
+})
 
 router.route("/getData").get(middleware.checkToken, (req, res) => {
   Profile.findOne({ email: req.decoded.email }, (err, result) => {
