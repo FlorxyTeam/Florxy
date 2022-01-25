@@ -35,8 +35,6 @@ router.route("/checkemail/:email").get((req,res)=>{
       console.log('Email - Checked')
 })
 
-
-
 router.route("/login").post((req, res) => {
   User.findOne({ email: req.body.email }, (err, result) => {
     if (err) return res.status(500).json({ msg: err });

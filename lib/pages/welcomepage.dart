@@ -67,7 +67,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       GestureDetector(
                         onTap: () {
                           print('click!!');
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateAccount1()));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => RegisterPage()));
                         },
                         child: WhiteButton(
                           text: 'REGISTER',
