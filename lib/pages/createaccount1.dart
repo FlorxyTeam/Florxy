@@ -248,6 +248,7 @@ class _CreateAccountState extends State<CreateAccount1> {
         validate = false;
         errorunText = "Username can't be empty!";
         errorfnText = "Full name can't be empty!";
+        print("hi");
       });
     }
     else {
