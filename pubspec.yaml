@@ -51,6 +51,9 @@ dependencies:
   flutter_icons: ^1.1.0
 #  flutter_tags: ^0.4.9+1
   flutter_typeahead: ^3.2.4
+  logger: ^1.1.0
+  flutter_secure_storage: ^5.0.2
+  image_picker: ^0.8.4+4
 #  intro_screen_onboarding_flutter: ^0.1.5
  
 dev_dependencies:
