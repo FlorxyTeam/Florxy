@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:Florxy/pages/navbar.dart';
 import 'package:Florxy/pages/profilepage.dart';
 import 'package:Florxy/NetworkHandler.dart';
 import 'package:flutter/material.dart';
@@ -82,7 +83,7 @@ class _CreateProfileState extends State<CreateProfile> {
                           });
                           Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                  builder: (context) => ProfilePage()),
+                                  builder: (context) => Navbar()),
                                   (route) => false);
                         }else {
                           setState(() {
@@ -96,7 +97,7 @@ class _CreateProfileState extends State<CreateProfile> {
                         });
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(builder: (context) =>
-                                ProfilePage()),
+                                Navbar()),
                                 (route) => false);
                       }
                     }else {
