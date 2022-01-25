@@ -15,7 +15,7 @@ import 'package:Florxy/pages/EditProfile.dart';
 import 'package:Florxy/pages/setting.dart';
 
 class ModalBottomSheet {
-  static Dialog_Settings(context) {
+  static Dialog_Settings(context,username) {
     showModalBottomSheet(
         backgroundColor: Colors.transparent,
         context: context,
@@ -26,7 +26,7 @@ class ModalBottomSheet {
             child: Container(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-                child: _buildBottomNavigationMenu(context),
+                child: _buildBottomNavigationMenu(context,username),
               ),
               decoration: BoxDecoration(
                   color: Theme.of(context).canvasColor,
@@ -39,7 +39,7 @@ class ModalBottomSheet {
   }
 }
 
-Column _buildBottomNavigationMenu(context) {
+Column _buildBottomNavigationMenu(context,username) {
   final storage = new FlutterSecureStorage();
   return Column(
     children: [
@@ -164,7 +164,7 @@ Column _buildBottomNavigationMenu(context) {
                     size: 20.0,
                   ),
                   Inter(
-                    text: "Log out @bababaconnnn",
+                    text: "Log out @"+username,
                     color: c.blackMain,
                     fontWeight: f.bold,
                     size: 16,

@@ -217,7 +217,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          ModalBottomSheet.Dialog_Settings(context);
+                          ModalBottomSheet.Dialog_Settings(context,profileModel.username);
                         },
                         icon: Icon(Boxicons.bx_dots_vertical_rounded),
                       ),
