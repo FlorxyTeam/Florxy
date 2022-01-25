@@ -7,7 +7,6 @@ import 'package:Florxy/pages/welcomepage.dart';
 import 'package:Florxy/widgets/button.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
-import 'package:Florxy/pages/lastthingspage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -67,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                             image: AssetImage('assets/img/icon2.png'),
                             height: 43,
                           ),
-                          IconButton(onPressed: () { Navigator.of(context).push(MaterialPageRoute(builder: (context) => WelcomePage())); }, icon: Icon(Icons.close_rounded,size: 36,),
+                          IconButton(onPressed: () { Navigator.of(context).pop(); }, icon: Icon(Icons.close_rounded,size: 36,),
                           ),
                         ],
                       ),
