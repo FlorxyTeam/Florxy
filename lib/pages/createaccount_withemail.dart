@@ -192,39 +192,8 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                                 },
                                 color: Colors.black,
                               ),
-                            ),
-                            hintText: 'Password',
-                            hintStyle: TextStyle(
-                                fontSize: 14,
-                                color: c.graySub2,
-                                fontWeight: f.medium),
-                            prefixIcon: Padding(
-                              padding: EdgeInsets.only(right: 13, left: 20),
-                              child: Icon(Icons.lock_rounded,
-                                  size: 25,
-                                  color: _focusNodes[1].hasFocus
-                                      ? c.greenMain
-                                      : c.graySub2),
-                            ),
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                              borderSide: BorderSide(
-                                  color: c.graySub2.withOpacity(0), width: 2),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                              borderSide: BorderSide(color: c.greenMain, width: 2),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: c.redMain, width: 2),
-                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              gapPadding: 6,
-                              borderSide: BorderSide(color: c.redMain, width: 2),
-                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                            ),
-                          )),
+                            )),
+                      ),
                     ],
                   ),
                   SizedBox(height: 18),
