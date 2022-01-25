@@ -32,6 +32,7 @@ class _CreateAccountState extends State<CreateAccount1> {
 
   @override
   Widget build(BuildContext context) {
+    final isKeyboard = MediaQuery.of(context).viewInsets.bottom!= 0;
     return Scaffold(
         backgroundColor: Color(0xffF9F9F9),
         body: Stack(
@@ -42,7 +43,7 @@ class _CreateAccountState extends State<CreateAccount1> {
               height: MediaQuery.of(context).size.height,
               child: Column(
                 children: [
-                  Padding(
+                  if(!isKeyboard) Padding(
                     padding: const EdgeInsets.only(left: 20, right: 20),
                     child: Stack(
                       children: [
@@ -91,7 +92,7 @@ class _CreateAccountState extends State<CreateAccount1> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 15),
+                  if(!isKeyboard) SizedBox(height: 15),
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
