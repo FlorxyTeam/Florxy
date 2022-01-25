@@ -140,9 +140,8 @@ class _CreateAccountState extends State<CreateAccount1> {
                       Container(
                         padding: const EdgeInsets.only(left: 40, right: 40),
                         height: 60,
-                        child: TextField(
+                        child: TextFormField(
                           focusNode: _focusNodes[0],
-                          // onTap: _requestFocus,
                           controller: _fullnameController,
                           decoration: InputDecoration(
                             errorText: validate ? null : errorfnText,
@@ -201,9 +200,7 @@ class _CreateAccountState extends State<CreateAccount1> {
                               circular = true;
                             });
 
-                            await checkFullname();
-                            if(validate==true){
-                              await  checkUsername();
+                              await  checkUsername_Fullname();
                               if(validate==true){
                               await storage.write(key: "username", value: _usernameController.text);
                               await storage.write(key: "fullname", value: _fullnameController.text);
@@ -220,12 +217,6 @@ class _CreateAccountState extends State<CreateAccount1> {
                                   circular = false;
                                 });
                               }
-                             }
-                            else {
-                              setState(() {
-                                circular = false;
-                              });
-                            }
                           },
                           child: circular
                               ? Padding(
@@ -250,51 +241,47 @@ class _CreateAccountState extends State<CreateAccount1> {
     );
   }
 
-  checkUsername() async{
-    if (_usernameController.text.isEmpty) {
+  checkUsername_Fullname() async{
+    if (_usernameController.text.isEmpty && _fullnameController.text.isEmpty) {
       setState(() {
         // circular=false;
         validate = false;
         errorunText = "Username can't be empty!";
-      });
-    }
-    else {
-      print("/profile/checkusername/${_usernameController.text}");
-      var response = await networkHandler.get("/profile/checkusername/${_usernameController.text}");
-      print(_usernameController.text);
-      if (response['Status']) {
-        setState(() {
-          // circular=false;
-          validate = false;
-          errorunText = "Username already taken!";
-        });
-      } else {
-        setState(() {
-          // circular=false;
-          errorfnText = null;
-          validate = true;
-        });
-      }
-    }
-  }
-
-  checkFullname(){
-    if (_fullnameController.text.isEmpty) {
-      setState(() {
-        // circular=false;
-        validate = false;
         errorfnText = "Full name can't be empty!";
       });
     }
     else {
-      print(_fullnameController.text);
-      setState(() {
-        // circular=false;
-        errorfnText = null;
-        validate = true;
-      });
+      if (_fullnameController.text.isEmpty){
+        errorfnText = "Full name can't be empty!";
+        validate = false;
+
+      }else{
+        if (_usernameController.text.isEmpty){
+          errorfnText=null;
+          errorunText = "Username can't be empty!";
+          validate = false;
+        }else{
+          print("/profile/checkusername/${_usernameController.text}");
+          var response = await networkHandler.get("/profile/checkusername/${_usernameController.text}");
+          print(_usernameController.text);
+          if (response['Status']) {
+            setState(() {
+              // circular=false;
+              validate = false;
+              errorunText = "Username already taken!";
+            });
+          } else {
+            setState(() {
+              // circular=false;
+              errorfnText = null;
+              validate = true;
+            });
+          }
+        }
+      }
     }
   }
+
 }
 
 OutlineInputBorder myinputborder(){ //return type is OutlineInputBorder

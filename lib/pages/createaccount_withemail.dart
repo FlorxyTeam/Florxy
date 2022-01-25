@@ -282,9 +282,15 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                         child: TextFormField(
                             controller: _confirmpasswordController,
                             focusNode: _focusNodes[2],
+                            validator: (value) {
+                              if (value!.isEmpty)
+                                return "ConfirmPassword can't be empty";
+                              if (_confirmpasswordController.text != _passwordController.text)
+                                return "Password dosen't match!";
+                              return null;
+                            },
                             obscureText: vis,
                             decoration: InputDecoration(
-                              errorText: validate ? null : errorpassText,
                               hintText: 'Confirm Password',
                               hintStyle: TextStyle(
                                   fontSize: 14,
@@ -381,8 +387,8 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                             "password": _passwordController.text,
                           };
 
-                          await checkPassword();
-                          if (validate == true) {
+                          // await checkPassword();
+                          // if (validate == true) {
                             var responseRegister = await networkHandler.post(
                                 "/user/register", data);
 
@@ -438,11 +444,6 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                             setState(() {
                               circular = false;
                             });
-                          }
-                        } else {
-                          setState(() {
-                            circular = false;
-                          });
                         }
                       },
                       child: Container(
