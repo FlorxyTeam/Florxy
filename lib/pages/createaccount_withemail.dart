@@ -148,6 +148,14 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                                 borderSide:
                                     BorderSide(color: c.greenMain, width: 2),
                               ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: c.redMain, width: 2),
+                                borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: c.redMain, width: 2),
+                                borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                              ),
                             )),
                       ),
                     ],
@@ -206,16 +214,22 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                                         : c.graySub2),
                               ),
                               enabledBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(13.0)),
+                                borderRadius: BorderRadius.all(Radius.circular(13.0)),
                                 borderSide: BorderSide(
                                     color: c.graySub2.withOpacity(0), width: 2),
                               ),
                               focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(13.0)),
-                                borderSide:
-                                    BorderSide(color: c.greenMain, width: 2),
+                                borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                                borderSide: BorderSide(color: c.greenMain, width: 2),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: c.redMain, width: 2),
+                                borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                              ),
+                              focusedErrorBorder: OutlineInputBorder(
+                                gapPadding: 6,
+                                borderSide: BorderSide(color: c.redMain, width: 2),
+                                borderRadius: BorderRadius.all(Radius.circular(13.0)),
                               ),
                             )),
                       ),
