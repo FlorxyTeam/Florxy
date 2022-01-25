@@ -1,12 +1,8 @@
 import 'package:Florxy/widgets/font.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/material.dart';
-import 'package:Florxy/pages/FavPost.dart';
-import 'package:Florxy/pages/savedPro.dart';
-import 'package:Florxy/pages/PostReply.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:Florxy/pages/searchpage.dart';
 import 'package:Florxy/widgets/Modalsetting.dart';
 
 Widget profileHeaderWidget(BuildContext context) {
