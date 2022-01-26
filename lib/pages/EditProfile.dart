@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/NetworkHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
+
 
 class EditPage extends StatefulWidget {
   const EditPage({Key? key}) : super(key: key);
@@ -18,14 +20,35 @@ class _EditPageState extends State<EditPage> {
   bool circular = false;
   final networkHandler = NetworkHandler();
   final _globalkey = GlobalKey<FormState>();
-  TextEditingController _name = TextEditingController();
-  TextEditingController _profession = TextEditingController();
-  TextEditingController _dob = TextEditingController();
-  TextEditingController _title = TextEditingController();
-  TextEditingController _about = TextEditingController();
+  TextEditingController _fullname = TextEditingController();
+  TextEditingController _username = TextEditingController();
+  TextEditingController _bio = TextEditingController();
+  ProfileModel profileModel = ProfileModel(
+      DOB: '',
+      img: '',
+      influencer: '',
+      fullname: '',
+      bio: '',
+      email: '',
+      professor: '',
+      username: '');
 
   File? image;
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    fetchData();
+  }
+  void fetchData() async{
+    var response = await networkHandler.get("/profile/getData");
+    setState(() {
+      profileModel = ProfileModel.fromJson(response["data"]);
+      circular = false;
+    });
+  }
   Future takePhoto(ImageSource source) async {
     try {
       final image = await ImagePicker().pickImage(source: source);
@@ -74,7 +97,8 @@ class _EditPageState extends State<EditPage> {
                       icon: Icon(Icons.close_rounded),
                       color: c.blackMain,
                       iconSize: 30,
-                      onPressed: () => Navigator.of(context).pop()),
+                      onPressed: () => Navigator.of(context).pop()
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 5),
                     child: Inter(
@@ -88,7 +112,51 @@ class _EditPageState extends State<EditPage> {
                       style: TextButton.styleFrom(
                         primary: Colors.white,
                       ),
-                      onPressed: () {},
+                      onPressed: () async {
+                        setState(() {
+                          circular = true;
+                        });
+                        if (_globalkey.currentState!.validate()) {
+                          Map<String, String> data = {
+                            "fullname": _fullname.text,
+                            "bio": _bio.text,
+                          };
+                          var response =
+                          await networkHandler.patch("/profile/update", data);
+                          if (response.statusCode == 200 ||
+                              response.statusCode == 201) {
+                            if (image != null) {
+                              var imageResponse = await networkHandler.patchImage(
+                                  "/profile/add/image", image!.path);
+                              if (imageResponse.statusCode == 200 ||
+                                  imageResponse.statusCode == 201) {
+                                setState(() {
+                                  circular = false;
+                                });
+                                Navigator.of(context).pop();
+                              }else {
+                                setState(() {
+                                  circular = false;
+                                });
+                              }
+
+                            } else {
+                              setState(() {
+                                circular = false;
+                              });
+                              Navigator.of(context).pop();
+                            }
+                          }else {
+                            setState(() {
+                              circular = false;
+                            });
+                          }
+                        }else {
+                          setState(() {
+                            circular = false;
+                          });
+                        }
+                      },
                       child: Inter(
                         text: "Save",
                         fontWeight: f.bold,
@@ -118,11 +186,11 @@ class _EditPageState extends State<EditPage> {
                 SizedBox(
                   height: 20,
                 ),
-                professionTextField(),
+                usernameTextField(),
                 SizedBox(
                   height: 20,
                 ),
-                aboutTextField(),
+                bioTextField(),
                 SizedBox(
                   height: 50,
                 ),
@@ -144,65 +212,6 @@ class _EditPageState extends State<EditPage> {
                         )),
                   ],
                 ),
-
-                // InkWell(
-                //   onTap: () async {
-                //     setState(() {
-                //       circular = true;
-                //     });
-                //     if (_globalkey.currentState!.validate()) {
-                //       Map<String, String> data = {
-                //         "name": _name.text,
-                //         "profession": _profession.text,
-                //         "DOB": _dob.text,
-                //         "titleline": _title.text,
-                //         "about": _about.text,
-                //       };
-                //       var response =
-                //           await networkHandler.post("/profile/add", data);
-                //       if (response.statusCode == 200 ||
-                //           response.statusCode == 201) {
-                //         if (image != null) {
-                //           var imageResponse = await networkHandler.patchImage(
-                //               "/profile/add/image", image!.path);
-                //           if (imageResponse.statusCode == 200 ||
-                //               imageResponse.statusCode == 201) {
-                //             setState(() {
-                //               circular = false;
-                //             });
-                //             Navigator.of(context).pop();
-                //           }
-                //         } else {
-                //           setState(() {
-                //             circular = false;
-                //           });
-                //           Navigator.of(context).pop();
-                //         }
-                //       }
-                //     }
-                //   },
-                //   child: Center(
-                //     child: Container(
-                //       child: Center(
-                //         child: circular
-                //             ? CircularProgressIndicator()
-                //             : Text(
-                //                 'Submit',
-                //                 style: TextStyle(
-                //                   color: Colors.white,
-                //                   fontSize: 18,
-                //                   fontWeight: FontWeight.bold,
-                //                 ),
-                //               ),
-                //       ),
-                //       width: 200,
-                //       height: 50,
-                //       decoration: BoxDecoration(
-                //           color: Colors.teal,
-                //           borderRadius: BorderRadius.circular(10)),
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -211,23 +220,49 @@ class _EditPageState extends State<EditPage> {
     );
   }
 
+  Widget PickImage(){
+    return Center(
+      child: Stack(
+        children: <Widget>[
+          image != null
+              ? Image.file(
+            image!,
+            width: 200,
+            height: 200,
+          )
+              : FlutterLogo(
+            size: 120,
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget imageProfile() {
     return Center(
       child: Stack(
         children: <Widget>[
-          CircleAvatar(
-            radius: 50,
-            backgroundColor: Colors.transparent,
-            backgroundImage: AssetImage('assets/img/user_1.jpg'),
-            // child: image != null
-            //     ? Image.file(
-            //   image!,
-            //
-            // )
-            //     : FlutterLogo(
-            //
-            //
-            // ),
+          Container(
+            child: image == null ? Container(
+              child:  CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Colors.transparent,
+                  backgroundImage: NetworkHandler().getImage(profileModel.email)
+              ),
+            ) : Container(
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(50)
+              ),
+              child: ClipOval(
+                child: Image.file(
+                  image!,
+                  width: 100,
+                  height: 100,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            )
           ),
           Positioned(
             bottom: 0,
@@ -302,52 +337,6 @@ class _EditPageState extends State<EditPage> {
     );
   }
 
-  // Widget AlertDialog1() {
-  //
-  //   return Container(
-  //     color: Colors.transparent,
-  //     width: MediaQuery.of(context).size.width,
-  //     margin: EdgeInsets.symmetric(
-  //       horizontal: 20,
-  //       vertical: 20,
-  //     ),
-  //     child: Container(
-  //       color: c.textWhite,
-  //       height: 40,
-  //       child: Column(
-  //         children: [
-  //           Text(
-  //             "Choose Profile Image",
-  //             style: TextStyle(
-  //               fontSize: 20,
-  //             ),
-  //           ),
-  //           SizedBox(
-  //             height: 20,
-  //           ),
-  //           Row(
-  //             mainAxisAlignment: MainAxisAlignment.center,
-  //             children: [
-  //               FlatButton.icon(
-  //                   onPressed: () {
-  //                     takePhoto(ImageSource.camera);
-  //                   },
-  //                   icon: Icon(Icons.camera),
-  //                   label: Text("Camera")),
-  //               FlatButton.icon(
-  //                   onPressed: () {
-  //                     takePhoto(ImageSource.gallery);
-  //                   },
-  //                   icon: Icon(Icons.image),
-  //                   label: Text("Gallery")),
-  //             ],
-  //           ),
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
-
   //Name
   Widget nameTextField() {
     return Column(
@@ -365,8 +354,9 @@ class _EditPageState extends State<EditPage> {
             borderRadius: BorderRadius.all(Radius.circular(13.0)),
           ),
           child: TextFormField(
+            controller: _fullname,
               decoration: InputDecoration(
-            hintText: 'Name',
+            hintText: profileModel.fullname,
             hintStyle: TextStyle(
                 fontSize: 14, color: c.graySub2, fontWeight: f.medium),
             enabledBorder: OutlineInputBorder(
@@ -386,7 +376,7 @@ class _EditPageState extends State<EditPage> {
     );
   }
 
-  Widget professionTextField() {
+  Widget usernameTextField() {
     return Column(
       children: [
         Align(
@@ -405,8 +395,9 @@ class _EditPageState extends State<EditPage> {
             borderRadius: BorderRadius.all(Radius.circular(13.0)),
           ),
           child: TextFormField(
+            controller: _username,
               decoration: InputDecoration(
-            hintText: '@giopo12',
+            hintText: '@'+profileModel.username,
             hintStyle: TextStyle(
                 fontSize: 14, color: c.graySub2, fontWeight: f.medium),
             enabledBorder: OutlineInputBorder(
@@ -426,63 +417,7 @@ class _EditPageState extends State<EditPage> {
     );
   }
 
-  // Widget titlelineTextField() {
-  //   return TextFormField(
-  //     controller: _title,
-  //     validator: (value) {
-  //       if (value!.isEmpty) return "titleline can't be empty";
-  //       return null;
-  //     },
-  //     decoration: InputDecoration(
-  //       border: OutlineInputBorder(
-  //         borderSide: BorderSide(
-  //           color: Colors.teal,
-  //         ),
-  //       ),
-  //       focusedBorder: OutlineInputBorder(
-  //         borderSide: BorderSide(color: Colors.orange, width: 2),
-  //       ),
-  //       prefixIcon: Icon(
-  //         Icons.person,
-  //         color: Colors.green,
-  //       ),
-  //       labelText: "Titleline",
-  //       hintText: "Full Stack, Backend Developer",
-  //       helperText: "*Titleline can't be empty",
-  //       hintStyle: TextStyle(color: Colors.grey[400]),
-  //     ),
-  //   );
-  // }
-
-  // Widget dobTextField() {
-  //   return TextFormField(
-  //     controller: _dob,
-  //     validator: (value) {
-  //       if (value!.isEmpty) return "DOB can't be empty";
-  //       return null;
-  //     },
-  //     decoration: InputDecoration(
-  //       border: OutlineInputBorder(
-  //         borderSide: BorderSide(
-  //           color: Colors.teal,
-  //         ),
-  //       ),
-  //       focusedBorder: OutlineInputBorder(
-  //         borderSide: BorderSide(color: Colors.orange, width: 2),
-  //       ),
-  //       prefixIcon: Icon(
-  //         Icons.person,
-  //         color: Colors.green,
-  //       ),
-  //       labelText: "Date of Birth",
-  //       hintText: "31/12/2000",
-  //       helperText: "provide DOB on dd/mm/yy",
-  //       hintStyle: TextStyle(color: Colors.grey[400]),
-  //     ),
-  //   );
-  // }
-
-  Widget aboutTextField() {
+  Widget bioTextField() {
     return Column(
       children: [
         Align(
@@ -498,10 +433,11 @@ class _EditPageState extends State<EditPage> {
             borderRadius: BorderRadius.all(Radius.circular(13.0)),
           ),
           child: TextFormField(
+            controller: _bio,
               maxLines: 4,
               decoration: InputDecoration(
                 hintText:
-                    'Lorem Ipsum is simply dummy text of the printing and typesetting industry',
+                    profileModel.bio,
                 hintStyle: TextStyle(
                     fontSize: 14, color: c.graySub2, fontWeight: f.medium),
                 enabledBorder: OutlineInputBorder(
@@ -519,31 +455,7 @@ class _EditPageState extends State<EditPage> {
         ),
       ],
     );
-    // return TextFormField(
-    //   controller: _about,
-    //   validator: (value) {
-    //     if (value!.isEmpty) return "About can't be empty";
-    //     return null;
-    //   },
-    //   maxLines: 5,
-    //   decoration: InputDecoration(
-    //     border: OutlineInputBorder(
-    //       borderSide: BorderSide(
-    //         color: Colors.teal,
-    //       ),
-    //     ),
-    //     focusedBorder: OutlineInputBorder(
-    //       borderSide: BorderSide(color: Colors.orange, width: 2),
-    //     ),
-    //     prefixIcon: Icon(
-    //       Icons.person,
-    //       color: Colors.green,
-    //     ),
-    //     labelText: "About me",
-    //     hintText: "Hi I'm from thailand",
-    //     helperText: "*It can't be empty",
-    //     hintStyle: TextStyle(color: Colors.grey[400]),
-    //   ),
-    // );
   }
+
+
 }

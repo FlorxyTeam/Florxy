@@ -20,6 +20,7 @@ class _CreateProfileState extends State<CreateProfile> {
   final networkHandler = NetworkHandler();
   final _globalkey = GlobalKey<FormState>();
   TextEditingController _fullname = TextEditingController();
+  TextEditingController _username = TextEditingController();
   TextEditingController _bio = TextEditingController();
   File? image;
 
@@ -180,23 +181,23 @@ class _CreateProfileState extends State<CreateProfile> {
               : FlutterLogo(
             size: 120,
           ),
-          Positioned(
-            bottom: 20,
-            right: 20,
-            child: InkWell(
-              onTap: () {
-                showModalBottomSheet(
-                  context: context,
-                  builder: ((builder) => bottomSheet()),
-                );
-              },
-              child: Icon(
-                Icons.camera_alt,
-                color: Colors.teal,
-                size: 30,
-              ),
-            ),
-          ),
+          // Positioned(
+          //   bottom: 20,
+          //   right: 20,
+          //   child: InkWell(
+          //     onTap: () {
+          //       showModalBottomSheet(
+          //         context: context,
+          //         builder: ((builder) => bottomSheet()),
+          //       );
+          //     },
+          //     child: Icon(
+          //       Icons.camera_alt,
+          //       color: Colors.teal,
+          //       size: 30,
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
