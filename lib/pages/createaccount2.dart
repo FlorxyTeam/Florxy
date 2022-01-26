@@ -163,11 +163,11 @@ class _CreateAccountState extends State<CreateAccount2> {
             //       color: c.greyLight,
             //     )),
             Positioned(
-              bottom: 55,
+              bottom: 35,
               child: Column(
                 children: [
                   Center(
-                      child: Roboto(
+                      child: Roboto_Center(
                           text:
                               'By continuing, you agree to Florxy’s Terms & Conditions\nand Pricacy Policy.',
                           size: 11.5,
