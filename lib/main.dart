@@ -1,3 +1,4 @@
+import 'package:Florxy/pages/lastthingspage.dart';
 import 'package:Florxy/pages/navbar.dart';
 import 'package:Florxy/pages/registerpage.dart';
 import 'package:Florxy/pages/welcomepage.dart';
@@ -36,7 +37,7 @@ class _MyAppState extends State<MyApp> {
       });
     }else{
       setState(() {
-        page= WelcomePage();
+        page= LastThingPage();
       });
     }
   }

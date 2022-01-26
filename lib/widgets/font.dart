@@ -114,6 +114,39 @@ class Roboto extends StatelessWidget {
   }
 }
 
+class Roboto_LH extends StatelessWidget {
+  final double size;
+  final double? letterSpacing;
+  final String text;
+  final Color color;
+  final FontWeight fontWeight;
+  final FontStyle? fontStyle;
+  double? height;
+
+  Roboto_LH(
+      {Key? key,
+        required this.text,
+        required this.size,
+        required this.color,
+        this.fontStyle = FontStyle.normal,
+        required this.fontWeight,
+        this.letterSpacing,
+        this.height})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(text,
+        style: GoogleFonts.roboto(
+            textStyle: TextStyle(
+                color: color,
+                fontSize: size,
+                fontWeight: fontWeight,
+                letterSpacing: letterSpacing,
+                height: height)));
+  }
+}
+
 class Roboto_Center extends StatelessWidget {
   final double size;
   final double? letterSpacing;
