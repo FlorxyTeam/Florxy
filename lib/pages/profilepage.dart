@@ -163,11 +163,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 21, top: 10),
+                      padding: const EdgeInsets.only(left: 21, top: 5,bottom: 5),
                       child: Row(
 
                         children: [
                           Column(
+
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Poppins(
