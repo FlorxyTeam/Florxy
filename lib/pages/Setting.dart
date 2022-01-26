@@ -132,42 +132,45 @@ class _SettingState extends State<Setting> {
                 borderSide: BorderSide(color: c.greenMain, width: 2),
               ),
             )),
+        SizedBox(height: 15,),
         InkWell(
           onTap: (){print("Noti");},
           child: Padding(
-            padding: const EdgeInsets.only(top: 40, right: 10,left: 20),
-
-            child: Container(
-              child:Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(
-                    Icons.notifications_outlined,
-                    color: c.blackMain,
-                    size: 25.0,
-                  ),
-                  Inter(
+            padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Icon(
+                  Icons.notifications_outlined,
+                  color: c.blackMain,
+                  size: 25.0,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Inter(
                       text: "Notification",
                       size: 17,
                       color: c.blackMain,
                       fontWeight: f.medium),
-                  SizedBox(width: 120),
-                  Icon(Icons.arrow_forward_ios_outlined,
-                      size: 18, color: c.greyMain),
+                ),
+                Expanded(child: Container(),),
+                Icon(Icons.arrow_forward_ios_outlined,
+                    size: 18, color: c.greyMain),
 
-                ],
-              ) ,
+              ],
             ),
           ),
         ),
         InkWell(
           onTap: (){},
           child: Padding(
-            padding: const EdgeInsets.only(top: 28, right: 10,left: 20),
+            padding: const EdgeInsets.only(top: 5, right: 0,left: 0,bottom: 10),
 
             child: Container(
 
               child:Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Icon(
@@ -195,11 +198,13 @@ class _SettingState extends State<Setting> {
         InkWell(
           onTap: (){},
           child: Padding(
-            padding: const EdgeInsets.only(top: 28, right: 10,left: 20),
+            padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
+
 
             child: Container(
 
               child:Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Icon(
@@ -227,17 +232,19 @@ class _SettingState extends State<Setting> {
         InkWell(
           onTap: (){},
           child: Padding(
-            padding: const EdgeInsets.only(top: 28, right: 10,left: 20),
+            padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
+
 
             child: Container(
 
               child:Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Icon(
                     Icons.account_circle_outlined,
                     color: c.blackMain,
-                    size: 23.0,
+                    size: 22.0,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 17),
@@ -259,11 +266,13 @@ class _SettingState extends State<Setting> {
         InkWell(
           onTap: (){},
           child: Padding(
-            padding: const EdgeInsets.only(top: 28, right: 10,left: 20),
+            padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
+
 
             child: Container(
 
               child:Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Icon(
@@ -291,11 +300,13 @@ class _SettingState extends State<Setting> {
         InkWell(
           onTap: (){},
           child: Padding(
-            padding: const EdgeInsets.only(top: 28, right: 10,left: 20),
+            padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
+
 
             child: Container(
 
               child:Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Icon(
@@ -323,11 +334,13 @@ class _SettingState extends State<Setting> {
         InkWell(
           onTap: (){},
           child: Padding(
-            padding: const EdgeInsets.only(top: 28, right: 10,left: 20),
+            padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
+
 
             child: Container(
 
               child:Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Icon(
@@ -355,11 +368,12 @@ class _SettingState extends State<Setting> {
         InkWell(
           onTap: (){},
           child: Padding(
-            padding: const EdgeInsets.only(top: 28, right: 10,left: 20),
+            padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
 
             child: Container(
 
               child:Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Icon(
