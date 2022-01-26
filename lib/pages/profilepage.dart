@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:Florxy/pages/FavPost.dart';
 import 'package:Florxy/pages/PostReply.dart';
 import 'package:Florxy/pages/savedPro.dart';
-import 'package:Florxy/widgets/pro_header_widget.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -38,13 +37,15 @@ class _ProfilePageState extends State<ProfilePage> {
 
     fetchData();
   }
-  void fetchData() async{
+
+  void fetchData() async {
     var response = await networkHandler.get("/profile/getData");
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
       circular = false;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -56,12 +57,15 @@ class _ProfilePageState extends State<ProfilePage> {
                   return [
                     SliverList(
                         delegate:
-                        SliverChildListDelegate([profileHeaderWidget(context)])
-                      )
+                        SliverChildListDelegate([profileHeaderWidget(context)]))
                   ];
                 },
                 body: Container(
-                  color: c.textWhite,
+                  decoration: BoxDecoration(
+                      color: c.textWhite,
+                      border: Border(
+                        top: BorderSide(width: 1, color: c.greyMain.withOpacity(0.5)),
+                      )),
                   child: Column(
                     children: [
                       Padding(
@@ -119,17 +123,12 @@ class _ProfilePageState extends State<ProfilePage> {
     final Size size = MediaQuery.of(context).size;
 
     return Container(
-      decoration: BoxDecoration(
-          color: c.textWhite,
-          border: Border(
-            bottom: BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.5)),
-          )),
+      color: c.textWhite,
       child: Padding(
         padding: const EdgeInsets.only(left: 25.0, bottom: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             SizedBox(
               height: 20,
             ),
@@ -138,38 +137,38 @@ class _ProfilePageState extends State<ProfilePage> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 CircleAvatar(
-                  radius: 43,
+                  radius: 44,
                   backgroundColor: Colors.orange,
-                  backgroundImage:  NetworkHandler().getImage(profileModel.email),
+                  backgroundImage:
+                  NetworkHandler().getImage(profileModel.email),
                 ),
-
                 Column(
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  // crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
-
                             children: [
                               Poppins(
-                                  text: profileModel.fullname,
-                                  size: 20,
-                                  color: c.blackMain,
-                                  fontWeight: f.semiBold),
+                                text: profileModel.fullname,
+                                size: 20,
+                                color: c.blackMain,
+                                fontWeight: f.semiBold,
+                              ),
                             ],
                           )
                         ],
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 21),
+                      padding: const EdgeInsets.only(left: 21, top: 10),
                       child: Row(
+
                         children: [
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Poppins(
                                   text: "11.3K",
@@ -187,6 +186,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             width: 30,
                           ),
                           Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Poppins(
                                   text: "345",
@@ -217,12 +217,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          ModalBottomSheet.Dialog_Settings(context,profileModel.username);
+                          ModalBottomSheet.Dialog_Settings(
+                              context, profileModel.username);
                         },
                         icon: Icon(Boxicons.bx_dots_vertical_rounded),
                       ),
                       SizedBox(
-                        height: 36,
+                        height: 49,
                       )
                     ],
                   ),
@@ -238,13 +239,13 @@ class _ProfilePageState extends State<ProfilePage> {
                   children: [
                     Container(
                       child: Inter(
-                          text: "@"+profileModel.username,
+                          text: "@" + profileModel.username,
                           size: 14,
                           color: c.blackMain,
                           fontWeight: f.semiBold),
                     ),
                     SizedBox(
-                      width: 5,
+                      width: 10,
                     ),
                     Container(
                       child: Padding(
@@ -285,12 +286,12 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 7, bottom: 7),
+              padding: const EdgeInsets.only(top: 7, bottom: 10),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Inter(
-                      text:"BIO: "+profileModel.bio,
+                      text: "BIO: " + profileModel.bio,
                       size: 13,
                       color: c.greyMain,
                       fontWeight: f.semiBold),
@@ -317,5 +318,4 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
     );
   }
-
 }

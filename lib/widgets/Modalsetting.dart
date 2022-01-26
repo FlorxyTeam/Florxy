@@ -153,29 +153,44 @@ Column _buildBottomNavigationMenu(context,username) {
             builder: (BuildContext context) => AlertDialog(
               backgroundColor: Colors.white,
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(40.0))),
-              title: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.cake_outlined,
-                    color: c.blackMain,
-                    size: 20.0,
-                  ),
-                  Inter(
-                    text: "Log out @"+username,
-                    color: c.blackMain,
-                    fontWeight: f.bold,
-                    size: 16,
-                  ),
-                ],
+                  borderRadius: BorderRadius.all(Radius.circular(27.0))),
+              title: Container(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.warning_amber_rounded,
+                      color: c.blackMain,
+                      size: 20.0,
+                    ),
+                    Inter(
+                      text: "Log out @"+username,
+                      color: c.blackMain,
+                      fontWeight: f.bold,
+                      size: 16,
+                    ),
+                  ],
+                ),
               ),
-              content: Inter(
-                text: "Logging out will remove all post data from this device",
-                color: c.greyMain,
-                fontWeight: f.regular,
-                size: 14,
+              content: Builder(
+                builder: (context){
+                  return Container(
+                    width: 10,
+
+                    child:
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Inter(
+                        text: "Logging out will remove all post data from this device",
+                        color: c.greyMain,
+                        fontWeight: f.regular,
+                        size: 14,
+                      ),
+                    ),
+                  );
+                }
+
               ),
               actions: <Widget>[
                 Column(
@@ -185,9 +200,9 @@ Column _buildBottomNavigationMenu(context,username) {
 
                             border: Border(
                               bottom:
-                              BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.8)),
+                              BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.5)),
                               top:
-                              BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.8)),
+                              BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.5)),
                             )),
                         child: ListTile(
                             onTap: () async {
@@ -209,13 +224,15 @@ Column _buildBottomNavigationMenu(context,username) {
                             )
                         )),
                     Container(
-                        child: TextButton(
-                          onPressed: () => Navigator.pop(context, 'Cancel'),
-                          child: Inter(
-                            text: "Cancle",
-                            color: c.blackMain,
-                            size: 14,
-                            fontWeight: f.bold,
+                        child: ListTile(
+                          onTap: () => Navigator.pop(context, 'Cancel'),
+                          title: Center(
+                            child: Inter(
+                              text: "Cancle",
+                              color: c.blackMain,
+                              size: 14,
+                              fontWeight: f.bold,
+                            ),
                           ),
                         ))
                   ],
@@ -237,7 +254,7 @@ void closeDialog(context) {
 //Edit
 Route _createRoute() {
   return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => const CreateProfile(),
+    pageBuilder: (context, animation, secondaryAnimation) => const EditPage(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(0.0, 1.0);
       const end = Offset.zero;
@@ -271,3 +288,5 @@ Route _createRoute1() {
     },
   );
 }
+
+
