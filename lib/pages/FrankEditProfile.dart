@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/pages/navbar.dart';
 import 'package:Florxy/pages/profilepage.dart';
 import 'package:Florxy/NetworkHandler.dart';
@@ -20,9 +21,32 @@ class _CreateProfileState extends State<CreateProfile> {
   final _globalkey = GlobalKey<FormState>();
   TextEditingController _fullname = TextEditingController();
   TextEditingController _bio = TextEditingController();
-
   File? image;
 
+  ProfileModel profileModel = ProfileModel(
+      DOB: '',
+      img: '',
+      influencer: '',
+      fullname: '',
+      bio: '',
+      email: '',
+      professor: '',
+      username: '');
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    fetchData();
+  }
+  void fetchData() async{
+    var response = await networkHandler.get("/profile/getData");
+    setState(() {
+      profileModel = ProfileModel.fromJson(response["data"]);
+      circular = false;
+    });
+  }
   Future takePhoto(ImageSource source) async {
     try {
       final image = await ImagePicker().pickImage(source: source);
@@ -226,7 +250,9 @@ class _CreateProfileState extends State<CreateProfile> {
     return TextFormField(
       controller: _fullname,
       validator: (value) {
-        if (value!.isEmpty) return "Full-Name can't be empty";
+        if (value!.isEmpty){
+          _fullname.text=profileModel.fullname;
+        }
         return null;
       },
       decoration: InputDecoration(
@@ -254,7 +280,9 @@ class _CreateProfileState extends State<CreateProfile> {
     return TextFormField(
       controller: _bio,
       validator: (value) {
-        if (value!.isEmpty) return "Bio can't be empty";
+        if (value!.isEmpty){
+          _bio.text=profileModel.bio;
+        }
         return null;
       },
       maxLines: 4,
