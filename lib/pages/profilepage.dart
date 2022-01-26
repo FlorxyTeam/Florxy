@@ -85,19 +85,19 @@ class _ProfilePageState extends State<ProfilePage> {
                               Tab(
                                 child: Inter_1(
                                     text: "Post and replies",
-                                    size: 12,
+                                    size: 11.85,
                                     fontWeight: f.bold),
                               ),
                               Tab(
                                 child: Inter_1(
                                     text: "Favorite post",
-                                    size: 12,
+                                    size: 11.85,
                                     fontWeight: f.bold),
                               ),
                               Tab(
                                 child: Inter_1(
                                     text: "Saved Product",
-                                    size: 12,
+                                    size: 11.85,
                                     fontWeight: f.bold),
                               ),
                             ],
@@ -130,7 +130,7 @@ class _ProfilePageState extends State<ProfilePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 20,
+              height: 8,
             ),
             Row(
               // mainAxisAlignment: MainAxisAlignment.start,
@@ -286,15 +286,18 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 7, bottom: 10),
+              padding: const EdgeInsets.only(top: 12, bottom: 12),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Inter(
-                      text: "BIO: " + profileModel.bio,
-                      size: 13,
-                      color: c.greyMain,
-                      fontWeight: f.semiBold),
+                  Container(
+                    width: MediaQuery.of(context).size.width-50,
+                    child: Inter(
+                        text: profileModel.bio,
+                        size: 13,
+                        color: c.greyMain,
+                        fontWeight: f.medium),
+                  ),
                 ],
               ),
             ),

@@ -108,7 +108,7 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                       ),
                     ),
                   if (isKeyboard) SizedBox(height: 20),
-                  SizedBox(height: 30),
+                  if (!isKeyboard) SizedBox(height: 30),
                   Column(
                     children: [
                       Align(
@@ -120,56 +120,52 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                             fontWeight: f.medium),
                       ),
                       SizedBox(height: 5),
-                      Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                        ),
-                        child: TextFormField(
-                            controller: _emailController,
-                            focusNode: _focusNodes[0],
-                            decoration: InputDecoration(
-                              errorText: validate ? null : errorText,
-                              hintText: 'Email Address',
-                              hintStyle: TextStyle(
-                                  fontSize: 14,
-                                  color: c.graySub2,
-                                  fontWeight: f.medium),
-                              prefixIcon: Padding(
-                                padding: EdgeInsets.only(right: 13, left: 20),
-                                child: Icon(Icons.email,
-                                    size: 25,
-                                    color: _focusNodes[0].hasFocus
-                                        ? c.greenMain
-                                        : c.graySub2),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(13.0)),
-                                borderSide: BorderSide(
-                                    color: c.graySub2.withOpacity(0), width: 2),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(13.0)),
-                                borderSide:
-                                    BorderSide(color: c.greenMain, width: 2),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: c.redMain, width: 2),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(13.0)),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: c.redMain, width: 2),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(13.0)),
-                              ),
-                            )),
-                      ),
+                      TextFormField(
+                          controller: _emailController,
+                          focusNode: _focusNodes[0],
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                            errorText: validate ? null : errorText,
+                            hintText: 'Email Address',
+                            hintStyle: TextStyle(
+                                fontSize: 14,
+                                color: c.graySub2,
+                                fontWeight: f.medium),
+                            prefixIcon: Padding(
+                              padding: EdgeInsets.only(right: 13, left: 20),
+                              child: Icon(Icons.email,
+                                  size: 25,
+                                  color: _focusNodes[0].hasFocus
+                                      ? c.greenMain
+                                      : c.graySub2),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(13.0)),
+                              borderSide: BorderSide(
+                                  color: c.graySub2.withOpacity(0), width: 2),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(13.0)),
+                              borderSide:
+                                  BorderSide(color: c.greenMain, width: 2),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: c.redMain, width: 2),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(13.0)),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: c.redMain, width: 2),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(13.0)),
+                            ),
+                          )),
                     ],
                   ),
                   SizedBox(height: 18),
@@ -184,81 +180,77 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                             fontWeight: f.medium),
                       ),
                       SizedBox(height: 5),
-                      Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                        ),
-                        child: TextFormField(
-                            controller: _passwordController,
-                            focusNode: _focusNodes[1],
-                            validator: (value) {
-                              if (value!.isEmpty)
-                                return "Password can't be empty";
-                              if (value.length < 8)
-                                return "Password lenght must have >=8";
-                              return null;
-                            },
-                            obscureText: vis,
-                            decoration: InputDecoration(
-                              suffixIcon: Padding(
-                                padding: EdgeInsets.only(right: 10),
-                                child: IconButton(
-                                  icon: Icon(
-                                      vis
-                                          ? Icons.visibility_off
-                                          : Icons.visibility,
-                                      size: 18,
-                                      color: c.greySub),
-                                  onPressed: () {
-                                    setState(() {
-                                      vis = !vis;
-                                    });
-                                  },
-                                  color: Colors.black,
-                                ),
+                      TextFormField(
+                          controller: _passwordController,
+                          focusNode: _focusNodes[1],
+                          validator: (value) {
+                            if (value!.isEmpty)
+                              return "Password can't be empty";
+                            if (value.length < 8)
+                              return "Password lenght must have >=8";
+                            return null;
+                          },
+                          obscureText: vis,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                            suffixIcon: Padding(
+                              padding: EdgeInsets.only(right: 10),
+                              child: IconButton(
+                                icon: Icon(
+                                    vis
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
+                                    size: 18,
+                                    color: c.greySub),
+                                onPressed: () {
+                                  setState(() {
+                                    vis = !vis;
+                                  });
+                                },
+                                color: Colors.black,
                               ),
-                              hintText: 'Password',
-                              hintStyle: TextStyle(
-                                  fontSize: 14,
-                                  color: c.graySub2,
-                                  fontWeight: f.medium),
-                              prefixIcon: Padding(
-                                padding: EdgeInsets.only(right: 13, left: 20),
-                                child: Icon(Icons.lock_rounded,
-                                    size: 25,
-                                    color: _focusNodes[1].hasFocus
-                                        ? c.greenMain
-                                        : c.graySub2),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(13.0)),
-                                borderSide: BorderSide(
-                                    color: c.graySub2.withOpacity(0), width: 2),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(13.0)),
-                                borderSide:
-                                    BorderSide(color: c.greenMain, width: 2),
-                              ),
-                              errorBorder: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: c.redMain, width: 2),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(13.0)),
-                              ),
-                              focusedErrorBorder: OutlineInputBorder(
-                                gapPadding: 6,
-                                borderSide:
-                                    BorderSide(color: c.redMain, width: 2),
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(13.0)),
-                              ),
-                            )),
-                      ),
+                            ),
+                            hintText: 'Password',
+                            hintStyle: TextStyle(
+                                fontSize: 14,
+                                color: c.graySub2,
+                                fontWeight: f.medium),
+                            prefixIcon: Padding(
+                              padding: EdgeInsets.only(right: 13, left: 20),
+                              child: Icon(Icons.lock_rounded,
+                                  size: 25,
+                                  color: _focusNodes[1].hasFocus
+                                      ? c.greenMain
+                                      : c.graySub2),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(13.0)),
+                              borderSide: BorderSide(
+                                  color: c.graySub2.withOpacity(0), width: 2),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(13.0)),
+                              borderSide:
+                                  BorderSide(color: c.greenMain, width: 2),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide:
+                                  BorderSide(color: c.redMain, width: 2),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(13.0)),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              gapPadding: 6,
+                              borderSide:
+                                  BorderSide(color: c.redMain, width: 2),
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(13.0)),
+                            ),
+                          )),
                     ],
                   ),
                   SizedBox(height: 18),
@@ -273,51 +265,56 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                             fontWeight: f.medium),
                       ),
                       SizedBox(height: 5),
-                      Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                        ),
-                        child: TextFormField(
-                            controller: _confirmpasswordController,
-                            focusNode: _focusNodes[2],
-                            validator: (value) {
-                              if (value!.isEmpty)
-                                return "ConfirmPassword can't be empty";
-                              if (_confirmpasswordController.text != _passwordController.text)
-                                return "Password dosen't match!";
-                              return null;
-                            },
-                            obscureText: vis,
-                            decoration: InputDecoration(
-                              hintText: 'Confirm Password',
-                              hintStyle: TextStyle(
-                                  fontSize: 14,
-                                  color: c.graySub2,
-                                  fontWeight: f.medium),
-                              prefixIcon: Padding(
-                                padding: EdgeInsets.only(right: 13, left: 20),
-                                child: Icon(Icons.lock_rounded,
-                                    size: 25,
-                                    color: _focusNodes[2].hasFocus
-                                        ? c.greenMain
-                                        : c.graySub2),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(13.0)),
-                                borderSide: BorderSide(
-                                    color: c.graySub2.withOpacity(0), width: 2),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(13.0)),
-                                borderSide:
-                                    BorderSide(color: c.greenMain, width: 2),
-                              ),
-                            )),
-                      ),
+                      TextFormField(
+                          controller: _confirmpasswordController,
+                          focusNode: _focusNodes[2],
+                          validator: (value) {
+                            if (value!.isEmpty)
+                              return "ConfirmPassword can't be empty";
+                            if (_confirmpasswordController.text != _passwordController.text)
+                              return "Password dosen't match!";
+                            return null;
+                          },
+                          obscureText: vis,
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                            hintText: 'Confirm Password',
+                            hintStyle: TextStyle(
+                                fontSize: 14,
+                                color: c.graySub2,
+                                fontWeight: f.medium),
+                            prefixIcon: Padding(
+                              padding: EdgeInsets.only(right: 13, left: 20),
+                              child: Icon(Icons.lock_rounded,
+                                  size: 25,
+                                  color: _focusNodes[2].hasFocus
+                                      ? c.greenMain
+                                      : c.graySub2),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(13.0)),
+                              borderSide: BorderSide(
+                                  color: c.graySub2.withOpacity(0), width: 2),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(13.0)),
+                              borderSide:
+                                  BorderSide(color: c.greenMain, width: 2),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: c.redMain, width: 2),
+                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              gapPadding: 6,
+                              borderSide: BorderSide(color: c.redMain, width: 2),
+                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                            ),
+                          )),
                       SizedBox(
                         height: 26,
                       ),

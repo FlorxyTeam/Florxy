@@ -58,7 +58,7 @@ class _CreateAccountState extends State<CreateAccount1> {
                   height: MediaQuery.of(context).size.height,
                   child: Column(
                     children: [
-                      Padding(
+                      if(!isKeyboard) Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
                         child: Stack(
                           children: [
@@ -107,8 +107,8 @@ class _CreateAccountState extends State<CreateAccount1> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 15),
-                      Row(
+                      if(!isKeyboard) SizedBox(height: 15),
+                      if(!isKeyboard) Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Image(
@@ -124,6 +124,7 @@ class _CreateAccountState extends State<CreateAccount1> {
                           )
                         ],
                       ),
+                      if(isKeyboard) SizedBox(height: 35,),
                       SizedBox(height: 20,),
                       Row(
                         mainAxisSize: MainAxisSize.min,
@@ -137,13 +138,15 @@ class _CreateAccountState extends State<CreateAccount1> {
                         ],
                       ),
                       SizedBox(height: 40),
-                      Container(
-                        padding: const EdgeInsets.only(left: 40, right: 40),
-                        height: 60,
+                      Padding(
+                        padding: EdgeInsets.only(left: 40, right: 40),
                         child: TextFormField(
                           focusNode: _focusNodes[0],
                           controller: _fullnameController,
                           decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                             errorText: validate ? null : errorfnText,
                             border: OutlineInputBorder(),
                             labelText: 'Fullname',
@@ -152,18 +155,29 @@ class _CreateAccountState extends State<CreateAccount1> {
                             labelStyle: TextStyle(fontSize: 15, color: _focusNodes[0].hasFocus ? c.greenMain : c.greyMain),
                             enabledBorder: myinputborder(),
                             focusedBorder: myfocusborder(),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: c.redMain, width: 2),
+                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              gapPadding: 6,
+                              borderSide: BorderSide(color: c.redMain, width: 2),
+                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                            ),
                           ),
                           autofocus: false,
                         ),
                       ),
                       SizedBox(height: 30),
-                      Container(
-                        padding: const EdgeInsets.only(left: 40, right: 40),
-                        height: 60,
+                      Padding(
+                        padding: EdgeInsets.only(left: 40, right: 40),
                         child: TextFormField(
                           focusNode: _focusNodes[1],
                           controller: _usernameController,
                           decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                             errorText: validate ? null : errorunText,
                             border: OutlineInputBorder(),
                             labelText: 'Username',
@@ -172,6 +186,15 @@ class _CreateAccountState extends State<CreateAccount1> {
                             labelStyle: TextStyle(fontSize: 15, color: _focusNodes[1].hasFocus ? c.greenMain : c.greyMain),
                             enabledBorder: myinputborder(),
                             focusedBorder: myfocusborder(),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: c.redMain, width: 2),
+                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              gapPadding: 6,
+                              borderSide: BorderSide(color: c.redMain, width: 2),
+                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                            ),
                           ),
                           autofocus: false,
                         ),
@@ -181,7 +204,7 @@ class _CreateAccountState extends State<CreateAccount1> {
                 ),
               ),
               Positioned(
-                bottom: 50,
+                bottom: 35,
                 child: Column(
                   children: [
                     if(!isKeyboard) Center(
