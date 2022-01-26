@@ -157,7 +157,14 @@ class _EditPageState extends State<EditPage> {
                           });
                         }
                       },
-                      child: Inter(
+                      child: circular
+                          ? Padding(
+                        padding:
+                        const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                        child: Center(
+                            child: CircularProgressIndicator()),
+                      )
+                          : Inter(
                         text: "Save",
                         fontWeight: f.bold,
                         color: c.greenMain,
