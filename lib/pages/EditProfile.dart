@@ -113,6 +113,7 @@ class _EditPageState extends State<EditPage> {
                         primary: Colors.white,
                       ),
                       onPressed: () async {
+
                         setState(() {
                           circular = true;
                         });
@@ -123,6 +124,7 @@ class _EditPageState extends State<EditPage> {
                           };
                           var response =
                           await networkHandler.patch("/profile/update", data);
+
                           if (response.statusCode == 200 ||
                               response.statusCode == 201) {
                             if (image != null) {
@@ -182,13 +184,22 @@ class _EditPageState extends State<EditPage> {
                 SizedBox(
                   height: 20,
                 ),
-                nameTextField(),
-                SizedBox(
+               Center(
+                 child: Inter(
+                   text:  '@'+profileModel.username,
+                   color: c.blackMain,
+                   fontWeight: f.semiBold,
+                   size: 20,
+                 ),
+               ),SizedBox(
                   height: 20,
                 ),
-                usernameTextField(),
+
+                nameTextField(),
+
+                // usernameTextField(),
                 SizedBox(
-                  height: 20,
+                  height: 30,
                 ),
                 bioTextField(),
                 SizedBox(
@@ -296,8 +307,10 @@ class _EditPageState extends State<EditPage> {
 
                                   )),
                                   child: ListTile(
-                                      onTap: () {
-                                        takePhoto(ImageSource.camera);
+                                      onTap: () async {
+                                        Future.delayed(Duration(seconds: 5));
+                                       Navigator.of(context).pop();
+                                        await takePhoto(ImageSource.camera);
                                       },
                                       title: Inter(
                                         text: "Take photo",
@@ -307,8 +320,10 @@ class _EditPageState extends State<EditPage> {
                                       ))),
                               Container(
                                   child: ListTile(
-                                onTap: () {
-                                  takePhoto(ImageSource.gallery);
+                                onTap: () async {
+                                  Future.delayed(Duration(seconds: 5));
+                                  Navigator.of(context).pop();
+                                  await takePhoto(ImageSource.gallery);
                                 },
                                 title: Inter(
                                   text: "Choose existing photo",
@@ -376,46 +391,47 @@ class _EditPageState extends State<EditPage> {
     );
   }
 
-  Widget usernameTextField() {
-    return Column(
-      children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Poppins(
-              text: 'Username',
-              size: 14,
-              color: c.blackSub,
-              fontWeight: f.medium),
-        ),
-        SizedBox(height: 5),
-        Container(
-          height: 50,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(13.0)),
-          ),
-          child: TextFormField(
-            controller: _username,
-              decoration: InputDecoration(
-            hintText: '@'+profileModel.username,
-            hintStyle: TextStyle(
-                fontSize: 14, color: c.graySub2, fontWeight: f.medium),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(13.0)),
-              borderSide:
-                  BorderSide(color: c.graySub2.withOpacity(0), width: 2),
-            ),
-            prefixText: '---',
-            prefixStyle: TextStyle(color: Colors.transparent),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(13.0)),
-              borderSide: BorderSide(color: c.greenMain, width: 2),
-            ),
-          )),
-        ),
-      ],
-    );
-  }
+  // Widget usernameTextField() {
+  //   return Column(
+  //     children: [
+  //       Align(
+  //         alignment: Alignment.topLeft,
+  //         child: Poppins(
+  //             text: 'Username',
+  //             size: 14,
+  //             color: c.blackSub,
+  //             fontWeight: f.medium),
+  //       ),
+  //       SizedBox(height: 5),
+  //       Container(
+  //         height: 50,
+  //         decoration: BoxDecoration(
+  //           color: Colors.white,
+  //           borderRadius: BorderRadius.all(Radius.circular(13.0)),
+  //         ),
+  //         child: TextFormField(
+  //           enabled: false,
+  //           controller: _username,
+  //             decoration: InputDecoration(
+  //           hintText: '@'+profileModel.username,
+  //           hintStyle: TextStyle(
+  //               fontSize: 14, color: c.graySub2, fontWeight: f.medium),
+  //           enabledBorder: OutlineInputBorder(
+  //             borderRadius: BorderRadius.all(Radius.circular(13.0)),
+  //             borderSide:
+  //                 BorderSide(color: c.graySub2.withOpacity(0), width: 2),
+  //           ),
+  //           prefixText: '---',
+  //           prefixStyle: TextStyle(color: Colors.transparent),
+  //           focusedBorder: OutlineInputBorder(
+  //             borderRadius: BorderRadius.all(Radius.circular(13.0)),
+  //             borderSide: BorderSide(color: c.greenMain, width: 2),
+  //           ),
+  //         )),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget bioTextField() {
     return Column(
