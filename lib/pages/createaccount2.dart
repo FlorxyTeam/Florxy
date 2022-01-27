@@ -120,20 +120,19 @@ class _CreateAccountState extends State<CreateAccount2> {
               ),
             ),
 
-            Positioned(
-                top: MediaQuery.of(context).size.height/2,
-                left: MediaQuery.of(context).size.height/17,
-                child: Container(
-                  height: 40,
-                  width: 290,
-                  decoration: BoxDecoration(
-                      color: Color(0xFFB8E68C).withOpacity(0.43),
-                      borderRadius: BorderRadius.circular(20)),
-                )),
-            Positioned(
-              top: MediaQuery.of(context).size.height/2.5,
-              left: MediaQuery.of(context).size.height/17,
+            // Positioned(
+            //     top: MediaQuery.of(context).size.height/2,
+            //     left: MediaQuery.of(context).size.height/17,
+            //     child: Container(
+            //       height: 40,
+            //       width: 290,
+            //       decoration: BoxDecoration(
+            //           color: Color(0xFFB8E68C).withOpacity(0.43),
+            //           borderRadius: BorderRadius.circular(20)),
+            //     )),
+            Center(
               child: Container(
+                height: double.maxFinite,
                 child: LinearDatePicker(
                   startDate: "1960/01/01",
                   endDate: "2022/01/01",
@@ -143,14 +142,12 @@ class _CreateAccountState extends State<CreateAccount2> {
                   },
                   showDay: true,
                   selectedRowStyle: GoogleFonts.inter(
-                    textStyle: TextStyle(color: c.greenMain,fontWeight: f.semiBold,fontSize: 17)
+                    textStyle: TextStyle(color: c.greenMain,fontWeight: f.semiBold,fontSize: 20)
                   ),
-                  unselectedRowStyle: TextStyle(
-                    fontFamily: 'sans',
-                    fontSize: 16.0,
-                    color: Colors.blueGrey,
+                  unselectedRowStyle: GoogleFonts.inter(
+                      textStyle: TextStyle(color: Colors.blueGrey,fontWeight: f.medium,fontSize: 19)
                   ),
-                  columnWidth: 100,
+                  columnWidth: 110,
                   showMonthName: true,
                   showLabels: false,
                 ),
