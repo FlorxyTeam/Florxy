@@ -124,7 +124,7 @@ class _CreateAccountState extends State<CreateAccount2> {
                 top: MediaQuery.of(context).size.height/1.9,
                 left: MediaQuery.of(context).size.height/17,
                 child: Container(
-                  height: 60,
+                  height: 40,
                   width: 290,
                   decoration: BoxDecoration(
                       color: Color(0xFFB8E68C).withOpacity(0.43),
