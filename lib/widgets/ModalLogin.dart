@@ -18,18 +18,31 @@ class ModalLogin {
         context: context,
         builder: (context) {
           return Container(
-            color: Colors.transparent,
-            height: 520,
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: _buildLoginMenu(context),
+            decoration: BoxDecoration(
+                color: c.textWhite,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(40),
+                  topRight: Radius.circular(40)
+              )
+            ),
+            height: 380,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Stack(
+                children: [
+                  _buildLoginMenu(context),
+                  Positioned(
+                    bottom: 30,
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      child: Roboto_Center(
+                          text: 'By continuing, you agree to Florxy’s Terms & Conditions\nand Pricacy Policy.',
+                          size: 11.5, color: Color(0xFFAFC8A9),
+                          fontWeight: f.medium),
+                    ),
+                  ),
+                ],
               ),
-              decoration: BoxDecoration(
-                  color: Theme.of(context).canvasColor,
-                  borderRadius: BorderRadius.only(
-                      topLeft: const Radius.circular(40),
-                      topRight: const Radius.circular(40))),
             ),
           );
         });
@@ -48,7 +61,7 @@ Column _buildLoginMenu(context) {
         ),
       ),
       Padding(
-        padding: EdgeInsets.only(left: 45,right: 45, top: 48),
+        padding: EdgeInsets.only(left: 45,right: 45, top: 38),
         child: Container(
             height: 55,
             decoration: BoxDecoration(
@@ -188,4 +201,5 @@ Column _buildLoginMenu(context) {
       ),
     ],
   );
+
 }

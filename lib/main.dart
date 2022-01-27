@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
       });
     }else{
       setState(() {
-        page= LastThingPage();
+        page= WelcomePage();
       });
     }
   }
