@@ -120,16 +120,16 @@ class _CreateAccountState extends State<CreateAccount2> {
               ),
             ),
 
-            // Positioned(
-            //     top: MediaQuery.of(context).size.height/2,
-            //     left: MediaQuery.of(context).size.height/17,
-            //     child: Container(
-            //       height: 40,
-            //       width: 290,
-            //       decoration: BoxDecoration(
-            //           color: Color(0xFFB8E68C).withOpacity(0.43),
-            //           borderRadius: BorderRadius.circular(20)),
-            //     )),
+            Positioned(
+                top: MediaQuery.of(context).size.height/2,
+                left: MediaQuery.of(context).size.height/17,
+                child: Container(
+                  height: 40,
+                  width: 290,
+                  decoration: BoxDecoration(
+                      color: Color(0xFFB8E68C).withOpacity(0.43),
+                      borderRadius: BorderRadius.circular(20)),
+                )),
             Center(
               child: Container(
                 height: double.maxFinite,
