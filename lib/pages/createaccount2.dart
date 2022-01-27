@@ -121,7 +121,7 @@ class _CreateAccountState extends State<CreateAccount2> {
             ),
 
             Positioned(
-                top: MediaQuery.of(context).size.height/2,
+                top: MediaQuery.of(context).size.height/1.8,
                 left: MediaQuery.of(context).size.height/17,
                 child: Container(
                   height: 40,
