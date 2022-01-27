@@ -121,8 +121,8 @@ class _CreateAccountState extends State<CreateAccount2> {
             ),
 
             Positioned(
-                bottom: 280,
-                left: 60,
+                top: MediaQuery.of(context).size.height/2,
+                left: MediaQuery.of(context).size.height/17,
                 child: Container(
                   height: 40,
                   width: 290,
@@ -131,27 +131,29 @@ class _CreateAccountState extends State<CreateAccount2> {
                       borderRadius: BorderRadius.circular(20)),
                 )),
             Positioned(
-              bottom: 250,
-              left: 60,
-              child: LinearDatePicker(
-                startDate: "1960/01/01",
-                endDate: "2022/01/01",
-                initialDate: "2016/10/15",
-                dateChangeListener: (String selectedDate) {
-                  print(selectedDate);
-                },
-                showDay: true,
-                selectedRowStyle: GoogleFonts.inter(
-                  textStyle: TextStyle(color: c.greenMain,fontWeight: f.semiBold,fontSize: 17)
+              top: MediaQuery.of(context).size.height/2.5,
+              left: MediaQuery.of(context).size.height/17,
+              child: Container(
+                child: LinearDatePicker(
+                  startDate: "1960/01/01",
+                  endDate: "2022/01/01",
+                  initialDate: "2016/10/15",
+                  dateChangeListener: (String selectedDate) {
+                    print(selectedDate);
+                  },
+                  showDay: true,
+                  selectedRowStyle: GoogleFonts.inter(
+                    textStyle: TextStyle(color: c.greenMain,fontWeight: f.semiBold,fontSize: 17)
+                  ),
+                  unselectedRowStyle: TextStyle(
+                    fontFamily: 'sans',
+                    fontSize: 16.0,
+                    color: Colors.blueGrey,
+                  ),
+                  columnWidth: 100,
+                  showMonthName: true,
+                  showLabels: false,
                 ),
-                unselectedRowStyle: TextStyle(
-                  fontFamily: 'sans',
-                  fontSize: 16.0,
-                  color: Colors.blueGrey,
-                ),
-                columnWidth: 100,
-                showMonthName: true,
-                showLabels: false,
               ),
             ),
             // Positioned(
