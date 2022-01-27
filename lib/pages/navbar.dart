@@ -8,6 +8,7 @@ import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
+import 'package:flutter/services.dart';
 
 // import 'package:flutter_icons/flutter_icons.dart';
 import 'package:boxicons/boxicons.dart';
@@ -22,11 +23,14 @@ class Navbar extends StatefulWidget {
 class _NavbarState extends State<Navbar> {
   List pages = [HomePage(), SearchPage(), NotificationPage(), ProfilePage()];
   int _currentIndex = 0;
+
   @override
+
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(systemNavigationBarColor: Colors.white),);
     return Scaffold(
+
       backgroundColor: c.textWhite,
       body: Stack(
         children: [

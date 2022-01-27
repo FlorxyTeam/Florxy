@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:Florxy/pages/FavPost.dart';
 import 'package:Florxy/pages/PostReply.dart';
 import 'package:Florxy/pages/savedPro.dart';
+import 'package:flutter/services.dart';
+
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -48,6 +50,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(systemNavigationBarColor: Colors.white),);
     return SafeArea(
         child: Scaffold(
           body: DefaultTabController(

@@ -66,6 +66,7 @@ class _EditPageState extends State<EditPage> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(systemNavigationBarColor: Colors.white),);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(75.0),

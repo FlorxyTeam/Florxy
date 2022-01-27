@@ -32,7 +32,9 @@ class _SettingState extends State<Setting> {
 
   @override
   Widget build(BuildContext context) {
+
     final Size size = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(75.0),
@@ -165,7 +167,7 @@ class _SettingState extends State<Setting> {
         InkWell(
           onTap: (){},
           child: Padding(
-            padding: const EdgeInsets.only(top: 5, right: 0,left: 0,bottom: 10),
+            padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
 
             child: Container(
 
