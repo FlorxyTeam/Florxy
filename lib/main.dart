@@ -40,13 +40,12 @@ class _MyAppState extends State<MyApp> {
       });
     }else{
       setState(() {
-        page= WelcomePage();
+        page= Navbar();
       });
     }
   }
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(systemNavigationBarColor: Colors.white),);
 
     return MaterialApp(
         debugShowCheckedModeBanner: false,
