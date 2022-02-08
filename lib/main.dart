@@ -59,6 +59,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:Florxy/pages/laboratory.dart';
+import 'package:Florxy/pages/test_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -75,7 +76,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Laboratory(),
+      home: const test_list(),
     );
   }
 }
