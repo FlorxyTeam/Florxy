@@ -5,9 +5,12 @@ import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:boxicons/boxicons.dart';
+import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 import 'package:flutter_linear_datepicker/flutter_datepicker.dart';
 import 'package:flutter_linear_datepicker/number_picker.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class CreateAccount2 extends StatefulWidget {
   const CreateAccount2({Key? key}) : super(key: key);
@@ -16,8 +19,35 @@ class CreateAccount2 extends StatefulWidget {
   _CreateAccountState createState() => _CreateAccountState();
 }
 
+const String MIN_DATETIME = '1970-01-01';
+const String MAX_DATETIME = '2022-02-10';
+const String INIT_DATETIME = '2010-06-10';
+const String DATE_FORMAT = 'MMMM-d-yyyy';
+
 class _CreateAccountState extends State<CreateAccount2> {
   Color _colorText = c.greyMain;
+  late DateTime _dateTime;
+  DateTime today = DateTime.now();
+  bool circular = false;
+  final storage = new FlutterSecureStorage();
+
+  bool check() {
+    String formattedDate = DateFormat('MMMM-d-yyyy').format(_dateTime);
+    DateTime birthDate = DateFormat(DATE_FORMAT).parse(formattedDate);
+    DateTime adultDate = DateTime(
+      birthDate.year + 15,
+      birthDate.month,
+      birthDate.day,
+    );
+
+    return adultDate.isBefore(today);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _dateTime = DateTime.parse(INIT_DATETIME);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +134,7 @@ class _CreateAccountState extends State<CreateAccount2> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Poppins(
-                          text: 'What is your  date birth?',
+                          text: 'What is your date birth?',
                           size: 24,
                           fontWeight: f.semiBold,
                           color: Colors.black,
@@ -112,55 +142,66 @@ class _CreateAccountState extends State<CreateAccount2> {
                       ],
                     ),
                     SizedBox(
-                      height: 60,
+                      height: 100,
                     ),
-                    SizedBox(height: 40),
+                    Stack(
+                      children: [
+                        Center(
+                          child: Container(
+                            width: 280,
+                            child: DateTimePickerWidget(
+                              minDateTime: DateTime.parse(MIN_DATETIME),
+                              maxDateTime: DateTime.parse(MAX_DATETIME),
+                              initDateTime: DateTime.parse(INIT_DATETIME),
+                              dateFormat: DATE_FORMAT,
+                              pickerTheme: DateTimePickerTheme(
+                                pickerHeight: 235,
+                                itemHeight: 58,
+                                showTitle: false,
+                                selectionOverlay: Container(),
+                                itemTextStyle: GoogleFonts.roboto(
+                                    textStyle: TextStyle(
+                                  color: c.greenMain,
+                                  fontSize: 19,
+                                  fontWeight: f.medium,
+                                )),
+                                backgroundColor: Color(0xffF9F9F9),
+                              ),
+                              onChange: (dateTime, selectedIndex) {
+                                setState(() {
+                                  _dateTime = dateTime;
+                                });
+                              },
+                            ),
+                          ),
+                        ),
+                        Center(
+                          child: Container(
+                            margin: EdgeInsets.only(top: 95),
+                            height: 45,
+                            width: 320,
+                            decoration: BoxDecoration(
+                                color: c.greenLight2.withOpacity(0.33),
+                                borderRadius: BorderRadius.circular(30)),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    check()
+                        ? Container()
+                        : Roboto(
+                            text:
+                                "Sorry, you don't meet Florxy's age requirements.",
+                            size: 13,
+                            color: c.redMain,
+                            fontWeight: f.regular)
                   ],
                 ),
               ),
             ),
-
-            Positioned(
-                top: MediaQuery.of(context).size.height/1.9,
-                left: MediaQuery.of(context).size.height/17,
-                child: Container(
-                  height: 53,
-                  width: 290,
-                  decoration: BoxDecoration(
-                      color: Color(0xFFB8E68C).withOpacity(0.43),
-                      borderRadius: BorderRadius.circular(20)),
-                )),
-            Center(
-              child: Container(
-                height: double.maxFinite,
-                child: LinearDatePicker(
-                  startDate: "1960/01/01",
-                  endDate: "2022/01/01",
-                  initialDate: "2016/10/15",
-                  dateChangeListener: (String selectedDate) {
-                    print(selectedDate);
-                  },
-                  showDay: true,
-                  selectedRowStyle: GoogleFonts.inter(
-                    textStyle: TextStyle(color: c.greenMain,fontWeight: f.semiBold,fontSize: 20)
-                  ),
-                  unselectedRowStyle: GoogleFonts.inter(
-                      textStyle: TextStyle(color: Colors.blueGrey,fontWeight: f.medium,fontSize: 19)
-                  ),
-                  columnWidth: 110,
-                  showMonthName: true,
-                  showLabels: false,
-                ),
-              ),
-            ),
-            // Positioned(
-            //     bottom: 380,
-            //     left: 60,
-            //     child: Container(
-            //       height: 30,
-            //       width: 290,
-            //       color: c.greyLight,
-            //     )),
             Positioned(
               bottom: 35,
               child: Column(
@@ -176,20 +217,46 @@ class _CreateAccountState extends State<CreateAccount2> {
                   Container(
                     width: MediaQuery.of(context).size.width,
                     child: Padding(
-                      padding: EdgeInsets.only(left: 40, right: 40),
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => CreateAccount3()));
-                        },
-                        child: GreenButton(
-                          text: 'NEXT',
-                          size: 16,
-                          color: c.textWhite,
-                          height: 65,
-                        ),
-                      ),
-                    ),
+                        padding: EdgeInsets.only(left: 40, right: 40),
+                        child: check()
+                            ? GestureDetector(
+                                onTap: () async {
+                                  setState(() {
+                                    circular = true;
+                                  });
+
+                                  await storage.write(
+                                      key: "date",
+                                      value: DateFormat('MMMM-d-yyyy')
+                                          .format(_dateTime));
+
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => CreateAccount3()));
+
+                                  setState(() {
+                                    circular = false;
+                                  });
+                                },
+                                child: circular
+                                    ? Padding(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            0, 0, 0, 10),
+                                        child: Center(
+                                            child: CircularProgressIndicator()),
+                                      )
+                                    : GreenButton(
+                                        text: 'NEXT',
+                                        size: 16,
+                                        color: c.textWhite,
+                                        height: 65,
+                                      ),
+                              )
+                            : GreyButton(
+                                text: 'NEXT',
+                                size: 16,
+                                color: c.textWhite,
+                                height: 65,
+                              )),
                   )
                 ],
               ),
