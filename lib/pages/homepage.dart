@@ -1,9 +1,11 @@
+import 'package:Florxy/pages/CreatePost.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:Florxy/widgets/PostWidget.dart';
 import "package:flutter_feather_icons/flutter_feather_icons.dart";
 import 'package:flutter/services.dart';
 
@@ -49,7 +51,7 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             leading: Padding(
-              padding: EdgeInsets.only(top: Theme.of(context).platform==TargetPlatform.android?17.5:0, left: 20),
+              padding: EdgeInsets.only(top: Theme.of(context).platform==TargetPlatform.android?17.5:0, left: 18),
               child: IconButton(
                 icon: Icon(FeatherIcons.maximize),
                 iconSize: 25,
@@ -67,12 +69,12 @@ class _HomePageState extends State<HomePage> {
                   iconSize: 25,
                   color: Colors.black,
                   onPressed: () {
-                    Navigator.pop(context);
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreatePost()));;
                   },
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: Theme.of(context).platform==TargetPlatform.android?17.5:0, right: 20),
+                padding: EdgeInsets.only(top: Theme.of(context).platform==TargetPlatform.android?17.5:0, right: 13),
                 child: IconButton(
                   icon: Icon(FeatherIcons.send),
                   iconSize: 25,
@@ -84,6 +86,25 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
+        ),
+      ),
+      body: Container(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: MentionPost(
+                name: 'Putita Techapat',
+                username: '@bababaconnnn',
+                postTime: '2h',
+                brand: 'Pixi',
+                product: 'Pixi Glow Tonic',
+                post: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been   the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                comment: '40',
+                favorite: '389',
+              ),
+            )
+          ],
         ),
       ),
     );
