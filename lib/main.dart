@@ -58,8 +58,9 @@
 // }
 
 import 'package:flutter/material.dart';
-import 'package:Florxy/pages/laboratory.dart';
-import 'package:Florxy/pages/test_list.dart';
+import 'package:Florxy/pages/Laboratory.dart';
+import 'package:Florxy/pages/brandoverview.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -76,7 +77,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const test_list(),
+      home: const Brandoverview(),
     );
   }
 }
