@@ -22,14 +22,14 @@ class GoogleStream extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot){
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Center(child: WelcomePage());
           }else if(snapshot.hasData){
             print(user?.email);
             return Navbar();
           }else if (snapshot.hasError){
             return Center(child: Poppins(text: "Something went wrong", size: 24, color: c.blackMain, fontWeight: f.bold));
           }else{
-          return Center(child: CircularProgressIndicator());
+          return Center(child: WelcomePage());
           }
         },
 

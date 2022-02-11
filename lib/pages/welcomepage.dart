@@ -147,12 +147,14 @@ Column _buildLoginMenu(context) {
       Padding(
         padding: EdgeInsets.only(left: 45,right: 45, top: 48),
         child: GestureDetector(
-          onTap: (){
+          onTap: () async {
             final provider = Provider.of<GoogleSignInProvider>(context, listen:false);
-            provider.googleLogin();
+            await provider.googleLogin();
             // print(user.email);
             // print(user.uid);
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => GoogleStream()));
+
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute
+              (builder: (context)=>GoogleStream()), (route) => false);
 
 
 
