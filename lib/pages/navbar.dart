@@ -29,8 +29,6 @@ class _NavbarState extends State<Navbar> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
-
-      backgroundColor: c.textWhite,
       body: Stack(
         children: [
           pages[_currentIndex],

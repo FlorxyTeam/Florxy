@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'postProvider.dart';
 
 
 
@@ -47,11 +49,16 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
 
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Florxy',
-        theme: ThemeData(),
-        home: page
-        );
+    return MultiProvider(
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Florxy',
+          theme: ThemeData(),
+          home: page
+          ),
+      providers: [
+        ChangeNotifierProvider( create: (_) => PostProvider())
+      ]
+    );
   }
 }
