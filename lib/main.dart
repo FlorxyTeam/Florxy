@@ -36,11 +36,11 @@ class _MyAppState extends State<MyApp> {
     String? token = await storage.read(key: "token");
     if(token != null){
       setState(() {
-        page=Navbar();
+        page= Navbar();
       });
     }else{
       setState(() {
-        page= WelcomePage();
+        page= Navbar();
       });
     }
   }
