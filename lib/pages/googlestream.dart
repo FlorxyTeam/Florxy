@@ -24,7 +24,7 @@ class GoogleStream extends StatelessWidget {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: WelcomePage());
           }else if(snapshot.hasData){
-            print(user?.email);
+            print(user);
             return Navbar();
           }else if (snapshot.hasError){
             return Center(child: Poppins(text: "Something went wrong", size: 24, color: c.blackMain, fontWeight: f.bold));

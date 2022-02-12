@@ -10,6 +10,7 @@ import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/pages/EditProfile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:slide_popup_dialog_null_safety/slide_popup_dialog.dart'
@@ -211,9 +212,19 @@ Column _buildBottomNavigationMenu(context,username) {
                             onTap: () async {
                               await storage.delete(key: "token");
                               final google_user = FirebaseAuth.instance.currentUser;
+                              print(google_user);
+
                               if(google_user != null){
-                                final provider = Provider.of<GoogleSignInProvider>(context, listen:false);
-                                provider.logout();
+
+                                final AccessToken? accessToken = await FacebookAuth.instance.accessToken;
+                                if (accessToken != null) {
+                                  print(accessToken);
+                                  await FacebookAuth.instance.logOut();
+                                }
+                                else{
+                                  final provider = Provider.of<GoogleSignInProvider>(context, listen:false);
+                                  provider.logout();
+                                }
                               }
 
                               Navigator.pushAndRemoveUntil(

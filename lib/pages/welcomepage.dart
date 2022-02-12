@@ -6,7 +6,7 @@ import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/button.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/ModalLogin.dart';
-
+// import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:Florxy/pages/LoginPage.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/widgets.dart';
@@ -15,6 +15,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../pages/googlestream.dart';
 import '../provider/google_sign_in.dart';
 import 'navbar.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -24,6 +25,8 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
+
+
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
@@ -197,34 +200,60 @@ Column _buildLoginMenu(context) {
       SizedBox(height: 25),
       Padding(
         padding: EdgeInsets.only(left: 45,right: 45),
-        child: Container(
-            height: 55,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: c.shadow.withOpacity(0.32),
-                  spreadRadius: -4,
-                  blurRadius: 23,
-                  offset: Offset(0, 6), // changes position of shadow
-                ),
-              ],
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                    padding: EdgeInsets.only(right: 7),
-                    child: Icon(Boxicons.bxl_facebook_circle, size: 30,color: Color(0xFF156ACF))),
-                Inter(
-                    text: 'Continue with Facebook',
-                    size: 13,
-                    color: Color(0xFF484848),
-                    fontWeight: f.bold
-                )
-              ],
-            )
+        child: GestureDetector(
+          onTap: () async {
+            final LoginResult result = await FacebookAuth.instance.login(permissions: ['email', 'public_profile', 'user_birthday', 'user_friends', 'user_gender', 'user_link'],); // by default we request the email and the public profile
+            print("result: $result");
+// or FacebookAuth.i.login()
+            if (result.status == LoginStatus.success) {
+              // you are logged
+              final AccessToken accessToken = result.accessToken!;
+              final userData = await FacebookAuth.i.getUserData(
+                fields: "name,email,picture.width(200),birthday,friends,gender,link",
+              );
+              print(userData);
+              print(accessToken.token);
+              final credential = FacebookAuthProvider.credential(accessToken.token);
+              await FirebaseAuth.instance.signInWithCredential(credential);
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Navbar()));
+
+              // print("hi");
+              // print(accessToken);
+              // print(result);
+            } else {
+              print(result.status);
+              print(result.message);
+            }
+          },
+          child: Container(
+              height: 55,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(50),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: c.shadow.withOpacity(0.32),
+                    spreadRadius: -4,
+                    blurRadius: 23,
+                    offset: Offset(0, 6), // changes position of shadow
+                  ),
+                ],
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                      padding: EdgeInsets.only(right: 7),
+                      child: Icon(Boxicons.bxl_facebook_circle, size: 30,color: Color(0xFF156ACF))),
+                  Inter(
+                      text: 'Continue with Facebook',
+                      size: 13,
+                      color: Color(0xFF484848),
+                      fontWeight: f.bold
+                  )
+                ],
+              )
+          ),
         ),
       ),
       SizedBox(height: 25),
