@@ -162,7 +162,7 @@ class _CreateAccountState extends State<CreateAccount2> {
                                 itemTextStyle: GoogleFonts.roboto(
                                     textStyle: TextStyle(
                                   color: c.greenMain,
-                                  fontSize: 19,
+                                  fontSize: 17,
                                   fontWeight: f.medium,
                                 )),
                                 backgroundColor: Color(0xffF9F9F9),
