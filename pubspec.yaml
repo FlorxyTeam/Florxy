@@ -57,6 +57,7 @@ dependencies:
   json_annotation:
   flutter_linear_datepicker: ^2.0.4
   get: ^4.6.1
+  html:
 #  intro_screen_onboarding_flutter: ^0.1.5
  
 dev_dependencies:
