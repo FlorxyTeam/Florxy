@@ -19,8 +19,23 @@ class Search{
 
 class Scraper {
   static const URL = 'https://incidecoder.com/search?query=';
+  static const URL2 = 'https://incidecoder.com/';
 
 
+  static Future<List> getProd(String path) async {
+    Search obj = new Search();
+
+    obj.thisURL = path;
+
+    final response = await http.get(Uri.parse(URL2 + path));
+
+    var body = response.body;
+
+
+
+    return obj.prodList;
+
+  }
   static Future<List> getData(String path) async {
     Search obj = new Search();
 
@@ -31,33 +46,33 @@ class Scraper {
     var body = response.body;
 
 
-      int count = 2;
-      bool isFin = true;
-      while (isFin){
-        if(count>4){
+    int count = 2;
+    bool isFin = true;
+    while (isFin){
+      if(count>4){
+        break;
+      }
+      print(count);
+
+      var new_response = await http.get(Uri.parse(URL+path+obj.beforePage+count.toString()));
+      var new_body = new_response.body;
+      var new_html = parse(new_body);
+      body = body + new_body;
+      final links = new_html.querySelectorAll('.paddingb1, .center, .fs18');
+      for (var link in links) {
+        var str = link.innerHtml.trim();
+        if(str.toLowerCase().contains('next page')){
+          isFin = true;
           break;
+
         }
-        print(count);
-
-        var new_response = await http.get(Uri.parse(URL+path+obj.beforePage+count.toString()));
-        var new_body = new_response.body;
-        var new_html = parse(new_body);
-        body = body + new_body;
-        final links = new_html.querySelectorAll('.paddingb1, .center, .fs18');
-        for (var link in links) {
-          var str = link.innerHtml.trim();
-            if(str.toLowerCase().contains('next page')){
-              isFin = true;
-              break;
-
-            }
-            else{
-              isFin = false;
-            }
+        else{
+          isFin = false;
+        }
 
       }
-        count = count +1;
-      }
+      count = count +1;
+    }
 
     var html = parse(body);
 
