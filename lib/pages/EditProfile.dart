@@ -8,6 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 
+import 'aliaspage.dart';
+
 
 class EditPage extends StatefulWidget {
   const EditPage({Key? key}) : super(key: key);
@@ -222,7 +224,8 @@ class _EditPageState extends State<EditPage> {
                         ),
                         color: c.greyMain,
                         height: 55,
-                        onPressed: () {},
+                        onPressed: () {Navigator.pushAndRemoveUntil(context, MaterialPageRoute
+                          (builder: (context)=>AliasPage()), (route) => false);},
                         child: Inter(
                           text: "Switch to Professional Account",
                           size: 13,
