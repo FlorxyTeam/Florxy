@@ -34,7 +34,6 @@ class _EditPageState extends State<EditPage> {
       username: '');
 
   File? image;
-
   @override
   void initState() {
     // TODO: implement initState
@@ -165,14 +164,16 @@ class _EditPageState extends State<EditPage> {
                         padding:
                         const EdgeInsets.fromLTRB(0, 0, 0, 10),
                         child: Center(
-                            child: CircularProgressIndicator()),
+                            child: CircularProgressIndicator()
+                        ),
                       )
                           : Inter(
                         text: "Save",
                         fontWeight: f.bold,
                         color: c.greenMain,
                         size: 18,
-                      ))
+                      )
+                  ),
                 ],
               ),
             ),
@@ -239,23 +240,23 @@ class _EditPageState extends State<EditPage> {
     );
   }
 
-  Widget PickImage(){
-    return Center(
-      child: Stack(
-        children: <Widget>[
-          image != null
-              ? Image.file(
-            image!,
-            width: 200,
-            height: 200,
-          )
-              : FlutterLogo(
-            size: 120,
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget PickImage(){
+  //   return Center(
+  //     child: Stack(
+  //       children: <Widget>[
+  //         image != null
+  //             ? Image.file(
+  //           image!,
+  //           width: 200,
+  //           height: 200,
+  //         )
+  //             : FlutterLogo(
+  //           size: 120,
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget imageProfile() {
     return Center(
