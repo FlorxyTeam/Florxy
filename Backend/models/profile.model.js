@@ -39,7 +39,7 @@ const Profile = Schema(
     ]
   },
   {
-    timestamp: true,
+    timestamps: true,
   }
 );
 
