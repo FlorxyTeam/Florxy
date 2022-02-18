@@ -2,13 +2,28 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>Allow access to photo library</string>
-    <key>NSCameraUsageDescription</key>
-    <string>Allow access to camera to capture photos</string>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>Allow access to microphone</string>
-
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.752751069061-7a017gvtfd3r0cg73j89eagkvtlidb90</string>
+				<string>fb305417951531402</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>305417951531402</string>
+	<key>FacebookClientToken</key>
+	<string>6df6c56485b45e41e4fdb7c2e14b0993</string>
+	<key>FacebookDisplayName</key>
+	<string>Florxy</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Allow access to photo library</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Allow access to camera to capture photos</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Allow access to microphone</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
@@ -50,5 +65,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
+	<key></key>
+	<string></string>
 </dict>
 </plist>

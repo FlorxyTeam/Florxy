@@ -49,7 +49,7 @@ class Scraper {
     int count = 2;
     bool isFin = true;
     while (isFin){
-      if(count>4){
+      if(count>1){
         break;
       }
       print(count);
@@ -148,10 +148,10 @@ class Scraper {
 
 Future<void> main() async{
   final stopwatch = Stopwatch()..start();
-  List results = await Scraper.getData('vitamin-c');
-  print(results.length);
-  for(int i=0;i<results.length;i++){
-    print('${results[i].name} , ${results[i].link}');
-  }
+  List results = await Scraper.getData(' ');
+  print(results);
+//  for(int i=0;i<results.length;i++){
+ //   print('${results[i].name} , ${results[i].link}');
+  //}
   print(stopwatch.elapsed);
 }
