@@ -245,16 +245,16 @@ class _CreateAccountState extends State<CreateAccount3> {
                 ),
               ),
             ),
-            // Positioned(
-            //   bottom: 55,
-            //   child: Container(
-            //     width: MediaQuery.of(context).size.width,
-            //     child: Roboto(
-            //       text: 'By continuing, you agree to Florxy’s Terms & Conditions\nand Pricacy Policy.',
-            //       size: 11.5, color: Color(0xFFAFC8A9),
-            //       fontWeight: f.medium),
-            //   ),
-            // ),
+            Positioned(
+              bottom: 55,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Roboto_Center(
+                  text: 'By continuing, you agree to Florxy’s Terms & Conditions\nand Pricacy Policy.',
+                  size: 11.5, color: Color(0xFFAFC8A9),
+                  fontWeight: f.medium),
+              ),
+            ),
           ],
         )
     );

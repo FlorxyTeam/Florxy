@@ -1,3 +1,4 @@
+import 'package:Florxy/pages/lastthingspage.dart';
 import 'package:Florxy/pages/navbar.dart';
 import 'package:Florxy/pages/registerpage.dart';
 import 'package:Florxy/pages/welcomepage.dart';
@@ -9,6 +10,9 @@ import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
+import 'postProvider.dart';
+
 
 
 Future main() async{
@@ -38,24 +42,29 @@ class _MyAppState extends State<MyApp> {
     String? token = await storage.read(key: "token");
     if(token != null){
       setState(() {
-        page=Navbar();
+        page= Navbar();
       });
     }else{
       setState(() {
-        page= WelcomePage();
+        page= Navbar();
       });
     }
   }
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => GoogleSignInProvider(),
+   // return ChangeNotifierProvider(
+    //  create: (context) => GoogleSignInProvider(),
+
+    return MultiProvider(
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Florxy',
           theme: ThemeData(),
           home: page
           ),
+      providers: [
+        ChangeNotifierProvider( create: (_) => PostProvider())
+      ]
     );
   }
 }

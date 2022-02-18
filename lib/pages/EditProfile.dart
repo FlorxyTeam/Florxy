@@ -8,6 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 
+import 'aliaspage.dart';
+
 
 class EditPage extends StatefulWidget {
   const EditPage({Key? key}) : super(key: key);
@@ -34,7 +36,6 @@ class _EditPageState extends State<EditPage> {
       username: '');
 
   File? image;
-
   @override
   void initState() {
     // TODO: implement initState
@@ -113,6 +114,7 @@ class _EditPageState extends State<EditPage> {
                         primary: Colors.white,
                       ),
                       onPressed: () async {
+
                         setState(() {
                           circular = true;
                         });
@@ -123,6 +125,7 @@ class _EditPageState extends State<EditPage> {
                           };
                           var response =
                           await networkHandler.patch("/profile/update", data);
+
                           if (response.statusCode == 200 ||
                               response.statusCode == 201) {
                             if (image != null) {
@@ -157,12 +160,21 @@ class _EditPageState extends State<EditPage> {
                           });
                         }
                       },
-                      child: Inter(
+                      child: circular
+                          ? Padding(
+                        padding:
+                        const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                        child: Center(
+                            child: CircularProgressIndicator()
+                        ),
+                      )
+                          : Inter(
                         text: "Save",
                         fontWeight: f.bold,
                         color: c.greenMain,
                         size: 18,
-                      ))
+                      )
+                  ),
                 ],
               ),
             ),
@@ -182,13 +194,22 @@ class _EditPageState extends State<EditPage> {
                 SizedBox(
                   height: 20,
                 ),
-                nameTextField(),
-                SizedBox(
+               Center(
+                 child: Inter(
+                   text:  '@'+profileModel.username,
+                   color: c.blackMain,
+                   fontWeight: f.semiBold,
+                   size: 20,
+                 ),
+               ),SizedBox(
                   height: 20,
                 ),
-                usernameTextField(),
+
+                nameTextField(),
+
+                // usernameTextField(),
                 SizedBox(
-                  height: 20,
+                  height: 30,
                 ),
                 bioTextField(),
                 SizedBox(
@@ -203,7 +224,8 @@ class _EditPageState extends State<EditPage> {
                         ),
                         color: c.greyMain,
                         height: 55,
-                        onPressed: () {},
+                        onPressed: () {Navigator.pushAndRemoveUntil(context, MaterialPageRoute
+                          (builder: (context)=>AliasPage()), (route) => false);},
                         child: Inter(
                           text: "Switch to Professional Account",
                           size: 13,
@@ -220,23 +242,23 @@ class _EditPageState extends State<EditPage> {
     );
   }
 
-  Widget PickImage(){
-    return Center(
-      child: Stack(
-        children: <Widget>[
-          image != null
-              ? Image.file(
-            image!,
-            width: 200,
-            height: 200,
-          )
-              : FlutterLogo(
-            size: 120,
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget PickImage(){
+  //   return Center(
+  //     child: Stack(
+  //       children: <Widget>[
+  //         image != null
+  //             ? Image.file(
+  //           image!,
+  //           width: 200,
+  //           height: 200,
+  //         )
+  //             : FlutterLogo(
+  //           size: 120,
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget imageProfile() {
     return Center(
@@ -296,8 +318,10 @@ class _EditPageState extends State<EditPage> {
 
                                   )),
                                   child: ListTile(
-                                      onTap: () {
-                                        takePhoto(ImageSource.camera);
+                                      onTap: () async {
+                                        Future.delayed(Duration(seconds: 5));
+                                       Navigator.of(context).pop();
+                                        await takePhoto(ImageSource.camera);
                                       },
                                       title: Inter(
                                         text: "Take photo",
@@ -307,8 +331,10 @@ class _EditPageState extends State<EditPage> {
                                       ))),
                               Container(
                                   child: ListTile(
-                                onTap: () {
-                                  takePhoto(ImageSource.gallery);
+                                onTap: () async {
+                                  Future.delayed(Duration(seconds: 5));
+                                  Navigator.of(context).pop();
+                                  await takePhoto(ImageSource.gallery);
                                 },
                                 title: Inter(
                                   text: "Choose existing photo",
@@ -376,46 +402,47 @@ class _EditPageState extends State<EditPage> {
     );
   }
 
-  Widget usernameTextField() {
-    return Column(
-      children: [
-        Align(
-          alignment: Alignment.topLeft,
-          child: Poppins(
-              text: 'Username',
-              size: 14,
-              color: c.blackSub,
-              fontWeight: f.medium),
-        ),
-        SizedBox(height: 5),
-        Container(
-          height: 50,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(13.0)),
-          ),
-          child: TextFormField(
-            controller: _username,
-              decoration: InputDecoration(
-            hintText: '@'+profileModel.username,
-            hintStyle: TextStyle(
-                fontSize: 14, color: c.graySub2, fontWeight: f.medium),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(13.0)),
-              borderSide:
-                  BorderSide(color: c.graySub2.withOpacity(0), width: 2),
-            ),
-            prefixText: '---',
-            prefixStyle: TextStyle(color: Colors.transparent),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(13.0)),
-              borderSide: BorderSide(color: c.greenMain, width: 2),
-            ),
-          )),
-        ),
-      ],
-    );
-  }
+  // Widget usernameTextField() {
+  //   return Column(
+  //     children: [
+  //       Align(
+  //         alignment: Alignment.topLeft,
+  //         child: Poppins(
+  //             text: 'Username',
+  //             size: 14,
+  //             color: c.blackSub,
+  //             fontWeight: f.medium),
+  //       ),
+  //       SizedBox(height: 5),
+  //       Container(
+  //         height: 50,
+  //         decoration: BoxDecoration(
+  //           color: Colors.white,
+  //           borderRadius: BorderRadius.all(Radius.circular(13.0)),
+  //         ),
+  //         child: TextFormField(
+  //           enabled: false,
+  //           controller: _username,
+  //             decoration: InputDecoration(
+  //           hintText: '@'+profileModel.username,
+  //           hintStyle: TextStyle(
+  //               fontSize: 14, color: c.graySub2, fontWeight: f.medium),
+  //           enabledBorder: OutlineInputBorder(
+  //             borderRadius: BorderRadius.all(Radius.circular(13.0)),
+  //             borderSide:
+  //                 BorderSide(color: c.graySub2.withOpacity(0), width: 2),
+  //           ),
+  //           prefixText: '---',
+  //           prefixStyle: TextStyle(color: Colors.transparent),
+  //           focusedBorder: OutlineInputBorder(
+  //             borderRadius: BorderRadius.all(Radius.circular(13.0)),
+  //             borderSide: BorderSide(color: c.greenMain, width: 2),
+  //           ),
+  //         )),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget bioTextField() {
     return Column(
