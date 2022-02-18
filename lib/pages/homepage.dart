@@ -122,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                   iconSize: 25,
                   color: Colors.black,
                   onPressed: () {
-                    Navigator.pop(context);
+                    // Navigator.pop(context);
                   },
                 ),
               ),
@@ -131,14 +131,14 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: Container(
-        height: MediaQuery.of(context).size.height-175,
+        height: MediaQuery.of(context).size.height-200,
         child: Consumer<PostProvider>(builder: (context,model,_) => FutureBuilder(
           future: model.fetchData(),
           builder: (context,snapshot) => ListView.builder(
             scrollDirection: Axis.vertical,
             itemCount: model.postData?.length??0,
             itemBuilder: (context,int index){
-              return model.postData![index]['type']=='mention'?MentionPost(
+              return model.postData![index]['type']=='mention1'?MentionPost(
                 name: 'Putita Techapat',
                 username: '@bababaconnnn',
                 postTime: '2h',
@@ -149,14 +149,15 @@ class _HomePageState extends State<HomePage> {
                 comment: model.postData![index]['comment'],
                 favorite: model.postData![index]['favorite'],
                 urlImage: model.postData![index]['coverImage'],
-              ):model.postData![index]['type']=='review'?ReviewPost(
-                name: 'Putita Techapat',
-                username: '@bababaconnnn',
-                postTime: '2h',
-                brand: model.postData![index]['brand'],
-                product: model.postData![index]['product'],
-                post: model.postData![index]['post'],
-                rating: model.postData![index]['rating'],
+              ):
+              model.postData![index]['type']=='review'?ReviewPost(
+                name: model.postData![index]['fullname'],
+                username: '@'+model.postData![index]['username'],
+                postTime: model.postData![index]['updatedAt'],
+                brand: model.postData![index]['refbrand'],
+                product: model.postData![index]['refproduct'],
+                post: model.postData![index]['body'],
+                rating: model.postData![index]['rating']-0.0001,
                 // post: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been   the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
                 comment: model.postData![index]['comment'],
                 favorite: model.postData![index]['favorite'],

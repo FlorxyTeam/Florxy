@@ -1,3 +1,5 @@
+import 'package:Florxy/Model/profileModel.dart';
+import 'package:Florxy/NetworkHandler.dart';
 import 'package:Florxy/widgets/button.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,6 +18,38 @@ class CreatePost extends StatefulWidget {
 }
 
 class _CreatePostState extends State<CreatePost> {
+
+
+  bool circular = false;
+  final networkHandler = NetworkHandler();
+  final _globalkey = GlobalKey<FormState>();
+  TextEditingController _body = TextEditingController();
+  TextEditingController _forwho = TextEditingController();
+  TextEditingController _type = TextEditingController();
+  ProfileModel profileModel = ProfileModel(
+      DOB: '',
+      img: '',
+      influencer: '',
+      fullname: '',
+      bio: '',
+      email: '',
+      professor: '',
+      username: '');
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    fetchData();
+  }
+  void fetchData() async{
+    var response = await networkHandler.get("/profile/getData");
+    setState(() {
+      profileModel = ProfileModel.fromJson(response["data"]);
+      circular = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,141 +87,210 @@ class _CreatePostState extends State<CreatePost> {
             actions: [
               Padding(
                 padding: EdgeInsets.only(top: Theme.of(context).platform==TargetPlatform.android?27:12, right: 30, bottom: Theme.of(context).platform==TargetPlatform.android?0:12),
-                child: GreenButton(
-                  text: 'POST',
-                  size: 12,
-                  color: Colors.white,
-                  width: 60,
+                child: InkWell(
+                  onTap: () async {
+                    setState(() {
+                      circular = true;
+                    });
+                    print(profileModel.username);
+                    print(profileModel.fullname);
+                    if (_globalkey.currentState!.validate()) {
+                      Map<String, String> data = {
+                        "username":profileModel.username,
+                        "fullname":profileModel.fullname,
+                        "type": "review",
+                        "rating":"4.5001",
+                        "body": _body.text,
+                        "forwho":"Everyone"
+                      };
+                      var response =
+                      await networkHandler.post("/home/Add", data);
+                      if (response.statusCode == 200 ||
+                          response.statusCode == 201) {
+                        setState(() {
+                          circular = false;
+                        });
+                        Navigator.of(context).pop();
+                      }else{
+                        setState(() {
+                          circular = false;
+                        });
+                      }
+                      // if (response.statusCode == 200 ||
+                      //     response.statusCode == 201) {
+                      //   if (image != null) {
+                      //     var imageResponse = await networkHandler.patchImage(
+                      //         "/blogPost/add/postImage/:id", image!.path);
+                      //     if (imageResponse.statusCode == 200 ||
+                      //         imageResponse.statusCode == 201) {
+                      //       setState(() {
+                      //         circular = false;
+                      //       });
+                      //       Navigator.of(context).pop();
+                      //     }else {
+                      //       setState(() {
+                      //         circular = false;
+                      //       });
+                      //     }
+                      //
+                      //   } else {
+                      //     setState(() {
+                      //       circular = false;
+                      //     });
+                      //     Navigator.of(context).pop();
+                      //   }
+                      // }else {
+                      //   setState(() {
+                      //     circular = false;
+                      //   });
+                      // }
+                    }
+                    else {
+                      setState(() {
+                        circular = false;
+                      });
+                    }
+                  },
+                  child: GreenButton(
+                    text: 'POST',
+                    size: 12,
+                    color: Colors.white,
+                    width: 60,
+                  ),
                 )
               ),
             ],
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 16, left: 28, right: 28),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 28,
-                        backgroundColor: Colors.orange,
-                        // backgroundImage:
-                        // NetworkHandler().getImage(profileModel.email),
-                      ),
-                      SizedBox( width: 8 ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Poppins(
-                            text: 'Putita Techapat',
-                            fontWeight: f.semiBold,
-                            size: 14,
-                            color: Colors.black,
-                          ),
-                          Inter(text: '@bababaconnnnn', size: 12, color: c.textUsername, fontWeight: f.medium)
-                        ],
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 15),
-                  TextFormField(
-                    maxLines: null ,
-                    autofocus:true,
-                    decoration: InputDecoration.collapsed(
-                      hintText: "What’s on your mind?",
-                      hintStyle: GoogleFonts.inter(
-                        textStyle: TextStyle(fontSize: 14, color: c.blackSub2, fontWeight: f.semiBold)
-                      )
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              height: 50,
+      body: Form(
+        key: _globalkey,
+        child: Stack(
+          children: [
+            Container(
               child: Padding(
-                padding: const EdgeInsets.only(left: 28, right: 28),
-                child: Row(
+                padding: const EdgeInsets.only(top: 16, left: 28, right: 28),
+                child: Column(
                   children: [
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 1,bottom: 2,left: 4,right: 6),
-                        child: Row(
+                    Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 28,
+                          backgroundColor: Colors.orange,
+                          backgroundImage:
+                          NetworkHandler().getImage(profileModel.email),
+                        ),
+                        SizedBox( width: 8 ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Icon(Boxicons.bx_world, size: 23, color: c.greenSub1),
-                            SizedBox(width: 2),
-                            Inter(
-                              text: 'Everyone',
-                              fontWeight: f.bold,
-                              size: 11,
-                              color: c.greenSub1,
+                            Poppins(
+                              text: profileModel.fullname,
+                              fontWeight: f.semiBold,
+                              size: 14,
+                              color: Colors.black,
                             ),
+                            Inter(text: '@'+profileModel.username, size: 12, color: c.textUsername, fontWeight: f.medium)
                           ],
                         ),
-                      ),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all(
-                          width: 2,
-                          color: c.greenSub1
+                      ],
+                    ),
+                    SizedBox(height: 15),
+                    TextFormField(
+                      controller: _body,
+                      maxLines: null ,
+                      autofocus:true,
+                      decoration: InputDecoration.collapsed(
+                        hintText: "What’s on your mind?",
+                        hintStyle: GoogleFonts.inter(
+                          textStyle: TextStyle(fontSize: 14, color: c.blackSub2, fontWeight: f.semiBold)
                         )
                       ),
-                    ),
-                    Expanded(child: Container()),
-                    IconButton(
-                        onPressed: () {},
-                        padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
-                      icon: Icon(MdiIcons.bullhornVariantOutline, color: c.greenMain, size: 22)
-                    ),
-                    SizedBox(width: 25),
-                    IconButton(
-                        onPressed: () {},
-                        padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
-                        icon: Icon(MdiIcons.starCircleOutline, color: c.greenMain, size: 24)
-                    ),
-                    SizedBox(width: 25),
-                    IconButton(
-                        onPressed: () {},
-                        padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
-                        icon: Icon(Boxicons.bx_poll, color: c.greenMain, size: 26)
-                    ),
-                    SizedBox(width: 25),
-                    IconButton(
-                        onPressed: () {},
-                        padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
-                        icon: Icon(FeatherIcons.image, color: c.greenMain, size: 22)
                     ),
                   ],
                 ),
               ),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: c.shadow.withOpacity(0.09),
-                    spreadRadius: -27,
-                    blurRadius: 43,
-                    offset: Offset(1, 1), // changes position of shadow
-                  ),
-                ],
-              ),
             ),
-          )
-        ],
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: 50,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 28, right: 28),
+                  child: Row(
+                    children: [
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 1,bottom: 2,left: 4,right: 6),
+                          child: Row(
+                            children: [
+                              Icon(Boxicons.bx_world, size: 23, color: c.greenSub1),
+                              SizedBox(width: 2),
+                              Inter(
+                                text: 'Everyone',
+                                fontWeight: f.bold,
+                                size: 11,
+                                color: c.greenSub1,
+                              ),
+                            ],
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          border: Border.all(
+                            width: 2,
+                            color: c.greenSub1
+                          )
+                        ),
+                      ),
+                      Expanded(child: Container()),
+                      IconButton(
+                          onPressed: () {},
+                          padding: EdgeInsets.zero,
+                          constraints: BoxConstraints(),
+                        icon: Icon(MdiIcons.bullhornVariantOutline, color: c.greenMain, size: 22)
+                      ),
+                      SizedBox(width: 25),
+                      IconButton(
+                          onPressed: () {},
+                          padding: EdgeInsets.zero,
+                          constraints: BoxConstraints(),
+                          icon: Icon(MdiIcons.starCircleOutline, color: c.greenMain, size: 24)
+                      ),
+                      SizedBox(width: 25),
+                      IconButton(
+                          onPressed: () {},
+                          padding: EdgeInsets.zero,
+                          constraints: BoxConstraints(),
+                          icon: Icon(Boxicons.bx_poll, color: c.greenMain, size: 26)
+                      ),
+                      SizedBox(width: 25),
+                      IconButton(
+                          onPressed: () {},
+                          padding: EdgeInsets.zero,
+                          constraints: BoxConstraints(),
+                          icon: Icon(FeatherIcons.image, color: c.greenMain, size: 22)
+                      ),
+                    ],
+                  ),
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: c.shadow.withOpacity(0.09),
+                      spreadRadius: -27,
+                      blurRadius: 43,
+                      offset: Offset(1, 1), // changes position of shadow
+                    ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -1,12 +1,37 @@
 const mongoose = require("mongoose");
 
+
+
+
 const Schema = mongoose.Schema;
 
 const Post = Schema(
     {
-        post: String,
-        brand: String,
-        product: String,
+        email: String,
+        username:String,
+        fullname: String,
+        professor: {
+              type: String,
+              default: "",
+            },
+        influencer: {
+          type: String,
+          default: "",
+        },
+        img: {
+          type: String,
+          default: "",
+        },
+        refproduct: {
+            type: String,
+            default: ""
+        },
+        type: String,
+        refbrand: {
+          type: String,
+          default: ""
+        },
+        body: String,
         coverImage: [
             {
                 type: String,
@@ -25,10 +50,13 @@ const Post = Schema(
             type: Number,
             default: ""
         },
-        type: String
+        forwho:{
+            type:String,
+            default:"Everyone",
+        }
     },
     {
-        timestamp: true,
+        timestamps: true,
     }
 );
 

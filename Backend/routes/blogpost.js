@@ -19,7 +19,6 @@ const upload = multer({
   limits: {
     fileSize: 1024 * 1024 * 6,
   },
-  // fileFilter: fileFilter,
 });
 
 router.route("/add/postImage/:id").patch(middleware.checkToken,upload.single("img"),(req,res)=>{
