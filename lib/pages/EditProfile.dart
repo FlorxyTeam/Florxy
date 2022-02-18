@@ -164,14 +164,16 @@ class _EditPageState extends State<EditPage> {
                         padding:
                         const EdgeInsets.fromLTRB(0, 0, 0, 10),
                         child: Center(
-                            child: CircularProgressIndicator()),
+                            child: CircularProgressIndicator()
+                        ),
                       )
                           : Inter(
                         text: "Save",
                         fontWeight: f.bold,
                         color: c.greenMain,
                         size: 18,
-                      ))
+                      )
+                  ),
                 ],
               ),
             ),

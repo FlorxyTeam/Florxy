@@ -40,7 +40,9 @@ router.route("/add/postImage/:id").patch(middleware.checkToken,upload.single("im
 router.route("/Add").post(middleware.checkToken,(req, res)=>{
     const blogpost = BlogPost({
         email: req.decoded.email,
-        title: req.body.title,
+        username:req.body.username,
+        fullname:req.body.fullname,
+        type: req.body.type,
         body: req.body.body,
     });
     blogpost
@@ -60,4 +62,28 @@ router.route("/getOwnPost").get(middleware.checkToken,(req,res)=>{
     });
 });
 
+router.route("/getOtherPost").get(middleware.checkToken,(req,res)=>{
+    BlogPost.find({email:{$ne:req.decoded.email}},(err,result)=>{
+        if(err)return res.json(err);
+        return res.json({data:result})
+    });
+});
+
+router.route("/delete/:id").delete(middleware.checkToken,(req,res)=>{
+    BlogPost.findOneAndDelete({
+        $and:[
+        {email:req.decoded.email},
+        {_id:req.params.id}
+        ],
+    },
+    (err,result)=>{
+        if(err) return res.json(err);
+        else if(result) {
+            console.log(result);
+            return res.json("Blog Deleted");
+        }
+        return res.json("Blog not deleted");
+      }
+    );
+})
 module.exports = router;
