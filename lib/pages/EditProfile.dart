@@ -8,6 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 
+import 'aliaspage.dart';
+
 
 class EditPage extends StatefulWidget {
   const EditPage({Key? key}) : super(key: key);
@@ -65,7 +67,6 @@ class _EditPageState extends State<EditPage> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(systemNavigationBarColor: Colors.white),);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(75.0),
@@ -164,14 +165,16 @@ class _EditPageState extends State<EditPage> {
                         padding:
                         const EdgeInsets.fromLTRB(0, 0, 0, 10),
                         child: Center(
-                            child: CircularProgressIndicator()),
+                            child: CircularProgressIndicator()
+                        ),
                       )
                           : Inter(
                         text: "Save",
                         fontWeight: f.bold,
                         color: c.greenMain,
                         size: 18,
-                      ))
+                      )
+                  ),
                 ],
               ),
             ),
@@ -221,7 +224,8 @@ class _EditPageState extends State<EditPage> {
                         ),
                         color: c.greyMain,
                         height: 55,
-                        onPressed: () {},
+                        onPressed: () {Navigator.pushAndRemoveUntil(context, MaterialPageRoute
+                          (builder: (context)=>AliasPage()), (route) => false);},
                         child: Inter(
                           text: "Switch to Professional Account",
                           size: 13,

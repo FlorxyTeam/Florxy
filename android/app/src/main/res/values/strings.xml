@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+<string name="app_name">Florxy</string>
+<string name="facebook_app_id">305417951531402</string>
+<string name="fb_login_protocol_scheme">fb305417951531402</string>
+<string name="facebook_client_token">6df6c56485b45e41e4fdb7c2e14b0993</string>
+
+    </resources>

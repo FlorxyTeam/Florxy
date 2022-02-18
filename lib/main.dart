@@ -2,16 +2,22 @@ import 'package:Florxy/pages/lastthingspage.dart';
 import 'package:Florxy/pages/navbar.dart';
 import 'package:Florxy/pages/registerpage.dart';
 import 'package:Florxy/pages/welcomepage.dart';
+import 'package:Florxy/provider/google_sign_in.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
+import 'postProvider.dart';
 
 
 
-void main() {
+Future main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -34,9 +40,10 @@ class _MyAppState extends State<MyApp> {
   }
   void checkLogin() async{
     String? token = await storage.read(key: "token");
+    print(token);
     if(token != null){
       setState(() {
-        page=Navbar();
+        page= Navbar();
       });
     }else{
       setState(() {
@@ -46,13 +53,18 @@ class _MyAppState extends State<MyApp> {
   }
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(systemNavigationBarColor: Colors.white),);
 
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Florxy',
-        theme: ThemeData(),
-        home: page
-        );
+    return MultiProvider(
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Florxy',
+          theme: ThemeData(),
+          home: page
+          ),
+      providers: [
+        ChangeNotifierProvider( create: (_) => PostProvider()),
+        ChangeNotifierProvider(create: (context) => GoogleSignInProvider())
+      ]
+    );
   }
 }

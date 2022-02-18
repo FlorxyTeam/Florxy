@@ -28,10 +28,7 @@ class _NavbarState extends State<Navbar> {
 
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(systemNavigationBarColor: Colors.white),);
     return Scaffold(
-
-      backgroundColor: c.textWhite,
       body: Stack(
         children: [
           pages[_currentIndex],
@@ -40,7 +37,7 @@ class _NavbarState extends State<Navbar> {
               left: 0,
               child: Container(
                 width: size.width,
-                height: Theme.of(context).platform==TargetPlatform.android?70:95,
+                height: Theme.of(context).platform==TargetPlatform.android?75:95,
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(

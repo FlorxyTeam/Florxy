@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:Florxy/CustomWidget/OverlayCard.dart';
+import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/NetworkHandler.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/material.dart';
@@ -18,13 +20,39 @@ class AddPost extends StatefulWidget {
 class _AddPostState extends State<AddPost> {
   final _globalkey = GlobalKey<FormState>();
   NetworkHandler networkHandler = NetworkHandler();
-  TextEditingController _title = TextEditingController();
+  TextEditingController _type = TextEditingController();
   TextEditingController _body = TextEditingController();
   String? errorText;
   String? errorpassText;
   bool validate = false;
   bool circular = false;
   final storage = new FlutterSecureStorage();
+
+
+  ProfileModel profileModel = ProfileModel(
+      DOB: '',
+      img: '',
+      influencer: '',
+      fullname: '',
+      bio: '',
+      email: '',
+      professor: '',
+      username: '');
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    fetchData();
+  }
+  void fetchData() async{
+    var response = await networkHandler.get("/profile/getData");
+    setState(() {
+      profileModel = ProfileModel.fromJson(response["data"]);
+      circular = false;
+    });
+  }
 
   File? image;
   Future takePhoto(ImageSource source) async {
@@ -57,7 +85,9 @@ class _AddPostState extends State<AddPost> {
             },
           ),
           actions: [
-            FlatButton(onPressed: (){}, child: Text("Preview",style: TextStyle(
+            FlatButton(onPressed: (){
+              showModalBottomSheet(context: context, builder: ((builder)=>OverlayCard()));
+            }, child: Text("Preview",style: TextStyle(
               fontSize: 18,
               color: Colors.teal,
             ),)),
@@ -83,7 +113,7 @@ class _AddPostState extends State<AddPost> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: TextFormField(
-        controller: _title,
+        controller: _type,
         validator: (value){
           if(value!.isEmpty){
             return "Title can't be empty";
@@ -207,25 +237,90 @@ class _AddPostState extends State<AddPost> {
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
       ),
-      child: InkWell(
-        onTap: (){
-          print('hi');
-        },
-        child: Center(
+      child: Center(
+        child: InkWell(
+          onTap: () async {
+            setState(() {
+              circular = true;
+            });
+            print("\n hi \n");
+            print(profileModel.username);
+            print(profileModel.fullname);
+            if (_globalkey.currentState!.validate()) {
+              Map<String, String> data = {
+                "username":profileModel.username,
+                "fullname":profileModel.fullname,
+                "type": _type.text,
+                "body": _body.text,
+              };
+              var response =
+                  await networkHandler.post("/blogPost/Add", data);
+              if (response.statusCode == 200 ||
+                  response.statusCode == 201) {
+                setState(() {
+                  circular = false;
+                });
+                Navigator.of(context).pop();
+              }else{
+                setState(() {
+                  circular = false;
+                });
+              }
+              // if (response.statusCode == 200 ||
+              //     response.statusCode == 201) {
+              //   if (image != null) {
+              //     var imageResponse = await networkHandler.patchImage(
+              //         "/blogPost/add/postImage/:id", image!.path);
+              //     if (imageResponse.statusCode == 200 ||
+              //         imageResponse.statusCode == 201) {
+              //       setState(() {
+              //         circular = false;
+              //       });
+              //       Navigator.of(context).pop();
+              //     }else {
+              //       setState(() {
+              //         circular = false;
+              //       });
+              //     }
+              //
+              //   } else {
+              //     setState(() {
+              //       circular = false;
+              //     });
+              //     Navigator.of(context).pop();
+              //   }
+              // }else {
+              //   setState(() {
+              //     circular = false;
+              //   });
+              // }
+            }
+            else {
+              setState(() {
+                circular = false;
+              });
+            }
+          },
           child: Container(
             height: 50,
             width: 200,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10), color: Colors.teal),
             child: Center(
-              child: Text(
-                "Add Post",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
+              child: circular
+                  ? Padding(
+                padding:
+                const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                child: Center(
+                    child: CircularProgressIndicator()
                 ),
-              ),
+              )
+                  : Inter(
+                text: "Save",
+                fontWeight: f.bold,
+                color: c.textWhite,
+                size: 18,
+              )
             ),
           ),
         ),
