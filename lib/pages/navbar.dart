@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/services.dart';
+import 'package:Florxy/pages/Laboratory.dart';
 
 // import 'package:flutter_icons/flutter_icons.dart';
 import 'package:boxicons/boxicons.dart';
@@ -21,7 +22,7 @@ class Navbar extends StatefulWidget {
 }
 
 class _NavbarState extends State<Navbar> {
-  List pages = [HomePage(), SearchPage(), NotificationPage(), ProfilePage()];
+  List pages = [HomePage(), SearchPage(), laboratory(),NotificationPage(), ProfilePage()];
   int _currentIndex = 0;
 
   @override
@@ -100,7 +101,7 @@ class _NavbarState extends State<Navbar> {
                                 _currentIndex = 2;
                               });
                             },
-                            icon: Icon(Boxicons.bx_bell),
+                            icon: Icon(Boxicons.bxs_flask),
                             iconSize: 30,
                             color:
                                 _currentIndex == 2 ? c.greenMain : c.greyMain)),
@@ -119,10 +120,29 @@ class _NavbarState extends State<Navbar> {
                                 _currentIndex = 3;
                               });
                             },
+                            icon: Icon(Boxicons.bx_bell),
+                            iconSize: 30,
+                            color:
+                            _currentIndex == 3 ? c.greenMain : c.greyMain)),
+                    Container(
+                        width: 45,
+                        height: 45,
+                        decoration: BoxDecoration(
+                            color: _currentIndex == 4
+                                ? c.greenLight2.withOpacity(0.8)
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: IconButton(
+                            padding: EdgeInsets.zero,
+                            onPressed: () {
+                              setState(() {
+                                _currentIndex = 4;
+                              });
+                            },
                             icon: Icon(Boxicons.bx_user_circle),
                             iconSize: 30,
                             color:
-                                _currentIndex == 3 ? c.greenMain : c.greyMain)),
+                                _currentIndex == 4 ? c.greenMain : c.greyMain)),
                   ],
                 ),
               ))
