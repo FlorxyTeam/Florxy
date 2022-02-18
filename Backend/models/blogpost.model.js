@@ -47,7 +47,10 @@ const BlogPost = Schema({
         type:String,
         default:"",
     },
-    createdate:Date
+    forwho:{
+        type:String,
+        default:"Everyone",
+    }
 },
   {
     timestamps: true,
