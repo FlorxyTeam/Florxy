@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "752751069061",
+    "project_id": "florxy",
+    "storage_bucket": "florxy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:752751069061:android:85943c6e47cec8ec0326ec",
+        "android_client_info": {
+          "package_name": "com.florxy.florxy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "752751069061-9hbvp97nj9ntc5jfeu6lpvobnt0v18ra.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvkiESlnli7NUFhjIbw74Xl89vrb3m-XM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "752751069061-9hbvp97nj9ntc5jfeu6lpvobnt0v18ra.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

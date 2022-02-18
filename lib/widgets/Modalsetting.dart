@@ -1,14 +1,18 @@
 import 'package:Florxy/pages/FrankEditProfile.dart';
 import 'package:Florxy/pages/welcomepage.dart';
+import 'package:Florxy/provider/google_sign_in.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:boxicons/boxicons.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/pages/EditProfile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 import 'package:slide_popup_dialog_null_safety/slide_popup_dialog.dart'
 as slideDialog;
 import 'package:Florxy/pages/EditProfile.dart';
@@ -207,6 +211,22 @@ Column _buildBottomNavigationMenu(context,username) {
                         child: ListTile(
                             onTap: () async {
                               await storage.delete(key: "token");
+                              final google_user = FirebaseAuth.instance.currentUser;
+                              print(google_user);
+
+                              if(google_user != null){
+
+                                final AccessToken? accessToken = await FacebookAuth.instance.accessToken;
+                                if (accessToken != null) {
+                                  print(accessToken);
+                                  await FacebookAuth.instance.logOut();
+                                }
+                                else{
+                                  final provider = Provider.of<GoogleSignInProvider>(context, listen:false);
+                                  provider.logout();
+                                }
+                              }
+
                               Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
