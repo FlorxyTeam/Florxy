@@ -19,23 +19,6 @@ class _NotificationPageState extends State<NotificationPage> {
     return Scaffold(
       backgroundColor: Color(0xffF9F9F9),
       body: Container(
-        width: MediaQuery.of(context).size.width,
-        child: Padding(
-          padding: EdgeInsets.only(top: 100, left: 35, right: 270),
-          child: ElevatedButton(
-            onPressed: () async {
-              await availableCameras().then(
-                    (value) => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => CameraNavbar(cameras: value,),
-                  ),
-                ),
-              );
-            },
-            child: const Text('Camera'),
-          ),
-        ),
       ),
     );
     return Center(

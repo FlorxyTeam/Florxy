@@ -3,6 +3,7 @@ import 'package:Florxy/postProvider.dart';
 import 'package:Florxy/pages/CreatePost.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:boxicons/boxicons.dart';
+import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
@@ -14,6 +15,7 @@ import "package:flutter_feather_icons/flutter_feather_icons.dart";
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../NetworkHandler.dart';
+import 'cameranavbar.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -86,8 +88,15 @@ class _HomePageState extends State<HomePage> {
                 icon: Icon(FeatherIcons.maximize),
                 iconSize: 25,
                 color: Colors.black,
-                onPressed: () {
-                  Navigator.pop(context);
+                onPressed: () async {
+                  await availableCameras().then(
+                        (value) => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CameraNavbar(cameras: value,),
+                      ),
+                    ),
+                  );
                 },
               ),
             ),
