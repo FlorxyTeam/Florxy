@@ -67,8 +67,7 @@ class Inter_Crop extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(text,
-        softWrap: false,
-        overflow: TextOverflow.fade,
+        overflow: TextOverflow.ellipsis,
         maxLines: 1,
         style: GoogleFonts.inter(
             textStyle: TextStyle(

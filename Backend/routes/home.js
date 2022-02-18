@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.route("/getPost").get( (req, res) => {
     Post.find({}, (err, result) => {
-    console.log('result: '+ result);
+    // console.log('result: '+ result);
       if (err) return res.json({ err: err });
       if (result == null) return res.json({ data: [] });
       else return res.json({ data: result });

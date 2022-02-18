@@ -7,6 +7,12 @@ const Post = Schema(
         post: String,
         brand: String,
         product: String,
+        coverImage: [
+            {
+                type: String,
+                default: ""
+            }
+        ],
         comment: {
             type: Number,
             default: "0"

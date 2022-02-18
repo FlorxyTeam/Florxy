@@ -5,10 +5,18 @@ import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
+import 'ViewPhotoWidget.dart';
+
 class MentionPost extends StatelessWidget {
   String? name,postTime,username,brand,product,post;
   int? comment,favorite;
-  MentionPost({Key? key, this.name, this.postTime, this.username, this.brand, this.product, this.post, this.comment, this.favorite}) : super(key: key);
+  List? urlImage;
+  MentionPost({Key? key, this.name, this.postTime, this.username, this.brand, this.product, this.post, this.comment, this.favorite, this.urlImage}) : super(key: key);
+
+  // final urlImage = [
+  //   'https://i0.wp.com/reviewsandotherstuff.com/wp-content/uploads/2020/06/olaplex-no-6-bond-smoother.jpg?resize=980%2C728&ssl=1',
+  //   'https://www.dermacaredirect.co.uk/media/wysiwyg/bond-maintenance-shampoo-olaplex-dermacare-direct.jpg'
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -105,34 +113,51 @@ class MentionPost extends StatelessWidget {
                   children: [
                     // SizedBox(width: 60),
                     Expanded(
-                      child: Container(
-                        height: 140,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(12),
-                            bottomLeft: Radius.circular(12)
+                      child: GestureDetector(
+                        child: Container(
+                          height: 140,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              bottomLeft: Radius.circular(12)
+                            ),
+                            color: c.graySub2,
+                            image: DecorationImage(
+                              image: NetworkImage(urlImage![0]),
+                              fit: BoxFit.cover
+                            )
                           ),
-                          color: c.graySub2,
-                          image: DecorationImage(
-                            image: AssetImage('')
-                          )
                         ),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                            urlImage: urlImage,
+                          )));
+                        },
                       ),
                     ),
                     SizedBox( width: 5 ),
                     Expanded(
-                      child: Container(
-                        height: 140,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(12),
-                                bottomRight: Radius.circular(12)
-                            ),
-                            color: c.graySub2,
-                            image: DecorationImage(
-                                image: AssetImage('')
-                            )
+                      child: GestureDetector(
+                        child: Container(
+                          height: 140,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(12),
+                                  bottomRight: Radius.circular(12)
+                              ),
+                              color: c.graySub2,
+                              image: DecorationImage(
+                                  image: NetworkImage(urlImage![1]),
+                                  fit: BoxFit.cover
+                              )
+                          ),
                         ),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                              urlImage: urlImage,
+                              index: 2
+                          )));
+                        },
                       ),
                     )
                   ],
@@ -145,31 +170,36 @@ class MentionPost extends StatelessWidget {
                     SizedBox(width: 5),
                     Container(
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 9, right: 9),
+                        padding: const EdgeInsets.only(left: 9, right: 4, top: 3, bottom: 3),
                         child: Row(
                           children: [
-                            Inter(
-                                text: brand!,
-                                size: 10,
-                                color: Colors.white,
-                                fontWeight: f.semiBold
+                            // Inter(
+                            //     text: brand!,
+                            //     size: 10,
+                            //     color: Colors.white,
+                            //     fontWeight: f.semiBold
+                            // ),
+                            // SizedBox(
+                            //   height: 20,
+                            //   child: VerticalDivider(
+                            //     color: Colors.white,
+                            //     thickness: 1.5,
+                            //     indent: 3.2,
+                            //     endIndent: 3.2,
+                            //     width: 15,
+                            //   )
+                            // ),
+                            Container(
+                              constraints: BoxConstraints(maxWidth: 160),
+                              child: Inter_Crop(
+                                  text: brand!+" "+product!,
+                                  size: 10,
+                                  color: Colors.white,
+                                  fontWeight: f.semiBold
+                              ),
                             ),
-                            SizedBox(
-                              height: 20,
-                              child: VerticalDivider(
-                                color: Colors.white,
-                                thickness: 1.5,
-                                indent: 3.2,
-                                endIndent: 3.2,
-                                width: 15,
-                              )
-                            ),
-                            Inter_Crop(
-                                text: product!,
-                                size: 10,
-                                color: Colors.white,
-                                fontWeight: f.semiBold
-                            ),
+                            SizedBox(width: 4),
+                            Icon(FeatherIcons.chevronRight, size: 14, color: Colors.white),
                           ],
                         ),
                       ),
@@ -355,30 +385,33 @@ class ReviewPost extends StatelessWidget {
                     SizedBox(width: 5),
                     Container(
                       child: Padding(
-                        padding: const EdgeInsets.only(left: 9, right: 4),
+                        padding: const EdgeInsets.only(left: 9, right: 4,top: 2.5,bottom: 2.5),
                         child: Row(
                           children: [
-                            Inter(
-                                text: brand!,
-                                size: 10,
-                                color: Colors.white,
-                                fontWeight: f.semiBold
-                            ),
-                            SizedBox(
-                                height: 20,
-                                child: VerticalDivider(
+                            // Inter(
+                            //     text: brand!,
+                            //     size: 10,
+                            //     color: Colors.white,
+                            //     fontWeight: f.semiBold
+                            // ),
+                            // SizedBox(
+                            //     height: 20,
+                            //     child: VerticalDivider(
+                            //       color: Colors.white,
+                            //       thickness: 1.5,
+                            //       indent: 3.3,
+                            //       endIndent: 3.3,
+                            //       width: 13,
+                            //     )
+                            // ),
+                            Container(
+                              constraints: BoxConstraints(maxWidth: 125),
+                              child: Inter_Crop(
+                                  text: brand!+" "+product!,
+                                  size: 10,
                                   color: Colors.white,
-                                  thickness: 1.5,
-                                  indent: 3.3,
-                                  endIndent: 3.3,
-                                  width: 13,
-                                )
-                            ),
-                            Inter_Crop(
-                                text: product!,
-                                size: 10,
-                                color: Colors.white,
-                                fontWeight: f.semiBold
+                                  fontWeight: f.semiBold
+                              ),
                             ),
                             SizedBox(width: 7),
                             Inter(

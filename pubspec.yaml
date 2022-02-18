@@ -60,6 +60,7 @@ dependencies:
   ionicons: ^0.1.2
   flutter_feather_icons: ^2.0.0+1
   material_design_icons_flutter: ^5.0.6595
+  photo_view: ^0.13.0
 #  intro_screen_onboarding_flutter: ^0.1.5
  
 dev_dependencies:
