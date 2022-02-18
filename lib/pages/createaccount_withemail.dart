@@ -409,11 +409,13 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                                     await storage.read(key: "username");
                                 String? fullname =
                                     await storage.read(key: "fullname");
+                                String? date =
+                                    await storage.read(key: "date");
 
                                 Map<String, String> data = {
                                   "username": "$username",
                                   "fullname": "$fullname",
-                                  "DOB": "SampleDOB",
+                                  "DOB": "$date",
                                 };
                                 var response2 = await networkHandler.post(
                                     "/profile/add", data);

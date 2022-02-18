@@ -31,9 +31,15 @@ const Profile = Schema(
       type: String,
       default: "",
     },
+    favorite: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
+      }
+    ]
   },
   {
-    timestamp: true,
+    timestamps: true,
   }
 );
 
