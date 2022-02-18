@@ -15,7 +15,6 @@ class PostReply extends StatefulWidget {
 class _PostReplyState extends State<PostReply> {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(systemNavigationBarColor: Colors.white),);
     return Center(
       child: Poppins(
           text: "Post&Reply",

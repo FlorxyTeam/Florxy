@@ -22,6 +22,7 @@ class c {
   static final Color greenFade= Color(0xFFAACEB0);
   static final Color blackMain = Color(0xFF000000);
   static final Color blackSub = Color(0xFF4B4B4B);
+  static final Color blackSub2 = Color(0xFF8E8E8E);
   static final Color greyMain = Color(0xFFACACAC);
   static final Color graySub2 = Color(0xFFB6B6B6);
   static final Color greySub = Color(0xFFD2D2D2);
@@ -29,6 +30,7 @@ class c {
   static final Color greyLight = Color(0xFFEDEDED);
   static final Color textWhite = Color(0xFFF9F9F9);
   static final Color textBlack = Color(0xFF053118);
+  static final Color postText = Color(0xFF29372F);
   static final Color textUsername = Color(0xFF97AFA2);
   static final Color redMain = Color(0xFFDA1E12);
   static final Color yellowMain = Color(0xFFFFC226);
