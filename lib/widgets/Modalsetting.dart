@@ -211,20 +211,25 @@ Column _buildBottomNavigationMenu(context,username) {
                         child: ListTile(
                             onTap: () async {
                               await storage.delete(key: "token");
-                              final google_user = FirebaseAuth.instance.currentUser;
-                              print(google_user);
-
-                              if(google_user != null){
-
+                              final user = FirebaseAuth.instance.currentUser;
+                              print(user);
+                              if(user?.providerData[0].providerId=='facebook.com'){
                                 final AccessToken? accessToken = await FacebookAuth.instance.accessToken;
                                 if (accessToken != null) {
                                   print(accessToken);
                                   await FacebookAuth.instance.logOut();
+                                  FacebookAuth.i.logOut();
+                                  FirebaseAuth.instance.signOut();
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => WelcomePage()),
+                                          (route) => false);
                                 }
-                                else{
-                                  final provider = Provider.of<GoogleSignInProvider>(context, listen:false);
-                                  provider.logout();
-                                }
+                              }
+                              else if(user?.providerData[0].providerId=='google.com'){
+                                final provider = Provider.of<GoogleSignInProvider>(context,listen: false);
+                                provider.logout();
                               }
 
                               Navigator.pushAndRemoveUntil(

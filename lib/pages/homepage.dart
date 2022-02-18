@@ -3,6 +3,7 @@ import 'package:Florxy/postProvider.dart';
 import 'package:Florxy/pages/CreatePost.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:boxicons/boxicons.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/material.dart';
@@ -98,6 +99,9 @@ class _HomePageState extends State<HomePage> {
                   iconSize: 25,
                   color: Colors.black,
                   onPressed: () {
+                    final google_user = FirebaseAuth.instance.currentUser;
+
+                    print(google_user);
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreatePost()));;
                   },
                 ),

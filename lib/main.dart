@@ -40,20 +40,19 @@ class _MyAppState extends State<MyApp> {
   }
   void checkLogin() async{
     String? token = await storage.read(key: "token");
+    print(token);
     if(token != null){
       setState(() {
         page= Navbar();
       });
     }else{
       setState(() {
-        page= Navbar();
+        page= WelcomePage();
       });
     }
   }
   @override
   Widget build(BuildContext context) {
-   // return ChangeNotifierProvider(
-    //  create: (context) => GoogleSignInProvider(),
 
     return MultiProvider(
       child: MaterialApp(
@@ -63,7 +62,8 @@ class _MyAppState extends State<MyApp> {
           home: page
           ),
       providers: [
-        ChangeNotifierProvider( create: (_) => PostProvider())
+        ChangeNotifierProvider( create: (_) => PostProvider()),
+        ChangeNotifierProvider(create: (context) => GoogleSignInProvider())
       ]
     );
   }

@@ -215,7 +215,7 @@ Column _buildLoginMenu(context) {
               print(accessToken.token);
               final credential = FacebookAuthProvider.credential(accessToken.token);
               await FirebaseAuth.instance.signInWithCredential(credential);
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Navbar()));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => GoogleStream()));
 
               // print("hi");
               // print(accessToken);
