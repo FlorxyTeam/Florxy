@@ -58,6 +58,7 @@ dependencies:
   flutter_linear_datepicker: ^2.0.4
   get: ^4.6.1
   getwidget: ^2.0.4
+  camera: ^0.9.4+14
 #  intro_screen_onboarding_flutter: ^0.1.5
  
 dev_dependencies:

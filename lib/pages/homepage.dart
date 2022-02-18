@@ -1,8 +1,12 @@
 import 'package:Florxy/widgets/font.dart';
+import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/material.dart';
+import 'package:Florxy/widgets/button.dart';
+import 'package:Florxy/pages/cameranavbar.dart';
 import 'package:flutter/services.dart';
+import 'navbar.dart';
 
 
 class HomePage extends StatefulWidget {
