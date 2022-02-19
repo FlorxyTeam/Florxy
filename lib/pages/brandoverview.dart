@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:boxicons/boxicons.dart';
 
 
 class CardItem {
@@ -122,20 +122,20 @@ class _BrandoverviewState extends State<Brandoverview> {
                 child: Divider(
                   height: 0,
                   color: c.greyMain,
-                  thickness: 0.6,
+                  thickness: 0.4,
                 ),
               ),
                SizedBox(
                  height: 20,
                ),
                Container(
-                height: MediaQuery.of(context).size.height* 0.239,
+                height: MediaQuery.of(context).size.height* 0.25,
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage(
-                        "assets/img/check-list.png"),
-                    fit: BoxFit.cover,
+                        "assets/img/pixi.gif"),
+                    fit: BoxFit.fill,
                   ),
                 ),
               ),
@@ -158,17 +158,17 @@ class _BrandoverviewState extends State<Brandoverview> {
                         onTap: () {},
                         child: Container(
                           width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.12,
+                          height: MediaQuery.of(context).size.height * 0.14,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(17),
+                            borderRadius: BorderRadius.circular(15),
                             color: Colors.white,
                             boxShadow: [
                               BoxShadow(
                                 color: c.shadow.withOpacity(0.32),
-                                spreadRadius: -17,
-                                blurRadius: 30,
+                                spreadRadius: 0,
+                                blurRadius: 10,
                                 offset:
-                                Offset(0, 6), // changes position of shadow
+                                Offset(0, 0), // changes position of shadow
                               ),
                             ],
                           ),
@@ -178,13 +178,18 @@ class _BrandoverviewState extends State<Brandoverview> {
                                 padding:
                                 const EdgeInsets.only(left: 22, right: 22),
                                 child: Container(
-                                  height: 58,
-                                  width: 58,
+                                  height: 68,
+                                  width: 68,
                                   decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(34),
+                                    border: Border.all(
+                                      width: 1,
+                                      color: Color(0xFF986A4E),//                   <--- border width here
+                                    ),
                                     image: DecorationImage(
                                       image: AssetImage(
-                                          "assets/img/check-list.png"),
-                                      fit: BoxFit.cover,
+                                          "assets/img/pixi-logo.gif"),
+                                      fit: BoxFit.fill,
                                     ),
                                   ),
                                 ),
@@ -193,27 +198,84 @@ class _BrandoverviewState extends State<Brandoverview> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 9, bottom: 8),
+                                    SizedBox(
+                                      height: MediaQuery.of(context).size.height/45,
+                                    ),
+                                    Container(
+                                      height: MediaQuery.of(context).size.height/35,
                                       child: Poppins(
-                                          text: "Ingredient Checker",
+                                          text: "Pixi Official",
                                           size: 15,
                                           color: Color(0xFF053118),
                                           fontWeight: f.semiBold),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 8),
-                                      child: Inter(
-                                          text:
-                                          "Lorem Ipsum is simply dummy text of the printing and typesetting",
-                                          size: 13,
-                                          color: Color(0xFF053118)
-                                              .withOpacity(0.51),
-                                          fontWeight: f.regular),
+                                    Inter(
+                                        text:
+                                        "@pixibrand",
+                                        size: 13,
+                                        color: Color(0xFF053118)
+                                            .withOpacity(0.51),
+                                        fontWeight: f.medium),
+                                    SizedBox(
+                                      height: 5,
                                     ),
+                                    Row(
+                                      children: [
+                                        Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 7, left: 7, top: 4, bottom: 4),
+                                            child: Inter(
+                                                text: "Beauty Advisor",
+                                                size: 9,
+                                                color: Colors.white,
+                                                fontWeight: f.semiBold),
+                                          ),
+                                          decoration: BoxDecoration(
+                                              color: c.greenMain,
+                                              borderRadius: BorderRadius.circular(10)),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 5, left: 5, top: 2, bottom: 2),
+                                            child: Inter(
+                                                text: "Beauty Owner",
+                                                size: 9,
+                                                color: c.blueMain,
+                                                fontWeight: f.bold),
+                                          ),
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: c.blueMain,
+                                                width: 2,
+                                              ),
+                                              borderRadius: BorderRadius.circular(10)),
+                                        ),
+
+                                      ],
+
+                                    ),
+
+
                                   ],
                                 ),
+                              ),
+                              Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 7),
+                                    child: IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(Boxicons.bx_dots_vertical_rounded),
+                                      color:Color(0xFF9D9D9D),
+                                    ),
+                                  ),
+
+                                ],
                               )
                             ],
                           ),

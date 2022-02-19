@@ -132,7 +132,7 @@ class _ProfilePageState extends State<ProfilePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 8,
+              height: MediaQuery.of(context).size.height/45,
             ),
             Row(
               // mainAxisAlignment: MainAxisAlignment.start,
@@ -186,7 +186,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             ],
                           ),
                           SizedBox(
-                            width: 30,
+                            width: MediaQuery.of(context).size.width/20
+                            // width: 30,
                           ),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,7 +205,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             ],
                           ),
                           SizedBox(
-                            width: 30,
+                            width: MediaQuery.of(context).size.width/10,
+
                           ),
                         ],
                       ),
@@ -212,7 +214,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ],
                 ),
                 SizedBox(
-                  width: 17,
+                  width: MediaQuery.of(context).size.width/20,
                 ),
                 Expanded(
                   child: Column(
