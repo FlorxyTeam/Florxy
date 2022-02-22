@@ -199,26 +199,24 @@ class _BrandoverviewState extends State<Brandoverview> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 28,
-                  top: 30,
-                ),
-                child: Poppins(
-                  text: "Brand Overview",
-                  color: c.blackMain,
-                  fontWeight: f.semiBold,
-                  size: 25,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 28, bottom: 16),
-                child: Poppins(
-                  text: "Pixi",
-                  color: c.blackMain,
-                  fontWeight: f.regular,
-                  size: 25,
-                ),
+
+              Row(
+                children: [
+                  IconButton(
+                      icon: Icon(Icons.arrow_back_ios_new_rounded),
+                      color: c.blackMain,
+                      iconSize: 30,
+                      onPressed: () => Navigator.of(context).pop()),
+                  Padding(
+                    padding: const EdgeInsets.only(),
+                    child: Poppins(
+                      text: "Pixi",
+                      color: c.blackMain,
+                      fontWeight: f.regular,
+                      size: 25,
+                    ),
+                  ),
+                ],
               ),
               Container(
                 padding: EdgeInsets.only(right: 28, left: 28),
@@ -258,139 +256,136 @@ class _BrandoverviewState extends State<Brandoverview> {
                     child: Padding(
                       padding: const EdgeInsets.only(
                           left: 28, right: 28, bottom: 20),
-                      child: InkWell(
-                        onTap: () {
-                        },
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.13,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: c.shadow.withOpacity(0.32),
-                                spreadRadius: 0,
-                                blurRadius: 10,
-                                offset:
-                                    Offset(0, 0), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(right: 15, left: 18),
-                                child: Container(
-                                  height: 56,
-                                  width: 56,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      width: 1.5,
-                                      color: Color(
-                                          0xFF986A4E), //                   <--- border width here
-                                    ),
-                                    borderRadius: BorderRadius.circular(28),
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                          "assets/img/pixi-logo.gif"),
-                                      fit: BoxFit.fill,
-                                    ),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.13,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.white,
+                          boxShadow: [
+                            BoxShadow(
+                              color: c.shadow.withOpacity(0.32),
+                              spreadRadius: 0,
+                              blurRadius: 10,
+                              offset:
+                                  Offset(0, 0), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.only(right: 15, left: 18),
+                              child: Container(
+                                height: 56,
+                                width: 56,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    width: 1.5,
+                                    color: Color(
+                                        0xFF986A4E), //                   <--- border width here
+                                  ),
+                                  borderRadius: BorderRadius.circular(28),
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                        "assets/img/pixi-logo.gif"),
+                                    fit: BoxFit.fill,
                                   ),
                                 ),
                               ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 15,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            "Pixi Official",
-                                            style: GoogleFonts.poppins(
-                                                fontSize: 16,
-                                                fontWeight: f.semiBold,
-                                                color: Color(0xFF053118)),
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
+                            ),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          "Pixi Official",
+                                          style: GoogleFonts.poppins(
+                                              fontSize: 16,
+                                              fontWeight: f.semiBold,
+                                              color: Color(0xFF053118)),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ),
+                                      ),
+                                      Container(
+                                        child: InkWell(
+                                          onTap: (){},
+                                          child: Icon(Boxicons
+                                              .bx_dots_vertical_rounded,
+                                            color:Color(
+                                                0xFF9D9D9D),
                                           ),
                                         ),
-                                        Container(
-                                          child: InkWell(
-                                            child: Icon(Boxicons
-                                                .bx_dots_vertical_rounded,
-                                              color:Color(
-                                                  0xFF9D9D9D),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 8, bottom: 5),
-                                      child: Inter(
-                                          text: "@pixibrand",
-                                          size: 13,
-                                          color: Color(0xFF97AFA2),
-                                          fontWeight: f.medium),
-                                    ),
+                                      ),
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8, bottom: 5),
+                                    child: Inter(
+                                        text: "@pixibrand",
+                                        size: 13,
+                                        color: Color(0xFF97AFA2),
+                                        fontWeight: f.medium),
+                                  ),
 
-                                    Row(
-                                      children: [
-                                        Container(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 7,
-                                                left: 7,
-                                                top: 4,
-                                                bottom: 4),
-                                            child: Inter(
-                                                text: "Beauty Advisor",
-                                                size: 11,
-                                                color: Colors.white,
-                                                fontWeight: f.semiBold),
-                                          ),
-                                          decoration: BoxDecoration(
-                                              color: c.greenMain,
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 7,
+                                              left: 7,
+                                              top: 4,
+                                              bottom: 4),
+                                          child: Inter(
+                                              text: "Beauty Advisor",
+                                              size: 11,
+                                              color: Colors.white,
+                                              fontWeight: f.semiBold),
                                         ),
-                                        SizedBox(
-                                          width: 5,
+                                        decoration: BoxDecoration(
+                                            color: c.greenMain,
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                      ),
+                                      SizedBox(
+                                        width: 5,
+                                      ),
+                                      Container(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 5,
+                                              left: 5,
+                                              top: 2,
+                                              bottom: 2),
+                                          child: Inter(
+                                              text: "Beauty Owner",
+                                              size:11,
+                                              color: c.blueMain,
+                                              fontWeight: f.bold),
                                         ),
-                                        Container(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 5,
-                                                left: 5,
-                                                top: 2,
-                                                bottom: 2),
-                                            child: Inter(
-                                                text: "Beauty Owner",
-                                                size:11,
-                                                color: c.blueMain,
-                                                fontWeight: f.bold),
-                                          ),
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: c.blueMain,
-                                                width: 2,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: c.blueMain,
+                                              width: 2,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     ),
