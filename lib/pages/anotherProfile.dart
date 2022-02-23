@@ -1,3 +1,7 @@
+import 'package:Florxy/NetworkHandler.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/NetworkHandler.dart';
 import 'package:Florxy/widgets/Modalsetting.dart';
@@ -11,17 +15,17 @@ import 'package:Florxy/pages/PostReply.dart';
 import 'package:Florxy/pages/savedPro.dart';
 import 'package:flutter/services.dart';
 
-
-class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+class anotherProfile extends StatefulWidget {
+  const anotherProfile({Key? key}) : super(key: key);
 
   @override
-  _ProfilePageState createState() => _ProfilePageState();
+  _anotherProfileState createState() => _anotherProfileState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
-  bool circular = true;
-  NetworkHandler networkHandler = NetworkHandler();
+class _anotherProfileState extends State<anotherProfile> {
+  final storage = new FlutterSecureStorage();
+  final networkHandler = NetworkHandler();
+
   ProfileModel profileModel = ProfileModel(
       DOB: '',
       img: '',
@@ -36,18 +40,16 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     fetchData();
   }
-
-  void fetchData() async {
-    var response = await networkHandler.get("/profile/getData");
+  void fetchData() async{
+    String? profile = await storage.read(key: "anotherprofile");
+    print(profile);
+    var response = await networkHandler.get("/profile/getOtherData/$profile");
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
-      circular = false;
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -121,6 +123,8 @@ class _ProfilePageState extends State<ProfilePage> {
         )
     );
   }
+
+
 
   Widget profileHeaderWidget(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -326,3 +330,4 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 }
+

@@ -1,9 +1,11 @@
+import 'package:Florxy/pages/anotherProfile.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'ViewPhotoWidget.dart';
 
@@ -12,7 +14,7 @@ class MentionPost extends StatelessWidget {
   int? comment,favorite;
   List? urlImage;
   MentionPost({Key? key, this.name, this.postTime, this.username, this.brand, this.product, this.post, this.comment, this.favorite, this.urlImage}) : super(key: key);
-
+  final storage = new FlutterSecureStorage();
   // final urlImage = [
   //   'https://i0.wp.com/reviewsandotherstuff.com/wp-content/uploads/2020/06/olaplex-no-6-bond-smoother.jpg?resize=980%2C728&ssl=1',
   //   'https://www.dermacaredirect.co.uk/media/wysiwyg/bond-maintenance-shampoo-olaplex-dermacare-direct.jpg'
@@ -95,7 +97,9 @@ class MentionPost extends StatelessWidget {
                   height: 66,
                   alignment: Alignment.topRight,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      print("HELLO SON");
+                    },
                     alignment: Alignment.topRight,
                     icon: Icon(Boxicons.bx_dots_vertical_rounded, size: 30, color: c.greyMain),
                   ),
@@ -217,7 +221,11 @@ class MentionPost extends StatelessWidget {
                 SizedBox(height: 12),
                 Row(
                   children: [
-                    Icon(FeatherIcons.messageSquare, size:19, color: c.greyMain),
+                    InkWell(
+                        onTap: (){
+                            print("HELLO SON");
+                        },
+                        child: Icon(FeatherIcons.messageSquare, size:19, color: c.greyMain)),
                     SizedBox(width: 3),
                     Inter(text: comment!.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
                     Expanded(child: Container()),
@@ -249,7 +257,7 @@ class ReviewPost extends StatelessWidget {
   int? comment,favorite;
   double? rating;
   ReviewPost({Key? key, this.name, this.postTime, this.username, this.brand, this.product, this.post, this.comment, this.favorite, this.rating}) : super(key: key);
-
+  final storage = new FlutterSecureStorage();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -272,17 +280,24 @@ class ReviewPost extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Poppins(
-                          text: name!,
-                          fontWeight: f.semiBold,
-                          size: 13,
-                          color: Colors.black,
+                        InkWell(
+                          child: Poppins(
+                            text: name!,
+                            fontWeight: f.semiBold,
+                            size: 13,
+                            color: Colors.black,
+                          ),
+                          onTap: () async {
+                            await storage.write(
+                                key: "anotherprofile", value: username);
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
+                          },
                         ),
                         SizedBox( width: 5 ),
                         Inter(text: postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                       ],
                     ),
-                    Inter(text: username!, size: 11, color: c.textUsername, fontWeight: f.medium),
+                    Inter(text: '@'+username!, size: 11, color: c.textUsername, fontWeight: f.medium),
                     SizedBox( height: 7 ),
                     Row(
                       children: [
@@ -327,7 +342,10 @@ class ReviewPost extends StatelessWidget {
                   height: 66,
                   alignment: Alignment.topRight,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                        print("HELLO SON");
+
+                    },
                     alignment: Alignment.topRight,
                     icon: Icon(Boxicons.bx_dots_vertical_rounded, size: 30, color: c.greyMain),
                   ),

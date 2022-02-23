@@ -109,6 +109,14 @@ router.route("/getData").get(middleware.checkToken, (req, res) => {
   });
 });
 
+router.route("/getOtherData/:username").get(middleware.checkToken, (req, res) => {
+  Profile.findOne({username: req.params.username }, (err, result) => {
+    if (err) return res.json({ err: err });
+    if (result == null) return res.json({ data: [] });
+    else return res.json({ data: result });
+  });
+//    res.json({msg:req.params.username})
+});
 router.route("/update").patch(middleware.checkToken, async (req, res) => {
   let profile = {};
   Profile.findOne({ email: req.decoded.email }, (err, result) => {
