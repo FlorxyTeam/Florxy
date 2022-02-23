@@ -7,6 +7,8 @@ class ProfileModel {
   String email;
   String username;
   String fullname;
+  int follower;
+  int following;
   String DOB;
   String professor;
   String influencer;
@@ -17,6 +19,8 @@ class ProfileModel {
     required this.email,
     required this.username,
     required this.fullname,
+    required this.follower,
+    required this.following,
     required this.DOB,
     required this.professor,
     required this.influencer,

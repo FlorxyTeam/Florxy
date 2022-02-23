@@ -31,6 +31,8 @@ class _anotherProfileState extends State<anotherProfile> {
       img: '',
       influencer: '',
       fullname: '',
+      follower: 0,
+      following: 0,
       bio: '',
       email: '',
       professor: '',

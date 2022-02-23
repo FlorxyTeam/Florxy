@@ -30,6 +30,8 @@ class _EditPageState extends State<EditPage> {
       img: '',
       influencer: '',
       fullname: '',
+      follower: 0,
+      following: 0,
       bio: '',
       email: '',
       professor: '',

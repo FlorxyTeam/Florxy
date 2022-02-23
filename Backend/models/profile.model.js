@@ -19,6 +19,14 @@ const Profile = Schema(
       type: String,
       default: "",
     },
+    follower:{
+      type: Number,
+      default: 0,
+    },
+    following:{
+      type: Number,
+      default: 0,
+    },
     influencer: {
       type: String,
       default: "",

@@ -29,6 +29,8 @@ class _CreateProfileState extends State<CreateProfile> {
       img: '',
       influencer: '',
       fullname: '',
+      follower: 0,
+      following: 0,
       bio: '',
       email: '',
       professor: '',

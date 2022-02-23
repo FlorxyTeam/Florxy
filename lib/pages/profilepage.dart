@@ -27,6 +27,8 @@ class _ProfilePageState extends State<ProfilePage> {
       img: '',
       influencer: '',
       fullname: '',
+      follower: 0,
+      following: 0,
       bio: '',
       email: '',
       professor: '',
@@ -175,7 +177,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Poppins(
-                                  text: "11.3K",
+                                  text: profileModel.follower.toString(),
                                   size: 18,
                                   color: c.blackMain,
                                   fontWeight: f.semiBold),
@@ -193,7 +195,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Poppins(
-                                  text: "345",
+                                  text: profileModel.following.toString(),
                                   size: 18,
                                   color: c.blackMain,
                                   fontWeight: f.semiBold),

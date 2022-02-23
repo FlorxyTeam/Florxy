@@ -5,13 +5,13 @@ import 'dart:convert';
 
 class PostProvider extends ChangeNotifier{
   final httpClient = http.Client();
-  String baseurl = "https://4544-1-20-191-21.ngrok.io";
+  String baseurl = "https://d14f-49-237-14-112.ngrok.io";
 
   List<dynamic>? postData;
   FlutterSecureStorage storage = FlutterSecureStorage();
   Future fetchData() async{
     String? token = await storage.read(key:"token");
-    final Uri resAPIURL = Uri.parse("https://4544-1-20-191-21.ngrok.io/home/getAllPost");
+    final Uri resAPIURL = Uri.parse("https://d14f-49-237-14-112.ngrok.io/home/getAllPost");
     http.Response response = await httpClient.get(
         resAPIURL,
         headers: {"Authorization":"Bearer $token"},
