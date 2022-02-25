@@ -416,6 +416,8 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                                   "username": "$username",
                                   "fullname": "$fullname",
                                   "DOB": "$date",
+                                  "follower": "0",
+                                  "following": "0",
                                 };
                                 var response2 = await networkHandler.post(
                                     "/profile/add", data);
