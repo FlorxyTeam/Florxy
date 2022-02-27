@@ -3,6 +3,7 @@ import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:boxicons/boxicons.dart';
+import 'package:Florxy/pages/productoverview.dart';
 
 class MostMention {
   final String urlImage;
@@ -206,7 +207,8 @@ class _BrandoverviewState extends State<Brandoverview> {
                       icon: Icon(Icons.arrow_back_ios_new_rounded),
                       color: c.blackMain,
                       iconSize: 30,
-                      onPressed: () => Navigator.of(context).pop()),
+                      onPressed: () => Navigator.of(context).pop()
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(),
                     child: Poppins(
@@ -317,7 +319,27 @@ class _BrandoverviewState extends State<Brandoverview> {
                                       ),
                                       Container(
                                         child: InkWell(
-                                          onTap: (){},
+                                          onTap: () => showModalBottomSheet(
+                                            backgroundColor: Colors.transparent,
+                                              context: context,
+                                              builder: (context) {
+                                              return Container(
+                                                color: Colors.transparent,
+                                                height: 320,
+                                                child: Container(
+                                                  child: Padding(
+                                                    padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+                                                    child: _buildBottomNavigationMenu(context),
+                                                  ),
+                                                  decoration: BoxDecoration(
+                                                      color: Theme.of(context).canvasColor,
+                                                      borderRadius: BorderRadius.only(
+                                                          topLeft: const Radius.circular(42),
+                                                          topRight: const Radius.circular(42))),
+                                                ),
+                                              );
+                                              }
+                                          ),
                                           child: Icon(Boxicons
                                               .bx_dots_vertical_rounded,
                                             color:Color(
@@ -503,7 +525,9 @@ class _BrandoverviewState extends State<Brandoverview> {
           children: [
             Center(
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductOverview()));
+                },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.31,
                   height: MediaQuery.of(context).size.height * 0.27,
@@ -762,6 +786,109 @@ class _BrandoverviewState extends State<Brandoverview> {
           ],
         ),
       );
+
+  Column _buildBottomNavigationMenu(context) {
+    return Column(
+      children: [
+        Container(
+
+          width: 88,
+          child: Divider(
+            height: 0,
+            color: c.greyMain,
+            thickness: 4,
+          ),
+        ),
+        SizedBox(height: 10),
+        Container(
+
+          child: ListTile(
+            // shape: Border.,
+            leading: Icon(Boxicons.bx_user_plus, size: 30),
+            iconColor: c.blackMain,
+            textColor: c.blackMain,
+            title: Inter(
+                text: "Follow",
+                size: 15,
+                color: Color(0xFF063218),
+                fontWeight: f.semiBold),
+            onTap: ()  {
+            },
+          ),
+          decoration: BoxDecoration(
+              color: c.textWhite,
+              border: Border(
+                bottom: BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.5)),
+              )
+              ),
+        ),
+
+        Container(
+          child: ListTile(
+            leading: Icon(
+              Boxicons.bx_volume_mute,
+            ),
+            iconColor: c.blackMain,
+            textColor: c.blackMain,
+            title: Inter(
+                text: "Mute",
+                size: 16,
+                color: Color(0xFF063218),
+                fontWeight: f.semiBold),
+            onTap: () {},
+          ),
+          decoration: BoxDecoration(
+              color: c.textWhite,
+              border: Border(
+                bottom: BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.5)),
+              )
+              ),
+        ),
+
+        Container(
+          child: ListTile(
+            leading: Icon(Icons.block_rounded),
+            iconColor: c.blackMain,
+            textColor: c.blackMain,
+            title: Inter(
+                text: "Block",
+                size: 16,
+                color:Color(0xFF063218),
+                fontWeight: f.semiBold),
+            onTap: () {},
+          ),
+          decoration: BoxDecoration(
+              color: c.textWhite,
+              border: Border(
+                bottom: BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.5)),
+              )
+              ),
+        ),
+        Container(
+          child: ListTile(
+            leading: Icon(Icons.outlined_flag_outlined),
+            iconColor: c.blackMain,
+            textColor: c.blackMain,
+            title: Inter(
+                text: "Report Post",
+                size: 16,
+                color: Color(0xFF063218),
+                fontWeight: f.semiBold),
+            onTap: ()  {
+              // Future.delayed(Duration(microseconds: 0));
+
+            },
+          ),
+          decoration: BoxDecoration(
+              color: c.textWhite,
+              ),
+        ),
+
+      ],
+    );
+  }
+
+
 
 
 }
