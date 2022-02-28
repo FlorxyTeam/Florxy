@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Profile = require("../models/profile.model");
+const Follower = require("../models/follower.model");
+const Following = require("../models/following.model");
 const middleware = require("../middleware");
 const multer = require("multer");
 const path = require("path");
@@ -55,6 +57,34 @@ router
     );
   });
 
+
+  router
+    .route("/add/follower")
+    .patch(middleware.checkToken, (req, res) => {
+      Follower.findOneAndUpdate(
+        { email: req.decoded.email },
+        {
+          $push: {
+            listfollower: [
+            {
+                email:"tesdt@",
+                username:"Hi1",
+            },
+            ],
+          },
+        },
+        { new: true },
+        (err, profile) => {
+          if (err) return res.status(500).send(err);
+          const response = {
+            message: "follower added",
+            data: profile,
+          };
+          return res.status(200).send(response);
+        }
+      );
+    });
+
 router.route("/add").post(middleware.checkToken, (req, res) => {
   const profile = Profile({
     email: req.decoded.email,
@@ -71,6 +101,37 @@ router.route("/add").post(middleware.checkToken, (req, res) => {
       return res.status(400).json({ err: err });
     });
 });
+
+router.route("/addfollower").post(middleware.checkToken, (req, res) => {
+  const follower = Follower({
+    email: req.decoded.email,
+    username: req.body.username,
+  });
+  follower
+    .save()
+    .then(() => {
+      return res.json({ msg: "follower successfully stored" });
+    })
+    .catch((err) => {
+      return res.status(400).json({ err: err });
+    });
+});
+
+router.route("/addfollowing").post(middleware.checkToken, (req, res) => {
+  const following = Following({
+    email: req.decoded.email,
+    username: req.body.username,
+  });
+  following
+    .save()
+    .then(() => {
+      return res.json({ msg: "following successfully stored" });
+    })
+    .catch((err) => {
+      return res.status(400).json({ err: err });
+    });
+});
+
 
 router.route("/checkProfile").get(middleware.checkToken, (req, res) => {
   Profile.findOne({ email: req.decoded.email }, (err, result) => {

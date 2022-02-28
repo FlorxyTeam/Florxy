@@ -9,12 +9,23 @@ const Follower = Schema(
       required: true,
       unique: true,
     },
+    username: {
+      type: String,
+      required: true,
+      unique: true
+    },
     listfollower: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'ListFollower'
-      }
-    ]
+       email: {
+          type: String,
+           unique: true,
+        },
+      username: {
+        type: String,
+        unique: true,
+      },
+  }
+      ],
   }
 );
 
