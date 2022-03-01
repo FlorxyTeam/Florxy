@@ -30,7 +30,8 @@ class _ProfilePageState extends State<ProfilePage> {
       bio: '',
       email: '',
       professor: '',
-      username: '');
+      username: ''
+  );
 
   @override
   void initState() {

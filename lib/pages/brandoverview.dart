@@ -3,7 +3,7 @@ import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:boxicons/boxicons.dart';
-import 'package:Florxy/pages/productoverview.dart';
+import 'package:Florxy/pages/comparepage.dart';
 
 class MostMention {
   final String urlImage;

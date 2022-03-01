@@ -63,8 +63,6 @@ class _ProductOverviewState extends State<ProductOverview> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
@@ -126,17 +124,25 @@ class _ProductOverviewState extends State<ProductOverview> {
                       buildCard(item: items[index]),
                 ),
               ),
-
               SizedBox(
                 height:MediaQuery.of(context).size.height/9,
               )
             ],
           ),
         ),
+
       )
 
     );
   }
+
+
+
+
+
+
+
+
 
   //Search by category
   Widget buildCard({
