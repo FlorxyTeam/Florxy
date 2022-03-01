@@ -27,14 +27,13 @@ class _AliasPageState extends State<AliasPage> {
 
   @override
   Widget build(BuildContext context) {
-    final isKeyboard = MediaQuery.of(context).viewInsets.bottom!= 0;
     return Scaffold(
         backgroundColor: Colors.white,
         body: Stack(
           children: [
             list[_currentIndex],
             Positioned(
-                bottom: 15,
+                bottom: 30,
                 child: Column(
                   children: [
                     SizedBox(height: 15),
@@ -52,7 +51,7 @@ class _AliasPageState extends State<AliasPage> {
                           },
                           child: _currentIndex==2?Container():GreenButton(
                             text: 'CONTINUE',
-                            size: 18,
+                            size: 13,
                             color: c.textWhite,
                             height: 60,
                           ),

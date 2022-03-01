@@ -1,10 +1,11 @@
+import 'package:Florxy/pages/reportpage.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/button.dart';
-import 'package:boxicons/boxicons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/pages/editprofile.dart';
+import 'package:share_plus/share_plus.dart';
 
 
 class Privilege1 extends StatefulWidget {
@@ -49,7 +50,7 @@ class _Privilege1State extends State<Privilege1> {
                                   alignment: Alignment.center,
                                   child: Poppins(
                                       text: 'Get a Creator or Professor Alias',
-                                      size: 16,
+                                      size: 17,
                                       color: c.blackSub,
                                       fontWeight: f.bold),
                                 ),
@@ -58,7 +59,7 @@ class _Privilege1State extends State<Privilege1> {
                                   alignment: Alignment.center,
                                   child: Poppins(
                                       text: 'Lorem Ipsum is simply dummy text of the printing',
-                                      size: 11,
+                                      size: 11.5,
                                       color: c.blackSub,
                                       fontWeight: f.medium),
                                 ),
@@ -66,7 +67,7 @@ class _Privilege1State extends State<Privilege1> {
                                   alignment: Alignment.center,
                                   child: Poppins(
                                       text: 'and typesetting industry.',
-                                      size: 11,
+                                      size: 11.5,
                                       color: c.blackSub,
                                       fontWeight: f.medium),
                                 ),
@@ -74,7 +75,35 @@ class _Privilege1State extends State<Privilege1> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 580),
+                            padding: const EdgeInsets.only(left: 100, right: 100, top: 200),
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => ReportPage()), (route) => false);
+                              },
+                              child: GreyButton(
+                                text: 'Report',
+                                size: 13,
+                                color: c.textWhite,
+                                height: 40,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 100, right: 100, top: 230),
+                            child: GestureDetector(
+                              onTap: () async {
+                                await Share.share('Thia App is Florxy.');
+                              },
+                              child: GreyButton(
+                                text: 'Share',
+                                size: 13,
+                                color: c.textWhite,
+                                height: 40,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 570),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

@@ -46,7 +46,7 @@ class _ProfessorOrCreatorState extends State<ProfessorOrCreator> {
                                   alignment: Alignment.center,
                                   child: Poppins(
                                       text: 'What best describes you?',
-                                      size: 16,
+                                      size: 17,
                                       color: c.blackSub,
                                       fontWeight: f.bold),
                                 ),
@@ -82,28 +82,16 @@ class _ProfessorOrCreatorState extends State<ProfessorOrCreator> {
                                         child: Column(
                                           children:[
                                             Text(
-                                              'Professor account                                ',
-                                              style: TextStyle(fontSize: 18,height: 1.5,fontWeight: FontWeight.bold),
+                                              'Professor account                                          ',
+                                              style: TextStyle(fontSize: 15,height: 1.5,fontWeight: FontWeight.bold),
                                             ),
                                             Text(
-                                              'Lorem Ipsum is simply dummy text of the printing and ',
-                                              style: TextStyle(fontSize: 12,height: 2),
+                                              'Lorem Ipsum is simply dummy text of the printing      ',
+                                              style: TextStyle(fontSize: 11.5,height: 1.5),
                                             ),
                                             Text(
-                                              'typesetting industry. Lorem Ipsum has been the             ',
-                                              style: TextStyle(fontSize: 12,),
-                                            ),
-                                            Text(
-                                              "industry's standard dummy text ever since the 1500s,   ",
-                                              style: TextStyle(fontSize: 12,),
-                                            ),
-                                            Text(
-                                              'when an unknown printer took a galley of type and        ',
-                                              style: TextStyle(fontSize: 12,),
-                                            ),
-                                            Text(
-                                              'scrambled it to make a type specimen book.                   ',
-                                              style: TextStyle(fontSize: 12,),
+                                              "and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                                              style: TextStyle(fontSize: 11.5,),
                                             ),
                                             Text(
                                               '',
@@ -140,28 +128,16 @@ class _ProfessorOrCreatorState extends State<ProfessorOrCreator> {
                                         child: Column(
                                           children:[
                                             Text(
-                                              'Creator account                                     ',
-                                              style: TextStyle(fontSize: 18,height: 1.5,fontWeight: FontWeight.bold),
+                                              'Creator account                                                    ',
+                                              style: TextStyle(fontSize: 15,height: 1.5,fontWeight: FontWeight.bold),
                                             ),
                                             Text(
-                                              'Lorem Ipsum is simply dummy text of the printing and ',
-                                              style: TextStyle(fontSize: 12,height: 2),
+                                              'Lorem Ipsum is simply dummy text of the printing      ',
+                                              style: TextStyle(fontSize: 11.5,height: 1.5),
                                             ),
                                             Text(
-                                              'typesetting industry. Lorem Ipsum has been the             ',
-                                              style: TextStyle(fontSize: 12,),
-                                            ),
-                                            Text(
-                                              "industry's standard dummy text ever since the 1500s,   ",
-                                              style: TextStyle(fontSize: 12,),
-                                            ),
-                                            Text(
-                                              'when an unknown printer took a galley of type and        ',
-                                              style: TextStyle(fontSize: 12,),
-                                            ),
-                                            Text(
-                                              'scrambled it to make a type specimen book.                   ',
-                                              style: TextStyle(fontSize: 12,),
+                                              "and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                                              style: TextStyle(fontSize: 11.5,),
                                             ),
                                             Text(
                                               '',
