@@ -1,4 +1,5 @@
 import 'package:Florxy/pages/createaccount_withemail.dart';
+import 'package:Florxy/pages/creatorconfirmcode.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,14 +13,14 @@ import 'package:Florxy/widgets/button.dart';
 import 'confirmcode.dart';
 
 
-class ConfirmTransformation extends StatefulWidget {
-  const ConfirmTransformation({Key? key}) : super(key: key);
+class creatorConfirmTransformation extends StatefulWidget {
+  const creatorConfirmTransformation({Key? key}) : super(key: key);
 
   @override
-  _ConfirmTransformationState createState() => _ConfirmTransformationState();
+  _creatorConfirmTransformationState createState() => _creatorConfirmTransformationState();
 }
 
-class _ConfirmTransformationState extends State<ConfirmTransformation> {
+class _creatorConfirmTransformationState extends State<creatorConfirmTransformation> {
   @override
   Widget build(BuildContext context) {
 
@@ -34,26 +35,26 @@ class _ConfirmTransformationState extends State<ConfirmTransformation> {
                 child: Column(
                   children: [
                     Padding(
-                        padding: EdgeInsets.only(left: 30, right: 20, top: 20),
-                        child :
-                        Row(
-                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                           children: [
-                             Image(
-                               image: AssetImage('assets/img/icon2.png'),
-                               height: 43,
-                             ),
-                             IconButton(
-                               onPressed: () {
-                                 Navigator.of(context).pop();
-                                 },
-                               icon: Icon(
-                                 Icons.close_rounded,
-                                 size: 36,
-                               ),
-                             ),
-                           ],
-                        ),
+                      padding: EdgeInsets.only(left: 30, right: 20, top: 20),
+                      child :
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Image(
+                            image: AssetImage('assets/img/icon2.png'),
+                            height: 43,
+                          ),
+                          IconButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            icon: Icon(
+                              Icons.close_rounded,
+                              size: 36,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(height: 30),
                     Align(
@@ -125,37 +126,37 @@ class _ConfirmTransformationState extends State<ConfirmTransformation> {
                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => ConfirmCode()));
                         },
                         child: Container(
-                          height: 55,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: c.shadow.withOpacity(0.32),
-                                spreadRadius: -4,
-                                blurRadius: 23,
-                                offset: Offset(0, 6), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                icon: Icon(Boxicons.bxl_facebook_circle),
-                                iconSize: 32,
-                                color: Color(0xFF156ACF),
-                                onPressed: () {},
-                              ),
-                              Inter(
-                                  text: 'Continue with Facebook',
-                                  size: 13,
-                                  color: Color(0xFF484848),
-                                  fontWeight: f.bold
-                              )
-                            ],
-                          )
-                      ),
+                            height: 55,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: c.shadow.withOpacity(0.32),
+                                  spreadRadius: -4,
+                                  blurRadius: 23,
+                                  offset: Offset(0, 6), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                  icon: Icon(Boxicons.bxl_facebook_circle),
+                                  iconSize: 32,
+                                  color: Color(0xFF156ACF),
+                                  onPressed: () {},
+                                ),
+                                Inter(
+                                    text: 'Continue with Facebook',
+                                    size: 13,
+                                    color: Color(0xFF484848),
+                                    fontWeight: f.bold
+                                )
+                              ],
+                            )
+                        ),
                       ),
                     ),
                     SizedBox(height: 25),
@@ -163,7 +164,7 @@ class _ConfirmTransformationState extends State<ConfirmTransformation> {
                         padding: EdgeInsets.only(left: 40,right: 40),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ConfirmCode()));
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => creatorConfirmCode()));
                           },
                           child: Container(
                               height: 55,

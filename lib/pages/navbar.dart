@@ -1,5 +1,5 @@
 import 'dart:io';
-
+import 'package:Florxy/NetworkHandler.dart';
 import 'package:Florxy/pages/homepage.dart';
 import 'package:Florxy/pages/notificationpage.dart';
 import 'package:Florxy/pages/profilepage.dart';
@@ -13,6 +13,7 @@ import 'package:Florxy/pages/Laboratory.dart';
 
 // import 'package:flutter_icons/flutter_icons.dart';
 import 'package:boxicons/boxicons.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Navbar extends StatefulWidget {
   const Navbar({Key? key}) : super(key: key);
@@ -24,9 +25,21 @@ class Navbar extends StatefulWidget {
 class _NavbarState extends State<Navbar> {
   List pages = [HomePage(), SearchPage(), laboratory(),NotificationPage(), ProfilePage()];
   int _currentIndex = 0;
+  NetworkHandler networkHandler = NetworkHandler();
+  final storage = new FlutterSecureStorage();
+
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    fetchData();
+  }
+  void fetchData() async{
+    var response = await networkHandler.get("/profile/getData");
+    await storage.write(key: "id", value: response['data']['_id']);
+  }
 
   @override
-
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(

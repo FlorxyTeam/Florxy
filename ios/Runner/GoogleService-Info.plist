@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>752751069061-7a017gvtfd3r0cg73j89eagkvtlidb90.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.752751069061-7a017gvtfd3r0cg73j89eagkvtlidb90</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>752751069061-2nrrch9ltgi8jris1sgo91ra7if9mufh.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC8f1Ot9OwQu7US8u_jWAAeqRbIGiNxSNQ</string>
+	<key>GCM_SENDER_ID</key>
+	<string>752751069061</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.florxy.florxy</string>
+	<key>PROJECT_ID</key>
+	<string>florxy</string>
+	<key>STORAGE_BUCKET</key>
+	<string>florxy.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:752751069061:ios:7c3e142435e30fd70326ec</string>
+</dict>
+</plist>

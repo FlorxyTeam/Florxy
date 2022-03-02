@@ -1,3 +1,4 @@
+import 'package:Florxy/pages/creatoraliasfinish.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,14 +11,14 @@ import 'package:Florxy/widgets/button.dart';
 
 
 
-class ConfirmCode extends StatefulWidget {
-  const ConfirmCode({Key? key}) : super(key: key);
+class creatorConfirmCode extends StatefulWidget {
+  const creatorConfirmCode({Key? key}) : super(key: key);
 
   @override
-  _ConfirmCodeState createState() => _ConfirmCodeState();
+  _creatorConfirmCodeState createState() => _creatorConfirmCodeState();
 }
 
-class _ConfirmCodeState extends State<ConfirmCode> {
+class _creatorConfirmCodeState extends State<creatorConfirmCode> {
   @override
   Widget build(BuildContext context) {
 
@@ -159,7 +160,7 @@ class _ConfirmCodeState extends State<ConfirmCode> {
                         padding: EdgeInsets.only(left: 40,right: 40),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => AliasFinish()));
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => creatorAliasFinish()));
                           },
                           child: GreenButton(
                             text: 'NEXT',

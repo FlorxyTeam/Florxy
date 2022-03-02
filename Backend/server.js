@@ -32,6 +32,8 @@ app.use("/home", homeRoute);
 const blogRoute = require("./routes/blogpost");
 app.use("/blogPost", blogRoute);
 
+const productRoute = require("./routes/product");
+app.use("/product", productRoute);
 
 app.route("/").get((req, res) => res.json("Hello world"));
 

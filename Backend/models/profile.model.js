@@ -11,6 +11,7 @@ const Profile = Schema(
     },
     username: {
       type: String,
+      required: true,
       unique: true
     },
     fullname: String,
@@ -18,6 +19,14 @@ const Profile = Schema(
     professor: {
       type: String,
       default: "",
+    },
+    follower:{
+      type: Number,
+      default: 0,
+    },
+    following:{
+      type: Number,
+      default: 0,
     },
     influencer: {
       type: String,
@@ -36,8 +45,43 @@ const Profile = Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post'
       }
-    ]
+    ],
+    listfollower: [
+          {
+          img: {
+            type: String,
+             default:'',
+          },
+           fullname: {
+              type: String,
+               unique: true,
+            },
+          username: {
+            type: String,
+            unique: true,
+          },
+      }
+    ],
+    listfollowing: [
+          {
+           img: {
+               type: String,
+                default:'',
+             },
+          fullname: {
+                 type: String,
+                  unique: true,
+           },
+         username: {
+               type: String,
+               unique: true,
+             },
+      }
+    ],
   },
+
+
+
   {
     timestamps: true,
   }

@@ -1,4 +1,5 @@
 import 'package:Florxy/pages/confirmtransformation.dart';
+import 'package:Florxy/pages/creatorconfirmtransformation.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,15 +12,15 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 
-class License extends StatefulWidget {
+class creatorLicense extends StatefulWidget {
   final String alias;
-  const License({Key? key,required this.alias}) : super(key: key);
+  const creatorLicense({Key? key,required this.alias}) : super(key: key);
 
   @override
-  _LicenseState createState() => _LicenseState();
+  _creatorLicenseState createState() => _creatorLicenseState();
 }
 
-class _LicenseState extends State<License> {
+class _creatorLicenseState extends State<creatorLicense> {
   File? image;
   @override
   Future takePhoto(ImageSource source) async {
@@ -50,31 +51,31 @@ class _LicenseState extends State<License> {
                 child: Column(
                   children: [
                     Stack(
-                        children: [
-                          if(!isKeyboard) Padding(
-                            padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-                            child:
-                            IconButton(
+                      children: [
+                        if(!isKeyboard) Padding(
+                          padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                          child:
+                          IconButton(
                               icon: Icon(Icons.arrow_back_ios_new,),
                               iconSize: 30,
                               color: Colors.black,
                               onPressed: () => Navigator.of(context).pop()
-                            ),
                           ),
-                          if(!isKeyboard) Padding(
-                            padding: EdgeInsets.only(left: 25, right: 25, top: 80),
-                            child:
-                            Poppins(
-                                text: 'Help us proved your account faster',
-                                size: 17,
-                                color: c.blackSub,
-                                fontWeight: f.bold
-                             ),
+                        ),
+                        if(!isKeyboard) Padding(
+                          padding: EdgeInsets.only(left: 25, right: 25, top: 80),
+                          child:
+                          Poppins(
+                              text: 'Help us proved your account faster',
+                              size: 17,
+                              color: c.blackSub,
+                              fontWeight: f.bold
                           ),
-                          if(!isKeyboard) Padding(
-                            padding: EdgeInsets.only(left: 25, right: 25, top: 110),
-                            child:
-                            Row(
+                        ),
+                        if(!isKeyboard) Padding(
+                          padding: EdgeInsets.only(left: 25, right: 25, top: 110),
+                          child:
+                          Row(
                               children:[
                                 Text(
                                   'For your ',
@@ -137,13 +138,13 @@ class _LicenseState extends State<License> {
                                     color: Color(0xff2b64ac),
                                   ),
                                 ): Choose == 'Hair Salon' ?Text(
-                                   '$Choose',
-                                   style: TextStyle(
-                                     fontSize: 16,
-                                     fontWeight: FontWeight.bold,
-                                     color: Color(0xff479ed2),
-                                   ),
-                                 ): Choose == 'Barber Salon' ?Text(
+                                  '$Choose',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xff479ed2),
+                                  ),
+                                ): Choose == 'Barber Salon' ?Text(
                                   '$Choose',
                                   style: TextStyle(
                                     fontSize: 16,
@@ -261,69 +262,69 @@ class _LicenseState extends State<License> {
                                   style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,),
                                 ),
                               ]
-                            ),
                           ),
-                          if(!isKeyboard) Padding(
-                            padding: EdgeInsets.only(left: 25, right: 25, top: 160),
-                            child:
-                            Poppins(
-                                text: 'Confirmed License or Related Document',
-                                size: 12,
-                                color: c.blackSub,
-                                fontWeight: f.medium,
-                            ),
+                        ),
+                        if(!isKeyboard) Padding(
+                          padding: EdgeInsets.only(left: 25, right: 25, top: 160),
+                          child:
+                          Poppins(
+                            text: 'Confirmed License or Related Document',
+                            size: 12,
+                            color: c.blackSub,
+                            fontWeight: f.medium,
                           ),
-                          if(!isKeyboard) Padding(
-                            padding: EdgeInsets.only(right: 25, top: 145),
-                            child: Align(
-                              alignment: Alignment.topRight,
-                              child:
-                              Container(
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  color: c.greyLight,
-                                  borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                                ),
-                                  child: IconButton(
-                                      padding: EdgeInsets.zero,
-                                      onPressed: () async {
-                                        Future.delayed(Duration(seconds: 5));
-                                        await takePhoto(ImageSource.camera);
-                                      },
-                                      icon: Icon(Boxicons.bx_camera),
-                                      iconSize: 30,),
-                              ),
-                            ),
-                          ),
-                          if(!isKeyboard) Padding(
-                            padding: EdgeInsets.only(left: 25, right: 25, top: 210),
+                        ),
+                        if(!isKeyboard) Padding(
+                          padding: EdgeInsets.only(right: 25, top: 145),
+                          child: Align(
+                            alignment: Alignment.topRight,
                             child:
                             Container(
-                                child: image == null ? Container(
-                                  height: 390,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                                  ),
-                                ) : Container(
-                                  height: 390,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                                    child: Image.file(
-                                      image!,
-                                      width: 700,
-                                      height: 700,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                )
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: c.greyLight,
+                                borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                              ),
+                              child: IconButton(
+                                padding: EdgeInsets.zero,
+                                onPressed: () async {
+                                  Future.delayed(Duration(seconds: 5));
+                                  await takePhoto(ImageSource.camera);
+                                },
+                                icon: Icon(Boxicons.bx_camera),
+                                iconSize: 30,),
                             ),
                           ),
-                          /*if(!isKeyboard) Padding(
+                        ),
+                        if(!isKeyboard) Padding(
+                          padding: EdgeInsets.only(left: 25, right: 25, top: 210),
+                          child:
+                          Container(
+                              child: image == null ? Container(
+                                height: 390,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                                ),
+                              ) : Container(
+                                height: 390,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                                  child: Image.file(
+                                    image!,
+                                    width: 700,
+                                    height: 700,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              )
+                          ),
+                        ),
+                        /*if(!isKeyboard) Padding(
                             padding: EdgeInsets.only(left: 25, right: 25, top: 510),
                             child:
                             Poppins(
@@ -691,8 +692,8 @@ class _LicenseState extends State<License> {
                                   )),
                             ),
                           ),*/
-                        ],
-                      ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -722,7 +723,7 @@ class _LicenseState extends State<License> {
                         padding: EdgeInsets.only(left: 40,right: 40),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ConfirmTransformation()));
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => creatorConfirmTransformation()));
                           },
                           child: GreenButton(
                             text: 'CONTINUE',
