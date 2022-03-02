@@ -72,7 +72,7 @@ dependencies:
   firebase_auth: ^3.3.5
   google_sign_in: ^5.2.3
   provider: ^6.0.2
-#  flutter_login_facebook:
+  flutter_login_facebook:
   flutter_facebook_auth: ^4.0.1
   flappy_search_bar_ns: ^2.0.2
 dev_dependencies:

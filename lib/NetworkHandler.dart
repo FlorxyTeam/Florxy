@@ -7,6 +7,7 @@ import 'package:logger/logger.dart';
 
 class NetworkHandler {
   String baseurl = "http://192.168.2.37:8080";
+
   var log = Logger();
 
   FlutterSecureStorage storage = FlutterSecureStorage();
@@ -78,6 +79,18 @@ class NetworkHandler {
     return NetworkImage(url);
   }
 
-
+  Future<http.Response> postO(String url, Map<String, dynamic> body) async {
+    String? token = await storage.read(key:"token");
+    url = formater(url);
+    var response = await http.post(
+      Uri.parse(url),
+      headers: {
+        "Content-type": "application/json",
+        "Authorization":"Bearer $token"
+      },
+      body: json.encode(body),
+    );
+    return response;
+  }
 
 }

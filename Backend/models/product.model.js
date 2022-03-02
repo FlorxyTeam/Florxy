@@ -1,30 +1,31 @@
-const mongoose = require("mongoose");
-
-
-
-
-const Schema = mongoose.Schema;
-
-const Productduean = Schema(
+const Product = Schema(
     {
-        refbrand: String,
-        refproduct:String,
-        image: {
-          type: String,
-          default: "",
+        p_name: {
+            type: String,
+            required : true
         },
-        mention: {
-            type: Number,
-            default: "0"
+        p_brand:{
+            type: String,
+            required : true
         },
-        review: {
-            type: Number,
-            default: "0"
-        }
+        p_desc: String,
+        p_img: String,
+        ing_name: Array,
+        ing_met: Array,
+        ing_irr: Array,
+        ing_rate: Array,
+        mention:{
+        type: Number,
+        default: 0
+        },
+        review:{
+        type: Number,
+        default: 0
+        },
     },
     {
         timestamps: true,
     }
 );
 
-module.exports = mongoose.model("Productduean", Productduean);
+module.exports = mongoose.model("Product", Product);

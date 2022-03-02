@@ -3,7 +3,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class PostProvider extends ChangeNotifier{
+class PostProvider extends ChangeNotifier {
   final httpClient = http.Client();
   String baseurl = "http://192.168.2.37:8080";
 
@@ -16,14 +16,15 @@ class PostProvider extends ChangeNotifier{
     String? token = await storage.read(key:"token");
     final Uri resAPIURL = Uri.parse("http://192.168.2.37:8080/home/getAllPost");
     http.Response response = await httpClient.get(
-        resAPIURL,
-        headers: {"Authorization":"Bearer $token"},
+      resAPIURL,
+      headers: {"Authorization": "Bearer $token"},
     );
     final Map parsedData = await json.decode(response.body.toString());
 
     postData = parsedData["data"];
     // print(postData);
   }
+
 
   Future fetchMentionProduct() async{
     print('hereeeeeeee');
@@ -39,8 +40,9 @@ class PostProvider extends ChangeNotifier{
     print(productData);
   }
 
+
   String formater(String url) {
-    print(baseurl+url);
+    print(baseurl + url);
     return baseurl + url;
   }
 }
