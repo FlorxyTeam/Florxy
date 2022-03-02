@@ -144,7 +144,7 @@ class _HomePageState extends State<HomePage> {
               ):
               model.postData![index]['type']=='review'?ReviewPost(
                 name: model.postData![index]['fullname'],
-                username: '@'+model.postData![index]['username'],
+                username: model.postData![index]['username'],
                 postTime: model.postData![index]['updatedAt'].toString().substring(0, 10),
                 brand: model.postData![index]['refbrand'],
                 product: model.postData![index]['refproduct'],

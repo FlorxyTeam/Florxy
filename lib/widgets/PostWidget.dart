@@ -66,6 +66,7 @@ class _MentionPostState extends State<MentionPost> {
                             color: Colors.black,
                           ),
                           onTap: () async {
+                            print(widget.username);
                             await storage.write(
                                 key: "anotherprofile", value: widget.username);
                             Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
