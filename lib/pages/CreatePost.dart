@@ -31,10 +31,15 @@ class _CreatePostState extends State<CreatePost> {
       img: '',
       influencer: '',
       fullname: '',
+      follower: 0,
+      following: 0,
       bio: '',
       email: '',
       professor: '',
-      username: '');
+      username: '',
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],);
   @override
   void initState() {
     // TODO: implement initState

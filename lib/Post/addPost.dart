@@ -35,9 +35,14 @@ class _AddPostState extends State<AddPost> {
       influencer: '',
       fullname: '',
       bio: '',
+      follower: 0,
+      following: 0,
       email: '',
       professor: '',
-      username: '');
+      username: '',
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],);
 
   @override
   void initState() {
