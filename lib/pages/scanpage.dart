@@ -5,10 +5,8 @@ import 'package:boxicons/boxicons.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/font.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/services.dart';
-import 'package:getwidget/getwidget.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ScanPage extends StatefulWidget {
@@ -23,6 +21,7 @@ class _ScanPageState extends State<ScanPage> {
   late CameraController controller;
   File? import;
   XFile? pictureFile;
+  bool flash = false;
 
   Future takePhoto(ImageSource source) async {
     try {
@@ -272,7 +271,7 @@ class _ScanPageState extends State<ScanPage> {
                             child: Image.file(
                               File(pictureFile!.path,),
                               height: 200,
-                              width: 200,
+                              width: 160,
                             ),
                           ),
                         ),
@@ -318,18 +317,31 @@ class _ScanPageState extends State<ScanPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        GFButton(
-                          onPressed:  () {
-                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute
-                              (builder: (context)=>Navbar()), (route) => false);
+                        ElevatedButton.icon(
+                          onPressed: (){
+                            setState(() {
+                              flash = !flash;
+                            });
+                            flash ? controller.setFlashMode(FlashMode.off)
+                                : controller.setFlashMode(FlashMode.torch);
                           },
-                          text: 'on',
-                          textStyle : TextStyle(color: Colors.yellow, fontSize: 15, fontWeight: FontWeight.bold),
-                          icon: Icon(Icons.flash_on,size: 15,color: Colors.yellow,),
-                          color: Colors.yellow,
-                          type: GFButtonType.outline2x,
-                          shape: GFButtonShape.pills,
-                          size: GFSize.LARGE,
+                          icon: Icon(
+                            flash ? Icons.flash_off_sharp : Icons.flash_on_sharp,
+                            color: flash ? c.yellowMain : Colors.white,
+                          ),
+                          label: Text(
+                            flash ? "Off" : "On ",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: flash ? c.yellowMain: Colors.white,
+                            ),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                              primary: flash ? c.yellowMain.withOpacity(0) : c.yellowMain,
+                              side: BorderSide(width:3, color: c.yellowMain),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50))
+                          ),
                         ),
                         IconButton(
                           onPressed: () {
