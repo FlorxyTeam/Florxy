@@ -30,10 +30,15 @@ class _EditPageState extends State<EditPage> {
       img: '',
       influencer: '',
       fullname: '',
+      follower: 0,
+      following: 0,
       bio: '',
       email: '',
       professor: '',
-      username: '');
+      username: '',
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],);
 
   File? image;
   @override

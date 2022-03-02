@@ -45,11 +45,7 @@ class _ConfirmTransformationState extends State<ConfirmTransformation> {
                              ),
                              IconButton(
                                onPressed: () {
-                                 Navigator.pushAndRemoveUntil(
-                                     context,
-                                     MaterialPageRoute(
-                                         builder: (context) => License()),
-                                         (route) => false);
+                                 Navigator.of(context).pop();
                                  },
                                icon: Icon(
                                  Icons.close_rounded,
@@ -64,7 +60,7 @@ class _ConfirmTransformationState extends State<ConfirmTransformation> {
                       alignment: Alignment.topLeft,
                       child: Inter(
                         text: '     CONFIRM',
-                        size: 25,
+                        size: 24,
                         color: c.greenMain,
                         fontWeight: f.bold,
                       ),
@@ -74,7 +70,7 @@ class _ConfirmTransformationState extends State<ConfirmTransformation> {
                       alignment: Alignment.topLeft,
                       child: Inter(
                         text: '     TRANSFORMATION',
-                        size: 25,
+                        size: 24,
                         color: c.greenMain,
                         fontWeight: f.bold,
                       ),
@@ -82,44 +78,53 @@ class _ConfirmTransformationState extends State<ConfirmTransformation> {
                     SizedBox(height: 80,),
                     Padding(
                       padding: EdgeInsets.only(left: 40,right: 40),
-                      child: Container(
-                          height: 55,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: c.shadow.withOpacity(0.32),
-                                spreadRadius: -4,
-                                blurRadius: 23,
-                                offset: Offset(0, 6), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(right: 10),
-                                child: Image(
-                                  image: AssetImage('assets/img/Google_icon-icons.com_66793.png'),
-                                  height: 25,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ConfirmCode()));
+                        },
+                        child: Container(
+                            height: 55,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: c.shadow.withOpacity(0.32),
+                                  spreadRadius: -4,
+                                  blurRadius: 23,
+                                  offset: Offset(0, 6), // changes position of shadow
                                 ),
-                              ),
-                              Inter(
-                                  text: 'Continue with Google',
-                                  size: 14,
-                                  color: Color(0xFF484848),
-                                  fontWeight: f.bold
-                              )
-                            ],
-                          )
+                              ],
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(right: 10),
+                                  child: Image(
+                                    image: AssetImage('assets/img/Google_icon-icons.com_66793.png'),
+                                    height: 25,
+                                  ),
+                                ),
+                                Inter(
+                                    text: 'Continue with Google',
+                                    size: 13,
+                                    color: Color(0xFF484848),
+                                    fontWeight: f.bold
+                                )
+                              ],
+                            )
+                        ),
                       ),
                     ),
                     SizedBox(height: 25),
                     Padding(
                       padding: EdgeInsets.only(left: 40,right: 40),
-                      child: Container(
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ConfirmCode()));
+                        },
+                        child: Container(
                           height: 55,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(50),
@@ -144,12 +149,13 @@ class _ConfirmTransformationState extends State<ConfirmTransformation> {
                               ),
                               Inter(
                                   text: 'Continue with Facebook',
-                                  size: 14,
+                                  size: 13,
                                   color: Color(0xFF484848),
                                   fontWeight: f.bold
                               )
                             ],
                           )
+                      ),
                       ),
                     ),
                     SizedBox(height: 25),
@@ -157,7 +163,7 @@ class _ConfirmTransformationState extends State<ConfirmTransformation> {
                         padding: EdgeInsets.only(left: 40,right: 40),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateWithEmail()));
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ConfirmCode()));
                           },
                           child: Container(
                               height: 55,
@@ -181,7 +187,7 @@ class _ConfirmTransformationState extends State<ConfirmTransformation> {
                                       child: Icon(Boxicons.bxs_envelope, size: 30,color: Colors.black)),
                                   Inter(
                                       text: 'Email  ',
-                                      size: 14,
+                                      size: 13,
                                       color: Color(0xFF484848),
                                       fontWeight: f.bold
                                   ),
@@ -216,7 +222,7 @@ class _ConfirmTransformationState extends State<ConfirmTransformation> {
                                   ),
                                   Inter(
                                       text: 'Phone number',
-                                      size: 14,
+                                      size: 13,
                                       color: Color(0xFF484848),
                                       fontWeight: f.bold
                                   ),
@@ -229,30 +235,6 @@ class _ConfirmTransformationState extends State<ConfirmTransformation> {
                 ),
               ),
             ),
-            Positioned(
-                bottom: 15,
-                child: Column(
-                  children: [
-                    SizedBox(height: 15),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 40,right: 40),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ConfirmCode()));
-                          },
-                          child: GreenButton(
-                            text: 'NEXT',
-                            size: 18,
-                            color: c.textWhite,
-                            height: 60,
-                          ),
-                        ),
-                      ),
-                    )],
-                )
-            )
           ],
         )
     );

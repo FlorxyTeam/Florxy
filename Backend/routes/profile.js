@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const Profile = require("../models/profile.model");
+const Follower = require("../models/follower.model");
+const Following = require("../models/following.model");
 const middleware = require("../middleware");
 const multer = require("multer");
 const path = require("path");
@@ -55,10 +57,189 @@ router
     );
   });
 
-router.route("/addfollower/:username/:myusername").patch(middleware.checkToken, (req,res)=>{
+
+router.route("/followercheck/:username/:myusername").get(middleware.checkToken, (req,res)=>{
     Profile.findOne({
         "username": req.params.username,
         "listfollower.username" : req.params.myusername,
+
+    }, function(err, docs){
+    console.log(req.params.username)
+    console.log(req.params.myusername)
+         if(docs == null && req.params.username != req.params.myusername){
+                     return res.json({
+                         Status: true,
+
+                     });
+                 }
+                 else return res.json({
+                     Status: false,
+
+                 })
+
+    });
+});
+router.route("/addfollower/:username/:myusername").patch(middleware.checkToken, (req,res,next)=>{
+    Profile.findOne({
+        "username": req.params.username,
+        "listfollower.username" : req.params.myusername,
+
+    }, function(err, docs){
+    console.log(req.params.username)
+    console.log(req.params.myusername)
+         if(docs == null && req.params.username != req.params.myusername){
+            console.log('hi null')
+
+            Profile.findOneAndUpdate(
+                    {
+                    username: req.params.username,
+
+                     },
+                    {
+                    follower: req.body.follower,
+                      $push: {
+                        listfollower:
+                        {
+                            img:req.body.myimg,
+                            fullname:req.body.myfullname,
+                            username:req.params.myusername,
+                        },
+
+                      },
+                    },
+                    {
+                    new: true,
+                    upsert: true
+                     },
+                    (err, profile) => {
+                      if (err) return res.status(500).send(err);
+
+                  Profile.findOneAndUpdate(
+                      {
+                      username: req.params.myusername,
+
+                       },
+                      {
+                      following: req.body.following,
+
+                         $push: {
+                            listfollowing:
+                            {
+                                img:req.body.img,
+                                fullname:req.body.fullname,
+                                username:req.params.username,
+                            },
+
+                          },
+                      },
+                      {
+                      new: true,
+                      upsert: true
+                       },
+                      (err, profile) => {
+                        if (err) return res.status(501).send(err);
+
+                        const response = {
+                          message: "following added",
+                          data: profile,
+                        };
+                        return res.status(201).send(response);
+                      }
+                    );
+                    }
+                  );
+
+
+
+
+            }
+         else{
+            const response = {
+                message: "you did it",
+              };
+              return res.status(202).send(response);
+         }
+
+    });
+});
+router.route("/unfollower/:username/:myusername").patch(middleware.checkToken, (req,res,next)=>{
+    Profile.findOne({
+        "username": req.params.username,
+        "listfollower.username" : req.params.myusername,
+
+    }, function(err, docs){
+    console.log(req.params.username)
+    console.log(req.params.myusername)
+         if(docs == null && req.params.username != req.params.myusername){
+            console.log('hi null')
+              const response = {
+                message: "you did not follow",
+              };
+              return res.status(200).send(response);
+            }
+         else{
+         Profile.findOneAndUpdate(
+              {
+              username: req.params.username,
+               },
+              {
+              follower: req.body.follower,
+                $pull: {
+                  listfollower:
+                  {
+                      username:req.params.myusername,
+                  },
+
+                },
+              },
+              { new: true,
+               upsert: true},
+              (err, profile) => {
+                if (err) return res.status(500).send(err);
+         Profile.findOneAndUpdate(
+                  {
+                  username: req.params.myusername,
+                   },
+                  {
+                  following: req.body.following,
+                    $pull: {
+                      listfollowing:
+                      {
+                          username:req.params.username,
+                      },
+
+                    },
+                  },
+                  { new: true,
+                   upsert: true},
+                  (err, profile) => {
+                    if (err) return res.status(501).send(err);
+
+                    const response = {
+                      message: "following removed",
+                      data: profile,
+                    };
+                    return res.status(201).send(response);
+                  }
+                );
+              }
+            );
+
+
+         }
+
+    });
+});
+
+
+
+
+
+router.route("/addfollowing/:username/:myusername").patch(middleware.checkToken, (req,res)=>{
+
+    Profile.findOne({
+        "username": req.params.username,
+        "listfollowing.username" : req.params.myusername,
 
     }, function(err, docs){
     console.log(req.params.username)
@@ -69,7 +250,7 @@ router.route("/addfollower/:username/:myusername").patch(middleware.checkToken, 
                     { username: req.params.username },
                     {
                       $push: {
-                        listfollower:
+                        listfollowing:
                         {
                             email: req.decoded.email,
                             username:req.params.myusername,
@@ -81,7 +262,7 @@ router.route("/addfollower/:username/:myusername").patch(middleware.checkToken, 
                     (err, profile) => {
                       if (err) return res.status(500).send(err);
                       const response = {
-                        message: "follower added",
+                        message: "following added",
                         data: profile,
                       };
                       return res.status(200).send(response);
@@ -99,6 +280,33 @@ router.route("/addfollower/:username/:myusername").patch(middleware.checkToken, 
     });
 });
 
+
+router.route("/addintfollowing").post(middleware.checkToken, (req, res) => {
+    console.log(req.body.username)
+    console.log(req.body.following)
+   Profile.findOneAndUpdate(
+          {
+          username: req.body.username,
+           },
+          {
+            following: req.body.following,
+
+          },
+          {
+              new: true,
+              upsert: true
+            },
+          (err, profile) => {
+            if (err) return res.status(500).send(err);
+
+            const response = {
+              message: "follower more added",
+              data: profile,
+            };
+            return res.status(200).send(response);
+          }
+        );
+});
 router.route("/add").post(middleware.checkToken, (req, res) => {
   const profile = Profile({
     email: req.decoded.email,

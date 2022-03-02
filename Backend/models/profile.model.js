@@ -48,7 +48,11 @@ const Profile = Schema(
     ],
     listfollower: [
           {
-           email: {
+          img: {
+            type: String,
+             default:'',
+          },
+           fullname: {
               type: String,
                unique: true,
             },
@@ -60,14 +64,18 @@ const Profile = Schema(
     ],
     listfollowing: [
           {
-           email: {
-              type: String,
-              unique: true,
-            },
-          username: {
-            type: String,
-            unique: true,
-          },
+           img: {
+               type: String,
+                default:'',
+             },
+          fullname: {
+                 type: String,
+                  unique: true,
+           },
+         username: {
+               type: String,
+               unique: true,
+             },
       }
     ],
   },

@@ -43,11 +43,7 @@ class _ConfirmCodeState extends State<ConfirmCode> {
                           ),
                           IconButton(
                             onPressed: () {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => License()),
-                                      (route) => false);
+                              Navigator.of(context).pop();
                             },
                             icon: Icon(
                               Icons.close_rounded,
@@ -62,7 +58,7 @@ class _ConfirmCodeState extends State<ConfirmCode> {
                       alignment: Alignment.topLeft,
                       child: Inter(
                         text: '     ENTER',
-                        size: 25,
+                        size: 24,
                         color: c.greenMain,
                         fontWeight: f.bold,
                       ),
@@ -72,21 +68,29 @@ class _ConfirmCodeState extends State<ConfirmCode> {
                       alignment: Alignment.topLeft,
                       child: Inter(
                         text: '     CONFIRMATION CODE',
-                        size: 25,
+                        size: 24,
                         color: c.greenMain,
                         fontWeight: f.bold,
                       ),
                     ),
                     SizedBox(height: 20),
                     Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
+                      padding: const EdgeInsets.only(left: 30, right: 30, top: 10),
                       child: Column(
                         children: [
                           Align(
                             alignment: Alignment.topLeft,
                             child: Poppins(
-                                text: '  We sent information code to Puttitabacon@outlook.com',
-                                size: 12,
+                                text: 'We sent information code to',
+                                size: 11.5,
+                                color: c.blackSub,
+                                fontWeight: f.medium),
+                          ),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Poppins(
+                                text: 'Puttitabacon@outlook.com',
+                                size: 11.5,
                                 color: c.blackSub,
                                 fontWeight: f.medium),
                           ),
@@ -97,8 +101,8 @@ class _ConfirmCodeState extends State<ConfirmCode> {
                                 Align(
                                   alignment: Alignment.topLeft,
                                   child: Poppins(
-                                      text: '  If you don’t see confirmation code ',
-                                      size: 12,
+                                      text: 'If you don’t see confirmation code ',
+                                      size: 11.5,
                                       color: c.blackSub,
                                       fontWeight: f.medium),
                                 ),
@@ -106,7 +110,7 @@ class _ConfirmCodeState extends State<ConfirmCode> {
                                   alignment: Alignment.topLeft,
                                   child: Poppins(
                                       text: 'Resent',
-                                      size: 12,
+                                      size: 11.5,
                                       color: c.blackSub,
                                       fontWeight: f.bold),
                                 ),
@@ -115,7 +119,7 @@ class _ConfirmCodeState extends State<ConfirmCode> {
                           ),
                           SizedBox(height: 10),
                           Padding(
-                            padding: EdgeInsets.only(left: 7, right: 5, top: 0),
+                            padding: EdgeInsets.only(left: 0, right: 0, top: 10),
                             child : Container(
                               height: 50,
                               decoration: BoxDecoration(
@@ -159,7 +163,7 @@ class _ConfirmCodeState extends State<ConfirmCode> {
                           },
                           child: GreenButton(
                             text: 'NEXT',
-                            size: 18,
+                            size: 13,
                             color: c.textWhite,
                             height: 60,
                           ),
