@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Profile = require("../models/profile.model");
+const Post = require("../models/post.model");
 const Follower = require("../models/follower.model");
 const Following = require("../models/following.model");
 const middleware = require("../middleware");
@@ -343,6 +344,16 @@ router.route("/checkusername/:username").get((req,res)=>{
 
     });
     console.log('Username - Checked')
+})
+
+router.route("/Profile/PostAndReply/:id").get((req,res)=>{
+  Post.find({_id: req.params.id}, (err, result)=>{
+    if(err){
+      return res.json(err);
+    } else {
+      return res.send({ data: result });
+    }
+  })
 })
 
 router.route("/getData").get(middleware.checkToken, (req, res) => {
