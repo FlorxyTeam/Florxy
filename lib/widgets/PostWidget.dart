@@ -12,12 +12,13 @@ import '../pages/anotherProfile.dart';
 import 'ViewPhotoWidget.dart';
 
 class MentionPost extends StatefulWidget {
-  String? name, postTime, username, brand, product, post, id;
+  String? name, postTime, username, brand, product, post, id,professor,influencer;
   int comment, favorite;
   List? urlImage;
 
   MentionPost(
-      {Key? key, this.name, this.postTime, this.username, this.brand, this.product, this.post, required this.comment, required this.favorite, this.urlImage, this.id})
+      {Key? key, this.name, this.postTime, this.username, this.brand, this.product, this.post, required this.comment, required this.favorite, required this.professor, required this.influencer
+  ,this.urlImage, this.id})
       : super(key: key);
 
   @override
@@ -558,13 +559,13 @@ class _MentionPostState extends State<MentionPost> {
 }
 
 class ReviewPost extends StatefulWidget {
-  String? name, postTime, username, brand, product, post, id;
+  String? name, postTime, username, brand, product, post, id,professor,influencer;
   int comment, favorite;
   double rating;
   List? urlImage;
 
   ReviewPost(
-      {Key? key, this.name, this.postTime, this.username, this.brand, this.product, this.post, required this.comment, required this.favorite, this.urlImage, this.id, required this.rating})
+      {Key? key,required this.professor,required this.influencer ,this.name, this.postTime, this.username, this.brand, this.product, this.post, required this.comment, required this.favorite, this.urlImage, this.id, required this.rating})
       : super(key: key);
 
   @override

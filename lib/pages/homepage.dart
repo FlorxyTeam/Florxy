@@ -140,6 +140,8 @@ class _HomePageState extends State<HomePage> {
                 comment: model.postData![index]['comment'],
                 favorite: model.postData![index]['favorite'],
                 urlImage: model.postData![index]['coverImage'],
+                professor:model.postData![index]['professor'],
+                influencer: model.postData![index]['influencer'],
                 id: model.postData![index]['_id'],
               ):
               model.postData![index]['type']=='review'?ReviewPost(
@@ -152,6 +154,8 @@ class _HomePageState extends State<HomePage> {
                 rating: model.postData![index]['rating'],
                 comment: model.postData![index]['comment'],
                 favorite: model.postData![index]['favorite'],
+                professor:model.postData![index]['professor'],
+                influencer: model.postData![index]['influencer'],
                 id: model.postData![index]['_id'],
               ):Container();
             },
