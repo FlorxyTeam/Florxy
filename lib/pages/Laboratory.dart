@@ -1,4 +1,3 @@
-import 'package:boxicons/boxicons.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/rendering.dart';
@@ -6,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:Florxy/pages/brandoverview.dart';
 
 class CardItem {
   final String urlImage;
@@ -40,7 +40,7 @@ class _laboratoryState extends State<laboratory> {
   Future<void> _refreshPage() async {
     // refreshKey.currentState?.show(atTop: false);
 
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(Duration(seconds: 1));
   }
 
   List<CardItem> items = [
@@ -73,19 +73,19 @@ class _laboratoryState extends State<laboratory> {
   List<BrandsItem> brands = [
     BrandsItem(
       urlImage: "assets/img/pixi_logo.png",
-      title: "Makeupuuussssssssss",
+      title: "Pixi",
     ),
     BrandsItem(
       urlImage: "assets/img/laroache_logo.jpg",
-      title: "Skincare ",
+      title: "Bioderma",
     ),
     BrandsItem(
       urlImage: "assets/img/bioderma_logo.png",
-      title: "Make up",
+      title: "La Roche posay",
     ),
     BrandsItem(
       urlImage: "assets/img/laroache_logo.jpg",
-      title: "Skincare",
+      title: "innisfree",
     ),
     BrandsItem(
       urlImage: "assets/img/bioderma_logo.png",
@@ -100,6 +100,7 @@ class _laboratoryState extends State<laboratory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(77.0),
         child: Container(
@@ -152,7 +153,7 @@ class _laboratoryState extends State<laboratory> {
         color: c.greenMain,
         height: 100,
         backgroundColor: c.textWhite,
-        animSpeedFactor: 2,
+        animSpeedFactor: 10,
         showChildOpacityTransition: false,
         child: SingleChildScrollView(
           child: Column(
@@ -409,7 +410,9 @@ class _laboratoryState extends State<laboratory> {
                       padding: const EdgeInsets.only(
                           left: 28, right: 28, bottom: 27),
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Brandoverview()));
+                        },
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height * 0.11,
@@ -464,21 +467,6 @@ class _laboratoryState extends State<laboratory> {
                                         maxLines: 1,
                                       ),
                                     ),
-                                    // Poppins(
-                                    //   text: "Bioderma | Sensibio Defensive",
-                                    //   size: 15,
-                                    //   color: Color(0xFF053118),
-                                    //   fontWeight: f.semiBold,
-                                    //
-                                    // ),
-
-                                    //  Text(
-                                    //   'Bioderma | Sensibio Defensive',
-                                    //    style: TextStyle(fontFamily: 'google_fonts/Poppins'),
-                                    //     overflow: TextOverflow.ellipsis,
-                                    //     maxLines: 1,
-                                    // ),
-
                                     Padding(
                                       padding: const EdgeInsets.only(right: 8),
                                       child: Poppins(
@@ -658,6 +646,9 @@ class _laboratoryState extends State<laboratory> {
                   ),
                 ],
               ),
+              SizedBox(
+                height:MediaQuery.of(context).size.height/9,
+              )
             ],
           ),
         ),
