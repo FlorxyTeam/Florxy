@@ -1,10 +1,5 @@
-import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/pages/ViewPostPage.dart';
-import 'package:Florxy/pages/homepage.dart';
-import 'package:Florxy/pages/navbar.dart';
-import 'package:Florxy/pages/anotherProfile.dart';
 import 'package:boxicons/boxicons.dart';
-import 'package:Florxy/postProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/font.dart';
@@ -13,6 +8,7 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:Florxy/NetworkHandler.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../pages/anotherProfile.dart';
 import 'ViewPhotoWidget.dart';
 
 class MentionPost extends StatefulWidget {
@@ -36,11 +32,9 @@ class _MentionPostState extends State<MentionPost> {
 
   @override
   void initState() {
-  // TODO: implement initState
-  // fetchData();
+    // TODO: implement initState
+    // fetchData();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -64,11 +58,18 @@ class _MentionPostState extends State<MentionPost> {
                   children: [
                     Row(
                       children: [
-                        Poppins(
-                          text: widget.name!,
-                          fontWeight: f.semiBold,
-                          size: 13,
-                          color: Colors.black,
+                        InkWell(
+                          child: Poppins(
+                            text: widget.name!,
+                            fontWeight: f.semiBold,
+                            size: 13,
+                            color: Colors.black,
+                          ),
+                          onTap: () async {
+                            await storage.write(
+                                key: "anotherprofile", value: widget.username);
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
+                          },
                         ),
                         SizedBox( width: 5 ),
                         Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
@@ -119,9 +120,7 @@ class _MentionPostState extends State<MentionPost> {
                   height: 66,
                   alignment: Alignment.topRight,
                   child: IconButton(
-                    onPressed: () {
-                      print("HELLO SON");
-                    },
+                    onPressed: () {},
                     alignment: Alignment.topRight,
                     icon: Icon(Boxicons.bx_dots_vertical_rounded, size: 30, color: c.greyMain),
                   ),
@@ -169,15 +168,15 @@ class _MentionPostState extends State<MentionPost> {
                         child: Container(
                           height: 140,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(12),
-                              bottomLeft: Radius.circular(12)
-                            ),
-                            color: c.graySub2,
-                            image: DecorationImage(
-                              image: NetworkImage(widget.urlImage![0]),
-                              fit: BoxFit.cover
-                            )
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(12),
+                                  bottomLeft: Radius.circular(12)
+                              ),
+                              color: c.graySub2,
+                              image: DecorationImage(
+                                  image: NetworkImage(widget.urlImage![0]),
+                                  fit: BoxFit.cover
+                              )
                           ),
                         ),
                         onTap: () {
@@ -447,17 +446,17 @@ class _MentionPostState extends State<MentionPost> {
                     var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id! + "/" + product);
                     print(res);
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPost(
-                      fullname: res['post']['fullname'],
-                      username: res['post']['username'],
-                      post: res['post']['body'],
-                      urlImage: res['post']['coverImage'],
-                      comment: res['post']['comment'],
-                      favorite: res['post']['favorite'],
-                      brand: res['product']['p_brand'],
-                      product: res['product']['p_name'],
-                      desc: res['product']['p_desc'],
-                      productImg: res['product']['p_img'],
-                      mention: res['product']['mention']
+                        fullname: res['post']['fullname'],
+                        username: res['post']['username'],
+                        post: res['post']['body'],
+                        urlImage: res['post']['coverImage'],
+                        comment: res['post']['comment'],
+                        favorite: res['post']['favorite'],
+                        brand: res['product']['p_brand'],
+                        product: res['product']['p_name'],
+                        desc: res['product']['p_desc'],
+                        productImg: res['product']['p_img'],
+                        mention: res['product']['mention']
 
                     )));
                   },
@@ -500,28 +499,24 @@ class _MentionPostState extends State<MentionPost> {
                 SizedBox(height: 12),
                 Row(
                   children: [
-                    InkWell(
-                        onTap: (){
-                            print("HELLO SON");
-                        },
-                        child: Icon(FeatherIcons.messageSquare, size:19, color: c.greyMain)),
+                    Icon(FeatherIcons.messageSquare, size:19, color: c.greyMain),
                     SizedBox(width: 3),
                     Inter(text: widget.comment.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
                     Expanded(child: Container()),
                     if(isFav == false)InkWell(
                         onTap: () async {
-                            Map<String, String> data = {
-                              "favorite":widget.id!
-                            };
-                            print(data);
-                            var idStorage = await storage.read(key: 'id');
-                            await networkHandler.post("/home/addFav/" + idStorage!, data);
-                            setState(() {
-                              widget.favorite+=1;
-                              isFav = true;
-                            });
+                          Map<String, String> data = {
+                            "favorite":widget.id!
+                          };
+                          print(data);
+                          var idStorage = await storage.read(key: 'id');
+                          await networkHandler.post("/home/addFav/" + idStorage!, data);
+                          setState(() {
+                            widget.favorite+=1;
+                            isFav = true;
+                          });
                         },
-                      child: Icon(FeatherIcons.heart, size:19, color: c.greyMain)
+                        child: Icon(FeatherIcons.heart, size:19, color: c.greyMain)
                     ),
                     if(isFav == true)InkWell(
                         onTap: () async {
@@ -561,7 +556,6 @@ class _MentionPostState extends State<MentionPost> {
   }
 }
 
-
 class ReviewPost extends StatefulWidget {
   String? name, postTime, username, brand, product, post, id;
   int comment, favorite;
@@ -588,12 +582,6 @@ class _ReviewPostState extends State<ReviewPost> {
     // fetchData();
   }
 
-class ReviewPost extends StatelessWidget {
-  String? name,postTime,username,brand,product,post;
-  int? comment,favorite;
-  double? rating;
-  ReviewPost({Key? key, this.name, this.postTime, this.username, this.brand, this.product, this.post, this.comment, this.favorite, this.rating}) : super(key: key);
-  final storage = new FlutterSecureStorage();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -625,7 +613,7 @@ class ReviewPost extends StatelessWidget {
                           ),
                           onTap: () async {
                             await storage.write(
-                                key: "anotherprofile", value: username);
+                                key: "anotherprofile", value: widget.username);
                             Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
                           },
                         ),
@@ -633,8 +621,7 @@ class ReviewPost extends StatelessWidget {
                         Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                       ],
                     ),
-
-                    Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
+                    Inter(text: widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
                     SizedBox( height: 7 ),
                     Row(
                       children: [
@@ -679,10 +666,7 @@ class ReviewPost extends StatelessWidget {
                   height: 66,
                   alignment: Alignment.topRight,
                   child: IconButton(
-                    onPressed: () {
-                        print("HELLO SON");
-
-                    },
+                    onPressed: () {},
                     alignment: Alignment.topRight,
                     icon: Icon(Boxicons.bx_dots_vertical_rounded, size: 30, color: c.greyMain),
                   ),
@@ -1007,7 +991,7 @@ class ReviewPost extends StatelessWidget {
                             ),
                             SizedBox(width: 7),
                             Inter(
-                                text: widget.rating!.toString(),
+                                text: widget.rating.toString(),
                                 size: 10,
                                 color: Colors.white,
                                 fontWeight: f.semiBold
@@ -1090,7 +1074,7 @@ class ReviewPost extends StatelessWidget {
                             ),
                             SizedBox(width: 7),
                             Inter(
-                                text: widget.rating!.toString(),
+                                text: widget.rating.toString(),
                                 size: 10,
                                 color: Colors.white,
                                 fontWeight: f.semiBold

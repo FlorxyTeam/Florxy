@@ -10,7 +10,6 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'CreatePost.dart';
-import 'cameranavbar.dart';
 
 class ViewPost extends StatefulWidget {
   String? fullname, username, post, brand, product, desc, productImg;
