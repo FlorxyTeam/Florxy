@@ -526,7 +526,7 @@ class _BrandoverviewState extends State<Brandoverview> {
             Center(
               child: InkWell(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductOverview()));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage()));
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.31,
