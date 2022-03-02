@@ -207,9 +207,7 @@ class _comparepageState extends State<comparepage> {
              size: 24),),),
            ],
          ),
-         SizedBox(
-           height: 20,
-         ),
+         
          Container(
 
            width:  MediaQuery.of(context).size.height,
@@ -338,7 +336,7 @@ class _comparepageState extends State<comparepage> {
            height: 10,
          ),
          Container(
-           margin: const EdgeInsets.only(top: 80),
+           margin: const EdgeInsets.only(top: 60),
            child: RichText(
              text: TextSpan(
 
