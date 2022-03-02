@@ -436,7 +436,11 @@ class _MentionPostState extends State<MentionPost> {
                 if(widget.urlImage?.length!=null)SizedBox(height: 8),
                 GestureDetector(
                   onTap: () async {
-                    var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id! + "/" + widget.brand!);
+                    Map<String, String> data = {
+                      "product":widget.product!
+                    };
+                    print(data);
+                    var res = await networkHandler.post("/home/getPost/viewPost/" + widget.id!,data);
                     print(res);
                   },
                   child: Padding(

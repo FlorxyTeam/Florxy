@@ -1,3 +1,7 @@
+const mongoose = require("mongoose");
+
+const Schema = mongoose.Schema;
+
 const Product = Schema(
     {
         p_name: {

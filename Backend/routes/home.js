@@ -6,7 +6,7 @@ const middleware = require('../middleware');
 const User = require("../models/users.model");
 const Profile = require("../models/profile.model");
 const Post = require("../models/post.model");
-const Productduean = require("../models/product2.model");
+const Product = require("../models/product.model");
 const multer = require("multer");
 const router = express.Router();
 
@@ -146,7 +146,7 @@ router.route("/unFav/:id").post(middleware.checkToken,(req,res)=>{
 
 router.route("/createPost/mention/topMention").get(middleware.checkToken,(req,res)=>{
   console.log('maaaaaaaa');
-  Productduean.find({}).sort({mention:-1}).limit(4).exec(
+  Product.find({}).sort({mention:-1}).limit(4).exec(
     function(err,topMention){
     if (err) 
     return res.json({ err: err });
@@ -158,12 +158,12 @@ router.route("/createPost/mention/topMention").get(middleware.checkToken,(req,re
   });
 });
 
-router.route("/getPost/viewPost/:id/:brand").get(middleware.checkToken,(req,res)=>{
+router.route("/getPost/viewPost/:id").post(middleware.checkToken,(req,res)=>{
   Post.findOne({_id:req.params.id}, (err,findPost)=>{
     if(err){
       return res.json(err);
     } else {
-      Productduean.findOne({refbrand:req.params.brand}, (err,findProduct)=>{
+      Product.findOne({p_name:req.body.product}, (err,findProduct)=>{
         if(err){
           return res.json(err);
         } else {

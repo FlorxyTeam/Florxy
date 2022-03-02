@@ -166,7 +166,7 @@ class _ProductState extends State<Product> {
       body: Container(
         color: Colors.white,
         child: Consumer<PostProvider>(builder: (context,model,_) => FutureBuilder(
-          future: model.fetchData(),
+          future: model.fetchMentionProduct(),
           builder: (context,snapshot) => ListView.builder(
             // scrollDirection: Axis.vertical,
             itemCount: model.productData?.length??0,
@@ -186,23 +186,26 @@ class _ProductState extends State<Product> {
                               decoration: BoxDecoration(
                                   color: Colors.transparent,
                                   image: DecorationImage(
-                                      image: NetworkImage(model.productData![index]['image']),
-                                      fit: BoxFit.fitHeight
+                                      image: NetworkImage(model.productData![index]['p_img']),
+                                      fit: BoxFit.contain
                                   )
                               ),
                             ),
                           ),
                         ),
-                        Container(
-                          width: 190,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              PoppinsLeft(text: model.productData![index]['refbrand'], size: 13, color: c.textBlack, fontWeight: f.semiBold),
-                              PoppinsLeft(text: model.productData![index]['refproduct'], size: 13, color: c.textBlack, fontWeight: f.semiBold),
-                              SizedBox(height: 15),
-                              Roboto(text: 'It is a long established fact that a reader will be distracted.', size: 12, color: c.greySub, fontWeight: f.regular)
-                            ],
+                        Padding(
+                          padding: const EdgeInsets.only(left: 12),
+                          child: Container(
+                            width: 190,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                PoppinsLeft(text: model.productData![index]['p_brand'], size: 13, color: c.textBlack, fontWeight: f.semiBold),
+                                PoppinsLeft(text: model.productData![index]['p_name'], size: 13, color: c.textBlack, fontWeight: f.semiBold),
+                                SizedBox(height: 15),
+                                Roboto(text: 'It is a long established fact that a reader will be distracted.', size: 12, color: c.greySub, fontWeight: f.regular)
+                              ],
+                            ),
                           ),
                         ),
                         Padding(
