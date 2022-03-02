@@ -47,156 +47,118 @@ class _AliasFinishState extends State<AliasFinish> {
                       alignment: Alignment.topLeft,
                       child: Inter(
                         text: '     FINISH!',
-                        size: 25,
+                        size: 24,
                         color: c.greenMain,
                         fontWeight: f.bold,
                       ),
                     ),
                     SizedBox(height: 20),
                     Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20, top: 10),
+                      padding: const EdgeInsets.only(left:30, right: 30, top: 10),
                       child: Column(
+                        children:[
+                          Text(
+                            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                            style: TextStyle(fontSize: 11.5,),
+                          ),
+                          Text(
+                            '',
+                            style: TextStyle(fontSize: 5,),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 50,),
+                    Padding(
+                        padding: EdgeInsets.only(left: 30, right: 30, top: 0),
+                        child : Row(
+                          children: [
+                            Icon(
+                              Icons.circle,
+                              color: c.blackMain,
+                              size: 6,
+                            ),
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                "  Lorem Ipsum is simply dummy text of the printing and ",
+                                style: TextStyle(fontSize: 11.5,),
+                              ),
+                            ),
+                          ],
+                        ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 36, right: 30, top: 0),
+                      child :
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "  typesetting.",
+                          style: TextStyle(fontSize: 11.5,),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20,),
+                    Padding(
+                      padding: EdgeInsets.only(left: 30, right: 30, top: 0),
+                      child : Row(
                         children: [
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Poppins(
-                                text: "  Lorem Ipsum is simply dummy text of the printing and ",
-                                size: 11,
-                                color: c.blackSub,
-                                fontWeight: f.medium),
+                          Icon(
+                            Icons.circle,
+                            color: c.blackMain,
+                            size: 6,
                           ),
                           Align(
                             alignment: Alignment.topLeft,
-                            child: Poppins(
-                                text: "  typesetting industry. Lorem Ipsum has been the industry's ",
-                                size: 11,
-                                color: c.blackSub,
-                                fontWeight: f.medium),
-                          ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Poppins(
-                                text: "  standard dummy text ever since the 1500s, when an ",
-                                size: 11,
-                                color: c.blackSub,
-                                fontWeight: f.medium),
-                          ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Poppins(
-                                text: "  unknown printer took a galley of type and scrambled it to ",
-                                size: 11,
-                                color: c.blackSub,
-                                fontWeight: f.medium),
-                          ),
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Poppins(
-                                text: "  make a type specimen book.",
-                                size: 11,
-                                color: c.blackSub,
-                                fontWeight: f.medium),
-                          ),
-                          SizedBox(height: 50,),
-                          Padding(
-                            padding: EdgeInsets.only(left: 7, right: 0, top: 0),
-                            child : Row(
-                              children: [
-                                Icon(
-                                    Icons.circle,
-                                    color: c.blackMain,
-                                    size: 6,
-                                  ),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Poppins(
-                                      text: "  Lorem Ipsum is simply dummy text of the printing and ",
-                                      size: 11,
-                                      color: c.blackSub,
-                                      fontWeight: f.medium),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 15, right: 0, top: 0),
-                            child :
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Poppins(
-                                  text: "  typesetting.",
-                                  size: 11,
-                                  color: c.blackSub,
-                                  fontWeight: f.medium),
-                            ),
-                          ),
-                          SizedBox(height: 20,),
-                          Padding(
-                            padding: EdgeInsets.only(left: 7, right: 0, top: 0),
-                            child : Row(
-                              children: [
-                                Icon(
-                                  Icons.circle,
-                                  color: c.blackMain,
-                                  size: 6,
-                                ),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Poppins(
-                                      text: "  Lorem Ipsum is simply dummy.",
-                                      size: 11,
-                                      color: c.blackSub,
-                                      fontWeight: f.medium),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 20,),
-                          Padding(
-                            padding: EdgeInsets.only(left: 7, right: 0, top: 0),
-                            child : Row(
-                              children: [
-                                Icon(
-                                  Icons.circle,
-                                  color: c.blackMain,
-                                  size: 6,
-                                ),
-                                Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Poppins(
-                                      text: "  Lorem Ipsum is simply dummy text of the printing and ",
-                                      size: 11,
-                                      color: c.blackSub,
-                                      fontWeight: f.medium),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 15, right: 0, top: 0),
-                            child :
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Poppins(
-                                  text: "  typesetting. Lorem Ipsum has been the industry's ",
-                                  size: 11,
-                                  color: c.blackSub,
-                                  fontWeight: f.medium),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: 15, right: 0, top: 0),
-                            child :
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Poppins(
-                                  text: "  standard dummy text ever since the 1500s.",
-                                  size: 11,
-                                  color: c.blackSub,
-                                  fontWeight: f.medium),
+                            child: Text(
+                              "  Lorem Ipsum is simply dummy.",
+                              style: TextStyle(fontSize: 11.5,),
                             ),
                           ),
                         ],
+                      ),
+                    ),
+                    SizedBox(height: 20,),
+                    Padding(
+                      padding: EdgeInsets.only(left: 30, right: 30, top: 0),
+                      child : Row(
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            color: c.blackMain,
+                            size: 6,
+                          ),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "  Lorem Ipsum is simply dummy text of the printing and ",
+                              style: TextStyle(fontSize: 11.5,),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 36, right: 0, top: 0),
+                      child :
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "  typesetting. Lorem Ipsum has been the industry's",
+                          style: TextStyle(fontSize: 11.5,),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 36, right: 0, top: 0),
+                      child :
+                      Align(
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          "  standard dummy text ever since the 1500s.",
+                          style: TextStyle(fontSize: 11.5,),
+                        ),
                       ),
                     ),
                   ],
@@ -241,7 +203,7 @@ class _AliasFinishState extends State<AliasFinish> {
                           },
                           child: GreenButton(
                             text: 'NEXT',
-                            size: 18,
+                            size: 13,
                             color: c.textWhite,
                             height: 60,
                           ),

@@ -40,7 +40,7 @@ class _Privilege3State extends State<Privilege3> {
                             },
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 580),
+                            padding: const EdgeInsets.only(top: 570),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -81,7 +81,7 @@ class _Privilege3State extends State<Privilege3> {
               ),
             ),
             Positioned(
-                bottom: 15,
+                bottom: 30,
                 child: Column(
                   children: [
                     SizedBox(height: 15),
@@ -95,7 +95,7 @@ class _Privilege3State extends State<Privilege3> {
                           },
                           child: GreenButton(
                             text: 'CONTINUE',
-                            size: 18,
+                            size: 13,
                             color: c.textWhite,
                             height: 60,
                           ),

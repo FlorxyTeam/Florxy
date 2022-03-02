@@ -43,7 +43,7 @@ class _Privilege2State extends State<Privilege2> {
                             },
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 580),
+                            padding: const EdgeInsets.only(top: 570),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [

@@ -1,4 +1,5 @@
 import 'package:Florxy/Model/postModel.dart';
+import 'package:Florxy/pages/sensepage.dart';
 import 'package:Florxy/postProvider.dart';
 import 'package:Florxy/pages/CreatePost.dart';
 import 'package:Florxy/widgets/font.dart';
@@ -15,7 +16,6 @@ import "package:flutter_feather_icons/flutter_feather_icons.dart";
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../NetworkHandler.dart';
-import 'cameranavbar.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -89,14 +89,7 @@ class _HomePageState extends State<HomePage> {
                 iconSize: 25,
                 color: Colors.black,
                 onPressed: () async {
-                  await availableCameras().then(
-                        (value) => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => CameraNavbar(cameras: value,),
-                      ),
-                    ),
-                  );
+                  await availableCameras().then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => SensePage(cameras: value))));
                 },
               ),
             ),
