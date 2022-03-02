@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:Florxy/pages/ViewPostPage.dart';
+import 'package:Florxy/widgets/modelreportpost.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +10,9 @@ import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:Florxy/NetworkHandler.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
+import 'package:share_plus/share_plus.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../pages/anotherProfile.dart';
 import 'ViewPhotoWidget.dart';
@@ -122,7 +128,9 @@ class _MentionPostState extends State<MentionPost> {
                   height: 66,
                   alignment: Alignment.topRight,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ModalBottomSheetPost.Dialog_Settings(context);
+                    },
                     alignment: Alignment.topRight,
                     icon: Icon(Boxicons.bx_dots_vertical_rounded, size: 30, color: c.greyMain),
                   ),
@@ -498,7 +506,7 @@ class _MentionPostState extends State<MentionPost> {
                     ),
                   ],
                 ),
-                SizedBox(height: 12),
+                SizedBox(height: 2),
                 Row(
                   children: [
                     Icon(FeatherIcons.messageSquare, size:19, color: c.greyMain),
@@ -539,14 +547,28 @@ class _MentionPostState extends State<MentionPost> {
                     if(isFav == false)Inter(text: widget.favorite.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
                     if(isFav == true)Inter(text: widget.favorite.toString(), size: 11, color: c.redMain, fontWeight: f.medium),
                     Expanded(child: Container()),
-                    Icon(FeatherIcons.share2, size:19, color: c.greyMain),
+                    IconButton(
+                      icon: Icon(FeatherIcons.share2, size:19, color: c.greyMain),
+                      onPressed: () async {
+                        final urlImage = 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1608828061-skinceuticals-1544737345.jpg?crop=1xw:1xh;center,top&resize=768:*';
+                        final url = Uri.parse(urlImage);
+                        final response = await http.get(url);
+                        final bytes = response.bodyBytes;
+
+                        final temp = await getTemporaryDirectory();
+                        final path = '${temp.path}/image.jpg';
+                        File(path).writeAsBytesSync(bytes);
+
+                        await Share.shareFiles([path], text: 'This is Skin Ceuticals.');
+                      },
+                    ),
                     Expanded(child: Container()),
                   ],
                 ),
               ],
             ),
           ),
-          SizedBox(height: 16),
+          SizedBox(height: 6),
           Divider(
             color: c.greyMain,
             thickness: 0.5,
@@ -668,7 +690,9 @@ class _ReviewPostState extends State<ReviewPost> {
                   height: 66,
                   alignment: Alignment.topRight,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      ModalBottomSheetPost.Dialog_Settings(context);
+                    },
                     alignment: Alignment.topRight,
                     icon: Icon(Boxicons.bx_dots_vertical_rounded, size: 30, color: c.greyMain),
                   ),
@@ -1094,7 +1118,7 @@ class _ReviewPostState extends State<ReviewPost> {
                     ),
                   ],
                 ),
-                SizedBox(height: 12),
+                SizedBox(height: 2),
                 Row(
                   children: [
                     Icon(FeatherIcons.messageSquare, size:19, color: c.greyMain),
@@ -1135,14 +1159,28 @@ class _ReviewPostState extends State<ReviewPost> {
                     if(isFav == false)Inter(text: widget.favorite.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
                     if(isFav == true)Inter(text: widget.favorite.toString(), size: 11, color: c.redMain, fontWeight: f.medium),
                     Expanded(child: Container()),
-                    Icon(FeatherIcons.share2, size:19, color: c.greyMain),
+                    IconButton(
+                      icon: Icon(FeatherIcons.share2, size:19, color: c.greyMain),
+                      onPressed: () async {
+                        final urlImage = 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1608828061-skinceuticals-1544737345.jpg?crop=1xw:1xh;center,top&resize=768:*';
+                        final url = Uri.parse(urlImage);
+                        final response = await http.get(url);
+                        final bytes = response.bodyBytes;
+
+                        final temp = await getTemporaryDirectory();
+                        final path = '${temp.path}/image.jpg';
+                        File(path).writeAsBytesSync(bytes);
+
+                        await Share.shareFiles([path], text: 'This is Skin Ceuticals.');
+                      },
+                    ),
                     Expanded(child: Container()),
                   ],
                 ),
               ],
             ),
           ),
-          SizedBox(height: 16),
+          SizedBox(height: 6),
           Divider(
             color: c.greyMain,
             thickness: 0.5,

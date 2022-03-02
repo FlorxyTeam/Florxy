@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:Florxy/widgets/ViewPhotoWidget.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:boxicons/boxicons.dart';
@@ -8,6 +10,9 @@ import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
+import 'package:share_plus/share_plus.dart';
+import 'package:path_provider/path_provider.dart';
 
 import 'CreatePost.dart';
 
@@ -556,7 +561,21 @@ class _ViewPostState extends State<ViewPost> {
                         Expanded(child: Container()),
                         Padding(
                           padding: const EdgeInsets.only(right: 45),
-                          child: Icon(FeatherIcons.share2, size:19, color: c.greyMain),
+                          child: IconButton(
+                            icon: Icon(FeatherIcons.share2, size:19, color: c.greyMain),
+                            onPressed: () async {
+                              final urlImage = 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1608828061-skinceuticals-1544737345.jpg?crop=1xw:1xh;center,top&resize=768:*';
+                              final url = Uri.parse(urlImage);
+                              final response = await http.get(url);
+                              final bytes = response.bodyBytes;
+                              
+                              final temp = await getTemporaryDirectory();
+                              final path = '${temp.path}/image.jpg';
+                              File(path).writeAsBytesSync(bytes);
+                              
+                              await Share.shareFiles([path], text: 'This is Skin Ceuticals.');
+                            },
+                          ),
                         ),
                       ],
                     ),
