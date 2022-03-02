@@ -6,7 +6,7 @@ const middleware = require('../middleware');
 const User = require("../models/users.model");
 const Profile = require("../models/profile.model");
 const Post = require("../models/post.model");
-const Productduean = require("../models/product.model");
+const Productduean = require("../models/product2.model");
 const multer = require("multer");
 const router = express.Router();
 
