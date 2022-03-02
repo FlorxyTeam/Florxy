@@ -5,7 +5,7 @@ import 'dart:convert';
 
 class PostProvider extends ChangeNotifier{
   final httpClient = http.Client();
-  String baseurl = "https://a832-223-24-185-218.ngrok.io";
+  String baseurl = "https://4875-171-100-24-98.ngrok.io";
 
   List<dynamic>? postData;
   FlutterSecureStorage storage = FlutterSecureStorage();

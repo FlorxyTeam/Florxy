@@ -34,7 +34,10 @@ class _CreateProfileState extends State<CreateProfile> {
       bio: '',
       email: '',
       professor: '',
-      username: '');
+      username: '',
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],);
 
   @override
   void initState() {

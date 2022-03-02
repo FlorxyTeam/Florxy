@@ -1,5 +1,7 @@
 import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/NetworkHandler.dart';
+import 'package:Florxy/pages/myfollower.dart';
+import 'package:Florxy/pages/myfollowing.dart';
 import 'package:Florxy/widgets/Modalsetting.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:boxicons/boxicons.dart';
@@ -32,7 +34,10 @@ class _ProfilePageState extends State<ProfilePage> {
       bio: '',
       email: '',
       professor: '',
-      username: '');
+      username: '',
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],);
 
   @override
   void initState() {
@@ -172,39 +177,49 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Row(
 
                         children: [
-                          Column(
+                          GestureDetector(
+                            child: Column(
 
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Poppins(
-                                  text: profileModel.follower.toString(),
-                                  size: 18,
-                                  color: c.blackMain,
-                                  fontWeight: f.semiBold),
-                              Poppins(
-                                  text: "Followers",
-                                  size: 14,
-                                  color: c.greyMain,
-                                  fontWeight: f.semiBold),
-                            ],
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Poppins(
+                                    text: profileModel.follower.toString(),
+                                    size: 18,
+                                    color: c.blackMain,
+                                    fontWeight: f.semiBold),
+                                Poppins(
+                                    text: "Followers",
+                                    size: 14,
+                                    color: c.greyMain,
+                                    fontWeight: f.semiBold),
+                              ],
+                            ),
+                            onTap: (){
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => myFollower()));
+                            },
                           ),
                           SizedBox(
                             width: 30,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Poppins(
-                                  text: profileModel.following.toString(),
-                                  size: 18,
-                                  color: c.blackMain,
-                                  fontWeight: f.semiBold),
-                              Poppins(
-                                  text: "Following",
-                                  size: 14,
-                                  color: c.greyMain,
-                                  fontWeight: f.semiBold),
-                            ],
+                          GestureDetector(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Poppins(
+                                    text: profileModel.following.toString(),
+                                    size: 18,
+                                    color: c.blackMain,
+                                    fontWeight: f.semiBold),
+                                Poppins(
+                                    text: "Following",
+                                    size: 14,
+                                    color: c.greyMain,
+                                    fontWeight: f.semiBold),
+                              ],
+                            ),
+                            onTap: (){
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => myFollowing()));
+                            },
                           ),
                           SizedBox(
                             width: 30,

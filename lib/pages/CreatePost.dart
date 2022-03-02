@@ -36,7 +36,10 @@ class _CreatePostState extends State<CreatePost> {
       bio: '',
       email: '',
       professor: '',
-      username: '');
+      username: '',
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],);
   @override
   void initState() {
     // TODO: implement initState

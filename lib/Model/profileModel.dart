@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:json_annotation/json_annotation.dart';
 
 part 'profileModel.g.dart';
@@ -14,6 +16,9 @@ class ProfileModel {
   String influencer;
   String bio;
   String img;
+  List listfollower;
+  List listfollowing;
+  List favorite;
 
   ProfileModel({
     required this.email,
@@ -25,7 +30,10 @@ class ProfileModel {
     required this.professor,
     required this.influencer,
     required this.bio,
-    required this.img
+    required this.img,
+    required this.listfollower,
+    required this.listfollowing,
+    required this.favorite,
   });
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) =>

@@ -8,7 +8,7 @@ const multer = require("multer");
 const path = require("path");
 const e = require("express");
 const req = require("express/lib/request");
-
+const mongoose = require("mongoose");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "./uploads");
@@ -58,32 +58,255 @@ router
   });
 
 
-  router
-    .route("/add/follower")
-    .patch(middleware.checkToken, (req, res) => {
-      Follower.findOneAndUpdate(
-        { email: req.decoded.email },
-        {
-          $push: {
-            listfollower: [
-            {
-                email:"tesdt@",
-                username:"Hi1",
-            },
-            ],
-          },
-        },
-        { new: true },
-        (err, profile) => {
-          if (err) return res.status(500).send(err);
-          const response = {
-            message: "follower added",
-            data: profile,
-          };
-          return res.status(200).send(response);
-        }
-      );
+router.route("/followercheck/:username/:myusername").get(middleware.checkToken, (req,res)=>{
+    Profile.findOne({
+        "username": req.params.username,
+        "listfollower.username" : req.params.myusername,
+
+    }, function(err, docs){
+    console.log(req.params.username)
+    console.log(req.params.myusername)
+         if(docs == null && req.params.username != req.params.myusername){
+                     return res.json({
+                         Status: true,
+
+                     });
+                 }
+                 else return res.json({
+                     Status: false,
+
+                 })
+
     });
+});
+router.route("/addfollower/:username/:myusername").patch(middleware.checkToken, (req,res,next)=>{
+    Profile.findOne({
+        "username": req.params.username,
+        "listfollower.username" : req.params.myusername,
+
+    }, function(err, docs){
+    console.log(req.params.username)
+    console.log(req.params.myusername)
+
+         if(docs == null && req.params.username != req.params.myusername){
+            console.log('hi null')
+
+            Profile.findOneAndUpdate(
+                    {
+                    username: req.params.username,
+
+                     },
+                    {
+                    follower: req.body.follower,
+                      $push: {
+                        listfollower:
+                        {
+                            img:req.body.myimg,
+                            fullname:req.body.myfullname,
+                            username:req.params.myusername,
+                        },
+
+                      },
+                    },
+                    {
+                    new: true,
+                    upsert: true
+                     },
+                    (err, profile) => {
+                      if (err) return res.status(500).send(err);
+
+                  Profile.findOneAndUpdate(
+                      {
+                      username: req.params.myusername,
+
+                       },
+                      {
+                      following: req.body.following,
+
+                         $push: {
+                            listfollowing:
+                            {
+                                img:req.body.img,
+                                fullname:req.body.fullname,
+                                username:req.params.username,
+                            },
+
+                          },
+                      },
+                      {
+                      new: true,
+                      upsert: true
+                       },
+                      (err, profile) => {
+                        if (err) return res.status(501).send(err);
+
+                        const response = {
+                          message: "following added",
+                          data: profile,
+                        };
+                        return res.status(201).send(response);
+                      }
+                    );
+                    }
+                  );
+
+
+
+
+            }
+         else{
+            const response = {
+                message: "you did it",
+              };
+              return res.status(202).send(response);
+         }
+
+    });
+});
+router.route("/unfollower/:username/:myusername").patch(middleware.checkToken, (req,res,next)=>{
+    Profile.findOne({
+        "username": req.params.username,
+        "listfollower.username" : req.params.myusername,
+
+    }, function(err, docs){
+    console.log(req.params.username)
+    console.log(req.params.myusername)
+         if(docs == null && req.params.username != req.params.myusername){
+            console.log('hi null')
+              const response = {
+                message: "you did not follow",
+              };
+              return res.status(200).send(response);
+            }
+         else{
+         Profile.findOneAndUpdate(
+              {
+              username: req.params.username,
+               },
+              {
+              follower: req.body.follower,
+                $pull: {
+                  listfollower:
+                  {
+                      username:req.params.myusername,
+                  },
+
+                },
+              },
+              { new: true,
+               upsert: true},
+              (err, profile) => {
+                if (err) return res.status(500).send(err);
+         Profile.findOneAndUpdate(
+                  {
+                  username: req.params.myusername,
+                   },
+                  {
+                  following: req.body.following,
+                    $pull: {
+                      listfollowing:
+                      {
+                          username:req.params.username,
+                      },
+
+                    },
+                  },
+                  { new: true,
+                   upsert: true},
+                  (err, profile) => {
+                    if (err) return res.status(501).send(err);
+
+                    const response = {
+                      message: "following removed",
+                      data: profile,
+                    };
+                    return res.status(201).send(response);
+                  }
+                );
+              }
+            );
+
+
+         }
+
+    });
+});
+
+
+
+
+
+router.route("/addfollowing/:username/:myusername").patch(middleware.checkToken, (req,res)=>{
+
+    Profile.findOne({
+        "username": req.params.username,
+        "listfollowing.username" : req.params.myusername,
+
+    }, function(err, docs){
+    console.log(req.params.username)
+    console.log(req.params.myusername)
+         if(docs == null && req.params.username != req.params.myusername){
+            console.log('hi null')
+            Profile.findOneAndUpdate(
+                    { username: req.params.username },
+                    {
+                      $push: {
+                        listfollowing:
+                        {
+                            email: req.decoded.email,
+                            username:req.params.myusername,
+                        },
+
+                      },
+                    },
+                    { new: true },
+                    (err, profile) => {
+                      if (err) return res.status(500).send(err);
+                      const response = {
+                        message: "following added",
+                        data: profile,
+                      };
+                      return res.status(200).send(response);
+                    }
+                  );
+            }
+         else{
+            const response = {
+                message: "you did it",
+              };
+              return res.status(200).send(response);
+
+         }
+
+    });
+});
+
+router.route("/addintfollowing").post(middleware.checkToken, (req, res) => {
+    console.log(req.body.username)
+    console.log(req.body.following)
+   Profile.findOneAndUpdate(
+          {
+          username: req.body.username,
+           },
+          {
+            following: req.body.following,
+
+          },
+          {
+              new: true,
+              upsert: true
+            },
+          (err, profile) => {
+            if (err) return res.status(500).send(err);
+
+            const response = {
+              message: "follower more added",
+              data: profile,
+            };
+            return res.status(200).send(response);
+          }
+        );
+});
 
 router.route("/add").post(middleware.checkToken, (req, res) => {
   const profile = Profile({
@@ -101,37 +324,6 @@ router.route("/add").post(middleware.checkToken, (req, res) => {
       return res.status(400).json({ err: err });
     });
 });
-
-router.route("/addfollower").post(middleware.checkToken, (req, res) => {
-  const follower = Follower({
-    email: req.decoded.email,
-    username: req.body.username,
-  });
-  follower
-    .save()
-    .then(() => {
-      return res.json({ msg: "follower successfully stored" });
-    })
-    .catch((err) => {
-      return res.status(400).json({ err: err });
-    });
-});
-
-router.route("/addfollowing").post(middleware.checkToken, (req, res) => {
-  const following = Following({
-    email: req.decoded.email,
-    username: req.body.username,
-  });
-  following
-    .save()
-    .then(() => {
-      return res.json({ msg: "following successfully stored" });
-    })
-    .catch((err) => {
-      return res.status(400).json({ err: err });
-    });
-});
-
 
 router.route("/checkProfile").get(middleware.checkToken, (req, res) => {
   Profile.findOne({ email: req.decoded.email }, (err, result) => {

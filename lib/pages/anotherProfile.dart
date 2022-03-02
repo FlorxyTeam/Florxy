@@ -1,4 +1,7 @@
 import 'package:Florxy/NetworkHandler.dart';
+import 'package:Florxy/pages/allfollower.dart';
+import 'package:Florxy/pages/allfollowing.dart';
+import 'package:Florxy/pages/lastthingspage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:Florxy/Model/profileModel.dart';
@@ -25,108 +28,146 @@ class anotherProfile extends StatefulWidget {
 class _anotherProfileState extends State<anotherProfile> {
   final storage = new FlutterSecureStorage();
   final networkHandler = NetworkHandler();
-
+  String? yourfollow = "";
+  int itfollower = 0;
+  int itfollowing = 0;
   ProfileModel profileModel = ProfileModel(
-      DOB: '',
-      img: '',
-      influencer: '',
-      fullname: '',
-      follower: 0,
-      following: 0,
-      bio: '',
-      email: '',
-      professor: '',
-      username: '');
+    DOB: '',
+    img: '',
+    influencer: '',
+    fullname: '',
+    follower: 0,
+    following: 0,
+    bio: '',
+    email: '',
+    professor: '',
+    username: '',
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],
+  );
+
+  ProfileModel myprofileModel = ProfileModel(
+    DOB: '',
+    img: '',
+    influencer: '',
+    fullname: '',
+    follower: 10,
+    following: 10,
+    bio: '',
+    email: '',
+    professor: '',
+    username: '',
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],
+  );
 
   @override
-  void initState() {
+  void initState(){
     // TODO: implement initState
     super.initState();
     fetchData();
   }
-  void fetchData() async{
+
+  void fetchData() async {
     String? profile = await storage.read(key: "anotherprofile");
     print(profile);
     var response = await networkHandler.get("/profile/getOtherData/$profile");
+    var response2 = await networkHandler.get("/profile/getData");
+
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
+      myprofileModel = ProfileModel.fromJson(response2["data"]);
+      itfollower = profileModel.follower;
+      itfollowing= profileModel.following;
     });
+    var followercheck = await networkHandler.get("/profile/followercheck/${profileModel.username}/${myprofileModel.username}");
+    if(followercheck['Status']){
+      setState(() {
+        yourfollow="Follow";
+      });
+    }
+    else{
+      setState(() {
+        yourfollow="Following";
+      });
+    }
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-          body: DefaultTabController(
-            length: 3,
-            child: NestedScrollView(
-                headerSliverBuilder: (context, _) {
-                  return [
-                    SliverList(
-                        delegate:
+      body: DefaultTabController(
+        length: 3,
+        child: NestedScrollView(
+            headerSliverBuilder: (context, _) {
+              return [
+                SliverList(
+                    delegate:
                         SliverChildListDelegate([profileHeaderWidget(context)]))
-                  ];
-                },
-                body: Container(
-                  decoration: BoxDecoration(
+              ];
+            },
+            body: Container(
+              decoration: BoxDecoration(
+                  color: c.textWhite,
+                  border: Border(
+                    top: BorderSide(
+                        width: 1, color: c.greyMain.withOpacity(0.5)),
+                  )),
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 10, bottom: 10, left: 7, right: 7),
+                    child: Container(
+                      height: 25,
                       color: c.textWhite,
-                      border: Border(
-                        top: BorderSide(width: 1, color: c.greyMain.withOpacity(0.5)),
-                      )),
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            top: 10, bottom: 10, left: 7, right: 7),
-                        child: Container(
-                          height: 25,
-                          color: c.textWhite,
-                          child: TabBar(
-                            labelColor: c.greenMain,
-                            unselectedLabelColor: c.greyMain,
-                            indicator: BoxDecoration(
-                              color: c.greenLight1.withOpacity(0.8),
-                              borderRadius: BorderRadius.circular(40),
-                            ),
-                            tabs: [
-                              Tab(
-                                child: Inter_1(
-                                    text: "Post and replies",
-                                    size: 11.85,
-                                    fontWeight: f.bold),
-                              ),
-                              Tab(
-                                child: Inter_1(
-                                    text: "Favorite post",
-                                    size: 11.85,
-                                    fontWeight: f.bold),
-                              ),
-                              Tab(
-                                child: Inter_1(
-                                    text: "Saved Product",
-                                    size: 11.85,
-                                    fontWeight: f.bold),
-                              ),
-                            ],
-                          ),
+                      child: TabBar(
+                        labelColor: c.greenMain,
+                        unselectedLabelColor: c.greyMain,
+                        indicator: BoxDecoration(
+                          color: c.greenLight1.withOpacity(0.8),
+                          borderRadius: BorderRadius.circular(40),
                         ),
+                        tabs: [
+                          Tab(
+                            child: Inter_1(
+                                text: "Post and replies",
+                                size: 11.85,
+                                fontWeight: f.bold),
+                          ),
+                          Tab(
+                            child: Inter_1(
+                                text: "Favorite post",
+                                size: 11.85,
+                                fontWeight: f.bold),
+                          ),
+                          Tab(
+                            child: Inter_1(
+                                text: "Saved Product",
+                                size: 11.85,
+                                fontWeight: f.bold),
+                          ),
+                        ],
                       ),
-                      Expanded(
-                          child: TabBarView(
-                            children: [
-                              PostReply(),
-                              FavPost(),
-                              SavedPro(),
-                            ],
-                          ))
-                    ],
+                    ),
                   ),
-                )),
-          ),
-        )
-    );
+                  Expanded(
+                      child: TabBarView(
+                    children: [
+                      PostReply(),
+                      FavPost(),
+                      SavedPro(),
+                    ],
+                  ))
+                ],
+              ),
+            )),
+      ),
+    ));
   }
-
-
 
   Widget profileHeaderWidget(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -149,7 +190,7 @@ class _anotherProfileState extends State<anotherProfile> {
                   radius: 44,
                   backgroundColor: Colors.orange,
                   backgroundImage:
-                  NetworkHandler().getImage(profileModel.email),
+                      NetworkHandler().getImage(profileModel.email),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -172,43 +213,52 @@ class _anotherProfileState extends State<anotherProfile> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 21, top: 5,bottom: 5),
+                      padding:
+                          const EdgeInsets.only(left: 21, top: 5, bottom: 5),
                       child: Row(
-
                         children: [
-                          Column(
-
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Poppins(
-                                  text: "11.3K",
-                                  size: 18,
-                                  color: c.blackMain,
-                                  fontWeight: f.semiBold),
-                              Poppins(
-                                  text: "Followers",
-                                  size: 14,
-                                  color: c.greyMain,
-                                  fontWeight: f.semiBold),
-                            ],
+                          GestureDetector(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Poppins(
+                                    text: itfollower.toString(),
+                                    size: 18,
+                                    color: c.blackMain,
+                                    fontWeight: f.semiBold),
+                                Poppins(
+                                    text: "Followers",
+                                    size: 14,
+                                    color: c.greyMain,
+                                    fontWeight: f.semiBold),
+                              ],
+                            ),
+                            onTap: (){
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => allFollower()));
+                            },
                           ),
                           SizedBox(
                             width: 30,
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Poppins(
-                                  text: "345",
-                                  size: 18,
-                                  color: c.blackMain,
-                                  fontWeight: f.semiBold),
-                              Poppins(
-                                  text: "Following",
-                                  size: 14,
-                                  color: c.greyMain,
-                                  fontWeight: f.semiBold),
-                            ],
+                          GestureDetector(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Poppins(
+                                    text: itfollowing.toString(),
+                                    size: 18,
+                                    color: c.blackMain,
+                                    fontWeight: f.semiBold),
+                                Poppins(
+                                    text: "Following",
+                                    size: 14,
+                                    color: c.greyMain,
+                                    fontWeight: f.semiBold),
+                              ],
+                            ),
+                            onTap: (){
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => allFollowing()));
+                            },
                           ),
                           SizedBox(
                             width: 30,
@@ -301,7 +351,7 @@ class _anotherProfileState extends State<anotherProfile> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.width-50,
+                    width: MediaQuery.of(context).size.width - 50,
                     child: Inter(
                         text: profileModel.bio,
                         size: 13,
@@ -326,10 +376,97 @@ class _anotherProfileState extends State<anotherProfile> {
                   color: c.greyMain,
                   fontWeight: f.medium),
             ]),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                (yourfollow == "Follow")?
+                FlatButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    color: c.greenMain,
+                    height: 40,
+                    minWidth: 135,
+                    onPressed: () async{
+                      Map<String, String> data = {
+                        "img":profileModel.img,
+                        "fullname":profileModel.fullname.toString(),
+                        "follower":(profileModel.follower+1).toString(),
+                        "myimg":myprofileModel.img,
+                        "myfullname":myprofileModel.fullname.toString(),
+                        "following":(myprofileModel.following+1).toString()
+                      };
+                      print(data);
+                      var addfollow = await networkHandler
+                          .patch("/profile/addfollower/${profileModel.username}/${myprofileModel.username}",data);
+                      setState(() {
+                        itfollower= itfollower+1;
+                        yourfollow="Following";
+                        print(profileModel.listfollower);
+                      });
+                    },
+                    child: Inter(
+                      text: yourfollow.toString(),
+                      size: 13,
+                      color: c.textWhite,
+                      fontWeight: f.bold,
+                    )
+                ):FlatButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    color: c.greenMain,
+                    height: 40,
+                    minWidth: 135,
+                    onPressed: () async{
+                      Map<String, String> data = {
+                        "follower":(profileModel.follower-1).toString(),
+                        "following":(myprofileModel.following-1).toString()
+                      };
+                      var unfollow = await networkHandler
+                          .patch("/profile/unfollower/${profileModel.username}/${myprofileModel.username}",data);
+                      setState(() {
+                        itfollower=itfollower-1;
+                        yourfollow="Follow";
+                        print(profileModel.listfollower);
+                      });
+                    },
+                    child: Inter(
+                      text: yourfollow.toString(),
+                      size: 13,
+                      color: c.textWhite,
+                      fontWeight: f.bold,
+                    )
+                ),
+                SizedBox(
+                  width: 20,
+                ),
+                FlatButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    color: c.greyMain,
+                    height: 40,
+                    minWidth: 135,
+                    onPressed: () {},
+                    child: Inter(
+                      text: "Message",
+                      size: 13,
+                      color: c.textWhite,
+                      fontWeight: f.bold,
+                    )),
+              ],
+            ),
           ],
         ),
       ),
     );
   }
-}
 
+  //
+  // Widget FollowButton() {
+  //   return
+  // }
+
+
+}

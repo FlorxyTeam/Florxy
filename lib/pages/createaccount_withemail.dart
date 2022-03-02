@@ -420,18 +420,8 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                                   "following": "0",
                                 };
 
-                                Map<String, String> data2 = {
-                                  "username": "$username",
-                                };
-
                                 var response2 = await networkHandler.post(
                                     "/profile/add", data);
-                                print(response2);
-                                var response3 = await networkHandler.post(
-                                    "/profile/addfollower", data2);
-                                print(response2);
-                                var response4 = await networkHandler.post(
-                                    "/profile/addfollowing", data2);
                                 print(response2);
                                 setState(() {
                                   validate = true;

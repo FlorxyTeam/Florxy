@@ -39,7 +39,10 @@ class _AddPostState extends State<AddPost> {
       following: 0,
       email: '',
       professor: '',
-      username: '');
+      username: '',
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],);
 
   @override
   void initState() {

@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 
 class NetworkHandler {
-  String baseurl = "https://a832-223-24-185-218.ngrok.io";
+  String baseurl = "https://4875-171-100-24-98.ngrok.io";
   var log = Logger();
 
   FlutterSecureStorage storage = FlutterSecureStorage();

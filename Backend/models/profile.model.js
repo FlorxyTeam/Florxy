@@ -44,7 +44,39 @@ const Profile = Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post'
       }
-    ]
+    ],
+    listfollower: [
+          {
+          img: {
+            type: String,
+             default:'',
+          },
+           fullname: {
+              type: String,
+               unique: true,
+            },
+          username: {
+            type: String,
+            unique: true,
+          },
+      }
+    ],
+    listfollowing: [
+          {
+           img: {
+               type: String,
+                default:'',
+             },
+          fullname: {
+                 type: String,
+                  unique: true,
+           },
+         username: {
+               type: String,
+               unique: true,
+             },
+      }
+    ],
   },
 
 

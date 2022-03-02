@@ -17,9 +17,11 @@ const Following = Schema(
       {
        email: {
           type: String,
+          unique: true,
         },
       username: {
         type: String,
+        unique: true,
       },
   }
       ],
