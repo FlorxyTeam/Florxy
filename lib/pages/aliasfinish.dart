@@ -10,6 +10,8 @@ import 'package:Florxy/pages/EditProfile.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 
+import 'navbar.dart';
+
 class AliasFinish extends StatefulWidget {
   const AliasFinish({Key? key}) : super(key: key);
 
@@ -217,7 +219,7 @@ class _AliasFinishState extends State<AliasFinish> {
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => EditPage()),
+                                    builder: (context) => Navbar(currentState: 4,)),
                                     (route) => false);
                           },
                           child: GreenButton(

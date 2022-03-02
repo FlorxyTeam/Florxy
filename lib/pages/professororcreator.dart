@@ -34,7 +34,7 @@ class _ProfessorOrCreatorState extends State<ProfessorOrCreator> {
                             iconSize: 30,
                             color: Colors.black,
                             onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => Privilege3()));
+                              Navigator.of(context).pop();
                             },
                           ),
                           SizedBox(height: 18),
@@ -77,7 +77,9 @@ class _ProfessorOrCreatorState extends State<ProfessorOrCreator> {
                                           primary: Colors.white,
                                         ),
                                         onPressed: () {
-                                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => ProfessorAccount()), (route) => false);
+                                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfessorAccount()));
+
+                                          // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => ProfessorAccount()), (route) => false);
                                         },
                                         child: Column(
                                           children:[
@@ -123,7 +125,9 @@ class _ProfessorOrCreatorState extends State<ProfessorOrCreator> {
                                           primary: Color(0xff265b3c),
                                         ),
                                         onPressed: () {
-                                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => CreatorAccount()), (route) => false);
+                                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreatorAccount()));
+
+                                          // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => CreatorAccount()), (route) => false);
                                         },
                                         child: Column(
                                           children:[

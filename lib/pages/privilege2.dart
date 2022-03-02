@@ -39,7 +39,7 @@ class _Privilege2State extends State<Privilege2> {
                             iconSize: 30,
                             color: Colors.black,
                             onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditPage()));
+                              Navigator.of(context).pop();
                             },
                           ),
                           Padding(

@@ -132,7 +132,7 @@ class _ProfessorAccountState extends State<ProfessorAccount> {
                             iconSize: 30,
                             color: Colors.black,
                             onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfessorOrCreator()));
+                              Navigator.of(context).pop();
                             },
                           ),
                           SizedBox(height: 18),

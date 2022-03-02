@@ -48,8 +48,7 @@ class _Privilege1State extends State<Privilege1> {
                             iconSize: 30,
                             color: Colors.black,
                             onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => EditPage()));
+                              Navigator.of(context).pop();
                             },
                           ),
                           SizedBox(height: 18),

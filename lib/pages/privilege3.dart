@@ -36,7 +36,7 @@ class _Privilege3State extends State<Privilege3> {
                             iconSize: 30,
                             color: Colors.black,
                             onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditPage()));
+                              Navigator.of(context).pop();
                             },
                           ),
                           Padding(
@@ -91,7 +91,9 @@ class _Privilege3State extends State<Privilege3> {
                         padding: EdgeInsets.only(left: 40,right: 40),
                         child: GestureDetector(
                           onTap: () {
-                            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => ProfessorOrCreator()), (route) => false);
+                            // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => ProfessorOrCreator()), (route) => false);
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ProfessorOrCreator()));
                           },
                           child: GreenButton(
                             text: 'CONTINUE',

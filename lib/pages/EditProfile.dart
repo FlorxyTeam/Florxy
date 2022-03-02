@@ -233,9 +233,10 @@ class _EditPageState extends State<EditPage> {
                         height: 55,
                         onPressed: () async{
                           await storage.write(key: "myusername", value: profileModel.username);
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => AliasPage()));
 
-                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute
-                          (builder: (context)=>AliasPage()), (route) => false);},
+                          },
+
                         child: Inter(
                           text: "Switch to Professional Account",
                           size: 13,

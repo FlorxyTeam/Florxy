@@ -126,6 +126,7 @@ router.route("/addFav/:id").post(middleware.checkToken,(req,res)=>{
             return res.json('Favorited succes!!');
           });
       }
+
   });
 })
 
