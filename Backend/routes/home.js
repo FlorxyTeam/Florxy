@@ -158,12 +158,15 @@ router.route("/createPost/mention/topMention").get(middleware.checkToken,(req,re
   });
 });
 
-router.route("/getPost/viewPost/:id").post(middleware.checkToken,(req,res)=>{
+router.route("/getPost/viewPost/:id/:product").get(middleware.checkToken,(req,res)=>{
   Post.findOne({_id:req.params.id}, (err,findPost)=>{
     if(err){
       return res.json(err);
     } else {
-      Product.findOne({p_name:req.body.product}, (err,findProduct)=>{
+      var product = req.params.product;
+      product = product.split('_').join(' ');
+      console.log(product);
+      Product.findOne({p_name:product}, (err,findProduct)=>{
         if(err){
           return res.json(err);
         } else {

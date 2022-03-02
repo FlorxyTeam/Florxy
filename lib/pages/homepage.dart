@@ -156,6 +156,7 @@ class _HomePageState extends State<HomePage> {
                 rating: model.postData![index]['rating'],
                 comment: model.postData![index]['comment'],
                 favorite: model.postData![index]['favorite'],
+                id: model.postData![index]['_id'],
               ):Container();
             },
           ),

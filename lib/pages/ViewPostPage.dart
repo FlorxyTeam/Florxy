@@ -7,18 +7,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'CreatePost.dart';
 import 'cameranavbar.dart';
 
 class ViewPost extends StatefulWidget {
-  const ViewPost({Key? key}) : super(key: key);
+  String? fullname, username, post, brand, product, desc, productImg;
+  int? comment,favorite,mention;
+  List? urlImage;
+  ViewPost({Key? key, this.fullname, this.username, this.post, this.brand, this.product, this.desc, this.productImg, this.comment, this.favorite, this.urlImage, this.mention}) : super(key: key);
 
   @override
   _ViewPostState createState() => _ViewPostState();
 }
 
 class _ViewPostState extends State<ViewPost> {
+  final _key = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,12 +62,12 @@ class _ViewPostState extends State<ViewPost> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Poppins(
-                                text: 'Putita Techapat',
+                                text: widget.fullname!,
                                 fontWeight: f.semiBold,
                                 size: 14,
                                 color: Colors.black,
                               ),
-                              Inter(text: "@bababaconnnn", size: 12, color: c.textUsername, fontWeight: f.medium),
+                              Inter(text: "@" + widget.username!, size: 12, color: c.textUsername, fontWeight: f.medium),
                               SizedBox( height: 7 ),
                               Row(
                                 children: [
@@ -140,92 +145,93 @@ class _ViewPostState extends State<ViewPost> {
                   children: [
                     Align(
                       alignment: Alignment.topLeft,
-                      child: Inter(text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been   the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.", size: 14, color: c.postText, fontWeight: f.regular)
+                      child: Inter(text: widget.post!, size: 14, color: c.postText, fontWeight: f.regular)
                     ),
                     SizedBox(height: 15),
-                    // if(widget.urlImage?.length==1)Row(
-                    //   children: [
-                    //     Expanded(
-                    //       child: GestureDetector(
-                    //         child: Container(
-                    //           // key: _key,
-                    //           height: 315,
-                    //           decoration: BoxDecoration(
-                    //               borderRadius: BorderRadius.circular(12),
-                    //               color: c.graySub2,
-                    //               image: DecorationImage(
-                    //                   image: NetworkImage(''),
-                    //                   fit: BoxFit.cover
-                    //               )
-                    //           ),
-                    //         ),
-                    //         onTap: () {
-                    //           Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
-                    //             urlImage: [],
-                    //           )));
-                    //         },
-                    //       ),
-                    //     ),
-                    //   ],
-                    // ),
+                    if(widget.urlImage?.length==null)SizedBox(height: 0),
+                    if(widget.urlImage?.length==1)Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              key: _key,
+                              height: 315,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![0]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                urlImage: widget.urlImage,
+                              )));
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
 
 
-                    // if(widget.urlImage?.length==2)Row(
-                    //   children: [
-                    //     // SizedBox(width: 60),
-                    //     Expanded(
-                    //       child: GestureDetector(
-                    //         child: Container(
-                    //           height: 155,
-                    //           decoration: BoxDecoration(
-                    //               borderRadius: BorderRadius.only(
-                    //                   topLeft: Radius.circular(12),
-                    //                   bottomLeft: Radius.circular(12)
-                    //               ),
-                    //               color: c.graySub2,
-                    //               image: DecorationImage(
-                    //                   image: NetworkImage('widget.urlImage![0]'),
-                    //                   fit: BoxFit.cover
-                    //               )
-                    //           ),
-                    //         ),
-                    //         onTap: () {
-                    //           Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
-                    //             urlImage: [],
-                    //           )));
-                    //         },
-                    //       ),
-                    //     ),
-                    //     SizedBox( width: 5 ),
-                    //     Expanded(
-                    //       child: GestureDetector(
-                    //         child: Container(
-                    //           height: 155,
-                    //           decoration: BoxDecoration(
-                    //               borderRadius: BorderRadius.only(
-                    //                   topRight: Radius.circular(12),
-                    //                   bottomRight: Radius.circular(12)
-                    //               ),
-                    //               color: c.graySub2,
-                    //               image: DecorationImage(
-                    //                   image: NetworkImage(''),
-                    //                   fit: BoxFit.cover
-                    //               )
-                    //           ),
-                    //         ),
-                    //         onTap: () {
-                    //           Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
-                    //               urlImage: [],
-                    //               index: 2
-                    //           )));
-                    //         },
-                    //       ),
-                    //     )
-                    //   ],
-                    // ),
+                    if(widget.urlImage?.length==2)Row(
+                      children: [
+                        // SizedBox(width: 60),
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              height: 155,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(12),
+                                      bottomLeft: Radius.circular(12)
+                                  ),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![0]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                urlImage: widget.urlImage,
+                              )));
+                            },
+                          ),
+                        ),
+                        SizedBox( width: 5 ),
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              height: 155,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(12),
+                                      bottomRight: Radius.circular(12)
+                                  ),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![1]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                  urlImage: widget.urlImage,
+                                  index: 2
+                              )));
+                            },
+                          ),
+                        )
+                      ],
+                    ),
 
 
-                    // if(widget.urlImage?.length==3)
+                    if(widget.urlImage?.length==3)
                       Column(
                       children: [
                         Row(
@@ -239,14 +245,14 @@ class _ViewPostState extends State<ViewPost> {
                                       borderRadius: BorderRadius.circular(12),
                                       color: c.graySub2,
                                       image: DecorationImage(
-                                          image: NetworkImage(''),
+                                          image: NetworkImage(widget.urlImage![0]),
                                           fit: BoxFit.cover
                                       )
                                   ),
                                 ),
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
-                                    urlImage: [],
+                                    urlImage: widget.urlImage,
                                   )));
                                 },
                               ),
@@ -268,14 +274,14 @@ class _ViewPostState extends State<ViewPost> {
                                       ),
                                       color: c.graySub2,
                                       image: DecorationImage(
-                                          image: NetworkImage(''),
+                                          image: NetworkImage(widget.urlImage![1]),
                                           fit: BoxFit.cover
                                       )
                                   ),
                                 ),
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
-                                    urlImage: [],
+                                    urlImage: widget.urlImage,
                                   )));
                                 },
                               ),
@@ -292,14 +298,14 @@ class _ViewPostState extends State<ViewPost> {
                                       ),
                                       color: c.graySub2,
                                       image: DecorationImage(
-                                          image: NetworkImage(''),
+                                          image: NetworkImage(widget.urlImage![2]),
                                           fit: BoxFit.cover
                                       )
                                   ),
                                 ),
                                 onTap: () {
                                   Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
-                                      urlImage: [],
+                                      urlImage: widget.urlImage,
                                       index: 2
                                   )));
                                 },
@@ -311,118 +317,118 @@ class _ViewPostState extends State<ViewPost> {
                     ),
 
 
-                    // if(widget.urlImage?.length==4)
-                    //   Column(
-                    //   children: [
-                    //     Row(
-                    //       children: [
-                    //         // SizedBox(width: 60),
-                    //         Expanded(
-                    //           child: GestureDetector(
-                    //             child: Container(
-                    //               height: 155,
-                    //               decoration: BoxDecoration(
-                    //                   borderRadius: BorderRadius.only(
-                    //                       topLeft: Radius.circular(12),
-                    //                       bottomLeft: Radius.circular(12)
-                    //                   ),
-                    //                   color: c.graySub2,
-                    //                   image: DecorationImage(
-                    //                       image: NetworkImage(''),
-                    //                       fit: BoxFit.cover
-                    //                   )
-                    //               ),
-                    //             ),
-                    //             onTap: () {
-                    //               Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
-                    //                 urlImage: [],
-                    //               )));
-                    //             },
-                    //           ),
-                    //         ),
-                    //         SizedBox( width: 5 ),
-                    //         Expanded(
-                    //           child: GestureDetector(
-                    //             child: Container(
-                    //               height: 155,
-                    //               decoration: BoxDecoration(
-                    //                   borderRadius: BorderRadius.only(
-                    //                       topRight: Radius.circular(12),
-                    //                       bottomRight: Radius.circular(12)
-                    //                   ),
-                    //                   color: c.graySub2,
-                    //                   image: DecorationImage(
-                    //                       image: NetworkImage(''),
-                    //                       fit: BoxFit.cover
-                    //                   )
-                    //               ),
-                    //             ),
-                    //             onTap: () {
-                    //               Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
-                    //                   urlImage: [],
-                    //                   index: 2
-                    //               )));
-                    //             },
-                    //           ),
-                    //         )
-                    //       ],
-                    //     ),
-                    //     SizedBox( height: 5 ),
-                    //     Row(
-                    //       children: [
-                    //         // SizedBox(width: 60),
-                    //         Expanded(
-                    //           child: GestureDetector(
-                    //             child: Container(
-                    //               height: 155,
-                    //               decoration: BoxDecoration(
-                    //                   borderRadius: BorderRadius.only(
-                    //                       topLeft: Radius.circular(12),
-                    //                       bottomLeft: Radius.circular(12)
-                    //                   ),
-                    //                   color: c.graySub2,
-                    //                   image: DecorationImage(
-                    //                       image: NetworkImage(''),
-                    //                       fit: BoxFit.cover
-                    //                   )
-                    //               ),
-                    //             ),
-                    //             onTap: () {
-                    //               Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
-                    //                 urlImage: [],
-                    //               )));
-                    //             },
-                    //           ),
-                    //         ),
-                    //         SizedBox( width: 5 ),
-                    //         Expanded(
-                    //           child: GestureDetector(
-                    //             child: Container(
-                    //               height: 155,
-                    //               decoration: BoxDecoration(
-                    //                   borderRadius: BorderRadius.only(
-                    //                       topRight: Radius.circular(12),
-                    //                       bottomRight: Radius.circular(12)
-                    //                   ),
-                    //                   color: c.graySub2,
-                    //                   image: DecorationImage(
-                    //                       image: NetworkImage(''),
-                    //                       fit: BoxFit.cover
-                    //                   )
-                    //               ),
-                    //             ),
-                    //             onTap: () {
-                    //               Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
-                    //                   urlImage: [],
-                    //                   index: 2
-                    //               )));
-                    //             },
-                    //           ),
-                    //         )
-                    //       ],
-                    //     ),
-                    //   ],
-                    // ),
+                    if(widget.urlImage?.length==4)
+                      Column(
+                      children: [
+                        Row(
+                          children: [
+                            // SizedBox(width: 60),
+                            Expanded(
+                              child: GestureDetector(
+                                child: Container(
+                                  height: 155,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(12),
+                                          bottomLeft: Radius.circular(12)
+                                      ),
+                                      color: c.graySub2,
+                                      image: DecorationImage(
+                                          image: NetworkImage(widget.urlImage![0]),
+                                          fit: BoxFit.cover
+                                      )
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                    urlImage: widget.urlImage,
+                                  )));
+                                },
+                              ),
+                            ),
+                            SizedBox( width: 5 ),
+                            Expanded(
+                              child: GestureDetector(
+                                child: Container(
+                                  height: 155,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(12),
+                                          bottomRight: Radius.circular(12)
+                                      ),
+                                      color: c.graySub2,
+                                      image: DecorationImage(
+                                          image: NetworkImage(widget.urlImage![1]),
+                                          fit: BoxFit.cover
+                                      )
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                      urlImage: widget.urlImage,
+                                      index: 2
+                                  )));
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox( height: 5 ),
+                        Row(
+                          children: [
+                            // SizedBox(width: 60),
+                            Expanded(
+                              child: GestureDetector(
+                                child: Container(
+                                  height: 155,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(12),
+                                          bottomLeft: Radius.circular(12)
+                                      ),
+                                      color: c.graySub2,
+                                      image: DecorationImage(
+                                          image: NetworkImage(widget.urlImage![2]),
+                                          fit: BoxFit.cover
+                                      )
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                    urlImage: widget.urlImage,
+                                  )));
+                                },
+                              ),
+                            ),
+                            SizedBox( width: 5 ),
+                            Expanded(
+                              child: GestureDetector(
+                                child: Container(
+                                  height: 155,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(12),
+                                          bottomRight: Radius.circular(12)
+                                      ),
+                                      color: c.graySub2,
+                                      image: DecorationImage(
+                                          image: NetworkImage(widget.urlImage![3]),
+                                          fit: BoxFit.cover
+                                      )
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                      urlImage: widget.urlImage,
+                                      index: 2
+                                  )));
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
 
                     SizedBox(height: 8),
                     Row(
@@ -441,69 +447,88 @@ class _ViewPostState extends State<ViewPost> {
                     SizedBox(height: 8),
                     Row(
                       children: [
-                        Inter(text: 1.toString(), size: 13.5, color: c.textBlack, fontWeight: f.bold),
+                        Inter(text: widget.mention.toString(), size: 13.5, color: c.textBlack, fontWeight: f.bold),
                         SizedBox(width: 3),
                         Inter(text: 'Mention to', size: 12.5, color: c.textBlack, fontWeight: f.regular),
                       ],
                     ),
                     SizedBox(height: 8),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Center(
-                            child: Container(
-                              height: 100,
-                              decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  image: DecorationImage(
-                                      image: NetworkImage('https://s3.images-iherb.com/pix/pix82102/v/14.jpg'),
-                                      fit: BoxFit.fitHeight
-                                  )
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 250,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 2,horizontal: 8),
-                                    child: PoppinsLeft(text: 'Pixi Skintreasts', size: 10.5, color: Colors.white, fontWeight: f.semiBold),
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                        child: Row(
+                          // crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Center(
+                                child: Container(
+                                  height: 100,
+                                  decoration: BoxDecoration(
+                                      color: Colors.transparent,
+                                      image: DecorationImage(
+                                          image: NetworkImage(widget.productImg!),
+                                          fit: BoxFit.contain
+                                      )
                                   ),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  color: c.greySub
                                 ),
                               ),
-                              SizedBox(height: 2),
-                              PoppinsLeft(text: 'Glow Tonic Toner', size: 15.5, color: c.textBlack, fontWeight: f.semiBold),
-                              SizedBox(height: 15),
-                              Roboto(text: 'It is a long established fact that a reader will be distracted.', size: 13, color: c.greyMain, fontWeight: f.regular)
-                            ],
-                          ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 11),
+                              child: Container(
+                                width: 230,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Container(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(vertical: 2,horizontal: 8),
+                                          child: PoppinsLeft(text: widget.brand!, size: 10.5, color: Colors.white, fontWeight: f.semiBold),
+                                        ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(50),
+                                        color: c.greySub
+                                      ),
+                                    ),
+                                    SizedBox(height: 2),
+                                    PoppinsLeft(text: widget.product!, size: 13.5, color: c.textBlack, fontWeight: f.semiBold),
+                                    SizedBox(height: 10),
+                                    Roboto(text: 'It is a long established fact that a reader will be distracted.', size: 12, color: c.greyMain, fontWeight: f.regular)
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            color: c.shadow.withOpacity(0.1),
+                            spreadRadius: -15,
+                            blurRadius: 41,
+                            offset: Offset(3, 7), // changes position of shadow
+                          ),
+                        ],
+                      ),
                     ),
-                    SizedBox(height: 10),
-                    Divider(
-                      color: c.greyMain,
-                      thickness: 0.7,
-                      height: 0,
-                    ),
-                    SizedBox(height: 8),
+                    SizedBox(height: 15),
+                    // Divider(
+                    //   color: c.greyMain,
+                    //   thickness: 0.7,
+                    //   height: 0,
+                    // ),
                     Row(
                       children: [
-                        Inter(text: 45.toString(), size: 13.5, color: c.textBlack, fontWeight: f.bold),
+                        Inter(text: widget.comment!.toString(), size: 13.5, color: c.textBlack, fontWeight: f.bold),
                         SizedBox(width: 3),
                         Inter(text: 'Comments', size: 12.5, color: c.textBlack, fontWeight: f.regular),
 
                         SizedBox(width: 9),
 
-                        Inter(text: 327.toString(), size: 13.5, color: c.textBlack, fontWeight: f.bold),
+                        Inter(text: widget.favorite!.toString(), size: 13.5, color: c.textBlack, fontWeight: f.bold),
                         SizedBox(width: 3),
                         Inter(text: 'Likes', size: 12.5, color: c.textBlack, fontWeight: f.regular),
 

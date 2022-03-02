@@ -14,7 +14,7 @@ class PostProvider extends ChangeNotifier {
 
   Future fetchData() async{
     String? token = await storage.read(key:"token");
-    final Uri resAPIURL = Uri.parse("http://192.168.2.37:8080/home/getAllPost");
+    final Uri resAPIURL = Uri.parse(baseurl + "/home/getAllPost");
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization": "Bearer $token"},
@@ -29,7 +29,7 @@ class PostProvider extends ChangeNotifier {
   Future fetchMentionProduct() async{
     print('hereeeeeeee');
     String? token = await storage.read(key:"token");
-    final Uri resAPIURL = Uri.parse("http://192.168.2.37:8080/home/createPost/mention/topMention");
+    final Uri resAPIURL = Uri.parse(baseurl + "/home/createPost/mention/topMention");
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization":"Bearer $token"},
