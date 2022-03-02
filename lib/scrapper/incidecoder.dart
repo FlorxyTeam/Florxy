@@ -49,9 +49,9 @@ class Scraper {
     int count = 2;
     bool isFin = true;
     while (isFin){
-      if(count>1){
-        break;
-      }
+      // if(count>1){
+      //   break;
+      // }
       print(count);
 
       var new_response = await http.get(Uri.parse(URL+path+obj.beforePage+count.toString()));
@@ -148,8 +148,8 @@ class Scraper {
 
 Future<void> main() async{
   final stopwatch = Stopwatch()..start();
-  List results = await Scraper.getData(' ');
-  print(results);
+  List results = await Scraper.getData('1');
+  print(results.length);
 //  for(int i=0;i<results.length;i++){
  //   print('${results[i].name} , ${results[i].link}');
   //}

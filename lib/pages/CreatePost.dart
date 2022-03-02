@@ -1,5 +1,6 @@
 import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/NetworkHandler.dart';
+import 'package:Florxy/widgets/ModalMentionPost.dart';
 import 'package:Florxy/widgets/button.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/cupertino.dart';
@@ -247,7 +248,9 @@ class _CreatePostState extends State<CreatePost> {
                       ),
                       Expanded(child: Container()),
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            ModalMentionPost.Dialog_Settings(context);
+                          },
                           padding: EdgeInsets.zero,
                           constraints: BoxConstraints(),
                         icon: Icon(MdiIcons.bullhornVariantOutline, color: c.greenMain, size: 22)

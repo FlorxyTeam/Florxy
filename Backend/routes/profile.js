@@ -6,7 +6,7 @@ const multer = require("multer");
 const path = require("path");
 const e = require("express");
 const req = require("express/lib/request");
-
+const mongoose = require("mongoose");
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "./uploads");
@@ -55,6 +55,50 @@ router
     );
   });
 
+router.route("/addfollower/:username/:myusername").patch(middleware.checkToken, (req,res)=>{
+    Profile.findOne({
+        "username": req.params.username,
+        "listfollower.username" : req.params.myusername,
+
+    }, function(err, docs){
+    console.log(req.params.username)
+    console.log(req.params.myusername)
+         if(docs == null && req.params.username != req.params.myusername){
+            console.log('hi null')
+            Profile.findOneAndUpdate(
+                    { username: req.params.username },
+                    {
+                      $push: {
+                        listfollower:
+                        {
+                            email: req.decoded.email,
+                            username:req.params.myusername,
+                        },
+
+                      },
+                    },
+                    { new: true },
+                    (err, profile) => {
+                      if (err) return res.status(500).send(err);
+                      const response = {
+                        message: "follower added",
+                        data: profile,
+                      };
+                      return res.status(200).send(response);
+                    }
+                  );
+            }
+         else{
+            const response = {
+                message: "you did it",
+              };
+              return res.status(200).send(response);
+
+         }
+
+    });
+});
+
 router.route("/add").post(middleware.checkToken, (req, res) => {
   const profile = Profile({
     email: req.decoded.email,
@@ -71,6 +115,7 @@ router.route("/add").post(middleware.checkToken, (req, res) => {
       return res.status(400).json({ err: err });
     });
 });
+
 
 router.route("/checkProfile").get(middleware.checkToken, (req, res) => {
   Profile.findOne({ email: req.decoded.email }, (err, result) => {
@@ -109,6 +154,14 @@ router.route("/getData").get(middleware.checkToken, (req, res) => {
   });
 });
 
+router.route("/getOtherData/:username").get(middleware.checkToken, (req, res) => {
+  Profile.findOne({username: req.params.username }, (err, result) => {
+    if (err) return res.json({ err: err });
+    if (result == null) return res.json({ data: [] });
+    else return res.json({ data: result });
+  });
+//    res.json({msg:req.params.username})
+});
 router.route("/update").patch(middleware.checkToken, async (req, res) => {
   let profile = {};
   Profile.findOne({ email: req.decoded.email }, (err, result) => {

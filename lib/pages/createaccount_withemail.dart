@@ -401,21 +401,23 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                               if (response.statusCode == 200 ||
                                   response.statusCode == 201) {
                                 Map<String, dynamic> output =
-                                    json.decode(response.body);
+                                json.decode(response.body);
                                 print(output["msg"]);
                                 await storage.write(
                                     key: "token", value: output["token"]);
                                 String? username =
-                                    await storage.read(key: "username");
+                                await storage.read(key: "username");
                                 String? fullname =
-                                    await storage.read(key: "fullname");
+                                await storage.read(key: "fullname");
                                 String? date =
-                                    await storage.read(key: "date");
+                                await storage.read(key: "date");
 
                                 Map<String, String> data = {
                                   "username": "$username",
                                   "fullname": "$fullname",
                                   "DOB": "$date",
+                                  "follower": "0",
+                                  "following": "0",
                                 };
                                 var response2 = await networkHandler.post(
                                     "/profile/add", data);

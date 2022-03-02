@@ -6,6 +6,7 @@ const middleware = require('../middleware');
 const User = require("../models/users.model");
 const Profile = require("../models/profile.model");
 const Post = require("../models/post.model");
+const Productduean = require("../models/product.model");
 const multer = require("multer");
 const router = express.Router();
 
@@ -28,7 +29,7 @@ const upload = multer({
 
 router.route("/getPost").get( (req, res) => {
     Post.find({}, (err, result) => {
-    // console.log('result: '+ result);
+    console.log('result: '+ result);
       if (err) return res.json({ err: err });
       if (result == null) return res.json({ data: [] });
       else return res.json({ data: result });
@@ -113,8 +114,66 @@ router.route("/delete/:id").delete(middleware.checkToken,(req,res)=>{
 //     });
 // });
 
-// router.route("/addFav/:id").get(middleware.checkToken,(req,res)=>{
-//     Profile.findByIdAndUpdate()
-// })
+router.route("/addFav/:id").post(middleware.checkToken,(req,res)=>{
+  // res.json(req.params.id);
+    Profile.findOneAndUpdate({_id:req.params.id},{$push:{favorite:req.body.favorite}}, function(err, FavPost){
+      console.log(req.params.id);
+      if(err){
+          res.json(err);
+      }else{
+          Post.findOneAndUpdate({_id:req.body.favorite},{$inc:{favorite:1}}, function(err,post){
+            console.log(FavPost + post);
+            return res.json('Favorited succes!!');
+          });
+      }
+  });
+})
+
+router.route("/unFav/:id").post(middleware.checkToken,(req,res)=>{
+  // res.json(req.params.id);
+    Profile.findOneAndUpdate({_id:req.params.id},{$pull:{favorite:req.body.favorite}}, function(err, unFavPost){
+      // console.log(req.params.id);
+      if(err){
+          res.json(err);
+      }else{
+          Post.findOneAndUpdate({_id:req.body.favorite},{$inc:{favorite:-1}}, function(err,post){
+            console.log(unFavPost + post);
+            return res.json('unFavorited succes!!');
+          });
+      }
+  });
+})
+
+router.route("/createPost/mention/topMention").get(middleware.checkToken,(req,res)=>{
+  console.log('maaaaaaaa');
+  Productduean.find({}).sort({mention:-1}).limit(4).exec(
+    function(err,topMention){
+    if (err) 
+    return res.json({ err: err });
+    else if (topMention == null) 
+    return res.json({ product: [] });
+    else 
+    // console.log(topMention);
+    return res.send({ product: topMention });
+  });
+});
+
+router.route("/getPost/viewPost/:id/:brand").get(middleware.checkToken,(req,res)=>{
+  Post.findOne({_id:req.params.id}, (err,findPost)=>{
+    if(err){
+      return res.json(err);
+    } else {
+      Productduean.findOne({refbrand:req.params.brand}, (err,findProduct)=>{
+        if(err){
+          return res.json(err);
+        } else {
+          console.log(findPost);
+          console.log(findProduct);
+          return res.send({ post: findPost, product: findProduct });
+        }
+      })
+    }
+  })
+})
 
 module.exports = router;

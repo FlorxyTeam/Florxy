@@ -32,6 +32,37 @@ class Poppins extends StatelessWidget {
   }
 }
 
+class PoppinsLeft extends StatelessWidget {
+  final double size;
+  final double? letterSpacing;
+  final String text;
+  final Color color;
+  final FontWeight fontWeight;
+  final FontStyle? fontStyle;
+
+  PoppinsLeft(
+      {Key? key,
+        required this.text,
+        required this.size,
+        required this.color,
+        required this.fontWeight,
+        this.fontStyle = FontStyle.normal,
+        this.letterSpacing})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+        text,
+        textAlign: TextAlign.left,
+        style: GoogleFonts.poppins(
+            textStyle: TextStyle(color: color,fontSize: size,fontWeight: fontWeight, fontStyle: fontStyle, letterSpacing: letterSpacing )
+        )
+    );
+  }
+}
+
+
 class Inter extends StatelessWidget {
   final double size;
   final double? letterSpacing;

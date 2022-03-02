@@ -1,4 +1,4 @@
-import 'package:Florxy/Model/postModel.dart';
+import 'package:Florxy/pages/ViewPostPage.dart';
 import 'package:Florxy/postProvider.dart';
 import 'package:Florxy/pages/CreatePost.dart';
 import 'package:Florxy/widgets/font.dart';
@@ -8,13 +8,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/material.dart';
-import 'package:ionicons/ionicons.dart';
 import 'package:Florxy/widgets/PostWidget.dart';
-import 'package:Florxy/Model/postModel.dart';
 import "package:flutter_feather_icons/flutter_feather_icons.dart";
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import '../NetworkHandler.dart';
 import 'cameranavbar.dart';
 
 
@@ -111,7 +107,7 @@ class _HomePageState extends State<HomePage> {
                     final google_user = FirebaseAuth.instance.currentUser;
 
                     print(google_user);
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreatePost()));;
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreatePost()));
                   },
                 ),
               ),
@@ -122,7 +118,7 @@ class _HomePageState extends State<HomePage> {
                   iconSize: 25,
                   color: Colors.black,
                   onPressed: () {
-                    // Navigator.pop(context);
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPost()));
                   },
                 ),
               ),
@@ -138,27 +134,26 @@ class _HomePageState extends State<HomePage> {
             scrollDirection: Axis.vertical,
             itemCount: model.postData?.length??0,
             itemBuilder: (context,int index){
-              return model.postData![index]['type']=='mention1'?MentionPost(
-                name: 'Putita Techapat',
-                username: '@bababaconnnn',
-                postTime: '2h',
-                brand: model.postData![index]['brand'],
-                product: model.postData![index]['product'],
-                post: model.postData![index]['post'],
-                // post: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been   the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+              return model.postData![index]['type']=='mention'?MentionPost(
+                name: model.postData![index]['fullname'],
+                username: '@'+model.postData![index]['username'],
+                postTime: model.postData![index]['updatedAt'].toString().substring(0, 10),
+                brand: model.postData![index]['refbrand'],
+                product: model.postData![index]['refproduct'],
+                post: model.postData![index]['body'],
                 comment: model.postData![index]['comment'],
                 favorite: model.postData![index]['favorite'],
                 urlImage: model.postData![index]['coverImage'],
+                id: model.postData![index]['_id'],
               ):
               model.postData![index]['type']=='review'?ReviewPost(
                 name: model.postData![index]['fullname'],
                 username: '@'+model.postData![index]['username'],
-                postTime: model.postData![index]['updatedAt'],
+                postTime: model.postData![index]['updatedAt'].toString().substring(0, 10),
                 brand: model.postData![index]['refbrand'],
                 product: model.postData![index]['refproduct'],
                 post: model.postData![index]['body'],
-                rating: model.postData![index]['rating']-0.0001,
-                // post: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been   the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
+                rating: model.postData![index]['rating'],
                 comment: model.postData![index]['comment'],
                 favorite: model.postData![index]['favorite'],
               ):Container();
