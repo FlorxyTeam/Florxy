@@ -28,33 +28,33 @@ class _SearchPageState extends State<SearchPage> {
     super.initState();
 
     // product();
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
-      // print("WidgetsBinding");
-      product().then((value) async {
-        // print(value);
-        for (var result in value) {
-          // print(result.link);
-          Real x = await Scraper.getBrand(result.link);
-
-          Map<String, dynamic> data = {
-            "p_name": x.p_name,
-            "p_brand": x.p_brand,
-            "p_desc": x.p_desc,
-            "p_img": x.p_img,
-            "ing_name" : x.p_ing[0],
-            "ing_met" : x.p_ing[1],
-            "ing_irr" : x.p_ing[2],
-            "ing_rate" : x.p_ing[3]
-          };
-          print (data);
-          var response = await networkHandler.postO("/product/add",data);
-          print(response);
-
-        }
-      });
-
-      // print(results);
-    });
+    // WidgetsBinding.instance?.addPostFrameCallback((_) {
+    //   // print("WidgetsBinding");
+    //   product().then((value) async {
+    //     // print(value);
+    //     for (var result in value) {
+    //       // print(result.link);
+    //       Real x = await Scraper.getBrand(result.link);
+    //
+    //       Map<String, dynamic> data = {
+    //         "p_name": x.p_name,
+    //         "p_brand": x.p_brand,
+    //         "p_desc": x.p_desc,
+    //         "p_img": x.p_img,
+    //         "ing_name" : x.p_ing[0],
+    //         "ing_met" : x.p_ing[1],
+    //         "ing_irr" : x.p_ing[2],
+    //         "ing_rate" : x.p_ing[3]
+    //       };
+    //       print (data);
+    //       var response = await networkHandler.postO("/product/add",data);
+    //       print(response);
+    //
+    //     }
+    //   });
+    //
+    //   // print(results);
+    // });
 
     //
     //   print(data);
