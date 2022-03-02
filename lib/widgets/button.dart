@@ -101,3 +101,32 @@ class WhiteButton extends StatelessWidget {
 }
 
 
+class WhiteGreenButton extends StatelessWidget {
+  bool? isResponsive;
+  String? text;
+  double? size;
+  WhiteGreenButton({Key? key, this.text, this.size, this.isResponsive=false}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(50),
+          color: Colors.white,
+          border: Border.all(color: c.greenMain, width: 2),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 3, horizontal: 10),
+          child: Center(
+              child: Inter(
+                text: text!,
+                size: size!,
+                color: c.greenMain,
+                fontWeight: f.bold,
+              )
+          ),
+        )
+    );
+  }
+
+}

@@ -87,7 +87,6 @@ router.route("/addfollower/:username/:myusername").patch(middleware.checkToken, 
     }, function(err, docs){
     console.log(req.params.username)
     console.log(req.params.myusername)
-
          if(docs == null && req.params.username != req.params.myusername){
             console.log('hi null')
 
@@ -281,6 +280,7 @@ router.route("/addfollowing/:username/:myusername").patch(middleware.checkToken,
     });
 });
 
+
 router.route("/addintfollowing").post(middleware.checkToken, (req, res) => {
     console.log(req.body.username)
     console.log(req.body.following)
@@ -307,7 +307,6 @@ router.route("/addintfollowing").post(middleware.checkToken, (req, res) => {
           }
         );
 });
-
 router.route("/add").post(middleware.checkToken, (req, res) => {
   const profile = Profile({
     email: req.decoded.email,
@@ -324,6 +323,7 @@ router.route("/add").post(middleware.checkToken, (req, res) => {
       return res.status(400).json({ err: err });
     });
 });
+
 
 router.route("/checkProfile").get(middleware.checkToken, (req, res) => {
   Profile.findOne({ email: req.decoded.email }, (err, result) => {

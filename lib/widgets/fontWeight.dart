@@ -25,6 +25,7 @@ class c {
   static final Color blackSub2 = Color(0xFF8E8E8E);
   static final Color greyMain = Color(0xFFACACAC);
   static final Color graySub2 = Color(0xFFB6B6B6);
+  static final Color searchbar = Color(0xFFEDEDED);
   static final Color greySub = Color(0xFFD2D2D2);
   static final Color shadow = Color(0xFFC4C4C4);
   static final Color greyLight = Color(0xFFEDEDED);

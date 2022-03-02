@@ -11,6 +11,7 @@ const Profile = Schema(
     },
     username: {
       type: String,
+      required: true,
       unique: true
     },
     fullname: String,

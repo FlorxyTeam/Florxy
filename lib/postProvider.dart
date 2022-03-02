@@ -3,26 +3,46 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class PostProvider extends ChangeNotifier{
+class PostProvider extends ChangeNotifier {
   final httpClient = http.Client();
   String baseurl = "https://4875-171-100-24-98.ngrok.io";
 
   List<dynamic>? postData;
+  List<dynamic>? productData;
+
   FlutterSecureStorage storage = FlutterSecureStorage();
+
   Future fetchData() async{
     String? token = await storage.read(key:"token");
-    final Uri resAPIURL = Uri.parse("$baseurl"+"/home/getAllPost");
+    final Uri resAPIURL = Uri.parse(baseurl + "/home/getAllPost");
     http.Response response = await httpClient.get(
-        resAPIURL,
-        headers: {"Authorization":"Bearer $token"},
+      resAPIURL,
+      headers: {"Authorization": "Bearer $token"},
     );
     final Map parsedData = await json.decode(response.body.toString());
 
     postData = parsedData["data"];
-    print(postData);
+    // print(postData);
   }
+
+
+  Future fetchMentionProduct() async{
+    print('hereeeeeeee');
+    String? token = await storage.read(key:"token");
+    final Uri resAPIURL = Uri.parse(baseurl + "/home/createPost/mention/topMention");
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization":"Bearer $token"},
+    );
+    final Map parsedProduct = await json.decode(response.body.toString());
+
+    productData = parsedProduct["product"];
+    print(productData);
+  }
+
+
   String formater(String url) {
-    print(baseurl+url);
+    print(baseurl + url);
     return baseurl + url;
   }
 }
