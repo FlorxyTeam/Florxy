@@ -132,7 +132,7 @@ class _HomePageState extends State<HomePage> {
             itemBuilder: (context,int index){
               return model.postData![index]['type']=='mention'?MentionPost(
                 name: model.postData![index]['fullname'],
-                username: '@'+model.postData![index]['username'],
+                username: model.postData![index]['username'],
                 postTime: model.postData![index]['updatedAt'].toString().substring(0, 10),
                 brand: model.postData![index]['refbrand'],
                 product: model.postData![index]['refproduct'],

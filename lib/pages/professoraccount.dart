@@ -4,6 +4,7 @@ import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:Florxy/widgets/button.dart';
 
@@ -18,16 +19,16 @@ class ProfessorAccount extends StatefulWidget {
 
 class _ProfessorAccountState extends State<ProfessorAccount> {
   String alias = '';
-
+  final storage = new FlutterSecureStorage();
   @override
 
   changeText1() {
-    setState(() {
+    setState((){
       alias = 'Pharmacy';
     });
   }
 
-  changeText2() {
+  changeText2()  {
     setState(() {
       alias = 'Advisor';
     });
@@ -1205,8 +1206,10 @@ class _ProfessorAccountState extends State<ProfessorAccount> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 40,right: 40),
                         child: GestureDetector(
-                            onTap: () {
-
+                            onTap: () async {
+                              await storage.write(key: "professor", value: alias);
+                              String? aliasname = await storage.read(key: "professor");
+                              print("Select: $aliasname");
                               Navigator.push(context,MaterialPageRoute(builder: (context) => License(alias : alias)));
                             },
                           child: GreenButton(

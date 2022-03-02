@@ -10,14 +10,14 @@ import 'package:Florxy/pages/EditProfile.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 
-class AliasFinish extends StatefulWidget {
-  const AliasFinish({Key? key}) : super(key: key);
+class creatorAliasFinish extends StatefulWidget {
+  const creatorAliasFinish({Key? key}) : super(key: key);
 
   @override
-  _AliasFinishState createState() => _AliasFinishState();
+  _creatorAliasFinishState createState() => _creatorAliasFinishState();
 }
 
-class _AliasFinishState extends State<AliasFinish> {
+class _creatorAliasFinishState extends State<creatorAliasFinish> {
   final storage = new FlutterSecureStorage();
   final networkHandler = NetworkHandler();
 
@@ -75,23 +75,23 @@ class _AliasFinishState extends State<AliasFinish> {
                     ),
                     SizedBox(height: 50,),
                     Padding(
-                        padding: EdgeInsets.only(left: 30, right: 30, top: 0),
-                        child : Row(
-                          children: [
-                            Icon(
-                              Icons.circle,
-                              color: c.blackMain,
-                              size: 6,
+                      padding: EdgeInsets.only(left: 30, right: 30, top: 0),
+                      child : Row(
+                        children: [
+                          Icon(
+                            Icons.circle,
+                            color: c.blackMain,
+                            size: 6,
+                          ),
+                          Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              "  Lorem Ipsum is simply dummy text of the printing and ",
+                              style: TextStyle(fontSize: 11.5,),
                             ),
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                "  Lorem Ipsum is simply dummy text of the printing and ",
-                                style: TextStyle(fontSize: 11.5,),
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
+                      ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 36, right: 30, top: 0),
@@ -204,21 +204,17 @@ class _AliasFinishState extends State<AliasFinish> {
                         padding: EdgeInsets.only(left: 40,right: 40),
                         child: GestureDetector(
                           onTap: () async{
-                            String? aliasname = await storage.read(key: "professor");
+                            String? aliasname = await storage.read(key: "influencer");
                             String? myusername = await storage.read(key: "myusername");
-                            print("Your Alias of Professor: $aliasname");
+                            print("Your Alias of Influencer: $aliasname");
                             print("$myusername");
                             Map<String, String> data = {
-                              "professor":"$aliasname"
+                              "influencer":"$aliasname"
                             };
                             print(data);
-                            var addprofessor = await networkHandler
-                                .patch("/profile/addprofessor/$myusername",data);
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => EditPage()),
-                                    (route) => false);
+                            var addinfluencer = await networkHandler
+                                .patch("/profile/addinfluencer/$myusername",data);
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditPage()));
                           },
                           child: GreenButton(
                             text: 'Finish',

@@ -268,12 +268,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     SizedBox(
                       width: 10,
                     ),
-                    Container(
+                    (profileModel.professor=="")?
+                    Container():Container(
                       child: Padding(
                         padding: const EdgeInsets.only(
                             right: 7, left: 7, top: 4, bottom: 4),
                         child: Inter(
-                            text: "Beauty Advisor",
+                            text: profileModel.professor,
                             size: 11,
                             color: Colors.white,
                             fontWeight: f.semiBold),
@@ -285,12 +286,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     SizedBox(
                       width: 5,
                     ),
-                    Container(
+                    (profileModel.influencer=="")?
+                    Container():Container(
                       child: Padding(
                         padding: const EdgeInsets.only(
                             right: 5, left: 5, top: 2, bottom: 2),
                         child: Inter(
-                            text: "Brand Presenter",
+                            text: profileModel.influencer,
                             size: 11,
                             color: c.blueMain,
                             fontWeight: f.bold),

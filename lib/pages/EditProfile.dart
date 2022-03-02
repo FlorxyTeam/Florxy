@@ -4,6 +4,7 @@ import 'package:Florxy/NetworkHandler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
@@ -21,6 +22,7 @@ class EditPage extends StatefulWidget {
 class _EditPageState extends State<EditPage> {
   bool circular = false;
   final networkHandler = NetworkHandler();
+  final storage = new FlutterSecureStorage();
   final _globalkey = GlobalKey<FormState>();
   TextEditingController _fullname = TextEditingController();
   TextEditingController _username = TextEditingController();
@@ -229,7 +231,10 @@ class _EditPageState extends State<EditPage> {
                         ),
                         color: c.greyMain,
                         height: 55,
-                        onPressed: () {Navigator.pushAndRemoveUntil(context, MaterialPageRoute
+                        onPressed: () async{
+                          await storage.write(key: "myusername", value: profileModel.username);
+
+                          Navigator.pushAndRemoveUntil(context, MaterialPageRoute
                           (builder: (context)=>AliasPage()), (route) => false);},
                         child: Inter(
                           text: "Switch to Professional Account",

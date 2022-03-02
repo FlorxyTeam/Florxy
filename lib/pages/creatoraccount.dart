@@ -1,9 +1,11 @@
+import 'package:Florxy/pages/creatorlicense.dart';
 import 'package:Florxy/pages/license.dart';
 import 'package:Florxy/pages/professororcreator.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:getwidget/components/button/gf_button.dart';
 import 'package:Florxy/widgets/button.dart';
 
@@ -17,6 +19,7 @@ class CreatorAccount extends StatefulWidget {
 }
 
 class _CreatorAccountState extends State<CreatorAccount> {
+  final storage = new FlutterSecureStorage();
   String alias = '';
   @override
 
@@ -760,8 +763,11 @@ class _CreatorAccountState extends State<CreatorAccount> {
                       child: Padding(
                         padding: EdgeInsets.only(left: 40,right: 40),
                         child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => License(alias : alias)));
+                          onTap: () async {
+                            await storage.write(key: "influencer", value: alias);
+                            String? aliasname = await storage.read(key: "influencer");
+                            print("Select: $aliasname");
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => creatorLicense(alias : alias)));
                           },
                           child: GreenButton(
                             text: 'CONTINUE',

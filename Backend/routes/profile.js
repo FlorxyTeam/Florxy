@@ -235,51 +235,42 @@ router.route("/unfollower/:username/:myusername").patch(middleware.checkToken, (
 
 
 
-router.route("/addfollowing/:username/:myusername").patch(middleware.checkToken, (req,res)=>{
-
-    Profile.findOne({
-        "username": req.params.username,
-        "listfollowing.username" : req.params.myusername,
-
-    }, function(err, docs){
+router.route("/addprofessor/:username").patch(middleware.checkToken, (req,res)=>{
     console.log(req.params.username)
-    console.log(req.params.myusername)
-         if(docs == null && req.params.username != req.params.myusername){
-            console.log('hi null')
-            Profile.findOneAndUpdate(
-                    { username: req.params.username },
-                    {
-                      $push: {
-                        listfollowing:
-                        {
-                            email: req.decoded.email,
-                            username:req.params.myusername,
-                        },
-
-                      },
-                    },
-                    { new: true },
-                    (err, profile) => {
-                      if (err) return res.status(500).send(err);
-                      const response = {
-                        message: "following added",
-                        data: profile,
-                      };
-                      return res.status(200).send(response);
-                    }
-                  );
-            }
-         else{
-            const response = {
-                message: "you did it",
+    Profile.findOneAndUpdate(
+            { username: req.params.username },
+            {
+              professor: req.body.professor,
+            },
+            { new: true },
+            (err, profile) => {
+              if (err) return res.status(500).send(err);
+              const response = {
+                message: "professor added",
+                data: profile,
               };
               return res.status(200).send(response);
-
-         }
-
-    });
+            }
+          );
 });
-
+router.route("/addinfluencer/:username").patch(middleware.checkToken, (req,res)=>{
+    console.log(req.params.username)
+    Profile.findOneAndUpdate(
+            { username: req.params.username },
+            {
+              influencer: req.body.influencer,
+            },
+            { new: true },
+            (err, profile) => {
+              if (err) return res.status(500).send(err);
+              const response = {
+                message: "influencer added",
+                data: profile,
+              };
+              return res.status(200).send(response);
+            }
+          );
+});
 
 router.route("/addintfollowing").post(middleware.checkToken, (req, res) => {
     console.log(req.body.username)
