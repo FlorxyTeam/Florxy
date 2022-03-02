@@ -235,30 +235,6 @@ class _ConfirmTransformationState extends State<ConfirmTransformation> {
                 ),
               ),
             ),
-            Positioned(
-                bottom: 15,
-                child: Column(
-                  children: [
-                    SizedBox(height: 15),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 40,right: 40),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ConfirmCode()));
-                          },
-                          child: GreenButton(
-                            text: 'NEXT',
-                            size: 13,
-                            color: c.textWhite,
-                            height: 60,
-                          ),
-                        ),
-                      ),
-                    )],
-                )
-            )
           ],
         )
     );
