@@ -22,11 +22,6 @@ class _Privilege1State extends State<Privilege1> {
   final controller = ScreenshotController();
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Color(0xffF9F9F9),
