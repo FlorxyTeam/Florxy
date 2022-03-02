@@ -6,10 +6,11 @@ import 'dart:convert';
 class PostProvider extends ChangeNotifier {
   final httpClient = http.Client();
 
-  String baseurl = "https://1cd4-124-120-3-60.ngrok.io";
+  String baseurl = "http://192.168.2.37:8080";
 
   List<dynamic>? postData;
   List<dynamic>? productData;
+  List<dynamic>? myPost;
 
   FlutterSecureStorage storage = FlutterSecureStorage();
 
@@ -39,6 +40,35 @@ class PostProvider extends ChangeNotifier {
 
     productData = parsedProduct["product"];
     print(productData);
+  }
+
+  Future fetchMyPostAndReply() async{
+    print("mfmfmafjnjadndgj");
+    var username = await storage.read(key: 'username');
+    String? token = await storage.read(key:"token");
+    final Uri resAPIURL = Uri.parse(baseurl + "/profile/PostAndReply/"+username!);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization":"Bearer $token"},
+    );
+    final Map parsedProduct = await json.decode(response.body.toString());
+
+    myPost = parsedProduct["myPost"];
+    print(myPost);
+  }
+
+  Future fetchAnotherPostAndReply() async{
+    var username = await storage.read(key: 'anotherprofile');
+    String? token = await storage.read(key:"token");
+    final Uri resAPIURL = Uri.parse(baseurl + "/profile/PostAndReply/"+username!);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization":"Bearer $token"},
+    );
+    final Map parsedProduct = await json.decode(response.body.toString());
+
+    myPost = parsedProduct["myPost"];
+    print(myPost);
   }
 
 

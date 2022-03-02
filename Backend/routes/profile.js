@@ -346,12 +346,12 @@ router.route("/checkusername/:username").get((req,res)=>{
     console.log('Username - Checked')
 })
 
-router.route("/Profile/PostAndReply/:id").get((req,res)=>{
-  Post.find({_id: req.params.id}, (err, result)=>{
+router.route("/PostAndReply/:username").get((req,res)=>{
+  Post.find({username: req.params.username}, (err, result)=>{
     if(err){
       return res.json(err);
     } else {
-      return res.send({ data: result });
+      return res.send({ myPost: result });
     }
   })
 })

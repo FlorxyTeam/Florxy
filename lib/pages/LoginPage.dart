@@ -273,7 +273,7 @@ class _LoginPageState extends State<LoginPage> {
                                 circular=false;
                               });
                               Navigator.pushAndRemoveUntil(context, MaterialPageRoute
-                                (builder: (context)=>Navbar()), (route) => false);
+                                (builder: (context)=>Navbar(currentState: 0)), (route) => false);
                             }else{
                               String output = json.decode(response.body);
                               setState(() {

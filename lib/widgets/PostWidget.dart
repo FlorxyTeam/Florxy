@@ -1,4 +1,5 @@
 import 'package:Florxy/pages/ViewPostPage.dart';
+import 'package:Florxy/pages/navbar.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -67,17 +68,25 @@ class _MentionPostState extends State<MentionPost> {
                             color: Colors.black,
                           ),
                           onTap: () async {
+                            var x = await storage.read(key: "username");
+                            print('fuck leo');
+                            print(x);
                             print(widget.username);
-                            await storage.write(
-                                key: "anotherprofile", value: widget.username);
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
+                            if(x != widget.username){
+                              await storage.write(
+                                  key: "anotherprofile", value: widget.username);
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
+                            }
+                            else{
+                              Navbar(currentState: 4);
+                            }
                           },
                         ),
                         SizedBox( width: 5 ),
                         Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                       ],
                     ),
-                    Inter(text: widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
+                    Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
                     SizedBox( height: 7 ),
                     Row(
                       children: [
@@ -614,16 +623,27 @@ class _ReviewPostState extends State<ReviewPost> {
                             color: Colors.black,
                           ),
                           onTap: () async {
-                            await storage.write(
-                                key: "anotherprofile", value: widget.username);
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
+
+                            var x = await storage.read(key: "username");
+                            print('fuck leo');
+                            print(x);
+                            print(widget.username);
+                            if(x != widget.username){
+                              await storage.write(
+                                  key: "anotherprofile", value: widget.username);
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
+                            }
+                            else{
+                              Navbar(currentState: 4);
+                            }
+
                           },
                         ),
                         SizedBox( width: 5 ),
                         Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                       ],
                     ),
-                    Inter(text: widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
+                    Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
                     SizedBox( height: 7 ),
                     Row(
                       children: [

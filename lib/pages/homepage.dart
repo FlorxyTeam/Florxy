@@ -25,13 +25,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // bool circular = true;
-  // NetworkHandler networkHandler = NetworkHandler();
-  // PostModel postModel = PostModel(
-  //     post: '',
-  //     comment: 0,
-  //     favorite: 0
-  // );
 
   @override
   void initState() {
@@ -40,14 +33,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     // fetchData();
   }
-
-  // void fetchData() async {
-  //   var response = await networkHandler.get("/home/getPost");
-  //   setState(() {
-  //     postModel = PostModel.fromJson(response["data"]);
-  //     circular = false;
-  //   });
-  // }
 
   @override
   Widget build(BuildContext context) {

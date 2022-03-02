@@ -194,7 +194,7 @@ class _ReportFinishState extends State<ReportFinish> {
                         child: GestureDetector(
                           onTap: () {
                             Navigator.pushAndRemoveUntil(context, MaterialPageRoute
-                              (builder: (context)=>Navbar()), (route) => false);
+                              (builder: (context)=>Navbar(currentState: 0)), (route) => false);
                           },
                           child: GreenButton(
                             text: 'SUBMIT',

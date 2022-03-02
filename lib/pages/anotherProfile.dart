@@ -97,76 +97,77 @@ class _anotherProfileState extends State<anotherProfile> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-      body: DefaultTabController(
-        length: 3,
-        child: NestedScrollView(
-            headerSliverBuilder: (context, _) {
-              return [
-                SliverList(
-                    delegate:
-                        SliverChildListDelegate([profileHeaderWidget(context)]))
-              ];
-            },
-            body: Container(
-              decoration: BoxDecoration(
-                  color: c.textWhite,
-                  border: Border(
-                    top: BorderSide(
-                        width: 1, color: c.greyMain.withOpacity(0.5)),
-                  )),
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(
-                        top: 10, bottom: 10, left: 7, right: 7),
-                    child: Container(
-                      height: 25,
-                      color: c.textWhite,
-                      child: TabBar(
-                        labelColor: c.greenMain,
-                        unselectedLabelColor: c.greyMain,
-                        indicator: BoxDecoration(
-                          color: c.greenLight1.withOpacity(0.8),
-                          borderRadius: BorderRadius.circular(40),
-                        ),
-                        tabs: [
-                          Tab(
-                            child: Inter_1(
-                                text: "Post and replies",
-                                size: 11.85,
-                                fontWeight: f.bold),
-                          ),
-                          Tab(
-                            child: Inter_1(
-                                text: "Favorite post",
-                                size: 11.85,
-                                fontWeight: f.bold),
-                          ),
-                          Tab(
-                            child: Inter_1(
-                                text: "Saved Product",
-                                size: 11.85,
-                                fontWeight: f.bold),
-                          ),
-                        ],
+    return Scaffold(
+      body: SafeArea(
+        child: DefaultTabController(
+    length: 3,
+    child: NestedScrollView(
+          headerSliverBuilder: (context, _) {
+            return [
+              SliverList(
+                  delegate:
+                      SliverChildListDelegate([profileHeaderWidget(context)]))
+            ];
+          },
+          body: Container(
+            decoration: BoxDecoration(
+                color: c.textWhite,
+                border: Border(
+                  top: BorderSide(
+                      width: 1, color: c.greyMain.withOpacity(0.5)),
+                )),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: 10, bottom: 10, left: 7, right: 7),
+                  child: Container(
+                    height: 25,
+                    color: c.textWhite,
+                    child: TabBar(
+                      labelColor: c.greenMain,
+                      unselectedLabelColor: c.greyMain,
+                      indicator: BoxDecoration(
+                        color: c.greenLight1.withOpacity(0.8),
+                        borderRadius: BorderRadius.circular(40),
                       ),
+                      tabs: [
+                        Tab(
+                          child: Inter_1(
+                              text: "Post and replies",
+                              size: 11.85,
+                              fontWeight: f.bold),
+                        ),
+                        Tab(
+                          child: Inter_1(
+                              text: "Favorite post",
+                              size: 11.85,
+                              fontWeight: f.bold),
+                        ),
+                        Tab(
+                          child: Inter_1(
+                              text: "Saved Product",
+                              size: 11.85,
+                              fontWeight: f.bold),
+                        ),
+                      ],
                     ),
                   ),
-                  Expanded(
-                      child: TabBarView(
-                    children: [
-                      PostReply(),
-                      FavPost(),
-                      SavedPro(),
-                    ],
-                  ))
-                ],
-              ),
-            )),
+                ),
+                Expanded(
+                    child: TabBarView(
+                  children: [
+                    AnotherPostReply(),
+                    FavPost(),
+                    SavedPro(),
+                  ],
+                ))
+              ],
+            ),
+          )),
+        ),
       ),
-    ));
+    );
   }
 
   Widget profileHeaderWidget(BuildContext context) {

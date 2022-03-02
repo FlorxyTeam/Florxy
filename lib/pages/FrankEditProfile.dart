@@ -113,7 +113,7 @@ class _CreateProfileState extends State<CreateProfile> {
                           });
                           Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(
-                                  builder: (context) => Navbar()),
+                                  builder: (context) => Navbar(currentState: 0)),
                                   (route) => false);
                         }else {
                           setState(() {
@@ -127,7 +127,7 @@ class _CreateProfileState extends State<CreateProfile> {
                         });
                         Navigator.of(context).pushAndRemoveUntil(
                             MaterialPageRoute(builder: (context) =>
-                                Navbar()),
+                                Navbar(currentState: 0)),
                                 (route) => false);
                       }
                     }else {

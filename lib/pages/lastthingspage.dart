@@ -152,7 +152,7 @@ class _LastThingPageState extends State<LastThingPage> {
                           Expanded(child: Container()),
                           GestureDetector(
                             onTap: (){
-                              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Navbar()), (route) => false);
+                              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Navbar(currentState: 0)), (route) => false);
                             },
                             child: Inter(
                               text: 'SKIP',
@@ -280,7 +280,7 @@ class _LastThingPageState extends State<LastThingPage> {
                       padding: EdgeInsets.only(left: 45,right: 45),
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Navbar()), (route) => false);
+                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Navbar(currentState: 0)), (route) => false);
                         },
                         child: GreenButton(
                           text: 'FINISH!',

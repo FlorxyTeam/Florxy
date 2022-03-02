@@ -61,7 +61,7 @@ class _ReportPageState extends State<ReportPage> {
                     IconButton(
                       onPressed: () {
                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute
-                          (builder: (context)=>Navbar()), (route) => false);
+                          (builder: (context)=>Navbar(currentState: 0)), (route) => false);
                       },
                       icon: Icon(
                         Icons.close_rounded,

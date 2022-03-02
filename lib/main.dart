@@ -43,7 +43,7 @@ class _MyAppState extends State<MyApp> {
     print(token);
     if(token != null){
       setState(() {
-        page= Navbar();
+        page= Navbar(currentState: 0);
       });
     }else{
       setState(() {

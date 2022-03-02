@@ -16,7 +16,8 @@ import 'package:boxicons/boxicons.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Navbar extends StatefulWidget {
-  const Navbar({Key? key}) : super(key: key);
+  final int currentState;
+  const Navbar({Key? key, required this.currentState}) : super(key: key);
 
   @override
   _NavbarState createState() => _NavbarState();
@@ -31,12 +32,13 @@ class _NavbarState extends State<Navbar> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     fetchData();
+    _currentIndex = widget.currentState;
   }
   void fetchData() async{
     var response = await networkHandler.get("/profile/getData");
     await storage.write(key: "id", value: response['data']['_id']);
+    await storage.write(key: "username", value: response['data']['username']);
   }
 
   @override

@@ -25,7 +25,7 @@ class GoogleStream extends StatelessWidget {
             return Center(child: WelcomePage());
           }else if(snapshot.hasData){
             print(user);
-            return Navbar();
+            return Navbar(currentState: 0);
           }else if (snapshot.hasError){
             return Center(child: Poppins(text: "Something went wrong", size: 24, color: c.blackMain, fontWeight: f.bold));
           }else{
