@@ -64,9 +64,7 @@ class GreyButton extends StatelessWidget {
         )
     );
   }
-
 }
-
 
 class WhiteButton extends StatelessWidget {
   bool? isResponsive;
@@ -97,7 +95,6 @@ class WhiteButton extends StatelessWidget {
         )
     );
   }
-
 }
 
 

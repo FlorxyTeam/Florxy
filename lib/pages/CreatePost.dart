@@ -10,6 +10,9 @@ import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:Florxy/widgets/font.dart';
+import 'package:Florxy/widgets/fontWeight.dart';
+
 
 class CreatePost extends StatefulWidget {
   const CreatePost({Key? key}) : super(key: key);
@@ -19,8 +22,27 @@ class CreatePost extends StatefulWidget {
 }
 
 class _CreatePostState extends State<CreatePost> {
+  bool checking =true;
+  bool check() {
 
+    if(_body.text == ""){
+      setState(() {
+        print("its true");
+        checking=false;
 
+      });
+      return checking;
+    }
+
+    else {
+      setState(() {
+        print("its false");
+        checking=false;
+
+      });
+      return checking;
+    }
+  }
   bool circular = false;
   final networkHandler = NetworkHandler();
   final _globalkey = GlobalKey<FormState>();
@@ -91,79 +113,107 @@ class _CreatePostState extends State<CreatePost> {
               ),
             ),
             actions: [
+              (check()) ?
               Padding(
                 padding: EdgeInsets.only(top: Theme.of(context).platform==TargetPlatform.android?27:12, right: 30, bottom: Theme.of(context).platform==TargetPlatform.android?0:12),
                 child: InkWell(
-                  onTap: () async {
-                    setState(() {
-                      circular = true;
-                    });
-                    print(profileModel.username);
-                    print(profileModel.fullname);
-                    if (_globalkey.currentState!.validate()) {
-                      Map<String, String> data = {
-                        "username":profileModel.username,
-                        "fullname":profileModel.fullname,
-                        "type": "review",
-                        "rating":"4.5001",
-                        "body": _body.text,
-                        "forwho":"Everyone"
-                      };
-                      var response =
-                      await networkHandler.post("/home/Add", data);
-                      if (response.statusCode == 200 ||
-                          response.statusCode == 201) {
-                        setState(() {
-                          circular = false;
-                        });
-                        Navigator.of(context).pop();
-                      }else{
-                        setState(() {
-                          circular = false;
-                        });
-                      }
-                      // if (response.statusCode == 200 ||
-                      //     response.statusCode == 201) {
-                      //   if (image != null) {
-                      //     var imageResponse = await networkHandler.patchImage(
-                      //         "/blogPost/add/postImage/:id", image!.path);
-                      //     if (imageResponse.statusCode == 200 ||
-                      //         imageResponse.statusCode == 201) {
-                      //       setState(() {
-                      //         circular = false;
-                      //       });
-                      //       Navigator.of(context).pop();
-                      //     }else {
-                      //       setState(() {
-                      //         circular = false;
-                      //       });
-                      //     }
-                      //
-                      //   } else {
-                      //     setState(() {
-                      //       circular = false;
-                      //     });
-                      //     Navigator.of(context).pop();
-                      //   }
-                      // }else {
-                      //   setState(() {
-                      //     circular = false;
-                      //   });
-                      // }
-                    }
-                    else {
+                  onTap: () {
                       setState(() {
-                        circular = false;
+                        circular=false;
                       });
-                    }
                   },
-                  child: GreenButton(
+                  child:
+                  circular?
+                  Center(child: CircularProgressIndicator(),):GreyButton(
                     text: 'POST',
                     size: 12,
                     color: Colors.white,
                     width: 60,
                   ),
                 )
+              ):Padding(
+                  padding: EdgeInsets.only(top: Theme.of(context).platform==TargetPlatform.android?27:12, right: 30, bottom: Theme.of(context).platform==TargetPlatform.android?0:12),
+                  child: InkWell(
+                    onTap: () async {
+                      setState(() {
+                        circular = true;
+                      });
+                      print(profileModel.username);
+                      print(profileModel.fullname);
+
+                      if(_body.text!=""){
+                      if (_globalkey.currentState!.validate()) {
+                        Map<String, String> data = {
+                          "username":profileModel.username,
+                          "fullname":profileModel.fullname,
+                          "type": "review",
+                          "rating":"4.5001",
+                          "body": _body.text,
+                          "forwho":"Everyone"
+                        };
+                        var response =
+                        await networkHandler.post("/home/Add", data);
+                        if (response.statusCode == 200 ||
+                            response.statusCode == 201) {
+                          setState(() {
+                            circular = false;
+                          });
+                          Navigator.of(context).pop();
+                        }else{
+                          setState(() {
+                            circular = false;
+                          });
+                        }
+                        // if (response.statusCode == 200 ||
+                        //     response.statusCode == 201) {
+                        //   if (image != null) {
+                        //     var imageResponse = await networkHandler.patchImage(
+                        //         "/blogPost/add/postImage/:id", image!.path);
+                        //     if (imageResponse.statusCode == 200 ||
+                        //         imageResponse.statusCode == 201) {
+                        //       setState(() {
+                        //         circular = false;
+                        //       });
+                        //       Navigator.of(context).pop();
+                        //     }else {
+                        //       setState(() {
+                        //         circular = false;
+                        //       });
+                        //     }
+                        //
+                        //   } else {
+                        //     setState(() {
+                        //       circular = false;
+                        //     });
+                        //     Navigator.of(context).pop();
+                        //   }
+                        // }else {
+                        //   setState(() {
+                        //     circular = false;
+                        //   });
+                        // }
+                      }
+                      else {
+                        setState(() {
+                          circular = false;
+                        });
+                      }
+                      }
+                      else{
+                        setState(() {
+                          circular = false;
+                        });
+                      }
+
+                    },
+                    child: circular?
+                    Center(child: CircularProgressIndicator(),):GreenButton(
+                      text: 'POST',
+                      size: 12,
+                      color: Colors.white,
+                      width: 60,
+                    ),
+                  )
               ),
             ],
           ),
