@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/pages/ViewPostPage.dart';
 import 'package:Florxy/pages/navbar.dart';
 import 'package:Florxy/widgets/modelreportpost.dart';
@@ -37,11 +38,33 @@ class _MentionPostState extends State<MentionPost> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   bool isFav = false;
+  ProfileModel profileModel = ProfileModel(
+    DOB: '',
+    img: '',
+    influencer: '',
+    fullname: '',
+    follower: 0,
+    following: 0,
+    bio: '',
+    email: '',
+    professor: '',
+    username: '',
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],);
 
   @override
   void initState() {
     // TODO: implement initState
-    // fetchData();
+    super.initState();
+
+    fetchData();
+  }
+  void fetchData() async{
+    var response = await networkHandler.get("/profile/getOtherData/${widget.username}");
+    setState(() {
+      profileModel = ProfileModel.fromJson(response["data"]);
+    });
   }
 
   @override
@@ -68,7 +91,7 @@ class _MentionPostState extends State<MentionPost> {
                       children: [
                         InkWell(
                           child: Poppins(
-                            text: widget.name!,
+                            text: "${profileModel.fullname}",
                             fontWeight: f.semiBold,
                             size: 13,
                             color: Colors.black,
@@ -96,12 +119,13 @@ class _MentionPostState extends State<MentionPost> {
                     SizedBox( height: 7 ),
                     Row(
                       children: [
-                        Container(
+                        (profileModel.professor=="")?
+                        Container():Container(
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 right: 7, left: 7, top: 4, bottom: 4),
                             child: Inter(
-                                text: "Beauty Advisor",
+                                text: profileModel.professor,
                                 size: 8,
                                 color: Colors.white,
                                 fontWeight: f.semiBold),
@@ -111,12 +135,13 @@ class _MentionPostState extends State<MentionPost> {
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         SizedBox( width: 5 ),
-                        Container(
+                        (profileModel.influencer=="")?
+                        Container():Container(
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 right: 5, left: 5, top: 2, bottom: 2),
                             child: Inter(
-                                text: "Brand Presenter",
+                                text: profileModel.influencer,
                                 size: 8,
                                 color: c.blueMain,
                                 fontWeight: f.bold),
@@ -609,10 +634,33 @@ class _ReviewPostState extends State<ReviewPost> {
   final storage = new FlutterSecureStorage();
   bool isFav = false;
 
+  ProfileModel profileModel = ProfileModel(
+    DOB: '',
+    img: '',
+    influencer: '',
+    fullname: '',
+    follower: 0,
+    following: 0,
+    bio: '',
+    email: '',
+    professor: '',
+    username: '',
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],);
+
   @override
   void initState() {
     // TODO: implement initState
-    // fetchData();
+    super.initState();
+
+    fetchData();
+  }
+  void fetchData() async{
+    var response = await networkHandler.get("/profile/getOtherData/${widget.username}");
+    setState(() {
+      profileModel = ProfileModel.fromJson(response["data"]);
+    });
   }
 
   @override
@@ -639,7 +687,7 @@ class _ReviewPostState extends State<ReviewPost> {
                       children: [
                         InkWell(
                           child: Poppins(
-                            text: widget.name!,
+                            text: "${profileModel.fullname}",
                             fontWeight: f.semiBold,
                             size: 13,
                             color: Colors.black,
@@ -669,12 +717,13 @@ class _ReviewPostState extends State<ReviewPost> {
                     SizedBox( height: 7 ),
                     Row(
                       children: [
-                        Container(
+                        (profileModel.professor=="")?
+                        Container():Container(
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 right: 7, left: 7, top: 4, bottom: 4),
                             child: Inter(
-                                text: "Beauty Advisor",
+                                text: profileModel.professor,
                                 size: 8,
                                 color: Colors.white,
                                 fontWeight: f.semiBold),
@@ -684,12 +733,13 @@ class _ReviewPostState extends State<ReviewPost> {
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         SizedBox( width: 5 ),
-                        Container(
+                        (profileModel.influencer=="")?
+                        Container():Container(
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 right: 5, left: 5, top: 2, bottom: 2),
                             child: Inter(
-                                text: "Brand Presenter",
+                                text: profileModel.influencer,
                                 size: 8,
                                 color: c.blueMain,
                                 fontWeight: f.bold),
