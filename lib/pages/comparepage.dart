@@ -190,9 +190,12 @@ class _comparepageState extends State<comparepage> {
                        color: Color(0xFF9FA8A3),
                        borderRadius: BorderRadius.circular(50)),
                  ),
+                 SizedBox(
+                   height: 4,
+                 ),
 
                  Text("B & Tea Balancing Toner",textAlign: TextAlign.left, style: GoogleFonts.poppins(
-                      color: Color(0xFF053118), fontWeight: f.semiBold,fontSize: 18
+                      color: Color(0xFF053118), fontWeight: f.semiBold,fontSize: 16
                  ),),
 
                  Roboto(text: "It is a long established fact that a reader will be distracted.", size: 12, color: Color(0xFF9D9D9D), fontWeight: f.regular),
@@ -207,7 +210,7 @@ class _comparepageState extends State<comparepage> {
              size: 24),),),
            ],
          ),
-         
+
          Container(
 
            width:  MediaQuery.of(context).size.height,
@@ -253,8 +256,11 @@ class _comparepageState extends State<comparepage> {
                        color: Color(0xFF9FA8A3),
                        borderRadius: BorderRadius.circular(50)),
                  ),
+                 SizedBox(
+                   height: 4,
+                 ),
                  Text("Rose Deep Hydration Facial Toner",textAlign: TextAlign.left, style: GoogleFonts.poppins(
-                     color: Color(0xFF053118), fontWeight: f.semiBold,fontSize: 18
+                     color: Color(0xFF053118), fontWeight: f.semiBold,fontSize: 16
                  ),),
                  Roboto(text: "It is a long established fact that a reader will be distracted.", size: 12, color: Color(0xFF9D9D9D), fontWeight: f.regular),
                ],
@@ -317,8 +323,11 @@ class _comparepageState extends State<comparepage> {
                        color: Color(0xFF9FA8A3),
                        borderRadius: BorderRadius.circular(50)),
                  ),
+                 SizedBox(
+                   height: 4,
+                 ),
                  Text("Glow Tonic Facial Toner",textAlign: TextAlign.left, style: GoogleFonts.poppins(
-                     color: Color(0xFF053118), fontWeight: f.semiBold,fontSize: 18
+                     color: Color(0xFF053118), fontWeight: f.semiBold,fontSize: 16
                  ),),
                  Roboto(text: "It is a long established fact that a reader will be distracted.", size: 12, color: Color(0xFF9D9D9D), fontWeight: f.regular),
                ],

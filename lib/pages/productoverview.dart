@@ -132,6 +132,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                     ],
                   ),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(left: 25, top: 25,right: 15),
@@ -182,9 +183,9 @@ class _ProductOverviewState extends State<ProductOverview> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 11),
-                        child: Text("Glow Tonic Facial Toner",textAlign: TextAlign.left, style: GoogleFonts.poppins(
-                            color: Color(0xFF053118), fontWeight: f.semiBold,fontSize: 25
+                        padding: const EdgeInsets.only(top: 11, left: 25, right:8),
+                        child: Text("Glow Tonic Facial Toner ",textAlign: TextAlign.left, style: GoogleFonts.poppins(
+                            color: Color(0xFF053118), fontWeight: f.semiBold,fontSize: 19
                         ),),
                       ),
                       Padding(
