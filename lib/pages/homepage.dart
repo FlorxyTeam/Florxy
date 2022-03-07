@@ -129,12 +129,13 @@ class _HomePageState extends State<HomePage> {
                 influencer: model.postData![index]['influencer'],
                 id: model.postData![index]['_id'],
               ):
-              model.postData![index]['type']=='review'?ReviewPost(
+              model.postData![index]['type']=='review' ? ReviewPost(
                 name: model.postData![index]['fullname'],
                 username: model.postData![index]['username'],
                 postTime: model.postData![index]['updatedAt'].toString().substring(0, 10),
                 brand: model.postData![index]['refbrand'],
                 product: model.postData![index]['refproduct'],
+                urlImage: model.postData![index]['coverImage'],
                 post: model.postData![index]['body'],
                 rating: model.postData![index]['rating'],
                 comment: model.postData![index]['comment'],
@@ -142,6 +143,18 @@ class _HomePageState extends State<HomePage> {
                 professor:model.postData![index]['professor'],
                 influencer: model.postData![index]['influencer'],
                 id: model.postData![index]['_id'],
+              ):
+              model.postData![index]['type']=='post' ? Post(
+                  name: model.postData![index]['fullname'],
+                  username: model.postData![index]['username'],
+                  postTime: model.postData![index]['updatedAt'].toString().substring(0, 10),
+                  post: model.postData![index]['body'],
+                  comment: model.postData![index]['comment'],
+                  favorite: model.postData![index]['favorite'],
+                  professor:model.postData![index]['professor'],
+                  influencer: model.postData![index]['influencer'],
+                  id: model.postData![index]['_id'],
+                  urlImage: model.postData![index]['coverImage']
               ):Container();
             },
           ),

@@ -79,8 +79,8 @@ class _anotherProfileState extends State<anotherProfile> {
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
       myprofileModel = ProfileModel.fromJson(response2["data"]);
-      itfollower = profileModel.follower;
-      itfollowing= profileModel.following;
+      itfollower = profileModel.listfollower.length;
+      itfollowing= profileModel.listfollowing.length;
     });
     var followercheck = await networkHandler.get("/profile/followercheck/${profileModel.username}/${myprofileModel.username}");
     if(followercheck['Status']){

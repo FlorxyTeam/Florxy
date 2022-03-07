@@ -146,8 +146,7 @@ class _CreatePostState extends State<CreatePost> {
                         Map<String, String> data = {
                           "username":profileModel.username,
                           "fullname":profileModel.fullname,
-                          "type": "review",
-                          "rating":"4.5001",
+                          "type": "post",
                           "body": _body.text,
                           "forwho":"Everyone"
                         };

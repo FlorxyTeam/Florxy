@@ -85,39 +85,39 @@ class _Privilege1State extends State<Privilege1> {
                               ],
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 100, right: 100, top: 200),
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(
-                                        builder: (context) => ReportPage()), (
-                                    route) => false);
-                              },
-                              child: GreenButton(
-                                text: 'Report',
-                                size: 13,
-                                color: c.textWhite,
-                                height: 40,
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                                left: 100, right: 100, top: 260),
-                            child: ElevatedButton(
-                              child: Text(
-                                'Share Capture Widget',
-                              ),
-                              onPressed: () async {
-                                final image = await controller.capture();
-                                if (image == null) return;
-
-                                saveAndShare(image);
-                              },
-                            ),
-                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.only(
+                          //       left: 100, right: 100, top: 200),
+                          //   child: GestureDetector(
+                          //     onTap: () {
+                          //       Navigator.of(context).pushAndRemoveUntil(
+                          //           MaterialPageRoute(
+                          //               builder: (context) => ReportPage()), (
+                          //           route) => false);
+                          //     },
+                          //     child: GreenButton(
+                          //       text: 'Report',
+                          //       size: 13,
+                          //       color: c.textWhite,
+                          //       height: 40,
+                          //     ),
+                          //   ),
+                          // ),
+                          // Padding(
+                          //   padding: const EdgeInsets.only(
+                          //       left: 100, right: 100, top: 260),
+                          //   child: ElevatedButton(
+                          //     child: Text(
+                          //       'Share Capture Widget',
+                          //     ),
+                          //     onPressed: () async {
+                          //       final image = await controller.capture();
+                          //       if (image == null) return;
+                          //
+                          //       saveAndShare(image);
+                          //     },
+                          //   ),
+                          // ),
                           Padding(
                             padding: const EdgeInsets.only(top: 570),
                             child: Row(

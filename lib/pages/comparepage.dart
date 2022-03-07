@@ -41,7 +41,7 @@ class _comparepageState extends State<comparepage> {
                       ? 95
                       : 115,
                   decoration: BoxDecoration(
-                      color: Color(0xFF52C883),
+                      color: c.greenMain,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(39),
                           topRight: Radius.circular(39))),

@@ -28,13 +28,14 @@ const upload = multer({
 });
 
 router.route("/getPost").get( (req, res) => {
-    Post.find({}, (err, result) => {
-    console.log('result: '+ result);
+    Post.find({}).sort({createdAt: -1}, function(err, result) {
+    // console.log('result: '+ result);
       if (err) return res.json({ err: err });
       if (result == null) return res.json({ data: [] });
       else return res.json({ data: result });
     });
  });
+
 router.route("/add/postImage/:id").patch(middleware.checkToken,upload.single("img"),(req,res)=>{
     Post.findOneAndUpdate({_id:req.params.id},
     {

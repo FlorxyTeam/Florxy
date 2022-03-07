@@ -25,6 +25,7 @@ class _ProfilePageState extends State<ProfilePage> {
   bool circular = true;
   NetworkHandler networkHandler = NetworkHandler();
   ProfileModel profileModel = ProfileModel(
+      id: '',
       DOB: '',
       img: '',
       influencer: '',
@@ -117,7 +118,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: TabBarView(
                             children: [
                               PostReply(),
-                              FavPost(),
+                              FavPost( idFavPost: profileModel.id ),
                               SavedPro(),
                             ],
                           ))
@@ -183,7 +184,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Poppins(
-                                    text: profileModel.follower.toString(),
+                                    text: "${profileModel.listfollower.length}",
                                     size: 18,
                                     color: c.blackMain,
                                     fontWeight: f.semiBold),
@@ -207,7 +208,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Poppins(
-                                    text: profileModel.following.toString(),
+                                    text: "${profileModel.listfollowing.length}",
                                     size: 18,
                                     color: c.blackMain,
                                     fontWeight: f.semiBold),

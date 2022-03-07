@@ -372,6 +372,18 @@ router.route("/getOtherData/:username").get(middleware.checkToken, (req, res) =>
   });
 //    res.json({msg:req.params.username})
 });
+
+router.route("/getFavPost/:id").get((req,res) => {
+  Profile.findOne({_id:req.params.id}).populate("favorite").exec(function(err, fav) {
+    if(err){
+        return res.json(err);
+    }else{
+        console.log(fav);
+        return res.send({favPost: fav});
+    }
+  });
+})
+
 router.route("/update").patch(middleware.checkToken, async (req, res) => {
   let profile = {};
   Profile.findOne({ email: req.decoded.email }, (err, result) => {
@@ -398,4 +410,6 @@ router.route("/update").patch(middleware.checkToken, async (req, res) => {
     }
   );
 });
+
+
 module.exports = router;

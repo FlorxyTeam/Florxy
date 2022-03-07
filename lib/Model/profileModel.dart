@@ -6,6 +6,7 @@ part 'profileModel.g.dart';
 
 @JsonSerializable()
 class ProfileModel {
+  String? id;
   String email;
   String username;
   String fullname;
@@ -21,6 +22,7 @@ class ProfileModel {
   List favorite;
 
   ProfileModel({
+    this.id,
     required this.email,
     required this.username,
     required this.fullname,

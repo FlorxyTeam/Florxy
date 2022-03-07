@@ -147,6 +147,17 @@ class _AnotherPostReplyState extends State<AnotherPostReply> {
                 professor:model.myPost![index]['professor'],
                 influencer: model.myPost![index]['influencer'],
                 id: model.myPost![index]['_id'],
+              ):model.myPost![index]['type']=='post' ? Post(
+                  name: model.myPost![index]['fullname'],
+                  username: model.myPost![index]['username'],
+                  postTime: model.myPost![index]['updatedAt'].toString().substring(0, 10),
+                  post: model.myPost![index]['body'],
+                  comment: model.myPost![index]['comment'],
+                  favorite: model.myPost![index]['favorite'],
+                  professor:model.myPost![index]['professor'],
+                  influencer: model.myPost![index]['influencer'],
+                  id: model.myPost![index]['_id'],
+                  urlImage: model.myPost![index]['coverImage']
               ):Container();
             },
           ),

@@ -6,11 +6,14 @@ import 'dart:convert';
 class PostProvider extends ChangeNotifier {
   final httpClient = http.Client();
 
-  String baseurl = "https://4875-171-100-24-98.ngrok.io";
+  String baseurl = "http://192.168.2.37:8080";
 
   List<dynamic>? postData;
   List<dynamic>? productData;
   List<dynamic>? myPost;
+  List<dynamic>? favPost;
+
+
 
   FlutterSecureStorage storage = FlutterSecureStorage();
 
@@ -69,6 +72,21 @@ class PostProvider extends ChangeNotifier {
 
     myPost = parsedProduct["myPost"];
     print(myPost);
+  }
+
+  Future fetchFavPost() async{
+    var id = await storage.read(key: 'idFavPost');
+    String? token = await storage.read(key:"token");
+    final Uri resAPIURL = Uri.parse(baseurl + "/profile/getFavPost/"+id!);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization":"Bearer $token"},
+    );
+    final Map parsedProduct = await json.decode(response.body.toString());
+
+    favPost = parsedProduct["favPost"];
+    // print(favPost);
+    return favPost;
   }
 
 

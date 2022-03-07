@@ -15,6 +15,7 @@ class f {
 
 class c {
   static final Color greenMain = Color(0xFF32A060);
+  static final Color tag = Color(0xFF086127);
   static final Color greenSub1 = Color(0xFF52C883);
   static final Color greenSub2 = Color(0xFF6AC08F);
   static final Color greenLight1 = Color(0xFFAFE6A2);
