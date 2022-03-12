@@ -8,7 +8,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
-
 import 'aliaspage.dart';
 
 

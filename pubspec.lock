@@ -36,13 +36,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.8.2"
-  bloc:
-    dependency: "direct main"
-    description:
-      name: bloc
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "7.2.1"
   boolean_selector:
     dependency: transitive
     description:
@@ -225,13 +218,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.8"
-  custom_navigation_bar:
-    dependency: "direct main"
-    description:
-      name: custom_navigation_bar
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.8.2"
   custom_refresh_indicator:
     dependency: "direct main"
     description:
@@ -246,13 +232,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.2.1"
-  equatable:
-    dependency: "direct main"
-    description:
-      name: equatable
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.3"
   fake_async:
     dependency: transitive
     description:
@@ -274,6 +253,34 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.1.2"
+  file_picker:
+    dependency: "direct main"
+    description:
+      name: file_picker
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.4.0"
+  firebase_app_check:
+    dependency: "direct main"
+    description:
+      name: firebase_app_check
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.6+5"
+  firebase_app_check_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_app_check_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.4+1"
+  firebase_app_check_web:
+    dependency: transitive
+    description:
+      name: firebase_app_check_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.5+5"
   firebase_auth:
     dependency: "direct main"
     description:
@@ -296,7 +303,7 @@ packages:
     source: hosted
     version: "3.3.7"
   firebase_core:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_core
       url: "https://pub.dartlang.org"
@@ -316,6 +323,27 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.5.4"
+  firebase_storage:
+    dependency: "direct main"
+    description:
+      name: firebase_storage
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "10.2.7"
+  firebase_storage_platform_interface:
+    dependency: transitive
+    description:
+      name: firebase_storage_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "4.1.1"
+  firebase_storage_web:
+    dependency: transitive
+    description:
+      name: firebase_storage_web
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.2.8"
   fixnum:
     dependency: transitive
     description:
@@ -335,13 +363,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_bloc:
-    dependency: "direct main"
-    description:
-      name: flutter_bloc
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "7.3.3"
   flutter_cupertino_datetime_picker:
     dependency: "direct main"
     description:
@@ -688,6 +709,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.11"
+  material_color_utilities:
+    dependency: transitive
+    description:
+      name: material_color_utilities
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.3"
   material_design_icons_flutter:
     dependency: "direct main"
     description:
@@ -1042,7 +1070,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.3"
+    version: "0.4.8"
   timing:
     dependency: transitive
     description:
@@ -1163,5 +1191,5 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=2.15.1 <3.0.0"
+  dart: ">=2.16.0 <3.0.0"
   flutter: ">=2.8.0"

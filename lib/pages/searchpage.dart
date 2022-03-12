@@ -1,7 +1,9 @@
 import 'dart:ffi';
 
 import 'package:Florxy/Post/addPost.dart';
+import 'package:Florxy/provider/storage_service.dart';
 import 'package:Florxy/widgets/font.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +24,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   List results = [];
+  final Storage storage = Storage();
 
   @override
   initState() {
@@ -84,8 +87,26 @@ class _SearchPageState extends State<SearchPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          FloatingActionButton(onPressed:() {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddPost()));
+          FloatingActionButton(
+            onPressed:() async {
+            // Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddPost()));
+              final results = await FilePicker.platform.pickFiles(
+                allowMultiple: false,
+                type: FileType.custom,
+                allowedExtensions: ['png','jpg']
+              );
+              if (results == null){
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('No File')));
+                return null;
+              }
+              final path = results.files.single.path!;
+              final fileName = results.files.single.name;
+
+              print(path);
+              print(fileName);
+
+              storage.uploadFile(path, fileName).then((value) => print('Done'));
+
           },child: Icon(Icons.create_outlined),),
           SizedBox(height: 20,),
           // Poppins(text: results[25].name, size: 20, color: c.greenMain, fontWeight: f.medium),
