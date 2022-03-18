@@ -26,12 +26,14 @@ class anotherProfile extends StatefulWidget {
 }
 
 class _anotherProfileState extends State<anotherProfile> {
+  String? anotherUsername;
   final storage = new FlutterSecureStorage();
   final networkHandler = NetworkHandler();
   String? yourfollow = "";
   int itfollower = 0;
   int itfollowing = 0;
   ProfileModel profileModel = ProfileModel(
+    id: '',
     DOB: '',
     img: '',
     influencer: '',
@@ -70,13 +72,26 @@ class _anotherProfileState extends State<anotherProfile> {
     fetchData();
   }
 
+  void deleteData() async{
+    await storage.delete(key: "anotherUsername");
+  }
+
+  @override
+  void dispose() {
+    print('delete');
+    deleteData();
+  }
+
   void fetchData() async {
     String? profile = await storage.read(key: "anotherprofile");
     print(profile);
     var response = await networkHandler.get("/profile/getOtherData/$profile");
     var response2 = await networkHandler.get("/profile/getData");
+    anotherUsername = response['data']['username'];
+    await storage.write(key: "anotherUsername", value: anotherUsername);
 
     setState(() {
+
       profileModel = ProfileModel.fromJson(response["data"]);
       myprofileModel = ProfileModel.fromJson(response2["data"]);
       itfollower = profileModel.listfollower.length;
@@ -157,8 +172,8 @@ class _anotherProfileState extends State<anotherProfile> {
                 Expanded(
                     child: TabBarView(
                   children: [
-                    AnotherPostReply(),
-                    FavPost(),
+                    AnotherPostReply( username: profileModel.username ),
+                    FavPost( idFavPost : profileModel.id ),
                     SavedPro(),
                   ],
                 ))

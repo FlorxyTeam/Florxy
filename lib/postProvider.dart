@@ -11,7 +11,10 @@ class PostProvider extends ChangeNotifier {
   List<dynamic>? postData;
   List<dynamic>? productData;
   List<dynamic>? myPost;
+  List<dynamic>? anotherPost;
   List<dynamic>? favPost;
+  List<dynamic>? comment;
+  List<dynamic>? profile;
 
 
 
@@ -42,7 +45,7 @@ class PostProvider extends ChangeNotifier {
     final Map parsedProduct = await json.decode(response.body.toString());
 
     productData = parsedProduct["product"];
-    print(productData);
+    // print(productData);
   }
 
   Future fetchMyPostAndReply() async{
@@ -57,21 +60,21 @@ class PostProvider extends ChangeNotifier {
     final Map parsedProduct = await json.decode(response.body.toString());
 
     myPost = parsedProduct["myPost"];
-    print(myPost);
+    // print(myPost);
   }
 
-  Future fetchAnotherPostAndReply() async{
-    var username = await storage.read(key: 'anotherprofile');
+  Future fetchAnotherPostAndReply(String username) async{
+    // var username = await storage.read(key: 'anotherUsername');
     String? token = await storage.read(key:"token");
-    final Uri resAPIURL = Uri.parse(baseurl + "/profile/PostAndReply/"+username!);
+    final Uri resAPIURL = Uri.parse(baseurl + "/profile/otherPostAndReply/"+username);
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization":"Bearer $token"},
     );
     final Map parsedProduct = await json.decode(response.body.toString());
 
-    myPost = parsedProduct["myPost"];
-    print(myPost);
+    anotherPost = parsedProduct["anotherPost"];
+    profile = parsedProduct["anotherProfile"];
   }
 
   Future fetchFavPost() async{
@@ -85,8 +88,24 @@ class PostProvider extends ChangeNotifier {
     final Map parsedProduct = await json.decode(response.body.toString());
 
     favPost = parsedProduct["favPost"];
-    // print(favPost);
-    return favPost;
+    print("favPost");
+    print(favPost);
+  }
+
+  Future fetchComment(String idPost) async{
+    // var id = await storage.read(key: 'idPost');
+    // print(id);
+    String? token = await storage.read(key:"token");
+    final Uri resAPIURL = Uri.parse(baseurl + "/home/getComment/"+idPost);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization":"Bearer $token"},
+    );
+    final Map parsedProduct = await json.decode(response.body.toString());
+
+    comment = parsedProduct["comment"];
+    // print('comment');
+    // print(comment);
   }
 
 

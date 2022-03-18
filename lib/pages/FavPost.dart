@@ -1,7 +1,6 @@
+import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/widgets/PostWidget.dart';
-import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
@@ -18,13 +17,36 @@ class FavPost extends StatefulWidget {
 }
 
 class _FavPostState extends State<FavPost> {
+  List data = [];
+  ProfileModel profileModel = ProfileModel(
+    DOB: '',
+    img: '',
+    influencer: '',
+    fullname: '',
+    follower: 0,
+    following: 0,
+    bio: '',
+    email: '',
+    professor: '',
+    username: '',
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],
+  );
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
 
   void fetchData() async{
     print(widget.idFavPost);
     await storage.write(key: "idFavPost", value: widget.idFavPost);
-    await networkHandler.get("/profile/getFavPost/"+widget.idFavPost!);
+    var response = await networkHandler.get("/profile/getFavPost/"+widget.idFavPost!);
+
+    setState(() {
+      profileModel = ProfileModel.fromJson(response["favPost"]);
+      data = profileModel.favorite;
+      print(data);
+    });
+
   }
 
   @override
@@ -33,54 +55,62 @@ class _FavPostState extends State<FavPost> {
     // TODO: implement initState
     Provider.of<PostProvider>(context,listen: false).fetchFavPost();
     super.initState();
-    // WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-    //   print(model.favPost![index]['favorite']['fullname']);
-    // });
   }
 
   @override
   Widget build(BuildContext context) {
+    List staticData = data;
     return Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height-200,
-        child: Consumer<PostProvider>(builder: (context,model,_) => FutureBuilder(
-          future: model.fetchFavPost(),
-          builder: (context,snapshot) => ListView.builder(
+        child: ListView.builder(
             scrollDirection: Axis.vertical,
-            itemCount: model.favPost?.length??0,
+            itemCount: profileModel.favorite.length,
             itemBuilder: (context,int index){
-              return model.favPost![index]['favorite']['type']=='mention'?MentionPost(
-                name: model.favPost![index]['favorite']['fullname'],
-                username: model.favPost![index]['favorite']['username'],
-                postTime: model.favPost![index]['favorite']['updatedAt'].toString().substring(0, 10),
-                brand: model.favPost![index]['favorite']['refbrand'],
-                product: model.favPost![index]['favorite']['refproduct'],
-                post: model.favPost![index]['favorite']['body'],
-                comment: model.favPost![index]['favorite']['comment'],
-                favorite: model.favPost![index]['favorite']['favorite'],
-                urlImage: model.favPost![index]['favorite']['coverImage'],
-                professor:model.favPost![index]['favorite']['professor'],
-                influencer: model.favPost![index]['favorite']['influencer'],
-                id: model.favPost![index]['favorite']['_id'],
+              Map data = staticData[index];
+              return "${data['type']}"=='mention'?MentionPost(
+                name: "${data['fullname']}",
+                username: "${data['username']}",
+                postTime: "${data['updatedAt']}".toString().substring(0, 10),
+                brand: "${data['refbrand']}",
+                product: "${data['refproduct']}",
+                post: "${data['body']}",
+                comment: data['comment'],
+                favorite: data['favorite'],
+                urlImage: data['coverImage'],
+                professor: "${data['professor']}",
+                influencer: "${data['influencer']}",
+                id: "${data['_id']}",
               ):
-              model.favPost![index]['favorite']['type']=='review'?ReviewPost(
-                name: model.favPost![index]['favorite'][0],
-                username: model.favPost![index]['favorite']['username'],
-                postTime: model.favPost![index]['favorite']['updatedAt'].toString().substring(0, 10),
-                brand: model.favPost![index]['favorite']['refbrand'],
-                product: model.favPost![index]['favorite']['refproduct'],
-                post: model.favPost![index]['favorite']['body'],
-                rating: model.favPost![index]['favorite']['rating'],
-                comment: model.favPost![index]['favorite']['comment'],
-                favorite: model.favPost![index]['favorite']['favorite'],
-                professor:model.favPost![index]['favorite']['professor'],
-                influencer: model.favPost![index]['favorite']['influencer'],
-                id: model.favPost![index]['favorite']['_id'],
+              "${data['type']}"=='review'?ReviewPost(
+                name: "${data['fullname']}",
+                username: "${data['username']}",
+                postTime: "${data['updatedAt']}".toString().substring(0, 10),
+                brand: "${data['refbrand']}",
+                product: "${data['refproduct']}",
+                post: "${data['body']}",
+                comment: data['comment'],
+                favorite: data['favorite'],
+                urlImage: data['coverImage'],
+                professor: "${data['professor']}",
+                influencer: "${data['influencer']}",
+                id: "${data['_id']}",
+                rating: data['rating'],
+              ):"${data['type']}"=='post'?Post(
+                name: "${data['fullname']}",
+                username: "${data['username']}",
+                postTime: "${data['updatedAt']}".toString().substring(0, 10),
+                post: "${data['body']}",
+                comment: data['comment'],
+                favorite: data['favorite'],
+                urlImage: data['coverImage'],
+                professor: "${data['professor']}",
+                influencer: "${data['influencer']}",
+                id: "${data['_id']}",
               ):Container();
             },
           ),
-        )),
-      ),
-    );
+        ),
+      );
   }
 }

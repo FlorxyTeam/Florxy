@@ -356,6 +356,22 @@ router.route("/PostAndReply/:username").get((req,res)=>{
   })
 })
 
+router.route("/otherPostAndReply/:username").get((req,res)=>{
+  Post.find({username: req.params.username}, (err, result)=>{
+    if(err){
+      return res.json(err);
+    } else {
+      Profile.find({username: req.params.username}, (err,findProfile)=>{
+        if(err){
+          return res.json(err);
+        } else {
+          return res.send({ anotherPost: result, anotherProfile: findProfile });
+        }
+      })
+    }
+  })
+})
+
 router.route("/getData").get(middleware.checkToken, (req, res) => {
   Profile.findOne({ email: req.decoded.email }, (err, result) => {
     if (err) return res.json({ err: err });
