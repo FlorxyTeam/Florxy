@@ -131,9 +131,8 @@ class _comparepageState extends State<comparepage> {
     );
   }
 
- Widget buildCompare() => DraggableScrollableSheet(
-   initialChildSize: 0.88,
-   builder: (_, controller) => Container(
+ Widget buildCompare() =>  Container(
+   height: MediaQuery.of(context).size.height * 0.92,
      decoration: BoxDecoration(
        borderRadius: BorderRadius.only(
          topRight:Radius.circular(42),
@@ -393,7 +392,7 @@ class _comparepageState extends State<comparepage> {
 
        ],
      ),
-   ),
+
  );
 
 }
