@@ -1,9 +1,10 @@
 import 'package:Florxy/Model/chatModel.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
-import 'package:boxicons/boxicons.dart';
+import 'package:Florxy/widgets/messageWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:socket_io_client/socket_io_client.dart' ;
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 class ViewChatPage extends StatefulWidget {
@@ -15,6 +16,56 @@ class ViewChatPage extends StatefulWidget {
 }
 
 class _ViewChatPageState extends State<ViewChatPage> {
+  // late IO.Socket socket;
+
+  @override
+  void initState() {
+    connect();
+    super.initState();
+  }
+
+  void connect() {
+    // socket = IO.io('http://192.168.2.37:8080',
+    //     IO.OptionBuilder()
+    //         .setTransports(['websocket'])
+    //         .setExtraHeaders({'Connection': 'upgrade', 'Upgrade': 'websocket'})
+    //         .disableAutoConnect()
+    //         .build()
+    // );
+    // socket.connect();
+    // socket.onConnect((data) => print("socket connected"));
+    // socket.onConnectError((data) => print(data));
+
+    Socket socket = io('http://192.168.2.37:8080',
+        OptionBuilder()
+            .setTransports(['websocket'])
+            .disableAutoConnect()
+            .build()
+    );
+    socket.connect();
+    socket.onConnect((data) => print("socket connected"));
+
+    // socket = IO.io("http://192.168.2.37:8080",<String,dynamic>{
+    //   "transports": ["websocket"],
+    //   "autoConnect": false,
+    // });
+    // socket.connect();
+    // socket.emit("/test","Hello!");
+    // socket.onConnect((data) => print('socket connected'));
+    // // socket?.onConnectError((data) => print(data));
+    // print(socket.connected);
+
+
+    // socket = IO.io('http://192.168.2.37:8080');
+    // socket?.onConnect((_) {
+    //   print('connect');
+    //   socket?.emit('msg', 'test');
+    // });
+    // socket?.on('event', (data) => print(data));
+    // socket?.onDisconnect((_) => print('disconnect'));
+    // socket?.on('fromServer', (_) => print(_));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,6 +179,28 @@ class _ViewChatPageState extends State<ViewChatPage> {
                     color: Colors.white
                 ),
               ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 18, right: 18),
+                  child: MediaQuery.removePadding(
+                    context: context,
+                    removeTop: true,
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: [
+                        MyMessage(),
+                        ReplyMessage(),
+                        MyMessage(),
+                        ReplyMessage(),
+                        MyMessage(),
+                        ReplyMessage(),
+                        MyMessage(),
+                        ReplyMessage(),
+                      ],
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
           Positioned(
