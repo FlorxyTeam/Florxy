@@ -39,6 +39,7 @@ class _NavbarState extends State<Navbar> {
     var response = await networkHandler.get("/profile/getData");
     await storage.write(key: "id", value: response['data']['_id']);
     await storage.write(key: "username", value: response['data']['username']);
+    await storage.write(key: "myfullname", value: response['data']['fullname']);
   }
 
   @override

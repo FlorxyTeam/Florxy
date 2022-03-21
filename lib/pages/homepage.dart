@@ -1,6 +1,7 @@
 
 import 'package:Florxy/pages/ViewPostPage.dart';
 import 'package:Florxy/Model/postModel.dart';
+import 'package:Florxy/pages/chat.dart';
 import 'package:Florxy/pages/sensepage.dart';
 import 'package:Florxy/postProvider.dart';
 import 'package:Florxy/pages/CreatePost.dart';
@@ -99,7 +100,7 @@ class _HomePageState extends State<HomePage> {
                   iconSize: 25,
                   color: Colors.black,
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPost()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatPage()));
                   },
                 ),
               ),
