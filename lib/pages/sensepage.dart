@@ -77,7 +77,7 @@ class _SensePageState extends State<SensePage> {
       body: Stack(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 70),
+            padding: EdgeInsets.only(left: 0, right: 0, top: 0, bottom: 70),
             child: import == null ? Container(
               height: double.infinity,
               width: double.infinity,
@@ -125,7 +125,7 @@ class _SensePageState extends State<SensePage> {
           ),
           SizedBox(height: 250),
           Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, top: 200),
+            padding: EdgeInsets.only(left: 20, right: 20, top: 200),
             child: Center(
               child: Align(
                   alignment: Alignment.topCenter,
@@ -154,6 +154,8 @@ class _SensePageState extends State<SensePage> {
           ),
           Center(
             child: Container(
+              width: 250,
+              height: 250,
               decoration: BoxDecoration(
                 color: Colors.transparent,
                 borderRadius: BorderRadius.circular(55.0),
@@ -173,8 +175,6 @@ class _SensePageState extends State<SensePage> {
                 borderRadius: BorderRadius.circular(55.0),
                 child: Align(
                   alignment: Alignment.center,
-                  widthFactor: 0.70,
-                  heightFactor: 0.70,
                   child: Container(
                     child: ClipRRect(
                       borderRadius: BorderRadius.only(
@@ -193,100 +193,11 @@ class _SensePageState extends State<SensePage> {
               ),
             ),
           ),
-          SizedBox(height: 250),
           Padding(
-            padding: const EdgeInsets.only(right: 50, top: 590),
-            child: Center(
+            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 110),
+            child: Container(
               child: Align(
-                  alignment: Alignment.topRight,
-                  child: pictureFile == null ? Container(
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.circular(10.0),
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 3.0,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black.withOpacity(0),
-                            offset: Offset(0.0, 0.0),
-                            blurRadius: 10.0
-                        )
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Align(
-                        alignment: Alignment.center,
-                        widthFactor: 0.30,
-                        heightFactor: 0.30,
-                        child: Container(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30.0),
-                              topRight: Radius.circular(30.0),
-                              bottomRight: Radius.circular(30.0),
-                              bottomLeft: Radius.circular(30.0),
-
-                            ),
-                            child: AspectRatio(
-                              aspectRatio: 1,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ) : Container(
-                    decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.circular(10.0),
-                      border: Border.all(
-                        color: Colors.white,
-                        width: 3.0,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.black.withOpacity(0),
-                            offset: Offset(0.0, 0.0),
-                            blurRadius: 10.0
-                        )
-                      ],
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10.0),
-                      child: Align(
-                        alignment: Alignment.center,
-                        widthFactor: 0.30,
-                        heightFactor: 0.30,
-                        child: Container(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(30.0),
-                              topRight: Radius.circular(30.0),
-                              bottomRight: Radius.circular(30.0),
-                              bottomLeft: Radius.circular(30.0),
-
-                            ),
-                            child: Image.file(
-                              File(pictureFile!.path,),
-                              height: 200,
-                              width: 160,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
-              ),
-            ),
-          ),
-          SizedBox(height: 250),
-          Padding(
-            padding: const EdgeInsets.only(left: 20, right: 20, top: 590),
-            child: Center(
-              child: Align(
-                  alignment: Alignment.topCenter,
+                  alignment: Alignment.bottomCenter,
                   child: ElevatedButton(
                     onPressed: () {
                     },
@@ -304,6 +215,87 @@ class _SensePageState extends State<SensePage> {
                       padding: EdgeInsets.all(1),
                       primary: Colors.white.withOpacity(0),
                       onPrimary: Colors.black,
+                    ),
+                  )
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 50,left: 50,bottom: 110),
+            child: Container(
+              child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: pictureFile == null ? Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(10.0),
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 3.0,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black.withOpacity(0),
+                            offset: Offset(0.0, 0.0),
+                            blurRadius: 10.0
+                        )
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(30.0),
+                              topRight: Radius.circular(30.0),
+                              bottomRight: Radius.circular(30.0),
+                              bottomLeft: Radius.circular(30.0),
+
+                            ),
+                            child: AspectRatio(
+                              aspectRatio: 1,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ) : Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(10.0),
+                      border: Border.all(
+                        color: Colors.white,
+                        width: 3.0,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.black.withOpacity(0),
+                            offset: Offset(0.0, 0.0),
+                            blurRadius: 10.0
+                        )
+                      ],
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10.0),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          child: ClipRRect(
+                            child: Image.file(
+                              File(pictureFile!.path,),
+                              height: 50,
+                              width: 50,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   )
               ),
