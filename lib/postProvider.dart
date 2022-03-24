@@ -6,7 +6,7 @@ import 'dart:convert';
 class PostProvider extends ChangeNotifier {
   final httpClient = http.Client();
 
-  String baseurl = "http://192.168.2.37:8080";
+  String baseurl = "https://afde-125-25-191-233.ngrok.io";
 
   List<dynamic>? postData;
   List<dynamic>? productData;
