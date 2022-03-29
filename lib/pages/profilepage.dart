@@ -86,6 +86,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           color: c.textWhite,
                           child: TabBar(
                             labelColor: c.greenMain,
+                            isScrollable: false,
                             unselectedLabelColor: c.greyMain,
                             indicator: BoxDecoration(
                               color: c.greenLight1.withOpacity(0.8),

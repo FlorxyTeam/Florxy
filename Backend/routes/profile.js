@@ -299,6 +299,7 @@ router.route("/addintfollowing").post(middleware.checkToken, (req, res) => {
           }
         );
 });
+
 router.route("/add").post(middleware.checkToken, (req, res) => {
   const profile = Profile({
     email: req.decoded.email,

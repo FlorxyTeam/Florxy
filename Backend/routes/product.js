@@ -30,4 +30,46 @@ router.route("/add").post((req,res)=> {
     });
 });
 
+
+//list of brand
+router.route("/brand").get(middleware.checkToken, (req, res) => {
+    Product.find().distinct('p_brand', (err, result) => {
+        if(err) res.status(500).json({msg: err});
+        res.json({
+            data: result,
+            p_brand: req.body.p_brand,
+        })
+    })
+});
+
+//go to brandOverview
+router.route("/brand/:p_brand").get(middleware.checkToken, (req, res) => {
+    Product.find({p_brand: req.params.p_brand}, (err, result) => {
+        if(err) res.status(500).json({msg: err});
+        res.json({
+            data: result,
+            p_brand: req.params.p_brand,
+        })
+    })
+});
+
+
+//go to ProductOverview
+router.route("/:_id").get(middleware.checkToken, (req, res) => {
+    Product.findOne({_id: req.params._id}, (err, result) => {
+        if(err) res.status(500).json({msg: err});
+        res.json({
+            data: result,
+            p_id: req.params._id,
+        })
+    })
+});
+
+
+
+
+
+
+
+
 module.exports = router;
