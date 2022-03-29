@@ -76,12 +76,30 @@ const Profile = Schema(
               type: String,
               unique: true,
           },
-          currentMessage: {
-              type: String,
-              default: ''
-          }
+          // currentMessage: {
+          //     type: String,
+          //     default: ''
+          // }
       }
     ],
+    listmessage: [
+      {
+        username: String,
+        message: [
+          {
+            message: {
+              type: String
+            },
+            type: {
+              type: String
+            },
+            time: {
+              type: String
+            }
+          }
+        ] 
+      }
+    ]
   },
 
 

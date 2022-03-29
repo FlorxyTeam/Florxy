@@ -4,10 +4,12 @@ import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/messageWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' ;
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 import '../NetworkHandler.dart';
+import '../postProvider.dart';
 
 class ViewChatPage extends StatefulWidget {
   String? fullname, username, influencer, professor, currentMessage, myUsername;
@@ -27,6 +29,7 @@ class _ViewChatPageState extends State<ViewChatPage> {
   @override
   void initState() {
     super.initState();
+    Provider.of<PostProvider>(context,listen: false).fetchChat(widget.myUsername!, widget.username!);
     connect();
   }
 
@@ -45,22 +48,27 @@ class _ViewChatPageState extends State<ViewChatPage> {
       print("socket connected");
       socket.on("message",(msg){
         print(msg);
-        setMessage("destination", msg["message"]);
+        setMessage("destination", msg["message"], msg["myUsername"], msg["targetUsername"]);
       });
     });
   }
 
   void sendMessage(String message, String myUsername, String targetUsername) {
-    setMessage("source", message);
     socket.emit("message",
         {"message": message, "myUsername": myUsername, "targetUsername": targetUsername});
+    setMessage("source", message, myUsername, targetUsername);
   }
 
-  void setMessage(String type, String message) {
-    MessageModel messageModel = MessageModel(type: type, message: message, time: DateTime.now().toString().substring(10,16));
+  void setMessage(String type, String message, String sender, String receiver) async {
+    MessageModel messageModel = MessageModel(type: type, message: message, time: DateTime.now().toString().substring(0,16));
+    // await networkHandler.post("/profile/chatWith/"+widget.myUsername!+"/"+widget.username!, data);
     setState(() {
       messages.add(messageModel);
     });
+  }
+
+  void fetchMessage() async {
+
   }
 
   @override
@@ -179,34 +187,61 @@ class _ViewChatPageState extends State<ViewChatPage> {
                 ),
               ),
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 18, right: 18),
-                  child: MediaQuery.removePadding(
-                    context: context,
-                    removeTop: true,
-                    removeBottom: true,
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      itemCount: messages.length+1,
-                      shrinkWrap: true,
-                      itemBuilder: (context,index) {
-                        if(index == messages.length) {
-                          return Container(
-                            height: 70,
-                          );
-                        }
-                        if(messages[index].type=="source") {
-                          return MyMessage(
-                            message: messages[index].message,
-                            time: messages[index].time,
-                          );
-                        } else {
-                          return ReplyMessage(
-                            message: messages[index].message,
-                            time: messages[index].time,
-                          );
-                        }
-                      },
+                child: SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 18, right: 18),
+                    child: Column(
+                      children: [
+                        Consumer<PostProvider>(builder: (context,model,_) => FutureBuilder(
+                          future: model.fetchChat(widget.myUsername!, widget.username!),
+                          builder: (context,snapshot) => MediaQuery.removePadding(
+                            context: context,
+                            removeTop: true,
+                            removeBottom: true,
+                            child: ListView.builder(
+                              itemCount: model.chat?.length??0,
+                              shrinkWrap: true,
+                              itemBuilder: (context,int index){
+                                return model.chat![index]['sender']==widget.myUsername?MyMessage(
+                                  message: model.chat![index]['message'],
+                                  time: model.chat![index]['time']
+                                ):ReplyMessage(
+                                  message: model.chat![index]['message'],
+                                  time: model.chat![index]['time']
+                                );
+                              },
+                            ),
+                          ),
+                        )),
+                        MediaQuery.removePadding(
+                          context: context,
+                          removeTop: true,
+                          removeBottom: true,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            controller: _scrollController,
+                            itemCount: messages.length+1,
+                            itemBuilder: (context,index) {
+                              if(index == messages.length) {
+                                return Container(
+                                  height: 70,
+                                );
+                              }
+                              if(messages[index].type=="source") {
+                                return MyMessage(
+                                  message: messages[index].message,
+                                  time: messages[index].time,
+                                );
+                              } else {
+                                return ReplyMessage(
+                                  message: messages[index].message,
+                                  time: messages[index].time,
+                                );
+                              }
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -277,10 +312,18 @@ class _ViewChatPageState extends State<ViewChatPage> {
                         IconButton(
                             padding: EdgeInsets.zero,
                             constraints: BoxConstraints(),
-                            onPressed: () {
+                            onPressed: () async {
                               sendMessage(_messageController.text, widget.myUsername!, widget.username!);
+                              // _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+                              Map<String, String> data = {
+                                "sender": widget.myUsername!,
+                                "receiver": widget.username!,
+                                "message": _messageController.text,
+                                "time": DateTime.now().toString().substring(0,16)
+                              };
+                              // await networkHandler.post("/profile/chatWith/"+widget.myUsername!+"/"+widget.username!, data);
+                              await networkHandler.post("/profile/chat", data);
                               _messageController.clear();
-                              _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
                             },
                             icon: Icon(FeatherIcons.send, size: 25)
                         )
