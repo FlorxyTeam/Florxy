@@ -7,7 +7,7 @@ import 'package:logger/logger.dart';
 
 class NetworkHandler {
 
-  String baseurl = "http://192.168.2.37:8080";
+  String baseurl = "http://192.168.93.207:8080";
 
 
   var log = Logger();
@@ -19,7 +19,9 @@ class NetworkHandler {
 
     var response = await http.get(
       Uri.parse(url),
-      headers: {"Authorization":"Bearer $token"},
+      headers: {"Authorization":"Bearer $token",
+        "Access-Control-Allow-Origin": "*"
+      },
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
       log.i(response.body);
@@ -37,7 +39,8 @@ class NetworkHandler {
       Uri.parse(url),
       headers: {
         "Content-type": "application/json",
-        "Authorization":"Bearer $token"
+        "Authorization":"Bearer $token",
+        "Access-Control-Allow-Origin": "*"
       },
       body: json.encode(body),
     );
@@ -52,7 +55,8 @@ class NetworkHandler {
       Uri.parse(url),
       headers: {
         "Content-type": "application/json",
-        "Authorization": "Bearer $token"
+        "Authorization": "Bearer $token",
+        "Access-Control-Allow-Origin": "*"
       },
       body: json.encode(body),
     );
@@ -66,7 +70,8 @@ class NetworkHandler {
     request.files.add(await http.MultipartFile.fromPath("img", filepath));
     request.headers.addAll({
       "Content-type":"multipart/form-data",
-      "Authorization":"Bearer $token"
+      "Authorization":"Bearer $token",
+      "Access-Control-Allow-Origin": "*"
     });
     var response = request.send();
     return response;
@@ -88,7 +93,8 @@ class NetworkHandler {
       Uri.parse(url),
       headers: {
         "Content-type": "application/json",
-        "Authorization":"Bearer $token"
+        "Authorization":"Bearer $token",
+        "Access-Control-Allow-Origin": "*"
       },
       body: json.encode(body),
     );

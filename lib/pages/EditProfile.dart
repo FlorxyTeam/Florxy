@@ -10,6 +10,10 @@ import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'aliaspage.dart';
 
+import 'package:Florxy/provider/storage_service.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
+
 
 class EditPage extends StatefulWidget {
   const EditPage({Key? key}) : super(key: key);
@@ -19,6 +23,7 @@ class EditPage extends StatefulWidget {
 }
 
 class _EditPageState extends State<EditPage> {
+  final Storage firebase_storage = Storage();
   bool circular = false;
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
@@ -129,25 +134,42 @@ class _EditPageState extends State<EditPage> {
                             "fullname": _fullname.text,
                             "bio": _bio.text,
                           };
-                          var response =
-                          await networkHandler.patch("/profile/update", data);
+                          var response = await networkHandler.patch("/profile/update", data);
 
                           if (response.statusCode == 200 ||
                               response.statusCode == 201) {
                             if (image != null) {
-                              var imageResponse = await networkHandler.patchImage(
-                                  "/profile/add/image", image!.path);
-                              if (imageResponse.statusCode == 200 ||
-                                  imageResponse.statusCode == 201) {
-                                setState(() {
-                                  circular = false;
+                                print(image!.path);
+                                final path = image!.path;
+                                final fileName = profileModel.username + '.jpg';
+                                firebase_storage.uploadProfile(path, fileName).then((value) async {
+                                  Map<String, String> data = {
+                                    "img": value,
+                                  };
+                                  print(data);
+                                  var response = await networkHandler.patch("/profile/update/profile", data);
+                                  if (response.statusCode == 200 ||
+                                      response.statusCode == 201){
+                                      setState(() {
+                                        circular = false;
+                                      });
+                                      Navigator.of(context).pop();
+                                  }
                                 });
-                                Navigator.of(context).pop();
-                              }else {
-                                setState(() {
-                                  circular = false;
-                                });
-                              }
+
+                              // var imageResponse = await networkHandler.patchImage(
+                              //     "/profile/add/image", image!.path);
+                              // if (imageResponse.statusCode == 200 ||
+                              //     imageResponse.statusCode == 201) {
+                              //   setState(() {
+                              //     circular = false;
+                              //   });
+                              //   Navigator.of(context).pop();
+                              // }else {
+                              //   setState(() {
+                              //     circular = false;
+                              //   });
+                              // }
 
                             } else {
                               setState(() {
@@ -279,7 +301,7 @@ class _EditPageState extends State<EditPage> {
               child:  CircleAvatar(
                   radius: 50,
                   backgroundColor: Colors.transparent,
-                  backgroundImage: NetworkHandler().getImage(profileModel.email)
+                  backgroundImage: NetworkImage(profileModel.img)
               ),
             ) : Container(
               decoration: BoxDecoration(

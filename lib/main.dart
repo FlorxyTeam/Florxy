@@ -19,13 +19,14 @@ import 'package:firebase_app_check/firebase_app_check.dart';
 Future main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  // await FirebaseAppCheck.instance.activate(
-  //   webRecaptchaSiteKey: 'recaptcha-v3-site-key',
-  // );
-  print('test');
-  // String? token = await FirebaseAppCheck.instance.getToken();
-  // print(token);
-  // await FirebaseAppCheck.instance.setTokenAutoRefreshEnabled(true);
+  await FirebaseAppCheck.instance.activate(
+    webRecaptchaSiteKey: '6LcaODIfAAAAAMXSDY3Eo9pDPOqXJJHNXnSErkZt',
+  );
+  // print('test');
+  String? token = await FirebaseAppCheck.instance.getToken();
+  print(token);
+  // await FirebaseAppCheck.instance.activate();
+  await FirebaseAppCheck.instance.setTokenAutoRefreshEnabled(true);
   runApp(const MyApp());
 }
 

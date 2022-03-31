@@ -411,5 +411,31 @@ router.route("/update").patch(middleware.checkToken, async (req, res) => {
   );
 });
 
+router.route("/update/profile").patch(middleware.checkToken, async (req, res) => {
+  let profile = {};
+  Profile.findOne({ email: req.decoded.email }, (err, result) => {
+    if (err) {
+      profile = {};
+    }
+    if (result != null) {
+      profile = result;
+    }
+  });
+  await Profile.findOneAndUpdate(
+    { email: req.decoded.email },
+    {
+      $set: {
+           img: req.body.img ? req.body.img : profile.img,
+      },
+    },
+    { new: true },
+    (err, result) => {
+      if (err) return res.json({ err: err });
+      if (result == null) return res.json({ data: [] });
+      else return res.json({ data: result });
+    }
+  );
+});
+
 
 module.exports = router;

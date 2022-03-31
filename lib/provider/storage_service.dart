@@ -20,4 +20,18 @@ class Storage{
 
     return results;
   }
+  Future<String> downloadURL(String imageName) async{
+    String downloadURL = await storage.ref('profile/$imageName').getDownloadURL();
+
+    return downloadURL;
+  }
+  Future<String> uploadProfile(String filePath, String fileName) async{
+    File file = File(filePath);
+    try{
+      await storage.ref('profile/$fileName').putFile(file);
+    }on firebase_core.FirebaseException catch (e)
+    {print(e);}
+    String downloadURL = await storage.ref('profile/$fileName').getDownloadURL();
+    return downloadURL;
+  }
 }
