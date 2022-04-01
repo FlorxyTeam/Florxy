@@ -6,12 +6,13 @@ import 'dart:convert';
 class PostProvider extends ChangeNotifier {
   final httpClient = http.Client();
 
-  String baseurl = "http://192.168.1.104:8080";
+  String baseurl = "https://asia-southeast1-florxy.cloudfunctions.net/app ";
 
   List<dynamic>? postData;
   List<dynamic>? productData;
   List<dynamic>? myPost;
   List<dynamic>? favPost;
+  List<dynamic>? SearchData;
 
 
 
@@ -27,6 +28,19 @@ class PostProvider extends ChangeNotifier {
     final Map parsedData = await json.decode(response.body.toString());
 
     postData = parsedData["data"];
+    // print(postData);
+  }
+
+  Future fetchSearchData1(String query) async{
+    String? token = await storage.read(key:"token");
+    final Uri resAPIURL = Uri.parse(baseurl + "/home/getSearchPost/" + query);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization": "Bearer $token"},
+    );
+    final Map parsedData = await json.decode(response.body.toString());
+
+    SearchData = parsedData["data"];
     // print(postData);
   }
 

@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:ffi';
 
+import 'package:Florxy/Model/postModel.dart';
 import 'package:Florxy/Post/addPost.dart';
+import 'package:Florxy/widgets/SearchMentionPostWidget.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,24 +25,26 @@ class SearchPage extends StatefulWidget {
   @override
   _SearchPageState createState() => _SearchPageState();
 }
-  List results = [];
   NetworkHandler networkHandler = NetworkHandler();
 
 
 
 class _SearchPageState extends State<SearchPage> {
-  List results = [];
   String see = "Post";
-  List<String> books = [];
+  List<PostModel> posts = [];
   String query = '';
   Timer? debouncer;
+  String? post;
 
 
   @override
   void initState() {
     super.initState();
 
-    init();
+    Provider.of<PostProvider>(context,listen: false).fetchData();
+    post = this.post;
+    super.initState();
+    init(query);
   }
 
   @override
@@ -60,7 +64,10 @@ class _SearchPageState extends State<SearchPage> {
     debouncer = Timer(duration, callback);
   }
 
-  Future init() async {
+  Future init(query) async {
+    //final posts = await PostSearch.getPosts(post!,query);
+
+    setState(() => this.posts = posts);
   }
 
   @override
@@ -80,10 +87,6 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
-  Future<List> product() async{
-    results = await Scraper.getData2('innisfree');
-    return results;
-  }
   @override
   Widget build(BuildContext context) {
     // product();
@@ -118,32 +121,6 @@ class _SearchPageState extends State<SearchPage> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        /*Container(
-                          height: 30,
-                          width: 280,
-                          decoration: BoxDecoration(
-                            color: c.greyLight,
-                            borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                          ),
-                          child: TextField(
-                              decoration: InputDecoration(
-                                contentPadding: EdgeInsets.fromLTRB(0, 5.0, 0, 15.0),
-                                prefixIcon: Icon(Icons.search,color: c.greyMain,),
-                                hintText: "Search",
-                                hintStyle: TextStyle(
-                                    fontSize: 14, color: c.graySub2, fontWeight: f.medium),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                                  borderSide:
-                                  BorderSide(color: c.graySub2.withOpacity(0), width: 1),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                                  borderSide: BorderSide(color: c.greyMain.withOpacity(0.5), width: 1),
-                                ),
-                              )
-                          ),
-                        ),*/
                         buildSearch(),
                         IconButton(
                           onPressed: () {},
@@ -303,17 +280,21 @@ class _SearchPageState extends State<SearchPage> {
       ),
     );
   }
-  Widget buildSearch() => SearchWidget(
+  Widget buildSearch() => SearchMentionPost(
     text: query,
-    hintText: 'Title or Author Name',
-    onChanged: searchBook,
+    hintText: 'Search Post',
+    onChanged: SearchPost,
   );
 
-  Future searchBook(String query) async => debounce(() async {
+  Future SearchPost(String query) async => debounce(() async {
+    //final posts = await PostSearch.getPosts(post!,query);
 
     if (!mounted) return;
 
     setState(() {
+      this.query = query;
+      this.posts = posts;
     });
   });
+
 }
