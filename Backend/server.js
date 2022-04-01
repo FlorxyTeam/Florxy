@@ -47,11 +47,14 @@ const server = app.listen(Port,"0.0.0.0", () =>
 
 // var server = http.createServer(app);
 const io = require("socket.io")(server);
+
 var clients = {};
+
 
 io.on("connection",(socket)=>{
   console.log('socket connected');
   console.log(socket.id, "has joined");
+  
   socket.on("test",(username)=>{
     console.log(username);
     clients[username] = socket;
@@ -63,4 +66,5 @@ io.on("connection",(socket)=>{
     let targetUsername = msg.targetUsername;
     if(clients[targetUsername]) clients[targetUsername].emit("message",msg);
   });
+
 });

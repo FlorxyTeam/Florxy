@@ -1,11 +1,13 @@
-
-
 import 'package:Florxy/Post/addPost.dart';
+import 'package:Florxy/provider/storage_service.dart';
 import 'package:Florxy/widgets/font.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/scrapper/incidecoder.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebase_core/firebase_core.dart' as firebase_core;
 
 import '../NetworkHandler.dart';
 
@@ -22,6 +24,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   List results = [];
+  final Storage storage = Storage();
 
   @override
   initState() {
@@ -84,10 +87,64 @@ class _SearchPageState extends State<SearchPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          FloatingActionButton(onPressed:() {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddPost()));
+          FloatingActionButton(
+            onPressed:() async {
+            // Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddPost()));
+              final results = await FilePicker.platform.pickFiles(
+                allowMultiple: false,
+                type: FileType.custom,
+                allowedExtensions: ['png','jpg']
+              );
+              if (results == null){
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('No File')));
+                return null;
+              }
+              final path = results.files.single.path!;
+              final fileName = 'bacon.jpg';
+
+              print(path);
+              print(fileName);
+
+              storage.uploadProfile(path, fileName).then((value) => print(value));
+
           },child: Icon(Icons.create_outlined),),
           SizedBox(height: 20,),
+          FutureBuilder(
+              future: storage.listFiles(),
+              builder: (BuildContext context, AsyncSnapshot<firebase_storage.ListResult> snapshot){
+                if (snapshot.connectionState == ConnectionState.done){
+                  return Container(
+                    height: 50,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        itemCount: snapshot.data!.items.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return ElevatedButton(onPressed: (){}, child: Text(snapshot.data!.items[index].name),);
+                        }),
+                  );
+                }
+                if (snapshot.connectionState == ConnectionState.waiting || !snapshot.hasData){
+                  return CircularProgressIndicator();
+                }
+                return Container();
+              } ),
+          FutureBuilder(
+              future: storage.downloadURL('bacon.jpg'),
+              builder: (BuildContext context, AsyncSnapshot<String> snapshot){
+                if (snapshot.connectionState == ConnectionState.done && snapshot.hasData){
+                  return Container(
+                    width: 300,
+                    height: 250,
+                    child: Image.network(snapshot.data!, fit:BoxFit.cover),
+                  );
+                }
+                if (snapshot.connectionState == ConnectionState.waiting || !snapshot.hasData){
+                  return CircularProgressIndicator();
+                }
+                return Container();
+              } )
+
           // Poppins(text: results[25].name, size: 20, color: c.greenMain, fontWeight: f.medium),
         ],
       ),

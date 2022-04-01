@@ -151,7 +151,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   radius: 44,
                   backgroundColor: Colors.orange,
                   backgroundImage:
-                  NetworkHandler().getImage(profileModel.email),
+                  NetworkImage(profileModel.img),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

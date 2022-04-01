@@ -4,7 +4,7 @@ import 'package:Florxy/pages/homepage.dart';
 import 'package:Florxy/pages/notificationpage.dart';
 import 'package:Florxy/pages/profilepage.dart';
 import 'package:Florxy/pages/searchpage.dart';
-import 'package:custom_navigation_bar/custom_navigation_bar.dart';
+// import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
