@@ -189,12 +189,8 @@ class _EditPageState extends State<EditPage> {
                         }
                       },
                       child: circular
-                          ? Padding(
-                        padding:
-                        const EdgeInsets.fromLTRB(0, 0, 0, 10),
-                        child: Center(
-                            child: CircularProgressIndicator()
-                        ),
+                          ? Center(
+                          child: Image.asset("assets/img/2.gif",width: size.width/13,)
                       )
                           : Inter(
                         text: "Save",

@@ -1,3 +1,4 @@
+import 'package:Florxy/pages/Loadingscreen.dart';
 import 'package:Florxy/pages/navbar.dart';
 import 'package:Florxy/pages/welcomepage.dart';
 import 'package:Florxy/widgets/font.dart';
@@ -25,7 +26,7 @@ class GoogleStream extends StatelessWidget {
             return Center(child: WelcomePage());
           }else if(snapshot.hasData){
             print(user);
-            return Navbar(currentState: 0);
+            return LoadingScreen();
           }else if (snapshot.hasError){
             return Center(child: Poppins(text: "Something went wrong", size: 24, color: c.blackMain, fontWeight: f.bold));
           }else{
