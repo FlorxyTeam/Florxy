@@ -46,6 +46,13 @@ const Profile = schema(
           ref: "Post",
         },
       ],
+      favProduct: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+          
+        }
+      ],
       listfollower: [
         {
           img: {
