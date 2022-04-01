@@ -13,7 +13,7 @@ class GoogleSignInProvider extends ChangeNotifier {
     try {
 
       final googleUser = await googleSignIn.signIn();
-      await googleSignIn.signIn();
+      // await googleSignIn.signIn();
       if (googleUser == null) return;
       _user = googleUser;
       final googleAuth = await googleUser.authentication;

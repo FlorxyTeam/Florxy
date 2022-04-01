@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:Florxy/NetworkHandler.dart';
+import 'package:Florxy/pages/Loadingscreen.dart';
 import 'package:Florxy/pages/createaccount_withemail.dart';
 import 'package:Florxy/pages/navbar.dart';
 import 'package:Florxy/pages/welcomepage.dart';
@@ -273,7 +274,7 @@ class _LoginPageState extends State<LoginPage> {
                                 circular=false;
                               });
                               Navigator.pushAndRemoveUntil(context, MaterialPageRoute
-                                (builder: (context)=>Navbar(currentState: 0)), (route) => false);
+                                (builder: (context)=>LoadingScreen()), (route) => false);
                             }else{
                               String output = json.decode(response.body);
                               setState(() {

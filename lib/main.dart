@@ -1,3 +1,4 @@
+import 'package:Florxy/pages/Loadingscreen.dart';
 import 'package:Florxy/pages/lastthingspage.dart';
 import 'package:Florxy/pages/navbar.dart';
 import 'package:Florxy/pages/registerpage.dart';
@@ -12,12 +13,21 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'postProvider.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 
 
 
 Future main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await FirebaseAppCheck.instance.activate(
+    webRecaptchaSiteKey: '6LcaODIfAAAAAMXSDY3Eo9pDPOqXJJHNXnSErkZt',
+  );
+  // print('test');
+  String? token = await FirebaseAppCheck.instance.getToken();
+  print(token);
+  // await FirebaseAppCheck.instance.activate();
+  await FirebaseAppCheck.instance.setTokenAutoRefreshEnabled(true);
   runApp(const MyApp());
 }
 
@@ -43,7 +53,7 @@ class _MyAppState extends State<MyApp> {
     print(token);
     if(token != null){
       setState(() {
-        page= Navbar(currentState: 0);
+        page= LoadingScreen();
       });
     }else{
       setState(() {

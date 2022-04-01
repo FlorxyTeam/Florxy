@@ -1,5 +1,7 @@
 import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/NetworkHandler.dart';
+import 'package:Florxy/pages/followprofile.dart';
+import 'package:Florxy/pages/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class allFollowing extends StatefulWidget {
@@ -60,11 +62,30 @@ class _allFollowingState extends State<allFollowing> {
       body: ListView.builder(
         itemBuilder: (builder, index) {
           Map data = staticData[index];
-          return ListTile(
-            title: Text("${data['fullname']}"),
-            subtitle: Text("@${data['username']}"),
-            leading: CircleAvatar(
-              child: Text('${data['img']}'),
+          return InkWell(
+            onTap: () {
+              setState(() async{
+                await storage.write(key: "anotherfollowprofile", value: data['username']);
+                String? myuseranme = await storage.read(key: "username");
+                print('${data['username']}');
+                print('${myuseranme}');
+                if(myuseranme == data['username']){
+                  print("same as fuck");
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
+                }
+                else{
+                  print("not same as fuck");
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => FollowProfile()));
+                }
+
+              });
+            },
+            child: ListTile(
+              title: Text("${data['fullname']}"),
+              subtitle: Text("@${data['username']}"),
+              leading: CircleAvatar(
+                child: Text('${data['img']}'),
+              ),
             ),
           );
         },
