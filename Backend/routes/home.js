@@ -7,6 +7,7 @@ const User = require("../models/users.model");
 const Profile = require("../models/profile.model");
 const Post = require("../models/post.model");
 const Product = require("../models/product.model");
+const Comment = require("../models/comment.model");
 const multer = require("multer");
 const router = express.Router();
 
@@ -190,18 +191,61 @@ router.route("/getPost/viewPost/:id/:product").get(middleware.checkToken,(req,re
     } else {
       var product = req.params.product;
       product = product.split('_').join(' ');
-      console.log(product);
+      // console.log(product);
       Product.findOne({p_name:product}, (err,findProduct)=>{
         if(err){
           return res.json(err);
         } else {
-          console.log(findPost);
-          console.log(findProduct);
+          // console.log(findPost);
+          // console.log(findProduct);
           return res.send({ post: findPost, product: findProduct });
         }
       })
     }
   })
 })
+
+router.route("/comment").post((req, res) => {
+  const comment = Comment({
+    owner: req.body.owner,
+    mainpost: req.body.mainpost,
+    body: req.body.comment,
+  });
+  comment
+    .save()
+    .then(() => {
+      return res.json("add comment successfull");
+    })
+    .catch((err) => {
+      return res.status(400).json({ err: err });
+    });
+});
+
+// router.route("/getComment/:id").get((req,res)=>{
+//   Comment.find({mainpost:req.params.id}).populate("owner").exec(function(err,findComment) {
+//   let username = Comment("owner.username");
+//   console.log(username);
+//     Profile.find({username:username}).exec(function(err,findOwner) {
+//       if(err){
+//         return res.json(err);
+//       } else {
+//         console.log(findComment);
+//         console.log(findOwner);
+//         return res.send({ comment: findComment , owner: findOwner});
+//       }
+//     })
+//   })
+// })
+
+router.route("/getComment/:id").get((req,res)=>{
+  Comment.find({mainpost:req.params.id}).populate("owner").exec(function(err,findComment) {
+      if(err){
+        return res.json(err);
+      } else {
+        return res.json({ comment: findComment });
+      }
+  })
+})
+
 
 module.exports = router;

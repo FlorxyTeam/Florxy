@@ -3,10 +3,36 @@ part 'postModel.g.dart';
 
 @JsonSerializable()
 class PostModel {
-  String post;
-  int comment;
-  int favorite;
-  PostModel({required this.post, required this.comment, required this.favorite});
+  String? username;
+  String? fullname;
+  String? professor;
+  String? influencer;
+  String? refproduct;
+  String? refbrand;
+  String? type;
+  String? body;
+  double? rating;
+  int? comment;
+  int? favorite;
+  String? forwho;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  List? coverImage;
+  PostModel({this.body,
+             this.comment,
+             this.favorite,
+             this.rating,
+             this.fullname,
+             this.username,
+             this.influencer,
+             this.professor,
+             this.coverImage,
+             this.refbrand,
+             this.refproduct,
+             this.type,
+             this.forwho,
+             this.createdAt,
+             this.updatedAt});
 
   factory PostModel.fromJson(Map<String, dynamic> json) =>
       _$PostModelFromJson(json);

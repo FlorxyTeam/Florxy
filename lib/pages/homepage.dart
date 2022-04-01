@@ -1,6 +1,6 @@
-
 import 'package:Florxy/pages/ViewPostPage.dart';
 import 'package:Florxy/Model/postModel.dart';
+import 'package:Florxy/pages/chat.dart';
 import 'package:Florxy/pages/sensepage.dart';
 import 'package:Florxy/postProvider.dart';
 import 'package:Florxy/pages/CreatePost.dart';
@@ -16,7 +16,6 @@ import "package:flutter_feather_icons/flutter_feather_icons.dart";
 import 'package:provider/provider.dart';
 import '../NetworkHandler.dart';
 
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -25,11 +24,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   @override
   void initState() {
     // TODO: implement initState
-    Provider.of<PostProvider>(context,listen: false).fetchData();
+    Provider.of<PostProvider>(context, listen: false).fetchData();
     super.initState();
     // fetchData();
   }
@@ -38,7 +36,8 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(Theme.of(context).platform==TargetPlatform.android?75:66.0),
+        preferredSize: Size.fromHeight(
+            Theme.of(context).platform == TargetPlatform.android ? 75 : 66.0),
         child: Container(
           decoration: BoxDecoration(
             boxShadow: [
@@ -55,10 +54,14 @@ class _HomePageState extends State<HomePage> {
             elevation: 0,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(26),
-                )),
+              bottom: Radius.circular(26),
+            )),
             title: Padding(
-              padding: EdgeInsets.only(top: Theme.of(context).platform==TargetPlatform.android?18.5:0,left: 8),
+              padding: EdgeInsets.only(
+                  top: Theme.of(context).platform == TargetPlatform.android
+                      ? 18.5
+                      : 0,
+                  left: 8),
               child: Poppins(
                 text: 'FLORXY',
                 fontWeight: f.semiBold,
@@ -67,19 +70,29 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             leading: Padding(
-              padding: EdgeInsets.only(top: Theme.of(context).platform==TargetPlatform.android?17.5:0, left: 15),
+              padding: EdgeInsets.only(
+                  top: Theme.of(context).platform == TargetPlatform.android
+                      ? 17.5
+                      : 0,
+                  left: 15),
               child: IconButton(
                 icon: Icon(FeatherIcons.maximize),
                 iconSize: 25,
                 color: Colors.black,
                 onPressed: () async {
-                  await availableCameras().then((value) => Navigator.push(context, MaterialPageRoute(builder: (context) => SensePage(cameras: value))));
+                  await availableCameras().then((value) => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => SensePage(cameras: value))));
                 },
               ),
             ),
             actions: [
               Padding(
-                padding: EdgeInsets.only(top: Theme.of(context).platform==TargetPlatform.android?17.5:0),
+                padding: EdgeInsets.only(
+                    top: Theme.of(context).platform == TargetPlatform.android
+                        ? 17.5
+                        : 0),
                 child: IconButton(
                   icon: Icon(FeatherIcons.edit),
                   iconSize: 25,
@@ -88,18 +101,23 @@ class _HomePageState extends State<HomePage> {
                     final google_user = FirebaseAuth.instance.currentUser;
 
                     print(google_user);
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreatePost()));
+                    Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => CreatePost()));
                   },
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(top: Theme.of(context).platform==TargetPlatform.android?17.5:0, right: 13),
+                padding: EdgeInsets.only(
+                    top: Theme.of(context).platform == TargetPlatform.android
+                        ? 17.5
+                        : 0,
+                    right: 13),
                 child: IconButton(
                   icon: Icon(FeatherIcons.send),
                   iconSize: 25,
                   color: Colors.black,
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPost()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChatPage()));
                   },
                 ),
               ),
@@ -108,57 +126,77 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: Container(
-        height: MediaQuery.of(context).size.height-200,
-        child: Consumer<PostProvider>(builder: (context,model,_) => FutureBuilder(
-          future: model.fetchData(),
-          builder: (context,snapshot) => ListView.builder(
-            scrollDirection: Axis.vertical,
-            itemCount: model.postData?.length??0,
-            itemBuilder: (context,int index){
-              return model.postData![index]['type']=='mention'?MentionPost(
-                name: model.postData![index]['fullname'],
-                username: model.postData![index]['username'],
-                postTime: model.postData![index]['updatedAt'].toString().substring(0, 10),
-                brand: model.postData![index]['refbrand'],
-                product: model.postData![index]['refproduct'],
-                post: model.postData![index]['body'],
-                comment: model.postData![index]['comment'],
-                favorite: model.postData![index]['favorite'],
-                urlImage: model.postData![index]['coverImage'],
-                professor:model.postData![index]['professor'],
-                influencer: model.postData![index]['influencer'],
-                id: model.postData![index]['_id'],
-              ):
-              model.postData![index]['type']=='review' ? ReviewPost(
-                name: model.postData![index]['fullname'],
-                username: model.postData![index]['username'],
-                postTime: model.postData![index]['updatedAt'].toString().substring(0, 10),
-                brand: model.postData![index]['refbrand'],
-                product: model.postData![index]['refproduct'],
-                urlImage: model.postData![index]['coverImage'],
-                post: model.postData![index]['body'],
-                rating: model.postData![index]['rating'],
-                comment: model.postData![index]['comment'],
-                favorite: model.postData![index]['favorite'],
-                professor:model.postData![index]['professor'],
-                influencer: model.postData![index]['influencer'],
-                id: model.postData![index]['_id'],
-              ):
-              model.postData![index]['type']=='post' ? Post(
-                  name: model.postData![index]['fullname'],
-                  username: model.postData![index]['username'],
-                  postTime: model.postData![index]['updatedAt'].toString().substring(0, 10),
-                  post: model.postData![index]['body'],
-                  comment: model.postData![index]['comment'],
-                  favorite: model.postData![index]['favorite'],
-                  professor:model.postData![index]['professor'],
-                  influencer: model.postData![index]['influencer'],
-                  id: model.postData![index]['_id'],
-                  urlImage: model.postData![index]['coverImage']
-              ):Container();
-            },
-          ),
-        )),
+        height: MediaQuery.of(context).size.height - 200,
+        child: Consumer<PostProvider>(
+            builder: (context, model, _) => FutureBuilder(
+                  future: model.fetchData(),
+                  builder: (context, snapshot) => ListView.builder(
+                    scrollDirection: Axis.vertical,
+                    itemCount: model.postData?.length ?? 0,
+                    itemBuilder: (context, int index) {
+                      return model.postData![index]['type'] == 'mention'
+                          ? MentionPost(
+                              name: model.postData![index]['fullname'],
+                              username: model.postData![index]['username'],
+                              postTime: model.postData![index]['updatedAt']
+                                  .toString()
+                                  .substring(0, 10),
+                              brand: model.postData![index]['refbrand'],
+                              product: model.postData![index]['refproduct'],
+                              post: model.postData![index]['body'],
+                              comment: model.postData![index]['comment'],
+                              favorite: model.postData![index]['favorite'],
+                              urlImage: model.postData![index]['coverImage'],
+                              professor: model.postData![index]['professor'],
+                              influencer: model.postData![index]['influencer'],
+                              id: model.postData![index]['_id'],
+                            )
+                          : model.postData![index]['type'] == 'review'
+                              ? ReviewPost(
+                                  name: model.postData![index]['fullname'],
+                                  username: model.postData![index]['username'],
+                                  postTime: model.postData![index]['updatedAt']
+                                      .toString()
+                                      .substring(0, 10),
+                                  brand: model.postData![index]['refbrand'],
+                                  product: model.postData![index]['refproduct'],
+                                  urlImage: model.postData![index]
+                                      ['coverImage'],
+                                  post: model.postData![index]['body'],
+                                  rating: model.postData![index]['rating'],
+                                  comment: model.postData![index]['comment'],
+                                  favorite: model.postData![index]['favorite'],
+                                  professor: model.postData![index]
+                                      ['professor'],
+                                  influencer: model.postData![index]
+                                      ['influencer'],
+                                  id: model.postData![index]['_id'],
+                                )
+                              : model.postData![index]['type'] == 'post'
+                                  ? Post(
+                                      name: model.postData![index]['fullname'],
+                                      username: model.postData![index]
+                                          ['username'],
+                                      postTime: model.postData![index]
+                                              ['updatedAt']
+                                          .toString()
+                                          .substring(0, 10),
+                                      post: model.postData![index]['body'],
+                                      comment: model.postData![index]
+                                          ['comment'],
+                                      favorite: model.postData![index]
+                                          ['favorite'],
+                                      professor: model.postData![index]
+                                          ['professor'],
+                                      influencer: model.postData![index]
+                                          ['influencer'],
+                                      id: model.postData![index]['_id'],
+                                      urlImage: model.postData![index]
+                                          ['coverImage'])
+                                  : Container();
+                    },
+                  ),
+                )),
       ),
     );
   }

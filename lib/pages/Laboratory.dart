@@ -6,6 +6,7 @@ import 'dart:async';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:Florxy/pages/brandoverview.dart';
+import 'package:Florxy/pages/listOfbrand.dart';
 
 class CardItem {
   final String urlImage;
@@ -100,7 +101,6 @@ class _laboratoryState extends State<laboratory> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(77.0),
         child: Container(
@@ -120,8 +120,8 @@ class _laboratoryState extends State<laboratory> {
             elevation: 0,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(26),
-                )),
+              bottom: Radius.circular(26),
+            )),
             title: Padding(
               padding: const EdgeInsets.only(top: 18.5, left: 0),
               child: Row(
@@ -189,7 +189,7 @@ class _laboratoryState extends State<laboratory> {
                                 spreadRadius: -17,
                                 blurRadius: 30,
                                 offset:
-                                Offset(0, 6), // changes position of shadow
+                                    Offset(0, 6), // changes position of shadow
                               ),
                             ],
                           ),
@@ -197,7 +197,7 @@ class _laboratoryState extends State<laboratory> {
                             children: [
                               Padding(
                                 padding:
-                                const EdgeInsets.only(left: 22, right: 22),
+                                    const EdgeInsets.only(left: 22, right: 22),
                                 child: Container(
                                   height: 58,
                                   width: 58,
@@ -227,7 +227,7 @@ class _laboratoryState extends State<laboratory> {
                                       padding: const EdgeInsets.only(right: 8),
                                       child: Inter(
                                           text:
-                                          "Lorem Ipsum is simply dummy text of the printing and typesetting",
+                                              "Lorem Ipsum is simply dummy text of the printing and typesetting",
                                           size: 13,
                                           color: Color(0xFF053118)
                                               .withOpacity(0.51),
@@ -264,7 +264,7 @@ class _laboratoryState extends State<laboratory> {
                                 spreadRadius: -17,
                                 blurRadius: 30,
                                 offset:
-                                Offset(0, 6), // changes position of shadow
+                                    Offset(0, 6), // changes position of shadow
                               ),
                             ],
                           ),
@@ -272,7 +272,7 @@ class _laboratoryState extends State<laboratory> {
                             children: [
                               Padding(
                                 padding:
-                                const EdgeInsets.only(left: 22, right: 22),
+                                    const EdgeInsets.only(left: 22, right: 22),
                                 child: Container(
                                   height: 58,
                                   width: 58,
@@ -302,7 +302,7 @@ class _laboratoryState extends State<laboratory> {
                                       padding: const EdgeInsets.only(right: 8),
                                       child: Inter(
                                           text:
-                                          "Lorem Ipsum is simply dummy text of the printing and typesetting",
+                                              "Lorem Ipsum is simply dummy text of the printing and typesetting",
                                           size: 13,
                                           color: Color(0xFF053118)
                                               .withOpacity(0.51),
@@ -339,7 +339,7 @@ class _laboratoryState extends State<laboratory> {
                                 spreadRadius: -17,
                                 blurRadius: 30,
                                 offset:
-                                Offset(0, 6), // changes position of shadow
+                                    Offset(0, 6), // changes position of shadow
                               ),
                             ],
                           ),
@@ -347,14 +347,14 @@ class _laboratoryState extends State<laboratory> {
                             children: [
                               Padding(
                                 padding:
-                                const EdgeInsets.only(left: 22, right: 22),
+                                    const EdgeInsets.only(left: 22, right: 22),
                                 child: Container(
                                   height: 58,
                                   width: 58,
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       image:
-                                      AssetImage("assets/img/opacity.png"),
+                                          AssetImage("assets/img/opacity.png"),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -377,7 +377,7 @@ class _laboratoryState extends State<laboratory> {
                                       padding: const EdgeInsets.only(right: 8),
                                       child: Inter(
                                           text:
-                                          "Lorem Ipsum is simply dummy text of the printing and typesetting",
+                                              "Lorem Ipsum is simply dummy text of the printing and typesetting",
                                           size: 13,
                                           color: Color(0xFF053118)
                                               .withOpacity(0.51),
@@ -411,7 +411,8 @@ class _laboratoryState extends State<laboratory> {
                           left: 28, right: 28, bottom: 27),
                       child: InkWell(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Brandoverview()));
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => Brandoverview()));
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width,
@@ -425,7 +426,7 @@ class _laboratoryState extends State<laboratory> {
                                 spreadRadius: -17,
                                 blurRadius: 30,
                                 offset:
-                                Offset(0, 6), // changes position of shadow
+                                    Offset(0, 6), // changes position of shadow
                               ),
                             ],
                           ),
@@ -435,7 +436,7 @@ class _laboratoryState extends State<laboratory> {
                                 padding: const EdgeInsets.only(right: 22),
                                 child: Container(
                                   height:
-                                  MediaQuery.of(context).size.height * 0.11,
+                                      MediaQuery.of(context).size.height * 0.11,
                                   width: 67,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
@@ -513,7 +514,7 @@ class _laboratoryState extends State<laboratory> {
                                 spreadRadius: -17,
                                 blurRadius: 30,
                                 offset:
-                                Offset(0, 6), // changes position of shadow
+                                    Offset(0, 6), // changes position of shadow
                               ),
                             ],
                           ),
@@ -523,7 +524,7 @@ class _laboratoryState extends State<laboratory> {
                                 padding: const EdgeInsets.only(right: 22),
                                 child: Container(
                                   height:
-                                  MediaQuery.of(context).size.height * 0.11,
+                                      MediaQuery.of(context).size.height * 0.11,
                                   width: 67,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.only(
@@ -532,7 +533,7 @@ class _laboratoryState extends State<laboratory> {
                                     ),
                                     image: DecorationImage(
                                       image:
-                                      AssetImage("assets/img/bioderma.jpg"),
+                                          AssetImage("assets/img/bioderma.jpg"),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -595,7 +596,7 @@ class _laboratoryState extends State<laboratory> {
                 children: [
                   Padding(
                     padding:
-                    const EdgeInsets.only(left: 28, top: 22, bottom: 6),
+                        const EdgeInsets.only(left: 28, top: 22, bottom: 6),
                     child: Poppins(
                       text: "Search By Category",
                       color: c.blackMain,
@@ -624,7 +625,7 @@ class _laboratoryState extends State<laboratory> {
                 children: [
                   Padding(
                     padding:
-                    const EdgeInsets.only(left: 28, top: 22, bottom: 6),
+                        const EdgeInsets.only(left: 28, top: 22, bottom: 6),
                     child: Poppins(
                       text: "Search By Brand",
                       color: c.blackMain,
@@ -647,7 +648,7 @@ class _laboratoryState extends State<laboratory> {
                 ],
               ),
               SizedBox(
-                height:MediaQuery.of(context).size.height/9,
+                height: MediaQuery.of(context).size.height / 9,
               )
             ],
           ),
@@ -667,7 +668,10 @@ class _laboratoryState extends State<laboratory> {
           children: [
             Center(
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => listOfbrand()));
+                },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.28,
                   height: MediaQuery.of(context).size.height * 0.17,

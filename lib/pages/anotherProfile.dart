@@ -26,12 +26,15 @@ class anotherProfile extends StatefulWidget {
 }
 
 class _anotherProfileState extends State<anotherProfile> {
+
   final storage = new FlutterSecureStorage();
   final networkHandler = NetworkHandler();
+  String? anotherUsername;
   String? yourfollow = "";
   int itfollower = 0;
   int itfollowing = 0;
   ProfileModel profileModel = ProfileModel(
+    id: '',
     DOB: '',
     img: '',
     influencer: '',
@@ -52,8 +55,8 @@ class _anotherProfileState extends State<anotherProfile> {
     img: '',
     influencer: '',
     fullname: '',
-    follower: 10,
-    following: 10,
+    follower: 0,
+    following: 0,
     bio: '',
     email: '',
     professor: '',
@@ -70,13 +73,26 @@ class _anotherProfileState extends State<anotherProfile> {
     fetchData();
   }
 
+  void deleteData() async{
+    await storage.delete(key: "anotherUsername");
+  }
+
+  @override
+  void dispose() {
+    print('delete');
+    deleteData();
+  }
+
   void fetchData() async {
     String? profile = await storage.read(key: "anotherprofile");
     print(profile);
     var response = await networkHandler.get("/profile/getOtherData/$profile");
     var response2 = await networkHandler.get("/profile/getData");
+    anotherUsername = response['data']['username'];
+    await storage.write(key: "anotherUsername", value: anotherUsername);
 
     setState(() {
+
       profileModel = ProfileModel.fromJson(response["data"]);
       myprofileModel = ProfileModel.fromJson(response2["data"]);
       itfollower = profileModel.listfollower.length;
@@ -157,8 +173,8 @@ class _anotherProfileState extends State<anotherProfile> {
                 Expanded(
                     child: TabBarView(
                   children: [
-                    AnotherPostReply(),
-                    FavPost(),
+                    AnotherPostReply( username: profileModel.username ),
+                    FavPost( idFavPost : profileModel.id ),
                     SavedPro(),
                   ],
                 ))
@@ -399,9 +415,13 @@ class _anotherProfileState extends State<anotherProfile> {
                         "myfullname":myprofileModel.fullname.toString(),
                         "following":(myprofileModel.following+1).toString()
                       };
+                      // Map<String, String> data2 = {
+                      //   "targetusername":profileModel.username
+                      // };
                       print(data);
                       var addfollow = await networkHandler
                           .patch("/profile/addfollower/${profileModel.username}/${myprofileModel.username}",data);
+                      // await networkHandler.post("/profile/chat/" + myprofileModel.username, data2);
                       setState(() {
                         itfollower= itfollower+1;
                         yourfollow="Following";

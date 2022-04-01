@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Profile = require("../models/profile.model");
+const Chat = require("../models/chat.model");
 const Post = require("../models/post.model");
 const Follower = require("../models/follower.model");
 const Following = require("../models/following.model");
@@ -225,15 +226,88 @@ router.route("/unfollower/:username/:myusername").patch(middleware.checkToken, (
                 );
               }
             );
-
-
          }
 
     });
 });
 
+// router.route("/chatWith/:myusername/:targetusername").post((req,res)=>{
+//   Profile.findOneAndUpdate({
+//     "username": req.params.myusername,
+//     "listmessage.username" : req.params.targetusername,
+//   },
+//   { $push: {
+//     "listmessage.$.message": { 
+//         message:req.body.message,
+//         type:req.body.type,
+//         time:req.body.time,
+//     }
+//   }}, function(err,addChat){
+//     if(err){
+//       console.log(err);
+//     } else {
+//       return res.json('add chat succes!!');
+//     }
+//   });
+// });
 
+router.route("/chat").post((req, res) => {
+  const chat = Chat({
+    sender: req.body.sender,
+    receiver: req.body.receiver,
+    message: req.body.message,
+    time: req.body.time
+  });
+  chat
+    .save()
+    .then(() => {
+      return res.json("add chat successfull");
+    })
+    .catch((err) => {
+      return res.status(400).json({ err: err });
+    });
+});
 
+router.route("/getChat/:myusername/:targetusername").get((req,res)=>{
+  Chat.find({
+    $and: [
+      { $or: [{sender: req.params.myusername}, {sender: req.params.targetusername}] },
+      { $or: [{receiver: req.params.myusername}, {receiver: req.params.targetusername}] }
+    ]
+  }, (err,chats)=>{
+    if(err) {
+      console.log(err);
+    } else {
+      return res.json( { showChat: chats } );
+    }
+  });
+});
+
+// router.route("/chat").post((req, res) => {
+//   const profile = Profile({
+//     "listmessage.$.username": req.body.targetusername
+//   });
+//   profile
+//     .save()
+//     .then(() => {
+//       return res.json("add targetusername successfull");
+//     })
+//     .catch((err) => {
+//       return res.status(400).json({ err: err });
+//     });
+// });
+
+// router.route("/chat/:username").post((req,res)=>{
+//   console.log(req.params.username);
+//   console.log(req.body.targetusername);
+//   Profile.findOneAndUpdate({ username: req.params.username }, { $push:{ listmessage: { username: req.body.targetusername }}}, function(err, chatWith){
+//     if(err) {
+//       console.log(err);
+//     } else {
+//       return res.json("add targetusername successfull");
+//     }
+//   });
+// });
 
 
 router.route("/addprofessor/:username").patch(middleware.checkToken, (req,res)=>{
@@ -299,6 +373,7 @@ router.route("/addintfollowing").post(middleware.checkToken, (req, res) => {
           }
         );
 });
+
 router.route("/add").post(middleware.checkToken, (req, res) => {
   const profile = Profile({
     email: req.decoded.email,
@@ -352,6 +427,22 @@ router.route("/PostAndReply/:username").get((req,res)=>{
       return res.json(err);
     } else {
       return res.send({ myPost: result });
+    }
+  })
+})
+
+router.route("/otherPostAndReply/:username").get((req,res)=>{
+  Post.find({username: req.params.username}, (err, result)=>{
+    if(err){
+      return res.json(err);
+    } else {
+      Profile.find({username: req.params.username}, (err,findProfile)=>{
+        if(err){
+          return res.json(err);
+        } else {
+          return res.send({ anotherPost: result, anotherProfile: findProfile });
+        }
+      })
     }
   })
 })

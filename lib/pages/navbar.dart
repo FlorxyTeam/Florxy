@@ -4,7 +4,7 @@ import 'package:Florxy/pages/homepage.dart';
 import 'package:Florxy/pages/notificationpage.dart';
 import 'package:Florxy/pages/profilepage.dart';
 import 'package:Florxy/pages/searchpage.dart';
-import 'package:custom_navigation_bar/custom_navigation_bar.dart';
+// import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
@@ -14,6 +14,8 @@ import 'package:Florxy/pages/Laboratory.dart';
 // import 'package:flutter_icons/flutter_icons.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+
 
 class Navbar extends StatefulWidget {
   final int currentState;
@@ -39,6 +41,7 @@ class _NavbarState extends State<Navbar> {
     var response = await networkHandler.get("/profile/getData");
     await storage.write(key: "id", value: response['data']['_id']);
     await storage.write(key: "username", value: response['data']['username']);
+    await storage.write(key: "myfullname", value: response['data']['fullname']);
   }
 
   @override
