@@ -24,7 +24,7 @@ class _ViewChatPageState extends State<ViewChatPage> {
   final networkHandler = NetworkHandler();
   TextEditingController _messageController = TextEditingController();
   List<MessageModel> messages = [];
-  ScrollController _scrollController = ScrollController();
+  // PageController _scrollController = PageController(viewportFraction: 1, keepPage: true);
 
   @override
   void initState() {
@@ -65,10 +65,6 @@ class _ViewChatPageState extends State<ViewChatPage> {
     setState(() {
       messages.add(messageModel);
     });
-  }
-
-  void fetchMessage() async {
-
   }
 
   @override
@@ -187,10 +183,12 @@ class _ViewChatPageState extends State<ViewChatPage> {
                 ),
               ),
               Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 18, right: 18),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 18, right: 18),
+                  child: SingleChildScrollView(
                     child: Column(
+                      // controller: _scrollController,
+                      // physics: NeverScrollableScrollPhysics(),
                       children: [
                         Consumer<PostProvider>(builder: (context,model,_) => FutureBuilder(
                           future: model.fetchChat(widget.myUsername!, widget.username!),
@@ -219,7 +217,6 @@ class _ViewChatPageState extends State<ViewChatPage> {
                           removeBottom: true,
                           child: ListView.builder(
                             shrinkWrap: true,
-                            controller: _scrollController,
                             itemCount: messages.length+1,
                             itemBuilder: (context,index) {
                               if(index == messages.length) {
@@ -246,7 +243,9 @@ class _ViewChatPageState extends State<ViewChatPage> {
                   ),
                 ),
               ),
-              // SizedBox(height: 70)
+              Container(
+                height: 85
+              )
             ],
           ),
           Positioned(
@@ -314,7 +313,6 @@ class _ViewChatPageState extends State<ViewChatPage> {
                             constraints: BoxConstraints(),
                             onPressed: () async {
                               sendMessage(_messageController.text, widget.myUsername!, widget.username!);
-                              // _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
                               Map<String, String> data = {
                                 "sender": widget.myUsername!,
                                 "receiver": widget.username!,
@@ -323,6 +321,7 @@ class _ViewChatPageState extends State<ViewChatPage> {
                               };
                               // await networkHandler.post("/profile/chatWith/"+widget.myUsername!+"/"+widget.username!, data);
                               await networkHandler.post("/profile/chat", data);
+                              // _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
                               _messageController.clear();
                             },
                             icon: Icon(FeatherIcons.send, size: 25)
