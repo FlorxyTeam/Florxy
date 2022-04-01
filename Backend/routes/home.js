@@ -86,6 +86,29 @@ router.route("/getAllPost").get(middleware.checkToken,(req,res)=>{
     });
 });
 
+router.route("/getSearchPost/").get(middleware.checkToken,(req,res)=>{
+     Post.find({},{username: 1, fullname: 1, refproduct: 1, refbrand: 1,},(err,result)=>{
+            if(err)return res.json(err);
+            return res.json({data:result})
+     });
+});
+
+router.route("/getSearchPost/:id").get(middleware.checkToken,(req,res)=>{
+    var query = req.params.id
+    Post.find({$or: [
+                    {username: {$regex: query, $options:"i"}},
+                    {fullname: {$regex: query, $options:"i"}},
+                    {refproduct: {$regex: query, $options:"i"}},
+                    {refbrand: {$regex: query, $options:"i"}},
+                    {body: {$regex: query, $options:"i"}},
+                    ],
+                    },
+    (err,result)=>{
+        if(err)return res.json(err);
+        return res.json({data:result})
+    });
+});
+
 router.route("/delete/:id").delete(middleware.checkToken,(req,res)=>{
     Post.findOneAndDelete({
         $and:[
