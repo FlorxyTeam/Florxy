@@ -7,7 +7,6 @@ import 'package:logger/logger.dart';
 
 class NetworkHandler {
 
-
   String baseurl = "https://asia-southeast1-florxy.cloudfunctions.net/app";
 
   var log = Logger();

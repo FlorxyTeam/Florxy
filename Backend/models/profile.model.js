@@ -82,6 +82,13 @@ const Profile = Schema(
           // }
       }
     ],
+    favProduct: [
+          {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Product',
+            
+          }
+        ],
     listmessage: [
       {
         username: String,
@@ -99,7 +106,6 @@ const Profile = Schema(
           }
         ] 
       }
-    ]
   },
 
 
@@ -108,5 +114,6 @@ const Profile = Schema(
     timestamps: true,
   }
 );
+
 
 module.exports = mongoose.model("Profile", Profile);
