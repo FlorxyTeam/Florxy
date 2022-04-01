@@ -15,6 +15,8 @@ import 'package:Florxy/pages/Laboratory.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+
+
 class Navbar extends StatefulWidget {
   final int currentState;
   const Navbar({Key? key, required this.currentState}) : super(key: key);

@@ -78,6 +78,13 @@ const Profile = Schema(
              },
       }
     ],
+    favProduct: [
+          {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Product',
+            
+          }
+        ],
   },
 
 
@@ -86,5 +93,6 @@ const Profile = Schema(
     timestamps: true,
   }
 );
+
 
 module.exports = mongoose.model("Profile", Profile);
