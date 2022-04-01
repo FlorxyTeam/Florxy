@@ -1,3 +1,4 @@
+import 'package:Florxy/Model/postModel.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'profileModel.g.dart';

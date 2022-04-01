@@ -64,20 +64,42 @@ const Profile = Schema(
     ],
     listfollowing: [
           {
-           img: {
-               type: String,
-                default:'',
-             },
+          img: {
+              type: String,
+              default:'',
+            },
           fullname: {
-                 type: String,
-                  unique: true,
+              type: String,
+              unique: true,
            },
-         username: {
-               type: String,
-               unique: true,
-             },
+          username: {
+              type: String,
+              unique: true,
+          },
+          // currentMessage: {
+          //     type: String,
+          //     default: ''
+          // }
       }
     ],
+    listmessage: [
+      {
+        username: String,
+        message: [
+          {
+            message: {
+              type: String
+            },
+            type: {
+              type: String
+            },
+            time: {
+              type: String
+            }
+          }
+        ] 
+      }
+    ]
   },
 
 

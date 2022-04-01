@@ -38,6 +38,7 @@ class _MentionPostState extends State<MentionPost> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   bool isFav = false;
+  String? fullname='',influencer='',professor='';
   ProfileModel profileModel = ProfileModel(
     DOB: '',
     img: '',
@@ -57,13 +58,17 @@ class _MentionPostState extends State<MentionPost> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
     fetchData();
   }
+
   void fetchData() async{
-    var response = await networkHandler.get("/profile/getOtherData/${widget.username}");
+    var response = await networkHandler.get("/profile/getOtherData/" + widget.username!);
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
+      fullname = profileModel.fullname;
+      influencer = profileModel.influencer;
+      professor = profileModel.professor;
+
     });
   }
 
@@ -91,7 +96,7 @@ class _MentionPostState extends State<MentionPost> {
                       children: [
                         InkWell(
                           child: Poppins(
-                            text: "${profileModel.fullname}",
+                            text: fullname!,
                             fontWeight: f.semiBold,
                             size: 13,
                             color: Colors.black,
@@ -119,13 +124,13 @@ class _MentionPostState extends State<MentionPost> {
                     SizedBox( height: 7 ),
                     Row(
                       children: [
-                        (profileModel.professor=="")?
+                        (professor=="")?
                         Container():Container(
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 right: 7, left: 7, top: 4, bottom: 4),
                             child: Inter(
-                                text: profileModel.professor,
+                                text: professor!,
                                 size: 8,
                                 color: Colors.white,
                                 fontWeight: f.semiBold),
@@ -135,13 +140,13 @@ class _MentionPostState extends State<MentionPost> {
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         SizedBox( width: 5 ),
-                        (profileModel.influencer=="")?
+                        (influencer=="")?
                         Container():Container(
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 right: 5, left: 5, top: 2, bottom: 2),
                             child: Inter(
-                                text: profileModel.influencer,
+                                text: influencer!,
                                 size: 8,
                                 color: c.blueMain,
                                 fontWeight: f.bold),
@@ -490,6 +495,7 @@ class _MentionPostState extends State<MentionPost> {
                     var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id! + "/" + product);
                     print(res);
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPost(
+                        id: res['post']['_id'],
                         fullname: res['post']['fullname'],
                         username: res['post']['username'],
                         post: res['post']['body'],
@@ -633,6 +639,7 @@ class _ReviewPostState extends State<ReviewPost> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   bool isFav = false;
+  String? fullname='',influencer='',professor='';
 
   ProfileModel profileModel = ProfileModel(
     DOB: '',
@@ -657,9 +664,12 @@ class _ReviewPostState extends State<ReviewPost> {
     fetchData();
   }
   void fetchData() async{
-    var response = await networkHandler.get("/profile/getOtherData/${widget.username}");
+    var response = await networkHandler.get("/profile/getOtherData/"+ widget.username!);
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
+      fullname = profileModel.fullname;
+      influencer = profileModel.influencer;
+      professor = profileModel.professor;
     });
   }
 
@@ -687,7 +697,7 @@ class _ReviewPostState extends State<ReviewPost> {
                       children: [
                         InkWell(
                           child: Poppins(
-                            text: "${profileModel.fullname}",
+                            text: fullname!,
                             fontWeight: f.semiBold,
                             size: 13,
                             color: Colors.black,
@@ -717,13 +727,13 @@ class _ReviewPostState extends State<ReviewPost> {
                     SizedBox( height: 7 ),
                     Row(
                       children: [
-                        (profileModel.professor=="")?
+                        (professor=="")?
                         Container():Container(
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 right: 7, left: 7, top: 4, bottom: 4),
                             child: Inter(
-                                text: profileModel.professor,
+                                text: professor!,
                                 size: 8,
                                 color: Colors.white,
                                 fontWeight: f.semiBold),
@@ -733,13 +743,13 @@ class _ReviewPostState extends State<ReviewPost> {
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         SizedBox( width: 5 ),
-                        (profileModel.influencer=="")?
+                        (influencer=="")?
                         Container():Container(
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 right: 5, left: 5, top: 2, bottom: 2),
                             child: Inter(
-                                text: profileModel.influencer,
+                                text: influencer!,
                                 size: 8,
                                 color: c.blueMain,
                                 fontWeight: f.bold),
@@ -1113,6 +1123,7 @@ class _ReviewPostState extends State<ReviewPost> {
                     var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id! + "/" + product);
                     print(res);
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPost(
+                        id: res['post']['_id'],
                         fullname: res['post']['fullname'],
                         username: res['post']['username'],
                         post: res['post']['body'],
@@ -1281,6 +1292,7 @@ class _PostState extends State<Post> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   bool isFav = false;
+  String? fullname='',influencer='',professor='';
   ProfileModel profileModel = ProfileModel(
     DOB: '',
     img: '',
@@ -1304,9 +1316,12 @@ class _PostState extends State<Post> {
     fetchData();
   }
   void fetchData() async{
-    var response = await networkHandler.get("/profile/getOtherData/${widget.username}");
+    var response = await networkHandler.get("/profile/getOtherData/" + widget.username!);
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
+      fullname = profileModel.fullname;
+      influencer = profileModel.influencer;
+      professor = profileModel.professor;
     });
   }
 
@@ -1334,7 +1349,7 @@ class _PostState extends State<Post> {
                       children: [
                         InkWell(
                           child: Poppins(
-                            text: "${profileModel.fullname}",
+                            text: fullname!,
                             fontWeight: f.semiBold,
                             size: 13,
                             color: Colors.black,
@@ -1362,13 +1377,13 @@ class _PostState extends State<Post> {
                     SizedBox( height: 7 ),
                     Row(
                       children: [
-                        (profileModel.professor=="")?
+                        (professor=="")?
                         Container():Container(
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 right: 7, left: 7, top: 4, bottom: 4),
                             child: Inter(
-                                text: profileModel.professor,
+                                text: professor!,
                                 size: 8,
                                 color: Colors.white,
                                 fontWeight: f.semiBold),
@@ -1378,13 +1393,13 @@ class _PostState extends State<Post> {
                               borderRadius: BorderRadius.circular(10)),
                         ),
                         SizedBox( width: 5 ),
-                        (profileModel.influencer=="")?
+                        (influencer=="")?
                         Container():Container(
                           child: Padding(
                             padding: const EdgeInsets.only(
                                 right: 5, left: 5, top: 2, bottom: 2),
                             child: Inter(
-                                text: profileModel.influencer,
+                                text: influencer!,
                                 size: 8,
                                 color: c.blueMain,
                                 fontWeight: f.bold),
@@ -1695,9 +1710,1744 @@ class _PostState extends State<Post> {
                   ],
                 ),
                 if(widget.urlImage?.length!=null)SizedBox(height: 8),
-                Padding(
-                  padding: const EdgeInsets.only(left: 0),
-                  child: Inter(text: widget.post!, size: 12, color: c.postText, fontWeight: f.regular),
+                GestureDetector(
+                  onTap: () async {
+                    var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id!);
+                    print(res);
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPost(
+                        id: res['post']['_id'],
+                        fullname: res['post']['fullname'],
+                        username: res['post']['username'],
+                        post: res['post']['body'],
+                        urlImage: res['post']['coverImage'],
+                        comment: res['post']['comment'],
+                        favorite: res['post']['favorite'],
+                        brand: res['product']['p_brand'],
+                        product: res['product']['p_name'],
+                        desc: res['product']['p_desc'],
+                        productImg: res['product']['p_img'],
+                        mention: res['product']['mention']
+
+                    )));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 0),
+                    child: Inter(text: widget.post!, size: 12, color: c.postText, fontWeight: f.regular),
+                  ),
+                ),
+                SizedBox(height: 2),
+                Row(
+                  children: [
+                    Icon(FeatherIcons.messageSquare, size:19, color: c.greyMain),
+                    SizedBox(width: 3),
+                    Inter(text: widget.comment.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
+                    Expanded(child: Container()),
+                    if(isFav == false)InkWell(
+                        onTap: () async {
+                          Map<String, String> data = {
+                            "favorite":widget.id!
+                          };
+                          print(data);
+                          var idStorage = await storage.read(key: 'id');
+                          await networkHandler.post("/home/addFav/" + idStorage!, data);
+                          setState(() {
+                            widget.favorite+=1;
+                            isFav = true;
+                          });
+                        },
+                        child: Icon(FeatherIcons.heart, size:19, color: c.greyMain)
+                    ),
+                    if(isFav == true)InkWell(
+                        onTap: () async {
+                          Map<String, String> data = {
+                            "favorite":widget.id!
+                          };
+                          print(data);
+                          var idStorage = await storage.read(key: 'id');
+                          await networkHandler.post("/home/unFav/" + idStorage!, data);
+                          setState(() {
+                            widget.favorite-=1;
+                            isFav = false;
+                          });
+                        },
+                        child: Icon(Boxicons.bxs_heart, size:19, color: c.redMain)
+                    ),
+                    SizedBox(width: 3),
+                    if(isFav == false)Inter(text: widget.favorite.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
+                    if(isFav == true)Inter(text: widget.favorite.toString(), size: 11, color: c.redMain, fontWeight: f.medium),
+                    Expanded(child: Container()),
+                    IconButton(
+                      icon: Icon(FeatherIcons.share2, size:19, color: c.greyMain),
+                      onPressed: () async {
+                        final urlImage = 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1608828061-skinceuticals-1544737345.jpg?crop=1xw:1xh;center,top&resize=768:*';
+                        final url = Uri.parse(urlImage);
+                        final response = await http.get(url);
+                        final bytes = response.bodyBytes;
+
+                        final temp = await getTemporaryDirectory();
+                        final path = '${temp.path}/image.jpg';
+                        File(path).writeAsBytesSync(bytes);
+
+                        await Share.shareFiles([path], text: 'This is Skin Ceuticals.');
+                      },
+                    ),
+                    Expanded(child: Container()),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 6),
+          Divider(
+            color: c.greyMain,
+            thickness: 0.5,
+            height: 0,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+
+/////////////////////////////////////////////////////////
+
+class MentionPost2 extends StatefulWidget {
+  String? name, postTime, username, brand, product, post, id,professor,influencer;
+  int comment, favorite;
+  List? urlImage;
+
+  MentionPost2(
+      {Key? key, this.name, this.postTime, this.username, this.brand, this.product, this.post, required this.comment, required this.favorite, required this.professor, required this.influencer
+        ,this.urlImage, this.id})
+      : super(key: key);
+
+  @override
+  _MentionPost2State createState() => _MentionPost2State();
+}
+
+class _MentionPost2State extends State<MentionPost2> {
+  final _key = GlobalKey();
+  final networkHandler = NetworkHandler();
+  final storage = new FlutterSecureStorage();
+  bool isFav = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.only(left: 23, right: 4),
+            child: Row(
+              children: [
+                CircleAvatar(
+                  radius: 25,
+                  backgroundColor: Colors.orange,
+                  // backgroundImage:
+                  // NetworkHandler().getImage(profileModel.email),
+                ),
+                SizedBox( width: 8 ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        InkWell(
+                          child: Poppins(
+                            text: widget.name!,
+                            fontWeight: f.semiBold,
+                            size: 13,
+                            color: Colors.black,
+                          ),
+                          onTap: () async {
+                            var x = await storage.read(key: "username");
+                            print('fuck leo');
+                            print(x);
+                            print(widget.username);
+                            if(x != widget.username){
+                              await storage.write(
+                                  key: "anotherprofile", value: widget.username);
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
+                            }
+                            else{
+                              Navbar(currentState: 4);
+                            }
+                          },
+                        ),
+                        SizedBox( width: 5 ),
+                        Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
+                      ],
+                    ),
+                    Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
+                    SizedBox( height: 7 ),
+                    Row(
+                      children: [
+                        (widget.professor=="")?
+                        Container():Container(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                right: 7, left: 7, top: 4, bottom: 4),
+                            child: Inter(
+                                text: widget.professor!,
+                                size: 8,
+                                color: Colors.white,
+                                fontWeight: f.semiBold),
+                          ),
+                          decoration: BoxDecoration(
+                              color: c.greenMain,
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                        SizedBox( width: 5 ),
+                        (widget.influencer=="")?
+                        Container():Container(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                right: 5, left: 5, top: 2, bottom: 2),
+                            child: Inter(
+                                text: widget.influencer!,
+                                size: 8,
+                                color: c.blueMain,
+                                fontWeight: f.bold),
+                          ),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: c.blueMain,
+                                width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                Expanded(child: Container()),
+                Container(
+                  height: 66,
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    onPressed: () {
+                      ModalBottomSheetPost.Dialog_Settings(context);
+                    },
+                    alignment: Alignment.topRight,
+                    icon: Icon(Boxicons.bx_dots_vertical_rounded, size: 30, color: c.greyMain),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.only(left: 80, right: 23),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if(widget.urlImage?.length==null)Container(),
+                if(widget.urlImage?.length==1)Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        child: Container(
+                          key: _key,
+                          height: 285,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: c.graySub2,
+                              image: DecorationImage(
+                                  image: NetworkImage(widget.urlImage![0]),
+                                  fit: BoxFit.cover
+                              )
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                            urlImage: widget.urlImage,
+                          )));
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                if(widget.urlImage?.length==2)Row(
+                  children: [
+                    // SizedBox(width: 60),
+                    Expanded(
+                      child: GestureDetector(
+                        child: Container(
+                          height: 140,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(12),
+                                  bottomLeft: Radius.circular(12)
+                              ),
+                              color: c.graySub2,
+                              image: DecorationImage(
+                                  image: NetworkImage(widget.urlImage![0]),
+                                  fit: BoxFit.cover
+                              )
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                            urlImage: widget.urlImage,
+                          )));
+                        },
+                      ),
+                    ),
+                    SizedBox( width: 5 ),
+                    Expanded(
+                      child: GestureDetector(
+                        child: Container(
+                          height: 140,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(12),
+                                  bottomRight: Radius.circular(12)
+                              ),
+                              color: c.graySub2,
+                              image: DecorationImage(
+                                  image: NetworkImage(widget.urlImage![1]),
+                                  fit: BoxFit.cover
+                              )
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                              urlImage: widget.urlImage,
+                              index: 2
+                          )));
+                        },
+                      ),
+                    )
+                  ],
+                ),
+                if(widget.urlImage?.length==3)Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              key: _key,
+                              height: 140,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![0]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                urlImage: widget.urlImage,
+                              )));
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox( height: 5 ),
+                    Row(
+                      children: [
+                        // SizedBox(width: 60),
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              height: 140,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(12),
+                                      bottomLeft: Radius.circular(12)
+                                  ),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![1]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                urlImage: widget.urlImage,
+                              )));
+                            },
+                          ),
+                        ),
+                        SizedBox( width: 5 ),
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              height: 140,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(12),
+                                      bottomRight: Radius.circular(12)
+                                  ),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![2]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                  urlImage: widget.urlImage,
+                                  index: 2
+                              )));
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+                if(widget.urlImage?.length==4)Column(
+                  children: [
+                    Row(
+                      children: [
+                        // SizedBox(width: 60),
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              height: 140,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(12),
+                                      bottomLeft: Radius.circular(12)
+                                  ),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![0]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                urlImage: widget.urlImage,
+                              )));
+                            },
+                          ),
+                        ),
+                        SizedBox( width: 5 ),
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              height: 140,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(12),
+                                      bottomRight: Radius.circular(12)
+                                  ),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![1]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                  urlImage: widget.urlImage,
+                                  index: 2
+                              )));
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox( height: 5 ),
+                    Row(
+                      children: [
+                        // SizedBox(width: 60),
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              height: 140,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(12),
+                                      bottomLeft: Radius.circular(12)
+                                  ),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![2]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                urlImage: widget.urlImage,
+                              )));
+                            },
+                          ),
+                        ),
+                        SizedBox( width: 5 ),
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              height: 140,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(12),
+                                      bottomRight: Radius.circular(12)
+                                  ),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![3]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                  urlImage: widget.urlImage,
+                                  index: 2
+                              )));
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+                if(widget.urlImage?.length!=null)SizedBox(height: 10),
+                if(widget.urlImage?.length!=null)Row(
+                  children: [
+                    // SizedBox(width: 60),
+                    Inter(text: 'mention to', size: 11, color: c.blackMain, fontWeight: f.medium),
+                    SizedBox(width: 5),
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 9, right: 4, top: 3, bottom: 3),
+                        child: Row(
+                          children: [
+                            Container(
+                              constraints: BoxConstraints(maxWidth: 160),
+                              child: Inter_Crop(
+                                  text: widget.brand! + " " + widget.product!,
+                                  size: 10,
+                                  color: c.tag,
+                                  fontWeight: f.semiBold
+                              ),
+                            ),
+                            SizedBox(width: 4),
+                            Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
+                          ],
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                          color: c.greenLight2,
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                  ],
+                ),
+                if(widget.urlImage?.length!=null)SizedBox(height: 8),
+                GestureDetector(
+                  onTap: () async {
+                    var product = widget.product!;
+                    product = product.replaceAll(" ","_");
+                    var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id! + "/" + product);
+                    print(res);
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPost(
+                        id: res['post']['_id'],
+                        fullname: res['post']['fullname'],
+                        username: res['post']['username'],
+                        post: res['post']['body'],
+                        urlImage: res['post']['coverImage'],
+                        comment: res['post']['comment'],
+                        favorite: res['post']['favorite'],
+                        brand: res['product']['p_brand'],
+                        product: res['product']['p_name'],
+                        desc: res['product']['p_desc'],
+                        productImg: res['product']['p_img'],
+                        mention: res['product']['mention']
+
+                    )));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 0),
+                    child: Inter(text: widget.post!, size: 12, color: c.postText, fontWeight: f.regular),
+                  ),
+                ),
+                if(widget.urlImage?.length==null)SizedBox(height: 8),
+                if(widget.urlImage?.length==null)Row(
+                  children: [
+                    // SizedBox(width: 60),
+                    Inter(text: 'mention to', size: 11, color: c.blackMain, fontWeight: f.medium),
+                    SizedBox(width: 5),
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 9, right: 4, top: 3, bottom: 3),
+                        child: Row(
+                          children: [
+                            Container(
+                              constraints: BoxConstraints(maxWidth: 160),
+                              child: Inter_Crop(
+                                  text: widget.brand! + " " + widget.product!,
+                                  size: 10,
+                                  color: c.tag,
+                                  fontWeight: f.semiBold
+                              ),
+                            ),
+                            SizedBox(width: 4),
+                            Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
+                          ],
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                          color: c.greenLight2,
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 2),
+                Row(
+                  children: [
+                    Icon(FeatherIcons.messageSquare, size:19, color: c.greyMain),
+                    SizedBox(width: 3),
+                    Inter(text: widget.comment.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
+                    Expanded(child: Container()),
+                    if(isFav == false)InkWell(
+                        onTap: () async {
+                          Map<String, String> data = {
+                            "favorite":widget.id!
+                          };
+                          print(data);
+                          var idStorage = await storage.read(key: 'id');
+                          await networkHandler.post("/home/addFav/" + idStorage!, data);
+                          setState(() {
+                            widget.favorite+=1;
+                            isFav = true;
+                          });
+                        },
+                        child: Icon(FeatherIcons.heart, size:19, color: c.greyMain)
+                    ),
+                    if(isFav == true)InkWell(
+                        onTap: () async {
+                          Map<String, String> data = {
+                            "favorite":widget.id!
+                          };
+                          print(data);
+                          var idStorage = await storage.read(key: 'id');
+                          await networkHandler.post("/home/unFav/" + idStorage!, data);
+                          setState(() {
+                            widget.favorite-=1;
+                            isFav = false;
+                          });
+                        },
+                        child: Icon(Boxicons.bxs_heart, size:19, color: c.redMain)
+                    ),
+                    SizedBox(width: 3),
+                    if(isFav == false)Inter(text: widget.favorite.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
+                    if(isFav == true)Inter(text: widget.favorite.toString(), size: 11, color: c.redMain, fontWeight: f.medium),
+                    Expanded(child: Container()),
+                    IconButton(
+                      icon: Icon(FeatherIcons.share2, size:19, color: c.greyMain),
+                      onPressed: () async {
+                        final urlImage = 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1608828061-skinceuticals-1544737345.jpg?crop=1xw:1xh;center,top&resize=768:*';
+                        final url = Uri.parse(urlImage);
+                        final response = await http.get(url);
+                        final bytes = response.bodyBytes;
+
+                        final temp = await getTemporaryDirectory();
+                        final path = '${temp.path}/image.jpg';
+                        File(path).writeAsBytesSync(bytes);
+
+                        await Share.shareFiles([path], text: 'This is Skin Ceuticals.');
+                      },
+                    ),
+                    Expanded(child: Container()),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 6),
+          Divider(
+            color: c.greyMain,
+            thickness: 0.5,
+            height: 0,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ReviewPost2 extends StatefulWidget {
+  String? name, postTime, username, brand, product, post, id,professor,influencer;
+  int comment, favorite;
+  double rating;
+  List? urlImage;
+
+  ReviewPost2(
+      {Key? key,required this.professor,required this.influencer ,this.name, this.postTime, this.username, this.brand, this.product, this.post, required this.comment, required this.favorite, this.urlImage, this.id, required this.rating})
+      : super(key: key);
+
+  @override
+  _ReviewPost2State createState() => _ReviewPost2State();
+}
+
+class _ReviewPost2State extends State<ReviewPost2> {
+  final _key = GlobalKey();
+  final networkHandler = NetworkHandler();
+  final storage = new FlutterSecureStorage();
+  bool isFav = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.only(left: 23, right: 4),
+            child: Row(
+              children: [
+                CircleAvatar(
+                  radius: 25,
+                  backgroundColor: Colors.orange,
+                  // backgroundImage:
+                  // NetworkHandler().getImage(profileModel.email),
+                ),
+                SizedBox( width: 8 ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        InkWell(
+                          child: Poppins(
+                            text: widget.name!,
+                            fontWeight: f.semiBold,
+                            size: 13,
+                            color: Colors.black,
+                          ),
+                          onTap: () async {
+
+                            var x = await storage.read(key: "username");
+                            print('fuck leo');
+                            print(x);
+                            print(widget.username);
+                            if(x != widget.username){
+                              await storage.write(
+                                  key: "anotherprofile", value: widget.username);
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
+                            }
+                            else{
+                              Navbar(currentState: 4);
+                            }
+
+                          },
+                        ),
+                        SizedBox( width: 5 ),
+                        Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
+                      ],
+                    ),
+                    Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
+                    SizedBox( height: 7 ),
+                    Row(
+                      children: [
+                        (widget.professor=="")?
+                        Container():Container(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                right: 7, left: 7, top: 4, bottom: 4),
+                            child: Inter(
+                                text: widget.professor!,
+                                size: 8,
+                                color: Colors.white,
+                                fontWeight: f.semiBold),
+                          ),
+                          decoration: BoxDecoration(
+                              color: c.greenMain,
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                        SizedBox( width: 5 ),
+                        (widget.influencer=="")?
+                        Container():Container(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                right: 5, left: 5, top: 2, bottom: 2),
+                            child: Inter(
+                                text: widget.influencer!,
+                                size: 8,
+                                color: c.blueMain,
+                                fontWeight: f.bold),
+                          ),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: c.blueMain,
+                                width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                Expanded(child: Container()),
+                Container(
+                  height: 66,
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    onPressed: () {
+                      ModalBottomSheetPost.Dialog_Settings(context);
+                    },
+                    alignment: Alignment.topRight,
+                    icon: Icon(Boxicons.bx_dots_vertical_rounded, size: 30, color: c.greyMain),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.only(left: 80, right: 23),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if(widget.urlImage?.length==null)Container(),
+                if(widget.urlImage?.length==1)Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        child: Container(
+                          key: _key,
+                          height: 285,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: c.graySub2,
+                              image: DecorationImage(
+                                  image: NetworkImage(widget.urlImage![0]),
+                                  fit: BoxFit.cover
+                              )
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                            urlImage: widget.urlImage,
+                          )));
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                if(widget.urlImage?.length==2)Row(
+                  children: [
+                    // SizedBox(width: 60),
+                    Expanded(
+                      child: GestureDetector(
+                        child: Container(
+                          height: 140,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(12),
+                                  bottomLeft: Radius.circular(12)
+                              ),
+                              color: c.graySub2,
+                              image: DecorationImage(
+                                  image: NetworkImage(widget.urlImage![0]),
+                                  fit: BoxFit.cover
+                              )
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                            urlImage: widget.urlImage,
+                          )));
+                        },
+                      ),
+                    ),
+                    SizedBox( width: 5 ),
+                    Expanded(
+                      child: GestureDetector(
+                        child: Container(
+                          height: 140,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(12),
+                                  bottomRight: Radius.circular(12)
+                              ),
+                              color: c.graySub2,
+                              image: DecorationImage(
+                                  image: NetworkImage(widget.urlImage![1]),
+                                  fit: BoxFit.cover
+                              )
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                              urlImage: widget.urlImage,
+                              index: 2
+                          )));
+                        },
+                      ),
+                    )
+                  ],
+                ),
+                if(widget.urlImage?.length==3)Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              key: _key,
+                              height: 140,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![0]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                urlImage: widget.urlImage,
+                              )));
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox( height: 5 ),
+                    Row(
+                      children: [
+                        // SizedBox(width: 60),
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              height: 140,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(12),
+                                      bottomLeft: Radius.circular(12)
+                                  ),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![1]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                urlImage: widget.urlImage,
+                              )));
+                            },
+                          ),
+                        ),
+                        SizedBox( width: 5 ),
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              height: 140,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(12),
+                                      bottomRight: Radius.circular(12)
+                                  ),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![2]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                  urlImage: widget.urlImage,
+                                  index: 2
+                              )));
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+                if(widget.urlImage?.length==4)Column(
+                  children: [
+                    Row(
+                      children: [
+                        // SizedBox(width: 60),
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              height: 140,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(12),
+                                      bottomLeft: Radius.circular(12)
+                                  ),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![0]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                urlImage: widget.urlImage,
+                              )));
+                            },
+                          ),
+                        ),
+                        SizedBox( width: 5 ),
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              height: 140,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(12),
+                                      bottomRight: Radius.circular(12)
+                                  ),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![1]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                  urlImage: widget.urlImage,
+                                  index: 2
+                              )));
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox( height: 5 ),
+                    Row(
+                      children: [
+                        // SizedBox(width: 60),
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              height: 140,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(12),
+                                      bottomLeft: Radius.circular(12)
+                                  ),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![2]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                urlImage: widget.urlImage,
+                              )));
+                            },
+                          ),
+                        ),
+                        SizedBox( width: 5 ),
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              height: 140,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(12),
+                                      bottomRight: Radius.circular(12)
+                                  ),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![3]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                  urlImage: widget.urlImage,
+                                  index: 2
+                              )));
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+                if(widget.urlImage?.length!=null)SizedBox(height: 10),
+                if(widget.urlImage?.length!=null)Row(
+                  children: [
+                    // SizedBox(width: 60),
+                    Inter(text: 'reviewed', size: 11, color: c.blackMain, fontWeight: f.medium),
+                    SizedBox(width: 5),
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 9, right: 4,top: 2.5,bottom: 2.5),
+                        child: Row(
+                          children: [
+                            // Inter(
+                            //     text: brand!,
+                            //     size: 10,
+                            //     color: Colors.white,
+                            //     fontWeight: f.semiBold
+                            // ),
+                            // SizedBox(
+                            //     height: 20,
+                            //     child: VerticalDivider(
+                            //       color: Colors.white,
+                            //       thickness: 1.5,
+                            //       indent: 3.3,
+                            //       endIndent: 3.3,
+                            //       width: 13,
+                            //     )
+                            // ),
+                            Container(
+                              constraints: BoxConstraints(maxWidth: 125),
+                              child: Inter_Crop(
+                                  text: widget.brand!+" "+widget.product!,
+                                  size: 10,
+                                  color: c.tag,
+                                  fontWeight: f.semiBold
+                              ),
+                            ),
+                            SizedBox(width: 7),
+                            Inter(
+                                text: widget.rating.toString(),
+                                size: 10,
+                                color: c.tag,
+                                fontWeight: f.semiBold
+                            ),
+                            SizedBox(width: 2),
+                            Icon(Boxicons.bxs_star, size: 13, color: c.tag),
+                            SizedBox(width: 4),
+                            Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
+                          ],
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                          color: c.greenLight2,
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                  ],
+                ),
+                if(widget.urlImage?.length!=null)SizedBox(height: 8),
+                GestureDetector(
+                  onTap: () async {
+                    var product = widget.product!;
+                    product = product.replaceAll(" ","_");
+                    var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id! + "/" + product);
+                    print(res);
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPost(
+                        id: res['post']['_id'],
+                        fullname: res['post']['fullname'],
+                        username: res['post']['username'],
+                        post: res['post']['body'],
+                        urlImage: res['post']['coverImage'],
+                        comment: res['post']['comment'],
+                        favorite: res['post']['favorite'],
+                        brand: res['product']['p_brand'],
+                        product: res['product']['p_name'],
+                        desc: res['product']['p_desc'],
+                        productImg: res['product']['p_img'],
+                        mention: res['product']['mention']
+
+                    )));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 0),
+                    child: Inter(text: widget.post!, size: 12, color: c.postText, fontWeight: f.regular),
+                  ),
+                ),
+                if(widget.urlImage?.length==null)SizedBox(height: 8),
+                if(widget.urlImage?.length==null)Row(
+                  children: [
+                    // SizedBox(width: 60),
+                    Inter(text: 'reviewed', size: 11, color: c.blackMain, fontWeight: f.medium),
+                    SizedBox(width: 5),
+                    Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 9, right: 4,top: 2.5,bottom: 2.5),
+                        child: Row(
+                          children: [
+                            // Inter(
+                            //     text: brand!,
+                            //     size: 10,
+                            //     color: Colors.white,
+                            //     fontWeight: f.semiBold
+                            // ),
+                            // SizedBox(
+                            //     height: 20,
+                            //     child: VerticalDivider(
+                            //       color: Colors.white,
+                            //       thickness: 1.5,
+                            //       indent: 3.3,
+                            //       endIndent: 3.3,
+                            //       width: 13,
+                            //     )
+                            // ),
+                            Container(
+                              constraints: BoxConstraints(maxWidth: 125),
+                              child: Inter_Crop(
+                                  text: widget.brand!+" "+widget.product!,
+                                  size: 10,
+                                  color: c.tag,
+                                  fontWeight: f.semiBold
+                              ),
+                            ),
+                            SizedBox(width: 7),
+                            Inter(
+                                text: widget.rating.toString(),
+                                size: 10,
+                                color: c.tag,
+                                fontWeight: f.semiBold
+                            ),
+                            SizedBox(width: 2),
+                            Icon(Boxicons.bxs_star, size: 13, color: c.tag),
+                            SizedBox(width: 4),
+                            Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
+                          ],
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                          color: c.greenLight2,
+                          borderRadius: BorderRadius.circular(10)),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 2),
+                Row(
+                  children: [
+                    Icon(FeatherIcons.messageSquare, size:19, color: c.greyMain),
+                    SizedBox(width: 3),
+                    Inter(text: widget.comment.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
+                    Expanded(child: Container()),
+                    if(isFav == false)InkWell(
+                        onTap: () async {
+                          Map<String, String> data = {
+                            "favorite":widget.id!
+                          };
+                          print(data);
+                          var idStorage = await storage.read(key: 'id');
+                          await networkHandler.post("/home/addFav/" + idStorage!, data);
+                          setState(() {
+                            widget.favorite+=1;
+                            isFav = true;
+                          });
+                        },
+                        child: Icon(FeatherIcons.heart, size:19, color: c.greyMain)
+                    ),
+                    if(isFav == true)InkWell(
+                        onTap: () async {
+                          Map<String, String> data = {
+                            "favorite":widget.id!
+                          };
+                          print(data);
+                          var idStorage = await storage.read(key: 'id');
+                          await networkHandler.post("/home/unFav/" + idStorage!, data);
+                          setState(() {
+                            widget.favorite-=1;
+                            isFav = false;
+                          });
+                        },
+                        child: Icon(Boxicons.bxs_heart, size:19, color: c.redMain)
+                    ),
+                    SizedBox(width: 3),
+                    if(isFav == false)Inter(text: widget.favorite.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
+                    if(isFav == true)Inter(text: widget.favorite.toString(), size: 11, color: c.redMain, fontWeight: f.medium),
+                    Expanded(child: Container()),
+                    IconButton(
+                      icon: Icon(FeatherIcons.share2, size:19, color: c.greyMain),
+                      onPressed: () async {
+                        final urlImage = 'https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1608828061-skinceuticals-1544737345.jpg?crop=1xw:1xh;center,top&resize=768:*';
+                        final url = Uri.parse(urlImage);
+                        final response = await http.get(url);
+                        final bytes = response.bodyBytes;
+
+                        final temp = await getTemporaryDirectory();
+                        final path = '${temp.path}/image.jpg';
+                        File(path).writeAsBytesSync(bytes);
+
+                        await Share.shareFiles([path], text: 'This is Skin Ceuticals.');
+                      },
+                    ),
+                    Expanded(child: Container()),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 6),
+          Divider(
+            color: c.greyMain,
+            thickness: 0.5,
+            height: 0,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class Post2 extends StatefulWidget {
+  String? name, postTime, username, post, id,professor,influencer;
+  int comment, favorite;
+  List? urlImage;
+
+  Post2(
+      {Key? key, this.name, this.postTime, this.username, this.post, required this.comment, required this.favorite, required this.professor, required this.influencer
+        ,this.urlImage, this.id})
+      : super(key: key);
+
+  @override
+  _Post2State createState() => _Post2State();
+}
+
+class _Post2State extends State<Post2> {
+  final _key = GlobalKey();
+  final networkHandler = NetworkHandler();
+  final storage = new FlutterSecureStorage();
+  bool isFav = false;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.only(left: 23, right: 4),
+            child: Row(
+              children: [
+                CircleAvatar(
+                  radius: 25,
+                  backgroundColor: Colors.orange,
+                  // backgroundImage:
+                  // NetworkHandler().getImage(profileModel.email),
+                ),
+                SizedBox( width: 8 ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        InkWell(
+                          child: Poppins(
+                            text: widget.name!,
+                            fontWeight: f.semiBold,
+                            size: 13,
+                            color: Colors.black,
+                          ),
+                          onTap: () async {
+                            var x = await storage.read(key: "username");
+                            print('fuck leo');
+                            print(x);
+                            print(widget.username);
+                            if(x != widget.username){
+                              await storage.write(
+                                  key: "anotherprofile", value: widget.username);
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
+                            }
+                            else{
+                              Navbar(currentState: 4);
+                            }
+                          },
+                        ),
+                        SizedBox( width: 5 ),
+                        Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
+                      ],
+                    ),
+                    Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
+                    SizedBox( height: 7 ),
+                    Row(
+                      children: [
+                        (widget.professor=="")?
+                        Container():Container(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                right: 7, left: 7, top: 4, bottom: 4),
+                            child: Inter(
+                                text: widget.professor!,
+                                size: 8,
+                                color: Colors.white,
+                                fontWeight: f.semiBold),
+                          ),
+                          decoration: BoxDecoration(
+                              color: c.greenMain,
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                        SizedBox( width: 5 ),
+                        (widget.influencer=="")?
+                        Container():Container(
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                right: 5, left: 5, top: 2, bottom: 2),
+                            child: Inter(
+                                text: widget.influencer!,
+                                size: 8,
+                                color: c.blueMain,
+                                fontWeight: f.bold),
+                          ),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: c.blueMain,
+                                width: 2,
+                              ),
+                              borderRadius: BorderRadius.circular(10)),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                Expanded(child: Container()),
+                Container(
+                  height: 66,
+                  alignment: Alignment.topRight,
+                  child: IconButton(
+                    onPressed: () {
+                      ModalBottomSheetPost.Dialog_Settings(context);
+                    },
+                    alignment: Alignment.topRight,
+                    icon: Icon(Boxicons.bx_dots_vertical_rounded, size: 30, color: c.greyMain),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.only(left: 80, right: 23),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if(widget.urlImage?.length==null)Container(),
+                if(widget.urlImage?.length==1)Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        child: Container(
+                          key: _key,
+                          height: 285,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(12),
+                              color: c.graySub2,
+                              image: DecorationImage(
+                                  image: NetworkImage(widget.urlImage![0]),
+                                  fit: BoxFit.cover
+                              )
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                            urlImage: widget.urlImage,
+                          )));
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                if(widget.urlImage?.length==2)Row(
+                  children: [
+                    // SizedBox(width: 60),
+                    Expanded(
+                      child: GestureDetector(
+                        child: Container(
+                          height: 140,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(12),
+                                  bottomLeft: Radius.circular(12)
+                              ),
+                              color: c.graySub2,
+                              image: DecorationImage(
+                                  image: NetworkImage(widget.urlImage![0]),
+                                  fit: BoxFit.cover
+                              )
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                            urlImage: widget.urlImage,
+                          )));
+                        },
+                      ),
+                    ),
+                    SizedBox( width: 5 ),
+                    Expanded(
+                      child: GestureDetector(
+                        child: Container(
+                          height: 140,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(12),
+                                  bottomRight: Radius.circular(12)
+                              ),
+                              color: c.graySub2,
+                              image: DecorationImage(
+                                  image: NetworkImage(widget.urlImage![1]),
+                                  fit: BoxFit.cover
+                              )
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                              urlImage: widget.urlImage,
+                              index: 2
+                          )));
+                        },
+                      ),
+                    )
+                  ],
+                ),
+                if(widget.urlImage?.length==3)Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              key: _key,
+                              height: 140,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![0]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                urlImage: widget.urlImage,
+                              )));
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox( height: 5 ),
+                    Row(
+                      children: [
+                        // SizedBox(width: 60),
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              height: 140,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(12),
+                                      bottomLeft: Radius.circular(12)
+                                  ),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![1]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                urlImage: widget.urlImage,
+                              )));
+                            },
+                          ),
+                        ),
+                        SizedBox( width: 5 ),
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              height: 140,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(12),
+                                      bottomRight: Radius.circular(12)
+                                  ),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![2]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                  urlImage: widget.urlImage,
+                                  index: 2
+                              )));
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+                if(widget.urlImage?.length==4)Column(
+                  children: [
+                    Row(
+                      children: [
+                        // SizedBox(width: 60),
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              height: 140,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(12),
+                                      bottomLeft: Radius.circular(12)
+                                  ),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![0]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                urlImage: widget.urlImage,
+                              )));
+                            },
+                          ),
+                        ),
+                        SizedBox( width: 5 ),
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              height: 140,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(12),
+                                      bottomRight: Radius.circular(12)
+                                  ),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![1]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                  urlImage: widget.urlImage,
+                                  index: 2
+                              )));
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox( height: 5 ),
+                    Row(
+                      children: [
+                        // SizedBox(width: 60),
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              height: 140,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(12),
+                                      bottomLeft: Radius.circular(12)
+                                  ),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![2]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                urlImage: widget.urlImage,
+                              )));
+                            },
+                          ),
+                        ),
+                        SizedBox( width: 5 ),
+                        Expanded(
+                          child: GestureDetector(
+                            child: Container(
+                              height: 140,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(12),
+                                      bottomRight: Radius.circular(12)
+                                  ),
+                                  color: c.graySub2,
+                                  image: DecorationImage(
+                                      image: NetworkImage(widget.urlImage![3]),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
+                                  urlImage: widget.urlImage,
+                                  index: 2
+                              )));
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+                if(widget.urlImage?.length!=null)SizedBox(height: 8),
+                GestureDetector(
+                  onTap: () async {
+                    var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id!);
+                    print(res);
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPost(
+                        id: res['post']['_id'],
+                        fullname: res['post']['fullname'],
+                        username: res['post']['username'],
+                        post: res['post']['body'],
+                        urlImage: res['post']['coverImage'],
+                        comment: res['post']['comment'],
+                        favorite: res['post']['favorite'],
+                        brand: res['product']['p_brand'],
+                        product: res['product']['p_name'],
+                        desc: res['product']['p_desc'],
+                        productImg: res['product']['p_img'],
+                        mention: res['product']['mention']
+
+                    )));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 0),
+                    child: Inter(text: widget.post!, size: 12, color: c.postText, fontWeight: f.regular),
+                  ),
                 ),
                 SizedBox(height: 2),
                 Row(

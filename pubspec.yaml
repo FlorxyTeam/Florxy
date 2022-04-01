@@ -81,6 +81,7 @@ dependencies:
   firebase_storage:
   file_picker:
   firebase_app_check:
+  socket_io_client: ^0.9.12
 
 dev_dependencies:
   build_runner:
