@@ -4,15 +4,15 @@ import 'package:Florxy/pages/followprofile.dart';
 import 'package:Florxy/pages/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-class allFollowing extends StatefulWidget {
-  const allFollowing({Key? key}) : super(key: key);
+class allFollowinginFollowing extends StatefulWidget {
+  const allFollowinginFollowing({Key? key}) : super(key: key);
 
   @override
-  _allFollowingState createState() => _allFollowingState();
+  _allFollowinginFollowingState createState() => _allFollowinginFollowingState();
 }
 
 
-class _allFollowingState extends State<allFollowing> {
+class _allFollowinginFollowingState extends State<allFollowinginFollowing> {
   List data = [];
   final storage = new FlutterSecureStorage();
   final networkHandler = NetworkHandler();
@@ -41,7 +41,7 @@ class _allFollowingState extends State<allFollowing> {
   }
 
   void fetchData() async {
-    String? profile = await storage.read(key: "anotherprofile");
+    String? profile = await storage.read(key: "anotherfollowprofile");
     print(profile);
     var response = await networkHandler.get("/profile/getOtherData/$profile");
 
