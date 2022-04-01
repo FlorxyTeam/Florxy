@@ -415,9 +415,13 @@ class _anotherProfileState extends State<anotherProfile> {
                         "myfullname":myprofileModel.fullname.toString(),
                         "following":(myprofileModel.following+1).toString()
                       };
+                      // Map<String, String> data2 = {
+                      //   "targetusername":profileModel.username
+                      // };
                       print(data);
                       var addfollow = await networkHandler
                           .patch("/profile/addfollower/${profileModel.username}/${myprofileModel.username}",data);
+                      // await networkHandler.post("/profile/chat/" + myprofileModel.username, data2);
                       setState(() {
                         itfollower= itfollower+1;
                         yourfollow="Following";

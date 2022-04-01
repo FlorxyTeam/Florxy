@@ -1,69 +1,70 @@
-import 'package:Florxy/Model/chatModel.dart';
+import 'package:Florxy/Model/messageModel.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/messageWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' ;
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
+import '../NetworkHandler.dart';
+import '../postProvider.dart';
+
 class ViewChatPage extends StatefulWidget {
-  final ChatModel chatModel;
-  const ViewChatPage({Key? key, required this.chatModel}) : super(key: key);
+  String? fullname, username, influencer, professor, currentMessage, myUsername;
+  ViewChatPage({Key? key, this.fullname, this.username, this.professor, this.influencer, this.currentMessage, this.myUsername}) : super(key: key);
 
   @override
   _ViewChatPageState createState() => _ViewChatPageState();
 }
 
 class _ViewChatPageState extends State<ViewChatPage> {
-  // late IO.Socket socket;
+  late Socket socket;
+  final networkHandler = NetworkHandler();
+  TextEditingController _messageController = TextEditingController();
+  List<MessageModel> messages = [];
+  // PageController _scrollController = PageController(viewportFraction: 1, keepPage: true);
 
   @override
   void initState() {
-    connect();
     super.initState();
+    Provider.of<PostProvider>(context,listen: false).fetchChat(widget.myUsername!, widget.username!);
+    connect();
   }
 
   void connect() {
-    // socket = IO.io('http://192.168.2.37:8080',
-    //     IO.OptionBuilder()
-    //         .setTransports(['websocket'])
-    //         .setExtraHeaders({'Connection': 'upgrade', 'Upgrade': 'websocket'})
-    //         .disableAutoConnect()
-    //         .build()
-    // );
-    // socket.connect();
-    // socket.onConnect((data) => print("socket connected"));
-    // socket.onConnectError((data) => print(data));
-
-    Socket socket = io('http://192.168.2.37:8080',
+    print(widget.myUsername);
+    String baseurl = networkHandler.baseurl;
+    socket = io( baseurl,
         OptionBuilder()
             .setTransports(['websocket'])
             .disableAutoConnect()
             .build()
     );
     socket.connect();
-    socket.onConnect((data) => print("socket connected"));
+    socket.emit("test", widget.myUsername);
+    socket.onConnect((data) {
+      print("socket connected");
+      socket.on("message",(msg){
+        print(msg);
+        setMessage("destination", msg["message"], msg["myUsername"], msg["targetUsername"]);
+      });
+    });
+  }
 
-    // socket = IO.io("http://192.168.2.37:8080",<String,dynamic>{
-    //   "transports": ["websocket"],
-    //   "autoConnect": false,
-    // });
-    // socket.connect();
-    // socket.emit("/test","Hello!");
-    // socket.onConnect((data) => print('socket connected'));
-    // // socket?.onConnectError((data) => print(data));
-    // print(socket.connected);
+  void sendMessage(String message, String myUsername, String targetUsername) {
+    socket.emit("message",
+        {"message": message, "myUsername": myUsername, "targetUsername": targetUsername});
+    setMessage("source", message, myUsername, targetUsername);
+  }
 
-
-    // socket = IO.io('http://192.168.2.37:8080');
-    // socket?.onConnect((_) {
-    //   print('connect');
-    //   socket?.emit('msg', 'test');
-    // });
-    // socket?.on('event', (data) => print(data));
-    // socket?.onDisconnect((_) => print('disconnect'));
-    // socket?.on('fromServer', (_) => print(_));
+  void setMessage(String type, String message, String sender, String receiver) async {
+    MessageModel messageModel = MessageModel(type: type, message: message, time: DateTime.now().toString().substring(0,16));
+    // await networkHandler.post("/profile/chatWith/"+widget.myUsername!+"/"+widget.username!, data);
+    setState(() {
+      messages.add(messageModel);
+    });
   }
 
   @override
@@ -105,21 +106,22 @@ class _ViewChatPageState extends State<ViewChatPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Poppins(
-                                    text: 'Putita T.',
+                                    text: widget.fullname!,
                                     fontWeight: f.semiBold,
                                     size: 14,
                                     color: Colors.black,
                                   ),
-                                  Inter(text: "@" + widget.chatModel.username!, size: 12, color: c.textUsername, fontWeight: f.medium),
+                                  Inter(text: "@" + widget.username!, size: 12, color: c.textUsername, fontWeight: f.medium),
                                   SizedBox( height: 7 ),
                                   Row(
                                     children: [
-                                      Container(
+                                      (widget.professor=="")?
+                                      Container():Container(
                                         child: Padding(
                                           padding: const EdgeInsets.only(
                                               right: 7, left: 7, top: 4, bottom: 4),
                                           child: Inter(
-                                              text: "Beauty Advisor",
+                                              text: widget.professor!,
                                               size: 8.5,
                                               color: Colors.white,
                                               fontWeight: f.semiBold),
@@ -129,12 +131,13 @@ class _ViewChatPageState extends State<ViewChatPage> {
                                             borderRadius: BorderRadius.circular(10)),
                                       ),
                                       SizedBox( width: 5 ),
-                                      Container(
+                                      (widget.influencer=="")?
+                                      Container():Container(
                                         child: Padding(
                                           padding: const EdgeInsets.only(
                                               right: 5, left: 5, top: 2, bottom: 2),
                                           child: Inter(
-                                              text: "Brand Presenter",
+                                              text: widget.influencer!,
                                               size: 8.5,
                                               color: c.blueMain,
                                               fontWeight: f.bold),
@@ -182,24 +185,66 @@ class _ViewChatPageState extends State<ViewChatPage> {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(left: 18, right: 18),
-                  child: MediaQuery.removePadding(
-                    context: context,
-                    removeTop: true,
-                    child: ListView(
-                      shrinkWrap: true,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      // controller: _scrollController,
+                      // physics: NeverScrollableScrollPhysics(),
                       children: [
-                        MyMessage(),
-                        ReplyMessage(),
-                        MyMessage(),
-                        ReplyMessage(),
-                        MyMessage(),
-                        ReplyMessage(),
-                        MyMessage(),
-                        ReplyMessage(),
+                        Consumer<PostProvider>(builder: (context,model,_) => FutureBuilder(
+                          future: model.fetchChat(widget.myUsername!, widget.username!),
+                          builder: (context,snapshot) => MediaQuery.removePadding(
+                            context: context,
+                            removeTop: true,
+                            removeBottom: true,
+                            child: ListView.builder(
+                              itemCount: model.chat?.length??0,
+                              shrinkWrap: true,
+                              itemBuilder: (context,int index){
+                                return model.chat![index]['sender']==widget.myUsername?MyMessage(
+                                  message: model.chat![index]['message'],
+                                  time: model.chat![index]['time']
+                                ):ReplyMessage(
+                                  message: model.chat![index]['message'],
+                                  time: model.chat![index]['time']
+                                );
+                              },
+                            ),
+                          ),
+                        )),
+                        MediaQuery.removePadding(
+                          context: context,
+                          removeTop: true,
+                          removeBottom: true,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: messages.length+1,
+                            itemBuilder: (context,index) {
+                              if(index == messages.length) {
+                                return Container(
+                                  height: 70,
+                                );
+                              }
+                              if(messages[index].type=="source") {
+                                return MyMessage(
+                                  message: messages[index].message,
+                                  time: messages[index].time,
+                                );
+                              } else {
+                                return ReplyMessage(
+                                  message: messages[index].message,
+                                  time: messages[index].time,
+                                );
+                              }
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   ),
                 ),
+              ),
+              Container(
+                height: 85
               )
             ],
           ),
@@ -228,7 +273,7 @@ class _ViewChatPageState extends State<ViewChatPage> {
                           child: Container(
                             height: 35,
                             child: TextFormField(
-                              // controller: _commentController,
+                              controller: _messageController,
                               onTap: () {
                                 FocusScopeNode currentFocus = FocusScope.of(context);
                                 if (!currentFocus.hasPrimaryFocus) {
@@ -266,7 +311,19 @@ class _ViewChatPageState extends State<ViewChatPage> {
                         IconButton(
                             padding: EdgeInsets.zero,
                             constraints: BoxConstraints(),
-                            onPressed: () {},
+                            onPressed: () async {
+                              sendMessage(_messageController.text, widget.myUsername!, widget.username!);
+                              Map<String, String> data = {
+                                "sender": widget.myUsername!,
+                                "receiver": widget.username!,
+                                "message": _messageController.text,
+                                "time": DateTime.now().toString().substring(0,16)
+                              };
+                              // await networkHandler.post("/profile/chatWith/"+widget.myUsername!+"/"+widget.username!, data);
+                              await networkHandler.post("/profile/chat", data);
+                              // _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+                              _messageController.clear();
+                            },
                             icon: Icon(FeatherIcons.send, size: 25)
                         )
                       ],

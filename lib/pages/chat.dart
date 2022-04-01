@@ -1,4 +1,4 @@
-import 'package:Florxy/Model/chatModel.dart';
+import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/widgets/SearchMentionPostWidget.dart';
 import 'package:Florxy/widgets/chatWidget.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../NetworkHandler.dart';
 import 'ViewPostPage.dart';
 
 class ChatPage extends StatefulWidget {
@@ -17,20 +19,45 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  List<ChatModel> chats = [
-    ChatModel(
-      username: 'bababaconnnn',
-      time: 'Send 6h',
-      currentMessage: 'ทำไรอยู่ววว'
-    ),
-    ChatModel(
-        username: 'sadsad',
-        time: 'Yesterday',
-        currentMessage: 'เมินกันได้ลงคอนะ;-;'
-    )
-  ];
+  List data = [];
+  final storage = new FlutterSecureStorage();
+  final networkHandler = NetworkHandler();
+  ProfileModel profileModel = ProfileModel(
+    DOB: '',
+    img: '',
+    influencer: '',
+    fullname: '',
+    follower: 0,
+    following: 0,
+    bio: '',
+    email: '',
+    professor: '',
+    username: '',
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],
+  );
+
+
+  @override
+  void initState(){
+    // TODO: implement initState
+    super.initState();
+    fetchData();
+  }
+
+  void fetchData() async {
+    var response = await networkHandler.get("/profile/getData");
+    setState(() {
+      profileModel = ProfileModel.fromJson(response["data"]);
+      data = profileModel.listfollowing;
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
+    List staticData = data;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(Theme.of(context).platform==TargetPlatform.android?75:66.0),
@@ -72,25 +99,18 @@ class _ChatPageState extends State<ChatPage> {
                 onPressed: () {},
               ),
             ),
-            // actions: [
-            //   Padding(
-            //     padding: EdgeInsets.only(top: Theme.of(context).platform==TargetPlatform.android?17.5:0, right: 13),
-            //     child: IconButton(
-            //       icon: Icon(FeatherIcons.send),
-            //       iconSize: 25,
-            //       color: Colors.black,
-            //       onPressed: () {
-            //         Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPost()));
-            //       },
-            //     ),
-            //   ),
-            // ],
           ),
         ),
       ),
       body: ListView.builder(
-        itemCount: chats.length,
-        itemBuilder: (context,index)=>Chat( chatModel: chats[index] )
+          itemCount: profileModel.listfollowing.length,
+          itemBuilder: (context,index){
+          Map data = staticData[index];
+            return Chat(
+              username: "${data['username']}",
+              currentMessage: "${data['currentMessage']}",
+            );
+        }
       ),
     );
   }
