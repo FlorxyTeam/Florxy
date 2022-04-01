@@ -53,7 +53,13 @@ const Post = Schema(
         forwho:{
             type:String,
             default:"Everyone",
-        }
+        },
+        refcomment: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Comment'
+            }
+        ]
     },
     {
         timestamps: true,

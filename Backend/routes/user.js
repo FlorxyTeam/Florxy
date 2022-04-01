@@ -36,6 +36,7 @@ router.route("/checkemail/:email").get((req,res)=>{
 })
 
 
+
 router.route("/login").post((req, res) => {
   User.findOne({ email: req.body.email }, (err, result) => {
     if (err) return res.status(500).json({ msg: err });
@@ -56,7 +57,6 @@ router.route("/login").post((req, res) => {
     }
   });
 });
-
 
 router.route("/register").post((req, res) => {
   console.log("inside the register");

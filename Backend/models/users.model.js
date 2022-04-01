@@ -5,26 +5,13 @@ const Schema = mongoose.Schema;
 const User = Schema({
     email:{
         type: String,
+        required: true,
         unique: true,
     },
     password:{
         type: String,
-    },
-    facebook:{
-        type: String,
-        unique: true,
-        default: ""
-    },
-    google:{
-        type: String,
-        unique: true,
-        default: ""
-    },
-    username:{
-        type: String,
         required: true,
-        unique: true,
-    },
+    }
 });
 
 module.exports = mongoose.model("User", User);

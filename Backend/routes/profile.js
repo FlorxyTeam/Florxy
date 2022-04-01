@@ -356,6 +356,22 @@ router.route("/PostAndReply/:username").get((req,res)=>{
   })
 })
 
+router.route("/otherPostAndReply/:username").get((req,res)=>{
+  Post.find({username: req.params.username}, (err, result)=>{
+    if(err){
+      return res.json(err);
+    } else {
+      Profile.find({username: req.params.username}, (err,findProfile)=>{
+        if(err){
+          return res.json(err);
+        } else {
+          return res.send({ anotherPost: result, anotherProfile: findProfile });
+        }
+      })
+    }
+  })
+})
+
 router.route("/getData").get(middleware.checkToken, (req, res) => {
   Profile.findOne({ email: req.decoded.email }, (err, result) => {
     if (err) return res.json({ err: err });
@@ -400,32 +416,6 @@ router.route("/update").patch(middleware.checkToken, async (req, res) => {
       $set: {
            fullname: req.body.fullname ? req.body.fullname : profile.fullname,
            bio: req.body.bio ? req.body.bio : profile.bio,
-      },
-    },
-    { new: true },
-    (err, result) => {
-      if (err) return res.json({ err: err });
-      if (result == null) return res.json({ data: [] });
-      else return res.json({ data: result });
-    }
-  );
-});
-
-router.route("/update/profile").patch(middleware.checkToken, async (req, res) => {
-  let profile = {};
-  Profile.findOne({ email: req.decoded.email }, (err, result) => {
-    if (err) {
-      profile = {};
-    }
-    if (result != null) {
-      profile = result;
-    }
-  });
-  await Profile.findOneAndUpdate(
-    { email: req.decoded.email },
-    {
-      $set: {
-           img: req.body.img ? req.body.img : profile.img,
       },
     },
     { new: true },

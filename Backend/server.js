@@ -1,5 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require("cors");
+const http = require('http');
 const Port = process.env.PORT || 8080;
 const app = express();
 
@@ -18,6 +20,7 @@ connection.once("open", () => {
 
 app.use("/uploads",express.static("uploads"))
 app.use(express.json());
+// app.use(cors());
 
 const userRoute = require("./routes/user");
 app.use("/user", userRoute);
@@ -33,10 +36,22 @@ const blogRoute = require("./routes/blogpost");
 app.use("/blogPost", blogRoute);
 
 const productRoute = require("./routes/product");
+const console = require("console");
 app.use("/product", productRoute);
 
 app.route("/").get((req, res) => res.json("Hello world"));
 
-app.listen(Port,"0.0.0.0", () => 
+const server = app.listen(Port,"0.0.0.0", () => 
   console.log(`you server is running on port ${Port}`)
 );
+
+// var server = http.createServer(app);
+const io = require("socket.io")(server);
+
+io.on("connection",(socket)=>{
+  console.log('socket connected');
+  console.log(socket.id, "has joined");
+  // socket.on("/test",(msg)=>{
+  //   console.log(msg);
+  // });
+});
