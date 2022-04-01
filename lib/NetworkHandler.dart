@@ -9,7 +9,6 @@ class NetworkHandler {
 
   String baseurl = "http://172.20.10.2:8080";
 
-
   var log = Logger();
 
   FlutterSecureStorage storage = FlutterSecureStorage();

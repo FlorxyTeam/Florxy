@@ -1,3 +1,9 @@
+import 'package:Florxy/Model/profileModel.dart';
+import 'package:Florxy/NetworkHandler.dart';
+import 'package:Florxy/pages/allFollowerinFollower.dart';
+import 'package:Florxy/pages/allFollowinginFollowing.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:Florxy/NetworkHandler.dart';
 import 'package:Florxy/pages/allfollower.dart';
 import 'package:Florxy/pages/allfollowing.dart';
@@ -18,15 +24,14 @@ import 'package:Florxy/pages/PostReply.dart';
 import 'package:Florxy/pages/savedPro.dart';
 import 'package:flutter/services.dart';
 
-class anotherProfile extends StatefulWidget {
-  const anotherProfile({Key? key}) : super(key: key);
+class FollowProfile extends StatefulWidget {
+  const FollowProfile({Key? key}) : super(key: key);
 
   @override
-  _anotherProfileState createState() => _anotherProfileState();
+  _FollowProfileState createState() => _FollowProfileState();
 }
 
-class _anotherProfileState extends State<anotherProfile> {
-
+class _FollowProfileState extends State<FollowProfile> {
   final storage = new FlutterSecureStorage();
   final networkHandler = NetworkHandler();
   String? anotherUsername;
@@ -82,9 +87,8 @@ class _anotherProfileState extends State<anotherProfile> {
     print('delete');
     deleteData();
   }
-
   void fetchData() async {
-    String? profile = await storage.read(key: "anotherprofile");
+    String? profile = await storage.read(key: "anotherfollowprofile");
     print(profile);
     var response = await networkHandler.get("/profile/getOtherData/$profile");
     var response2 = await networkHandler.get("/profile/getData");
@@ -110,77 +114,76 @@ class _anotherProfileState extends State<anotherProfile> {
       });
     }
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: DefaultTabController(
-    length: 3,
-    child: NestedScrollView(
-          headerSliverBuilder: (context, _) {
-            return [
-              SliverList(
-                  delegate:
+          length: 3,
+          child: NestedScrollView(
+              headerSliverBuilder: (context, _) {
+                return [
+                  SliverList(
+                      delegate:
                       SliverChildListDelegate([profileHeaderWidget(context)]))
-            ];
-          },
-          body: Container(
-            decoration: BoxDecoration(
-                color: c.textWhite,
-                border: Border(
-                  top: BorderSide(
-                      width: 1, color: c.greyMain.withOpacity(0.5)),
-                )),
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                      top: 10, bottom: 10, left: 7, right: 7),
-                  child: Container(
-                    height: 25,
+                ];
+              },
+              body: Container(
+                decoration: BoxDecoration(
                     color: c.textWhite,
-                    child: TabBar(
-                      labelColor: c.greenMain,
-                      unselectedLabelColor: c.greyMain,
-                      indicator: BoxDecoration(
-                        color: c.greenLight1.withOpacity(0.8),
-                        borderRadius: BorderRadius.circular(40),
-                      ),
-                      tabs: [
-                        Tab(
-                          child: Inter_1(
-                              text: "Post and replies",
-                              size: 11.85,
-                              fontWeight: f.bold),
-                        ),
-                        Tab(
-                          child: Inter_1(
-                              text: "Favorite post",
-                              size: 11.85,
-                              fontWeight: f.bold),
-                        ),
-                        Tab(
-                          child: Inter_1(
-                              text: "Saved Product",
-                              size: 11.85,
-                              fontWeight: f.bold),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Expanded(
-                    child: TabBarView(
+                    border: Border(
+                      top: BorderSide(
+                          width: 1, color: c.greyMain.withOpacity(0.5)),
+                    )),
+                child: Column(
                   children: [
-                    AnotherPostReply( username: profileModel.username ),
-                    FavPost( idFavPost : profileModel.id ),
-                    SavedPro(),
+                    Padding(
+                      padding: const EdgeInsets.only(
+                          top: 10, bottom: 10, left: 7, right: 7),
+                      child: Container(
+                        height: 25,
+                        color: c.textWhite,
+                        child: TabBar(
+                          labelColor: c.greenMain,
+                          unselectedLabelColor: c.greyMain,
+                          indicator: BoxDecoration(
+                            color: c.greenLight1.withOpacity(0.8),
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          tabs: [
+                            Tab(
+                              child: Inter_1(
+                                  text: "Post and replies",
+                                  size: 11.85,
+                                  fontWeight: f.bold),
+                            ),
+                            Tab(
+                              child: Inter_1(
+                                  text: "Favorite post",
+                                  size: 11.85,
+                                  fontWeight: f.bold),
+                            ),
+                            Tab(
+                              child: Inter_1(
+                                  text: "Saved Product",
+                                  size: 11.85,
+                                  fontWeight: f.bold),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                        child: TabBarView(
+                          children: [
+                            AnotherPostReply( username: profileModel.username ),
+                            FavPost( idFavPost : profileModel.id ),
+                            SavedPro(),
+                          ],
+                        ))
                   ],
-                ))
-              ],
-            ),
-          )),
+                ),
+              )),
         ),
       ),
     );
@@ -207,7 +210,7 @@ class _anotherProfileState extends State<anotherProfile> {
                   radius: 44,
                   backgroundColor: Colors.orange,
                   backgroundImage:
-                      NetworkHandler().getImage(profileModel.email),
+                  NetworkHandler().getImage(profileModel.email),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -231,7 +234,7 @@ class _anotherProfileState extends State<anotherProfile> {
                     ),
                     Padding(
                       padding:
-                          const EdgeInsets.only(left: 21, top: 5, bottom: 5),
+                      const EdgeInsets.only(left: 21, top: 5, bottom: 5),
                       child: Row(
                         children: [
                           GestureDetector(
@@ -251,7 +254,7 @@ class _anotherProfileState extends State<anotherProfile> {
                               ],
                             ),
                             onTap: (){
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => allFollower()));
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => allFollowerinFollower()));
                             },
                           ),
                           SizedBox(
@@ -274,7 +277,7 @@ class _anotherProfileState extends State<anotherProfile> {
                               ],
                             ),
                             onTap: (){
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => allFollowing()));
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => allFollowinginFollowing()));
                             },
                           ),
                           SizedBox(
@@ -415,13 +418,9 @@ class _anotherProfileState extends State<anotherProfile> {
                         "myfullname":myprofileModel.fullname.toString(),
                         "following":(myprofileModel.following+1).toString()
                       };
-                      // Map<String, String> data2 = {
-                      //   "targetusername":profileModel.username
-                      // };
                       print(data);
                       var addfollow = await networkHandler
                           .patch("/profile/addfollower/${profileModel.username}/${myprofileModel.username}",data);
-                      // await networkHandler.post("/profile/chat/" + myprofileModel.username, data2);
                       setState(() {
                         itfollower= itfollower+1;
                         yourfollow="Following";
@@ -485,11 +484,4 @@ class _anotherProfileState extends State<anotherProfile> {
       ),
     );
   }
-
-  //
-  // Widget FollowButton() {
-  //   return
-  // }
-
-
-}
+  }
