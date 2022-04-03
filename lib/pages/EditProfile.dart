@@ -32,19 +32,21 @@ class _EditPageState extends State<EditPage> {
   TextEditingController _username = TextEditingController();
   TextEditingController _bio = TextEditingController();
   ProfileModel profileModel = ProfileModel(
-      DOB: '',
-      img: '',
-      influencer: '',
-      fullname: '',
-      follower: 0,
-      following: 0,
-      bio: '',
-      email: '',
-      professor: '',
-      username: '',
+    id: '',
+    username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
     favorite: [],
     listfollower: [],
-    listfollowing: [],);
+    listfollowing: [],
+  );
 
   File? image;
   @override

@@ -35,32 +35,33 @@ class _anotherProfileState extends State<anotherProfile> {
   int itfollowing = 0;
   ProfileModel profileModel = ProfileModel(
     id: '',
-    DOB: '',
-    img: '',
-    influencer: '',
-    fullname: '',
-    follower: 0,
-    following: 0,
-    bio: '',
-    email: '',
-    professor: '',
     username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
     favorite: [],
     listfollower: [],
     listfollowing: [],
   );
 
   ProfileModel myprofileModel = ProfileModel(
-    DOB: '',
-    img: '',
-    influencer: '',
-    fullname: '',
-    follower: 0,
-    following: 0,
-    bio: '',
-    email: '',
-    professor: '',
+    id: '',
     username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
     favorite: [],
     listfollower: [],
     listfollowing: [],
@@ -207,7 +208,7 @@ class _anotherProfileState extends State<anotherProfile> {
                   radius: 44,
                   backgroundColor: Colors.orange,
                   backgroundImage:
-                      NetworkHandler().getImage(profileModel.email),
+                      NetworkHandler().getImage(profileModel.img),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -410,10 +411,8 @@ class _anotherProfileState extends State<anotherProfile> {
                       Map<String, String> data = {
                         "img":profileModel.img,
                         "fullname":profileModel.fullname.toString(),
-                        "follower":(profileModel.follower+1).toString(),
                         "myimg":myprofileModel.img,
                         "myfullname":myprofileModel.fullname.toString(),
-                        "following":(myprofileModel.following+1).toString()
                       };
                       // Map<String, String> data2 = {
                       //   "targetusername":profileModel.username
@@ -443,8 +442,6 @@ class _anotherProfileState extends State<anotherProfile> {
                     minWidth: 135,
                     onPressed: () async{
                       Map<String, String> data = {
-                        "follower":(profileModel.follower-1).toString(),
-                        "following":(myprofileModel.following-1).toString()
                       };
                       var unfollow = await networkHandler
                           .patch("/profile/unfollower/${profileModel.username}/${myprofileModel.username}",data);

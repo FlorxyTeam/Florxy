@@ -1,4 +1,3 @@
-import 'package:Florxy/pages/FrankEditProfile.dart';
 import 'package:Florxy/pages/welcomepage.dart';
 import 'package:Florxy/provider/google_sign_in.dart';
 import 'package:Florxy/widgets/fontWeight.dart';

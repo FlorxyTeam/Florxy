@@ -40,19 +40,21 @@ class _MentionPostState extends State<MentionPost> {
   bool isFav = false;
   String? fullname='',influencer='',professor='';
   ProfileModel profileModel = ProfileModel(
-    DOB: '',
-    img: '',
-    influencer: '',
-    fullname: '',
-    follower: 0,
-    following: 0,
-    bio: '',
-    email: '',
-    professor: '',
+    id: '',
     username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
     favorite: [],
     listfollower: [],
-    listfollowing: [],);
+    listfollowing: [],
+  );
 
   @override
   void initState() {
@@ -642,19 +644,21 @@ class _ReviewPostState extends State<ReviewPost> {
   String? fullname='',influencer='',professor='';
 
   ProfileModel profileModel = ProfileModel(
-    DOB: '',
-    img: '',
-    influencer: '',
-    fullname: '',
-    follower: 0,
-    following: 0,
-    bio: '',
-    email: '',
-    professor: '',
+    id: '',
     username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
     favorite: [],
     listfollower: [],
-    listfollowing: [],);
+    listfollowing: [],
+  );
 
   @override
   void initState() {
@@ -1294,19 +1298,21 @@ class _PostState extends State<Post> {
   bool isFav = false;
   String? fullname='',influencer='',professor='';
   ProfileModel profileModel = ProfileModel(
-    DOB: '',
-    img: '',
-    influencer: '',
-    fullname: '',
-    follower: 0,
-    following: 0,
-    bio: '',
-    email: '',
-    professor: '',
+    id: '',
     username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
     favorite: [],
     listfollower: [],
-    listfollowing: [],);
+    listfollowing: [],
+  );
 
   @override
   void initState() {

@@ -50,19 +50,22 @@ class _CreatePostState extends State<CreatePost> {
   TextEditingController _forwho = TextEditingController();
   TextEditingController _type = TextEditingController();
   ProfileModel profileModel = ProfileModel(
-      DOB: '',
-      img: '',
-      influencer: '',
-      fullname: '',
-      follower: 0,
-      following: 0,
-      bio: '',
-      email: '',
-      professor: '',
-      username: '',
+    id: '',
+    username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
     favorite: [],
     listfollower: [],
-    listfollowing: [],);
+    listfollowing: [],
+  );
+
   @override
   void initState() {
     // TODO: implement initState
@@ -233,7 +236,7 @@ class _CreatePostState extends State<CreatePost> {
                           radius: 28,
                           backgroundColor: Colors.orange,
                           backgroundImage:
-                          NetworkHandler().getImage(profileModel.email),
+                          NetworkHandler().getImage(profileModel.img),
                         ),
                         SizedBox( width: 8 ),
                         Column(
