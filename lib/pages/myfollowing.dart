@@ -1,5 +1,7 @@
 import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/NetworkHandler.dart';
+import 'package:Florxy/pages/followprofile.dart';
+import 'package:Florxy/pages/navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 class myFollowing extends StatefulWidget {
