@@ -259,11 +259,14 @@ class _LoginPageState extends State<LoginPage> {
                             setState(() {
                               circular=true;
                             });
+                            String? username =
+                            await storage.read(key: "username");
                             Map<String, String> data = {
                               "email": _emailController.text,
+                              "username": "$username",
                               "password": _passwordController.text,
                             };
-                            var response = await networkHandler.post("/user/login", data);
+                            var response = await networkHandler.post("/user/login-email", data);
 
                             if(response.statusCode==200|| response.statusCode==201){
                               Map<String, dynamic> output = json.decode(response.body);

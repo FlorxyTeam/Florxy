@@ -36,7 +36,7 @@ router.route("/checkemail/:email").get((req, res) => {
 });
 
 
-router.route("/login").post((req, res) => {
+router.route("/login-email").post((req, res) => {
   User.findOne({email: req.body.email}, (err, result) => {
     if (err) return res.status(500).json({msg: err});
     if (result === null) {
@@ -44,7 +44,7 @@ router.route("/login").post((req, res) => {
     }
     if (result.password === req.body.password) {
       // implement the JWT
-      const token = jwt.sign({email: req.body.email}, config.key, {
+      const token = jwt.sign({username: req.body.username}, config.key, {
         // expiresIn: "24h",
       });
       res.json({
@@ -63,6 +63,7 @@ router.route("/register").post((req, res) => {
   const user = new User({
     email: req.body.email,
     password: req.body.password,
+    username: req.body.username,
   });
   user
       .save()

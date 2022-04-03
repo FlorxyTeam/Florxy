@@ -336,38 +336,10 @@ router.route("/addinfluencer/:username").patch(middleware.checkToken, (req,res)=
           );
 });
 
-router.route("/addintfollowing").post(middleware.checkToken, (req, res) => {
-    console.log(req.body.username)
-    console.log(req.body.following)
-   Profile.findOneAndUpdate(
-          {
-          username: req.body.username,
-           },
-          {
-            following: req.body.following,
-
-          },
-          {
-              new: true,
-              upsert: true
-            },
-          (err, profile) => {
-            if (err) return res.status(500).send(err);
-
-            const response = {
-              message: "follower more added",
-              data: profile,
-            };
-            return res.status(200).send(response);
-          }
-        );
-});
-
 router.route("/add").post(middleware.checkToken, (req, res) => {
   // eslint-disable-next-line new-cap
   const profile = Profile({
-    email: req.decoded.email,
-    username: req.body.username,
+    username: req.decoded.username,
     fullname: req.body.fullname,
     DOB: req.body.DOB,
   });
@@ -381,9 +353,8 @@ router.route("/add").post(middleware.checkToken, (req, res) => {
     });
 });
 
-
 router.route("/checkProfile").get(middleware.checkToken, (req, res) => {
-  Profile.findOne({ email: req.decoded.email }, (err, result) => {
+  Profile.findOne({ username: req.decoded.username }, (err, result) => {
     if (err) return res.json({ err: err });
     else if (result == null) {
       return res.json({ status: false });
@@ -438,7 +409,8 @@ router.route("/otherPostAndReply/:username").get((req,res)=>{
 })
 
 router.route("/getData").get(middleware.checkToken, (req, res) => {
-  Profile.findOne({ email: req.decoded.email }, (err, result) => {
+  console.log(req.decoded.username)
+  Profile.findOne({ username: req.decoded.username }, (err, result) => {
     if (err) return res.json({ err: err });
     if (result == null) return res.json({ data: [] });
     else return res.json({ data: result });
