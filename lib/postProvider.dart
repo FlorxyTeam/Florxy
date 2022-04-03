@@ -15,7 +15,8 @@ class PostProvider extends ChangeNotifier {
   List<dynamic>? favPost;
   List<dynamic>? listOfbrand;
   List<dynamic>? brandOverview;
-  List<dynamic>? productOverview;
+  List<dynamic>? topmention;
+  List<dynamic>? topreview;
   List<dynamic>? comment;
   List<dynamic>? profile;
   List<dynamic>? chat;
@@ -64,22 +65,11 @@ class PostProvider extends ChangeNotifier {
     final Map parseBrand = await json.decode(response.body.toString());
 
     brandOverview = parseBrand["data"];
+    topmention = parseBrand["topmention"];
+    topreview = parseBrand["topreview"];
   }
 
-  Future fetchProductOverview() async {
-    print('BrandOverview');
-    String? token = await storage.read(key: "token");
-    var id = await storage.read(key: 'id');
-    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/" + id!);
-    http.Response response = await httpClient.get(
-      resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
-    );
 
-    final Map parseBrand = await json.decode(response.body.toString());
-
-    productOverview = parseBrand["data"];
-  }
 
   Future fetchMentionProduct() async {
     print('hereeeeeeee');

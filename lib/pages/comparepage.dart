@@ -9,24 +9,29 @@ import 'package:Florxy/pages/productoverview.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:Florxy/NetworkHandler.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../postProvider.dart';
+
 
 class comparepage extends StatefulWidget {
   String? id;
-  comparepage({Key? key, this.id}) : super(key: key);
+  final int currentState;
+  comparepage({Key? key, this.id, required this.currentState}) : super(key: key);
 
   @override
   _comparepageState createState() => _comparepageState();
 }
 
 class _comparepageState extends State<comparepage> {
+  List pages = [ProductOverview()];
+  int _currentIndex = 0;
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
 
   @override
   void fetchData() async {
     print(widget.id);
-    await storage.write(key: "id", value: widget.id);
+
+    await storage.write(key: "p_id", value: widget.id);
+    await networkHandler.get("/product/" + widget.id!);
   }
 
   @override
@@ -34,10 +39,10 @@ class _comparepageState extends State<comparepage> {
     fetchData();
     // TODO: implement initState
     super.initState();
+    _currentIndex = widget.currentState;
   }
 
-  List pages = [ProductOverview()];
-  int _currentIndex = 0;
+
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +56,6 @@ class _comparepageState extends State<comparepage> {
               left: 0,
               child: InkWell(
                 onTap: () {
-                  setState(() {
-                    _currentIndex = 0;
-                  });
                 },
                 child: Container(
                   width: size.width,
