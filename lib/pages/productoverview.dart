@@ -149,7 +149,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                                 padding: const EdgeInsets.only(
                                     right: 10, left: 10, top: 5, bottom: 5),
                                 child: Inter(
-                                    text: "Pixi Skintreast",
+                                    text: productModel.p_brand,
                                     size: 13,
                                     color: Colors.white,
                                     fontWeight: f.semiBold),
@@ -411,30 +411,6 @@ class _ProductOverviewState extends State<ProductOverview> {
                 child: Poppins(text: "Interesting Review", size: 22,  color: Color(0xFF053118), fontWeight: f.semiBold),
               ),
 
-
-
-
-              // Padding(
-              //   padding:
-              //   const EdgeInsets.only(left: 28, top: 22, bottom: 6),
-              //   child: Poppins(
-              //     text: "Search By Category",
-              //     color: c.blackMain,
-              //     fontWeight: f.semiBold,
-              //     size: 18,
-              //   ),
-              // ),
-              // Container(
-              //   height: MediaQuery.of(context).size.height * 0.2,
-              //   child: ListView.separated(
-              //     padding: EdgeInsets.only(left: 28, right: 2),
-              //     itemCount: 5,
-              //     separatorBuilder: (context, _) => SizedBox(width: 10),
-              //     scrollDirection: Axis.horizontal,
-              //     itemBuilder: (context, index) =>
-              //         buildCard(item: items[index]),
-              //   ),
-              // ),
               SizedBox(
                 height:MediaQuery.of(context).size.height/5,
               )
