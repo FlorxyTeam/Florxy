@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const products = require("../models/product.model");
 const middleware = require("../middleware");
+const Post = require("../models/post.model");
 
 router.route("/add").post((req, res)=> {
   const product = products({
@@ -27,6 +28,7 @@ router.route("/add").post((req, res)=> {
       });
 });
 
+//Total brand
 router.route("/brand").get(middleware.checkToken, (req, res) => {
     products.find({}).distinct('p_brand', (err, result) => {
         console.log("list of brand");
@@ -38,7 +40,7 @@ router.route("/brand").get(middleware.checkToken, (req, res) => {
     })
 });
 
-
+//brandOverview
 router.route("/brand/:p_brand").get(middleware.checkToken, (req, res) => {
     products.find({p_brand: req.params.p_brand}, (err, result) => {
         if(err) res.status(500).json({msg: err});
@@ -61,6 +63,7 @@ router.route("/brand/:p_brand").get(middleware.checkToken, (req, res) => {
     });
 });
 
+//product Detail
 router.route("/:_id").get(middleware.checkToken, (req, res) => {
     products.findOne({_id: req.params._id}, (err, result) => {
         console.log("ProductOverview");
@@ -72,14 +75,56 @@ router.route("/:_id").get(middleware.checkToken, (req, res) => {
     })
 });
 
-router.route("/compare/:_id").get(middleware.checkToken, (req, res) => {
-    products.findOne({_id: req.params._id}, (err, result) => {
+//Interesting review and mention
+router.route("/:refproduct").get(middleware.checkToken, (req, res) => {
+    Post.find({refproduct: req.params.refproduct}, (err, result) => {
         console.log("ProductOverview");
         if(err) res.status(500).json({msg: err});
         res.json({
             data: result,
-            p_id: req.params._id,
+           refproduct: req.params.refproduct,
         })
+    })
+});
+
+//compare 2 products
+router.route("/compare/:p1_id/:p2_id").get(middleware.checkToken, (req, res) => {
+    products.find({p1_id: req.params._id}, (err, result1) => {
+        console.log("Compare 2 products.");
+        if(err) res.status(500).json({msg: err});
+         products.find({p2_id: req.params._id}, (err, result2) => {
+
+          res.json({
+                     product1: result1,
+                     product2: result2,
+                     _id: req.params._id,
+                 })
+         });
+
+    })
+});
+
+
+//compare 3 products
+router.route("/compare/:p1_id/:p2_id/:p3_id").get(middleware.checkToken, (req, res) => {
+    products.find({p1_id: req.params._id}, (err, result1) => {
+        console.log("Compare 3 products.");
+        if(err) res.status(500).json({msg: err});
+         products.find({p2_id: req.params._id}, (err, result2) => {
+            if(err) res.status(500).json({msg: err});
+             products.find({p2_id: req.params._id}, (err, result3) => {
+              if(err) res.status(500).json({msg: err});
+             res.json({
+                         product1: result1,
+                         product2: result2,
+                         product3: result3,
+
+              });
+
+             });
+
+         });
+
     })
 });
 
