@@ -379,7 +379,7 @@ router.route("/getData").get(middleware.checkToken, (req, res) => {
 
 router.route("/getUsername/:email").get((req, res) => {
   console.log(req.params.email)
-  Profile.findOne({ email: req.params.email }, (err, result) => {
+  Profile.find({ email: req.params.email }, (err, result) => {
     if (err) return res.json({ err: err });
     if (result == null) return res.json({ data: [] });
     else return res.json({ data: result });

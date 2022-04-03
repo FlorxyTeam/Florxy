@@ -24,6 +24,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   bool circular = true;
   NetworkHandler networkHandler = NetworkHandler();
+
   ProfileModel profileModel = ProfileModel(
     id: '',
     username: '',
@@ -51,6 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void fetchData() async {
     var response = await networkHandler.get("/profile/getData");
+    
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
       circular = false;

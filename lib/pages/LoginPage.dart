@@ -266,7 +266,7 @@ class _LoginPageState extends State<LoginPage> {
                               circular=true;
                             });
                             String myemail = _emailController.text;
-                            var getuser = await networkHandler.get("/profile/getUsername/$myemail");
+                            var getuser = await networkHandler.get("/user/getUsername/$myemail");
                             print(getuser);
                             userModel = UserModel.fromJson(getuser["data"]);
                             print("USERNAME: "+userModel.username);

@@ -57,6 +57,14 @@ router.route("/login-email").post((req, res) => {
   });
 });
 
+router.route("/getUsername/:email").get((req, res) => {
+  console.log(req.params.email)
+  User.findOne({ email: req.params.email }, (err, result) => {
+    if (err) return res.json({ err: err });
+    if (result == null) return res.json({ data: [] });
+    else return res.json({ data: result });
+  });
+});
 
 router.route("/register").post((req, res) => {
   console.log("inside the register");
