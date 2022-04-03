@@ -6,22 +6,24 @@ part of 'profileModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) => ProfileModel(
-      id: json['_id'] as String,
-      email: json['email'] as String,
-      username: json['username'] as String,
-      fullname: json['fullname'] as String,
-      follower: json['follower'] as int,
-      following: json['following'] as int,
-      DOB: json['DOB'] as String,
-      professor: json['professor'] as String,
-      influencer: json['influencer'] as String,
-      bio: json['bio'] as String,
-      img: json['img'] as String,
-      listfollower: json['listfollower'] as List<dynamic>,
-      listfollowing: json['listfollowing'] as List<dynamic>,
-      favorite: json['favorite'] as List<dynamic>,
-    );
+ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) {
+  return ProfileModel(
+    id: json['id'] as String?,
+    email: json['email'] as String,
+    username: json['username'] as String,
+    fullname: json['fullname'] as String,
+    follower: json['follower'] as int,
+    following: json['following'] as int,
+    DOB: json['DOB'] as String,
+    professor: json['professor'] as String,
+    influencer: json['influencer'] as String,
+    bio: json['bio'] as String,
+    img: json['img'] as String,
+    listfollower: json['listfollower'] as List<dynamic>,
+    listfollowing: json['listfollowing'] as List<dynamic>,
+    favorite: json['favorite'] as List<dynamic>,
+  );
+}
 
 Map<String, dynamic> _$ProfileModelToJson(ProfileModel instance) =>
     <String, dynamic>{

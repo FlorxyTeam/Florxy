@@ -53,8 +53,7 @@ router.route("/add/postImage/:id")
 router.route("/Add").post(middleware.checkToken, (req, res)=>{
   // eslint-disable-next-line new-cap
   const createpost = Post({
-    email: req.decoded.email,
-    username: req.body.username,
+    username: req.decoded.username,
     fullname: req.body.fullname,
     type: req.body.type,
     rating: req.body.rating,
@@ -72,7 +71,7 @@ router.route("/Add").post(middleware.checkToken, (req, res)=>{
 });
 
 router.route("/getOwnPost").get(middleware.checkToken, (req, res)=>{
-  Post.find({email: req.decoded.email}, (err, result)=>{
+  Post.find({username: req.decoded.username}, (err, result)=>{
     if (err) return res.json(err);
     return res.json({data: result});
   });
@@ -88,7 +87,7 @@ router.route("/getAllPost").get(middleware.checkToken, (req, res)=>{
 router.route("/delete/:id").delete(middleware.checkToken, (req, res)=>{
   Post.findOneAndDelete({
     $and: [
-      {email: req.decoded.email},
+      {username: req.decoded.username,},
       {_id: req.params.id},
     ],
   },

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:Florxy/Model/userModel.dart';
 import 'package:Florxy/NetworkHandler.dart';
 import 'package:Florxy/pages/Loadingscreen.dart';
 import 'package:Florxy/pages/createaccount_withemail.dart';
@@ -45,6 +46,11 @@ class _LoginPageState extends State<LoginPage> {
     });
     super.initState();
   }
+
+  UserModel userModel = UserModel(
+    email: "",
+    username: "",
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -259,15 +265,23 @@ class _LoginPageState extends State<LoginPage> {
                             setState(() {
                               circular=true;
                             });
-                            String? username =
-                            await storage.read(key: "username");
+                            String myemail = _emailController.text;
+                            var getuser = await networkHandler.get("/profile/getUsername/$myemail");
+                            print(getuser);
+                            userModel = UserModel.fromJson(getuser["data"]);
+                            print("USERNAME: "+userModel.username);
+
                             Map<String, String> data = {
                               "email": _emailController.text,
-                              "username": "$username",
+                              "username": userModel.username,
                               "password": _passwordController.text,
                             };
                             var response = await networkHandler.post("/user/login-email", data);
 
+
+
+                            await storage.write(
+                                key: "username", value: userModel.username);
                             if(response.statusCode==200|| response.statusCode==201){
                               Map<String, dynamic> output = json.decode(response.body);
                               print(output["msg"]);
