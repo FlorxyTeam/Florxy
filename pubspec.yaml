@@ -82,6 +82,7 @@ dependencies:
   file_picker:
   firebase_app_check:
   socket_io_client: ^0.9.12
+  firebase_messaging:
 
 dev_dependencies:
   build_runner:

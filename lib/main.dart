@@ -4,6 +4,8 @@ import 'package:Florxy/pages/navbar.dart';
 import 'package:Florxy/pages/registerpage.dart';
 import 'package:Florxy/pages/welcomepage.dart';
 import 'package:Florxy/provider/google_sign_in.dart';
+import 'package:Florxy/web/Loadingscreen-web.dart';
+import 'package:Florxy/web/welcomepage-web.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,20 +16,20 @@ import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'postProvider.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 
 
 Future main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  await FirebaseAppCheck.instance.activate(
-    webRecaptchaSiteKey: '6LcaODIfAAAAAMXSDY3Eo9pDPOqXJJHNXnSErkZt',
-  );
+  // await FirebaseAppCheck.instance.activate(
+  //   webRecaptchaSiteKey: '6LcaODIfAAAAAMXSDY3Eo9pDPOqXJJHNXnSErkZt',
+  // );
   // print('test');
-  String? token = await FirebaseAppCheck.instance.getToken();
-  print(token);
-  // await FirebaseAppCheck.instance.activate();
-  await FirebaseAppCheck.instance.setTokenAutoRefreshEnabled(true);
+  // String? token = await FirebaseAppCheck.instance.getToken();
+  // print(token);
+  // await FirebaseAppCheck.instance.setTokenAutoRefreshEnabled(true);
   runApp(const MyApp());
 }
 
@@ -40,6 +42,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Widget page = WelcomePage();
+  Widget webpage = WelcomePageWeb();
   final storage = new FlutterSecureStorage();
   // This widget is the root of your application.
 
@@ -54,17 +57,30 @@ class _MyAppState extends State<MyApp> {
     if(token != null){
       setState(() {
         page= LoadingScreen();
+        webpage = LoadingScreenWeb();
       });
     }else{
       setState(() {
         page= WelcomePage();
+        webpage = WelcomePageWeb();
       });
     }
   }
   @override
   Widget build(BuildContext context) {
-
-    return MultiProvider(
+    return (kIsWeb)?MultiProvider(
+        child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Florxy',
+            theme: ThemeData(),
+            home: webpage
+        ),
+        providers: [
+          ChangeNotifierProvider( create: (_) => PostProvider()),
+          ChangeNotifierProvider(create: (context) => GoogleSignInProvider())
+        ]
+    )
+        :MultiProvider(
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Florxy',
