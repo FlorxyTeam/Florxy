@@ -50,6 +50,7 @@ class _SensePageState extends State<SensePage> {
     controller = CameraController(
       widget.cameras![0],
       ResolutionPreset.max,
+      imageFormatGroup: ImageFormatGroup.yuv420,
     );
     controller.initialize().then((_) {
       if (!mounted) {
