@@ -379,7 +379,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = T7C6LP5HND;
+				DEVELOPMENT_TEAM = KLJU878VN8;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -387,9 +387,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-
-				PRODUCT_BUNDLE_IDENTIFIER = com.florxy.florxy;
-
+				PRODUCT_BUNDLE_IDENTIFIER = com.florxy.florxy.bacon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -514,7 +512,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = T7C6LP5HND;
+				DEVELOPMENT_TEAM = KLJU878VN8;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -522,9 +520,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-
-				PRODUCT_BUNDLE_IDENTIFIER = com.florxy.florxy;
-        
+				PRODUCT_BUNDLE_IDENTIFIER = com.florxy.florxy.bacon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";
@@ -543,7 +539,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = T7C6LP5HND;
+				DEVELOPMENT_TEAM = KLJU878VN8;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -551,9 +547,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-        
-				PRODUCT_BUNDLE_IDENTIFIER = com.florxy.florxy;
-
+				PRODUCT_BUNDLE_IDENTIFIER = com.florxy.florxy.bacon;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Runner/Runner-Bridging-Header.h";

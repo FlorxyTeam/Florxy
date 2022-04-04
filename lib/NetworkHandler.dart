@@ -7,7 +7,7 @@ import 'package:logger/logger.dart';
 
 class NetworkHandler {
 
-  String baseurl = "https://49cb-125-27-255-195.ngrok.io";
+  String baseurl = "http://192.168.2.36:8080";
 
   var log = Logger();
 

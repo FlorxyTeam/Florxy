@@ -70,43 +70,29 @@ class _FavPostState extends State<FavPost> {
             itemBuilder: (context,int index){
               Map data = staticData[index];
               return "${data['type']}"=='mention'?MentionPost(
-                name: "${data['fullname']}",
                 username: "${data['username']}",
                 postTime: "${data['updatedAt']}".toString().substring(0, 10),
-                brand: "${data['refbrand']}",
-                product: "${data['refproduct']}",
                 post: "${data['body']}",
                 comment: data['comment'],
-                favorite: data['favorite'],
                 urlImage: data['coverImage'],
-                professor: "${data['professor']}",
-                influencer: "${data['influencer']}",
                 id: "${data['_id']}",
               ):
               "${data['type']}"=='review'?ReviewPost(
-                name: "${data['fullname']}",
                 username: "${data['username']}",
                 postTime: "${data['updatedAt']}".toString().substring(0, 10),
                 brand: "${data['refbrand']}",
                 product: "${data['refproduct']}",
                 post: "${data['body']}",
                 comment: data['comment'],
-                favorite: data['favorite'],
                 urlImage: data['coverImage'],
-                professor: "${data['professor']}",
-                influencer: "${data['influencer']}",
                 id: "${data['_id']}",
                 rating: data['rating'],
               ):"${data['type']}"=='post'?Post(
-                name: "${data['fullname']}",
                 username: "${data['username']}",
                 postTime: "${data['updatedAt']}".toString().substring(0, 10),
                 post: "${data['body']}",
                 comment: data['comment'],
-                favorite: data['favorite'],
                 urlImage: data['coverImage'],
-                professor: "${data['professor']}",
-                influencer: "${data['influencer']}",
                 id: "${data['_id']}",
               ):Container();
             },

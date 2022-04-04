@@ -34,6 +34,16 @@ router.route("/getPost").get( (req, res) => {
   });
 });
 
+router.route("/getIDPost/:id").get(middleware.checkToken, (req,res)=>{
+  Post.findOne({ _id: req.params.id }).populate("product").exec(function(err, result){
+    if(err) {
+      return console.log(err);
+    } else {
+      res.json({ getPost: result });
+    }
+  });
+});
+
 router.route("/add/postImage/:id")
     .patch(middleware.checkToken, upload.single("img"), (req, res)=>{
       Post.findOneAndUpdate({_id: req.params.id},

@@ -8,42 +8,32 @@ part of 'postModel.dart';
 
 PostModel _$PostModelFromJson(Map<String, dynamic> json) {
   return PostModel(
-    body: json['body'] as String?,
-    comment: json['comment'] as int?,
-    favorite: json['favorite'] as int?,
-    rating: (json['rating'] as num?)?.toDouble(),
-    fullname: json['fullname'] as String?,
-    username: json['username'] as String?,
-    influencer: json['influencer'] as String?,
-    professor: json['professor'] as String?,
-    coverImage: json['coverImage'] as List<dynamic>?,
-    refbrand: json['refbrand'] as String?,
-    refproduct: json['refproduct'] as String?,
-    type: json['type'] as String?,
-    forwho: json['forwho'] as String?,
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
-    updatedAt: json['updatedAt'] == null
-        ? null
-        : DateTime.parse(json['updatedAt'] as String),
+      pinnedcomment: json['pinnedcomment'] as String,
+      username: json['username'] as String,
+      comment: json['comment'] as List,
+      favorite: json['favorite'] as List,
+      product: json['product'] as List,
+      archive: json['archive'] as bool,
+      coverImage: json['coverImage'] as List,
+      type: json['type'] as String,
+      rating: json['rating'] as double,
+      body: json['body'] as String,
+      createdAt: json['createdAt'] as String,
+      updatedAt: json['updatedAt'] as String
   );
 }
 
 Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
       'username': instance.username,
-      'fullname': instance.fullname,
-      'professor': instance.professor,
-      'influencer': instance.influencer,
-      'refproduct': instance.refproduct,
-      'refbrand': instance.refbrand,
+      'coverImage': instance.coverImage,
       'type': instance.type,
-      'body': instance.body,
       'rating': instance.rating,
+      'body': instance.body,
       'comment': instance.comment,
       'favorite': instance.favorite,
-      'forwho': instance.forwho,
-      'createdAt': instance.createdAt?.toIso8601String(),
-      'updatedAt': instance.updatedAt?.toIso8601String(),
-      'coverImage': instance.coverImage,
+      'createdAt': instance.createdAt,
+      'updatedAt': instance.updatedAt,
+      'pinnedcomment': instance.pinnedcomment,
+      'product': instance.product,
+      'archive': instance.archive
     };

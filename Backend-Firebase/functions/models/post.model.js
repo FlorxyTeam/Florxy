@@ -3,52 +3,42 @@ const schema = mongoose.Schema;
 
 const Post = schema(
     {
-      email: String,
-      username: String,
-      fullname: String,
-      professor: {
-        type: String,
-        default: "",
+      pinnedcomment: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
       },
-      influencer: {
-        type: String,
-        default: "",
-      },
-      img: {
-        type: String,
-        default: "",
-      },
-      refproduct: {
-        type: String,
-        default: "",
-      },
+      comment: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Comment",
+        },
+      ],
+      favorite: [
+        {
+          username: {
+            type: String,
+          },
+        },
+      ],
       type: String,
-      refbrand: {
-        type: String,
-        default: "",
-      },
-      body: String,
       coverImage: [
         {
           type: String,
           default: "",
         },
       ],
-      comment: {
-        type: Number,
-        default: "0",
-      },
-      favorite: {
-        type: Number,
-        default: "0",
-      },
+      body: String,
+      product: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+        },
+      ],
+      archive: Boolean,
+      username: String,
       rating: {
         type: Number,
-        default: "",
-      },
-      forwho: {
-        type: String,
-        default: "Everyone",
+        default: 0,
       },
     },
     {

@@ -136,63 +136,39 @@ class _HomePageState extends State<HomePage> {
                     itemBuilder: (context, int index) {
                       return model.postData![index]['type'] == 'mention'
                           ? MentionPost(
-                              name: model.postData![index]['fullname'],
                               username: model.postData![index]['username'],
-                              postTime: model.postData![index]['updatedAt']
-                                  .toString()
-                                  .substring(0, 10),
-                              brand: model.postData![index]['refbrand'],
-                              product: model.postData![index]['refproduct'],
+                              postTime: model.postData![index]['updatedAt'].toString().substring(0, 10),
                               post: model.postData![index]['body'],
-                              comment: model.postData![index]['comment'],
-                              favorite: model.postData![index]['favorite'],
+                              comment: 0,
                               urlImage: model.postData![index]['coverImage'],
-                              professor: model.postData![index]['professor'],
-                              influencer: model.postData![index]['influencer'],
                               id: model.postData![index]['_id'],
                             )
                           : model.postData![index]['type'] == 'review'
                               ? ReviewPost(
-                                  name: model.postData![index]['fullname'],
                                   username: model.postData![index]['username'],
                                   postTime: model.postData![index]['updatedAt']
                                       .toString()
                                       .substring(0, 10),
-                                  brand: model.postData![index]['refbrand'],
-                                  product: model.postData![index]['refproduct'],
-                                  urlImage: model.postData![index]
-                                      ['coverImage'],
+                                  brand: 'lll',
+                                  product: 'll',
+                                  urlImage: model.postData![index]['coverImage'],
                                   post: model.postData![index]['body'],
                                   rating: model.postData![index]['rating'],
-                                  comment: model.postData![index]['comment'],
-                                  favorite: model.postData![index]['favorite'],
-                                  professor: model.postData![index]
-                                      ['professor'],
-                                  influencer: model.postData![index]
-                                      ['influencer'],
+                                  comment: 0,
+                                  // favorite: model.postData![index]['favorite'],
                                   id: model.postData![index]['_id'],
                                 )
                               : model.postData![index]['type'] == 'post'
                                   ? Post(
-                                      name: model.postData![index]['fullname'],
-                                      username: model.postData![index]
-                                          ['username'],
-                                      postTime: model.postData![index]
-                                              ['updatedAt']
+                                      username: model.postData![index]['username'],
+                                      postTime: model.postData![index]['updatedAt']
                                           .toString()
                                           .substring(0, 10),
                                       post: model.postData![index]['body'],
-                                      comment: model.postData![index]
-                                          ['comment'],
-                                      favorite: model.postData![index]
-                                          ['favorite'],
-                                      professor: model.postData![index]
-                                          ['professor'],
-                                      influencer: model.postData![index]
-                                          ['influencer'],
+                                      comment: 0,
+                                      // favorite: model.postData![index]['favorite'],
                                       id: model.postData![index]['_id'],
-                                      urlImage: model.postData![index]
-                                          ['coverImage'])
+                                      urlImage: model.postData![index]['coverImage'])
                                   : Container();
                     },
                   ),

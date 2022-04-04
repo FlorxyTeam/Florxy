@@ -270,17 +270,11 @@ class _SearchPageState extends State<SearchPage> {
                   itemCount: model.postData?.length??0,
                   itemBuilder: (context,int index){
                     return model.postData![index]['type']=='mention' ? MentionPost(
-                      name: model.postData![index]['fullname'],
                       username: model.postData![index]['username'],
                       postTime: model.postData![index]['updatedAt'].toString().substring(0, 10),
-                      brand: model.postData![index]['refbrand'],
-                      product: model.postData![index]['refproduct'],
                       post: model.postData![index]['body'],
                       comment: model.postData![index]['comment'],
-                      favorite: model.postData![index]['favorite'],
                       urlImage: model.postData![index]['coverImage'],
-                      professor:model.postData![index]['professor'],
-                      influencer: model.postData![index]['influencer'],
                       id: model.postData![index]['_id'],
                     ):Container();
                   },
@@ -289,7 +283,6 @@ class _SearchPageState extends State<SearchPage> {
                   itemCount: model.postData?.length??0,
                   itemBuilder: (context,int index){
                     return model.postData![index]['type']=='review' ?ReviewPost(
-                      name: model.postData![index]['fullname'],
                       username: model.postData![index]['username'],
                       postTime: model.postData![index]['updatedAt'].toString().substring(0, 10),
                       brand: model.postData![index]['refbrand'],
@@ -298,9 +291,6 @@ class _SearchPageState extends State<SearchPage> {
                       post: model.postData![index]['body'],
                       rating: model.postData![index]['rating'],
                       comment: model.postData![index]['comment'],
-                      favorite: model.postData![index]['favorite'],
-                      professor:model.postData![index]['professor'],
-                      influencer: model.postData![index]['influencer'],
                       id: model.postData![index]['_id'],
                     ):Container();
                   },
@@ -309,14 +299,10 @@ class _SearchPageState extends State<SearchPage> {
                   itemCount: model.postData?.length??0,
                   itemBuilder: (context,int index){
                     return model.postData![index]['type']=='post' ? Post(
-                        name: model.postData![index]['fullname'],
                         username: model.postData![index]['username'],
                         postTime: model.postData![index]['updatedAt'].toString().substring(0, 10),
                         post: model.postData![index]['body'],
                         comment: model.postData![index]['comment'],
-                        favorite: model.postData![index]['favorite'],
-                        professor:model.postData![index]['professor'],
-                        influencer: model.postData![index]['influencer'],
                         id: model.postData![index]['_id'],
                         urlImage: model.postData![index]['coverImage']
                     ):Container();
