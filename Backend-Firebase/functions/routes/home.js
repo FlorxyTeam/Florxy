@@ -196,4 +196,43 @@ router.route("/getPost/viewPost/:id/:product")
       });
     });
 
+    router.route("/getSearchPost").get(middleware.checkToken,(req,res)=>{
+         Post.find({},(err,result)=>{
+                if(err)return res.json(err);
+                return res.json({data:result})
+         });
+    });
+
+    router.route("/getSearchPost/:id").get(middleware.checkToken, (req,res)=>{
+      var query = req.params.id
+      Post.find({$or: [
+                 //{username: {$regex: query, $options:"i"}},
+                 {product : { "p_name" : {$regex: query, $options:"i"}}},
+                 //{body: {$regex: query, $options:"i"}},
+                 ],
+                 }).populate("product").exec(function(err, result){
+        if(err) {
+          return console.log(err);
+        } else {
+          res.json({ getPost: result });
+        }
+      });
+    });
+
+    /*router.route("/getSearchPost/:id").get(middleware.checkToken,(req,res)=>{
+        var query = req.params.id
+
+
+        Post.find({$or: [
+                        //{username: {$regex: query, $options:"i"}},
+                        {"product.p_name" : {$regex: query, $options:"i"}},
+                        //{body: {$regex: query, $options:"i"}},
+                        ],
+                        },
+        (err,result)=>{
+            if(err)return res.json(err);
+            return res.json({data:result})
+        });
+    });*/
+
 module.exports = router;

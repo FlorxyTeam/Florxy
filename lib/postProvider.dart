@@ -6,11 +6,13 @@ import 'NetworkHandler.dart';
 
 class PostProvider extends ChangeNotifier {
   final networkHandler = NetworkHandler();
+
   final httpClient = http.Client();
 
   List<dynamic>? postData;
   List<dynamic>? productData;
   List<dynamic>? myPost;
+  List<dynamic>? searchPost;
   List<dynamic>? anotherPost;
   List<dynamic>? favPost;
   List<dynamic>? SearchData;
@@ -49,6 +51,20 @@ class PostProvider extends ChangeNotifier {
     final Map parseBrand = await json.decode(response.body.toString());
 
     listOfbrand = parseBrand["data"];
+  }
+
+  Future fetchSearchPost(query) async {
+    print('SearchPost');
+    String? token = await storage.read(key: "token");
+    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/home/getSearchPost/" + query!);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization": "Bearer $token"},
+    );
+
+    final Map parseSearch = await json.decode(response.body.toString());
+
+    searchPost = parseSearch["data"];
   }
 
   Future fetchBrandOverview() async {

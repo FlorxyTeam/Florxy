@@ -7,7 +7,7 @@ import 'package:logger/logger.dart';
 
 class NetworkHandler {
 
-  String baseurl = "http://192.168.2.36:8080";
+  String baseurl = "http://192.168.1.108:8080";
 
   var log = Logger();
 
@@ -86,6 +86,21 @@ class NetworkHandler {
   }
 
   Future<http.Response> postO(String url, Map<String, dynamic> body) async {
+    String? token = await storage.read(key:"token");
+    url = formater(url);
+    var response = await http.post(
+      Uri.parse(url),
+      headers: {
+        "Content-type": "application/json",
+        "Authorization":"Bearer $token",
+        "Access-Control-Allow-Origin": "*"
+      },
+      body: json.encode(body),
+    );
+    return response;
+  }
+
+  Future<http.Response> search(String url, Map<String, dynamic> body, String query) async {
     String? token = await storage.read(key:"token");
     url = formater(url);
     var response = await http.post(

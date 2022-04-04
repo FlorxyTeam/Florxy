@@ -20,7 +20,9 @@ class _SearchMentionPostState extends State<SearchMentionPost> {
   Widget build(BuildContext context) {
     return Container(
       height: 30,
-      width: 280,
+      width: Theme.of(context).platform == TargetPlatform.android
+          ? 240
+          : 0,
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
@@ -28,8 +30,8 @@ class _SearchMentionPostState extends State<SearchMentionPost> {
             fillColor: c.searchbar,
             contentPadding: EdgeInsets.fromLTRB(10, 0, 0, 0),
             prefixIcon: Padding(
-              padding: const EdgeInsets.only(right: 2, left: 12),
-              child: Icon(Icons.search_rounded, size: 23, color: c.blackSub2),
+              padding: const EdgeInsets.only(right: 2, left: 8),
+              child: Icon(Icons.search_rounded, size: 20, color: c.blackSub2),
             ),
             suffixIcon: widget.text.isNotEmpty ? GestureDetector(
                   child: Icon(FeatherIcons.x, size: 20, color: Colors.black),

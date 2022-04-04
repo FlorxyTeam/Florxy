@@ -47,3 +47,4 @@ const Post = schema(
 );
 
 module.exports = mongoose.model("Post", Post);
+
