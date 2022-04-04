@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // TODO: implement initState
-    Provider.of<PostProvider>(context, listen: false).fetchData();
+
     super.initState();
     // fetchData();
   }

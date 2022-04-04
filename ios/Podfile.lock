@@ -151,9 +151,7 @@ PODS:
   - share_plus (0.0.1):
     - Flutter
   - SwiftyGif (5.4.3)
-  - TensorFlowLiteC (2.7.0):
-    - TensorFlowLiteC/Core (= 2.7.0)
-  - TensorFlowLiteC/Core (2.7.0)
+  - TensorFlowLiteC (2.2.0)
   - tflite (1.1.2):
     - Flutter
     - TensorFlowLiteC
@@ -276,7 +274,7 @@ SPEC CHECKSUMS:
   SDWebImage: 631cf572cc93dfdfe54162e556410a61f1141928
   share_plus: 056a1e8ac890df3e33cb503afffaf1e9b4fbae68
   SwiftyGif: 6c3eafd0ce693cad58bb63d2b2fb9bacb8552780
-  TensorFlowLiteC: 50d75ed3640c15dcfbaf88ca4326297b445e00a1
+  TensorFlowLiteC: b3ab9e867b0b71052ca102a32a786555b330b02e
   tflite: 7acd11db0915e2d90ab90474413068568eb605f0
   url_launcher_ios: 839c58cdb4279282219f5e248c3321761ff3c4de
 
