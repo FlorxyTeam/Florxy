@@ -40,28 +40,6 @@ class _ViewPostState extends State<ViewPost> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   String? myusername,myfullname;
-  // CommentModel commentModel = CommentModel(
-  //     owner: '',
-  //     mainpost: '',
-  //     body: '',
-  //     comment: 0,
-  //     favorite: 0
-  // );
-  // ProfileModel profileModel = ProfileModel(
-  //   DOB: '',
-  //   img: '',
-  //   influencer: '',
-  //   fullname: '',
-  //   follower: 0,
-  //   following: 0,
-  //   bio: '',
-  //   email: '',
-  //   professor: '',
-  //   username: '',
-  //   favorite: [],
-  //   listfollower: [],
-  //   listfollowing: [],
-  // );
 
   @override
   void initState() {

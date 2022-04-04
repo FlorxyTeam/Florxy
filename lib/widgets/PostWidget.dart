@@ -43,7 +43,7 @@ class _MentionPostState extends State<MentionPost> {
   List favorite=[];
   List product=[], staticData=[];
   int countFav = 0;
-  late Map data;
+  Map? data;
   PostModel postModel = PostModel(
     favorite: [],
     product: []
@@ -491,7 +491,7 @@ class _MentionPostState extends State<MentionPost> {
                             Container(
                               constraints: BoxConstraints(maxWidth: 160),
                               child: Inter_Crop(
-                                  text: '${data['p_brand']}' + " " + '${data['p_name']}',
+                                  text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
                                   size: 10,
                                   color: c.tag,
                                   fontWeight: f.semiBold
@@ -511,7 +511,7 @@ class _MentionPostState extends State<MentionPost> {
                 if(widget.urlImage?.length!=null)SizedBox(height: 8),
                 GestureDetector(
                   onTap: () async {
-                    var product = '${data['p_name']}';
+                    var product = '${data!['p_name']}';
                     product = product.replaceAll(" ","_");
                     var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id! + "/" + product);
                     print(res);
@@ -550,7 +550,7 @@ class _MentionPostState extends State<MentionPost> {
                             Container(
                               constraints: BoxConstraints(maxWidth: 160),
                               child: Inter_Crop(
-                                  text: '${data['p_brand']}' + " " + '${data['p_name']}',
+                                  text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
                                   size: 10,
                                   color: c.tag,
                                   fontWeight: f.semiBold
@@ -642,13 +642,13 @@ class _MentionPostState extends State<MentionPost> {
 }
 
 class ReviewPost extends StatefulWidget {
-  String? postTime, username, brand, product, post, id;
+  String? postTime, username, post, id;
   int comment;
   double rating;
   List? urlImage;
 
   ReviewPost(
-      {Key? key,this.postTime, this.username, this.brand, this.product, this.post, required this.comment, this.urlImage, this.id, required this.rating})
+      {Key? key,this.postTime, this.username, this.post, required this.comment, this.urlImage, this.id, required this.rating})
       : super(key: key);
 
   @override
@@ -662,9 +662,12 @@ class _ReviewPostState extends State<ReviewPost> {
   bool isFav = false;
   String? fullname='',influencer='',professor='';
   List? favorite=[];
+  List product=[];
+  Map? data;
   int countFav = 0;
   PostModel postModel = PostModel(
-      favorite: []
+      favorite: [],
+      product: []
   );
 
   ProfileModel profileModel = ProfileModel(
@@ -703,11 +706,16 @@ class _ReviewPostState extends State<ReviewPost> {
       postModel = PostModel.fromJson(response2["getPost"]);
       favorite = postModel.favorite!;
       countFav = favorite!.length;
+
+      product = postModel.product!;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    if( product != null && product.length !=0 ){
+      data = product[0];
+    }
     return Container(
       child: Column(
         children: [
@@ -1122,7 +1130,7 @@ class _ReviewPostState extends State<ReviewPost> {
                             Container(
                               constraints: BoxConstraints(maxWidth: 125),
                               child: Inter_Crop(
-                                  text: widget.brand!+" "+widget.product!,
+                                  text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
                                   size: 10,
                                   color: c.tag,
                                   fontWeight: f.semiBold
@@ -1151,7 +1159,7 @@ class _ReviewPostState extends State<ReviewPost> {
                 if(widget.urlImage?.length!=null)SizedBox(height: 8),
                 GestureDetector(
                   onTap: () async {
-                    var product = widget.product!;
+                    var product = '${data!['p_name']}';
                     product = product.replaceAll(" ","_");
                     var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id! + "/" + product);
                     print(res);
@@ -1206,7 +1214,7 @@ class _ReviewPostState extends State<ReviewPost> {
                             Container(
                               constraints: BoxConstraints(maxWidth: 125),
                               child: Inter_Crop(
-                                  text: widget.brand!+" "+widget.product!,
+                                  text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
                                   size: 10,
                                   color: c.tag,
                                   fontWeight: f.semiBold
@@ -1328,7 +1336,8 @@ class _PostState extends State<Post> {
   List? favorite=[];
   int countFav = 0;
   PostModel postModel = PostModel(
-      favorite: []
+      favorite: [],
+      product: []
   );
   ProfileModel profileModel = ProfileModel(
     id: '',

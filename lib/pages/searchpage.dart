@@ -285,8 +285,6 @@ class _SearchPageState extends State<SearchPage> {
                     return model.postData![index]['type']=='review' ?ReviewPost(
                       username: model.postData![index]['username'],
                       postTime: model.postData![index]['updatedAt'].toString().substring(0, 10),
-                      brand: model.postData![index]['refbrand'],
-                      product: model.postData![index]['refproduct'],
                       urlImage: model.postData![index]['coverImage'],
                       post: model.postData![index]['body'],
                       rating: model.postData![index]['rating'],

@@ -58,8 +58,6 @@ class _PostReplyState extends State<PostReply> {
               model.myPost![index]['type']=='review'?ReviewPost(
                 username: model.myPost![index]['username'],
                 postTime: model.myPost![index]['updatedAt'].toString().substring(0, 10),
-                brand: 'jjj',
-                product: 'jjj',
                 post: model.myPost![index]['body'],
                 rating: model.myPost![index]['rating'],
                 comment: 0,

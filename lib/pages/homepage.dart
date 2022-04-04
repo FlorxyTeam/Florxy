@@ -149,8 +149,6 @@ class _HomePageState extends State<HomePage> {
                                   postTime: model.postData![index]['updatedAt']
                                       .toString()
                                       .substring(0, 10),
-                                  brand: 'lll',
-                                  product: 'll',
                                   urlImage: model.postData![index]['coverImage'],
                                   post: model.postData![index]['body'],
                                   rating: model.postData![index]['rating'],

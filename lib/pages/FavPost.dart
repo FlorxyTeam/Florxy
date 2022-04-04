@@ -80,8 +80,6 @@ class _FavPostState extends State<FavPost> {
               "${data['type']}"=='review'?ReviewPost(
                 username: "${data['username']}",
                 postTime: "${data['updatedAt']}".toString().substring(0, 10),
-                brand: "${data['refbrand']}",
-                product: "${data['refproduct']}",
                 post: "${data['body']}",
                 comment: data['comment'],
                 urlImage: data['coverImage'],
