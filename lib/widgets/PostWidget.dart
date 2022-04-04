@@ -43,6 +43,7 @@ class _MentionPostState extends State<MentionPost> {
   List favorite=[];
   List product=[], staticData=[];
   int countFav = 0;
+  late Map data;
   PostModel postModel = PostModel(
     favorite: [],
     product: []
@@ -85,14 +86,15 @@ class _MentionPostState extends State<MentionPost> {
       countFav = favorite.length;
 
       product = postModel.product!;
-      staticData = product;
 
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    Map data = staticData[0];
+    if( product != null && product.length !=0 ){
+      data = product[0];
+    }
     return Container(
       child: Column(
         children: [
@@ -484,7 +486,7 @@ class _MentionPostState extends State<MentionPost> {
                     Container(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 9, right: 4, top: 3, bottom: 3),
-                        child: Row(
+                        child: product.length == 1?Row(
                           children: [
                             Container(
                               constraints: BoxConstraints(maxWidth: 160),
@@ -498,7 +500,7 @@ class _MentionPostState extends State<MentionPost> {
                             SizedBox(width: 4),
                             Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
                           ],
-                        ),
+                        ):Container()
                       ),
                       decoration: BoxDecoration(
                           color: c.greenLight2,
