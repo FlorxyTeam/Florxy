@@ -86,6 +86,8 @@ class _MentionPostState extends State<MentionPost> {
       countFav = favorite.length;
 
       product = postModel.product!;
+      print('product');
+      print(product);
 
     });
   }
@@ -510,24 +512,23 @@ class _MentionPostState extends State<MentionPost> {
                 ),
                 if(widget.urlImage?.length!=null)SizedBox(height: 8),
                 GestureDetector(
-                  onTap: () async {
-                    var product = '${data!['p_name']}';
-                    product = product.replaceAll(" ","_");
-                    var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id! + "/" + product);
-                    print(res);
+                  onTap: () {
+                    // var product = '${data!['p_name']}';
+                    // product = product.replaceAll(" ","_");
+                    // var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id! + "/" + product);
+                    // print(res);
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPost(
-                        id: res['post']['_id'],
-                        fullname: res['post']['fullname'],
-                        username: res['post']['username'],
-                        post: res['post']['body'],
-                        urlImage: res['post']['coverImage'],
-                        comment: res['post']['comment'],
-                        favorite: res['post']['favorite'],
-                        brand: res['product']['p_brand'],
-                        product: res['product']['p_name'],
-                        desc: res['product']['p_desc'],
-                        productImg: res['product']['p_img'],
-                        mention: res['product']['mention']
+                        img: profileModel.img,
+                        username: widget.username,
+                        fullname: fullname,
+                        id: widget.id,
+                        body: widget.post,
+                        urlImage: widget.urlImage,
+                        listProduct : product,
+                        professor: professor,
+                        influencer: influencer,
+                        comment: widget.comment,
+                        favorite: countFav,
 
                     )));
                   },
@@ -1158,24 +1159,23 @@ class _ReviewPostState extends State<ReviewPost> {
                 ),
                 if(widget.urlImage?.length!=null)SizedBox(height: 8),
                 GestureDetector(
-                  onTap: () async {
-                    var product = '${data!['p_name']}';
-                    product = product.replaceAll(" ","_");
-                    var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id! + "/" + product);
-                    print(res);
+                  onTap: () {
+                    // var product = '${data!['p_name']}';
+                    // product = product.replaceAll(" ","_");
+                    // var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id! + "/" + product);
+                    // print(res);
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPost(
-                        id: res['post']['_id'],
-                        fullname: res['post']['fullname'],
-                        username: res['post']['username'],
-                        post: res['post']['body'],
-                        urlImage: res['post']['coverImage'],
-                        comment: res['post']['comment'],
-                        favorite: res['post']['favorite'],
-                        brand: res['product']['p_brand'],
-                        product: res['product']['p_name'],
-                        desc: res['product']['p_desc'],
-                        productImg: res['product']['p_img'],
-                        mention: res['product']['mention']
+                      img: profileModel.img,
+                      username: widget.username,
+                      fullname: fullname,
+                      id: widget.id,
+                      body: widget.post,
+                      urlImage: widget.urlImage,
+                      listProduct : product,
+                      professor: professor,
+                      influencer: influencer,
+                      comment: widget.comment,
+                      favorite: countFav,
 
                     )));
                   },
@@ -1764,22 +1764,20 @@ class _PostState extends State<Post> {
                 ),
                 if(widget.urlImage?.length!=null)SizedBox(height: 8),
                 GestureDetector(
-                  onTap: () async {
-                    var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id!);
-                    print(res);
+                  onTap: () {
+                    // var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id!);
+                    // print(res);
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPost(
-                        id: res['post']['_id'],
-                        fullname: res['post']['fullname'],
-                        username: res['post']['username'],
-                        post: res['post']['body'],
-                        urlImage: res['post']['coverImage'],
-                        comment: res['post']['comment'],
-                        favorite: res['post']['favorite'],
-                        brand: res['product']['p_brand'],
-                        product: res['product']['p_name'],
-                        desc: res['product']['p_desc'],
-                        productImg: res['product']['p_img'],
-                        mention: res['product']['mention']
+                      img: profileModel.img,
+                      username: widget.username,
+                      fullname: fullname,
+                      id: widget.id,
+                      body: widget.post,
+                      urlImage: widget.urlImage,
+                      professor: professor,
+                      influencer: influencer,
+                      comment: widget.comment,
+                      favorite: countFav,
 
                     )));
                   },
@@ -2315,18 +2313,13 @@ class _MentionPost2State extends State<MentionPost2> {
                     var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id! + "/" + product);
                     print(res);
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPost(
-                        id: res['post']['_id'],
-                        fullname: res['post']['fullname'],
-                        username: res['post']['username'],
-                        post: res['post']['body'],
-                        urlImage: res['post']['coverImage'],
-                        comment: res['post']['comment'],
-                        favorite: res['post']['favorite'],
-                        brand: res['product']['p_brand'],
-                        product: res['product']['p_name'],
-                        desc: res['product']['p_desc'],
-                        productImg: res['product']['p_img'],
-                        mention: res['product']['mention']
+                        // img: profileModel.img,
+                        // username: widget.username,
+                        // fullname: fullname,
+                        // id: widget.id,
+                        // body: widget.post,
+                        // urlImage: widget.urlImage,
+                        // listProduct : product
 
                     )));
                   },
@@ -2916,18 +2909,13 @@ class _ReviewPost2State extends State<ReviewPost2> {
                     var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id! + "/" + product);
                     print(res);
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPost(
-                        id: res['post']['_id'],
-                        fullname: res['post']['fullname'],
-                        username: res['post']['username'],
-                        post: res['post']['body'],
-                        urlImage: res['post']['coverImage'],
-                        comment: res['post']['comment'],
-                        favorite: res['post']['favorite'],
-                        brand: res['product']['p_brand'],
-                        product: res['product']['p_name'],
-                        desc: res['product']['p_desc'],
-                        productImg: res['product']['p_img'],
-                        mention: res['product']['mention']
+                        // img: profileModel.img,
+                        // username: widget.username,
+                        // fullname: fullname,
+                        // id: widget.id,
+                        // body: widget.post,
+                        // urlImage: widget.urlImage,
+                        // listProduct : product
 
                     )));
                   },
@@ -3482,18 +3470,13 @@ class _Post2State extends State<Post2> {
                     var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id!);
                     print(res);
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPost(
-                        id: res['post']['_id'],
-                        fullname: res['post']['fullname'],
-                        username: res['post']['username'],
-                        post: res['post']['body'],
-                        urlImage: res['post']['coverImage'],
-                        comment: res['post']['comment'],
-                        favorite: res['post']['favorite'],
-                        brand: res['product']['p_brand'],
-                        product: res['product']['p_name'],
-                        desc: res['product']['p_desc'],
-                        productImg: res['product']['p_img'],
-                        mention: res['product']['mention']
+                        // img: profileModel.img,
+                        // username: widget.username,
+                        // fullname: fullname,
+                        // id: widget.id,
+                        // body: widget.post,
+                        // urlImage: widget.urlImage,
+                        // listProduct : product
 
                     )));
                   },
