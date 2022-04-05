@@ -28,20 +28,25 @@ class _comparepageState extends State<comparepage> {
   int _currentIndex = 0;
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
-  String? num ;
+  String? num;
 
   @override
   void fetchData() async {
     print(widget.id);
-
     await storage.write(key: "p_id", value: widget.id);
     await networkHandler.get("/product/" + widget.id!);
+
+  }
+
+  fetchNum() async{
     num = await storage.read(key: "num");
+    return num;
   }
 
   @override
   void initState()  {
-    fetchData();
+      fetchData();
+
     // TODO: implement initState
     super.initState();
     _currentIndex = widget.currentState;
@@ -51,9 +56,6 @@ class _comparepageState extends State<comparepage> {
   @override
   void dispose() {
    super.dispose();
-   setState(() {
-
-   });
   }
 
   @override
@@ -99,7 +101,10 @@ class _comparepageState extends State<comparepage> {
                                   var y = await storage.read(key: "p_id2");
                                   var z = await storage.read(key: "p_id3");
                                   var numoflist = await storage.read(key: "num");
-                                  setState(() async {
+                                  if (numoflist == null){
+
+                                  }
+                                  setState(() {
                                     if( x == null && x != widget.id){
                                       storage.write(key: "p_id1", value: widget.id);
                                     numoflist = (int.parse(numoflist!)+1).toString();
@@ -173,11 +178,15 @@ class _comparepageState extends State<comparepage> {
                           color: Color(0xFFFFFFFF).withOpacity(0.68),
                         ),
                         child: Center(
-                          child: Inter(
-                              text: num.toString(),
-                              size: 20,
-                              color: Color(0xFF0B391E),
-                              fontWeight: f.extraBold),
+                          child: FutureBuilder(
+                            future: fetchNum(),
+                              builder: (context, snapshot) =>
+                            Inter(
+                                text: num.toString(),
+                                size: 20,
+                                color: Color(0xFF0B391E),
+                                fontWeight: f.extraBold),
+                          ),
                         ),
                       ),
                       SizedBox(

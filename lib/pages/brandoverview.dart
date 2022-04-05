@@ -32,6 +32,10 @@ class _BrandoverviewState extends State<Brandoverview> {
     await networkHandler.get("/product/brand/" + widget.p_brand!);
     await networkHandler.get("/product/topmention/brand/" + widget.p_brand!);
     await networkHandler.get("/product/topreview/brand/" + widget.p_brand!);
+    var x = await storage.read(key: "num");
+    if (x==null){
+      storage.write(key: "num", value: '0');
+    }
   }
 
   @override
