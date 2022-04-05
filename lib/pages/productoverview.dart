@@ -95,7 +95,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                       width: MediaQuery.of(context).size.width/2,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image:  NetworkImage( productModel.p_img),
+                          image:  NetworkImage(productModel.p_img),
                           fit: BoxFit.contain,
                         ),
                       ),
@@ -106,7 +106,6 @@ class _ProductOverviewState extends State<ProductOverview> {
                     child: Container(
                       child: InkWell(
                         onTap: (){
-
 
 
                         },
