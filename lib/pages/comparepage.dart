@@ -9,35 +9,54 @@ import 'package:Florxy/pages/productoverview.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:Florxy/NetworkHandler.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import '../postProvider.dart';
+import 'package:Florxy/pages/compare1.dart';
+import 'package:Florxy/pages/compare2.dart';
+import 'package:Florxy/pages/compare3.dart';
+
 
 class comparepage extends StatefulWidget {
   String? id;
-  comparepage({Key? key, this.id}) : super(key: key);
+  final int currentState;
+  comparepage({Key? key, this.id, required this.currentState}) : super(key: key);
 
   @override
   _comparepageState createState() => _comparepageState();
 }
 
 class _comparepageState extends State<comparepage> {
+  List pages = [ProductOverview()];
+  int _currentIndex = 0;
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
+  String? num;
 
   @override
   void fetchData() async {
     print(widget.id);
-    await storage.write(key: "id", value: widget.id);
+    await storage.write(key: "p_id", value: widget.id);
+    await networkHandler.get("/product/" + widget.id!);
+
+  }
+
+  fetchNum() async{
+    num = await storage.read(key: "num");
+    return num;
   }
 
   @override
-  void initState() {
-    fetchData();
+  void initState()  {
+      fetchData();
+
     // TODO: implement initState
     super.initState();
+    _currentIndex = widget.currentState;
+
   }
 
-  List pages = [ProductOverview()];
-  int _currentIndex = 0;
+  @override
+  void dispose() {
+   super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +70,6 @@ class _comparepageState extends State<comparepage> {
               left: 0,
               child: InkWell(
                 onTap: () {
-                  setState(() {
-                    _currentIndex = 0;
-                  });
                 },
                 child: Container(
                   width: size.width,
@@ -80,16 +96,51 @@ class _comparepageState extends State<comparepage> {
                                   ),
                                   color: c.textWhite),
                               child: TextButton(
-                                onPressed: () => showModalBottomSheet(
-                                  backgroundColor: Colors.transparent,
-                                  isScrollControlled: true,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.vertical(
-                                        top: Radius.circular(20)),
-                                  ),
-                                  context: context,
-                                  builder: (context) => buildCompare(),
-                                ),
+                                onPressed: () async {
+                                  var x = await storage.read(key: "p_id1");
+                                  var y = await storage.read(key: "p_id2");
+                                  var z = await storage.read(key: "p_id3");
+                                  var numoflist = await storage.read(key: "num");
+                                  if (numoflist == null){
+
+                                  }
+                                  setState(() {
+                                    if( x == null && x != widget.id){
+                                      storage.write(key: "p_id1", value: widget.id);
+                                    numoflist = (int.parse(numoflist!)+1).toString();
+                                      storage.write(key: "num", value: numoflist!);
+                                    }else if(y == null && x != widget.id){
+                                      storage.write(key: "p_id2", value: widget.id);
+                                      numoflist = (int.parse(numoflist!)+1).toString();
+                                      storage.write(key: "num", value: numoflist!);
+                                    }else if(z == null && x != widget.id && y != widget.id){
+                                      storage.write(key: "p_id3", value: widget.id);
+                                      numoflist = (int.parse(numoflist!)+1).toString();
+                                      storage.write(key: "num", value: numoflist!);
+                                    }else{
+                                      print("x: " + x.toString());
+                                      print("y: " + y.toString());
+                                      print("z: " + z.toString());
+                                      print("full");
+                                    }
+                                    //
+                                    // num = (await storage.read(key: "num")).toString();
+                                    // print("num "+ num.toString());
+
+                                    if( x != null && y == null && z == null ){
+
+
+                                    }else if( x != null && y == null && z == null ){
+
+                                    }else if( x != null && y != null && z != null ){
+                                      Navigator.of(context).push(
+                                          MaterialPageRoute(builder: (context) => compare1(id1: x,id2: y,id3: z)));
+
+
+                                    }
+                                  });
+
+                                  },
                                 child: Inter(
                                     text: "ADD TO LIST",
                                     letterSpacing: 2,
@@ -127,11 +178,15 @@ class _comparepageState extends State<comparepage> {
                           color: Color(0xFFFFFFFF).withOpacity(0.68),
                         ),
                         child: Center(
-                          child: Inter(
-                              text: "2",
-                              size: 20,
-                              color: Color(0xFF0B391E),
-                              fontWeight: f.extraBold),
+                          child: FutureBuilder(
+                            future: fetchNum(),
+                              builder: (context, snapshot) =>
+                            Inter(
+                                text: num.toString(),
+                                size: 20,
+                                color: Color(0xFF0B391E),
+                                fontWeight: f.extraBold),
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -146,294 +201,5 @@ class _comparepageState extends State<comparepage> {
     );
   }
 
-  Widget buildCompare() => Container(
-        height: MediaQuery.of(context).size.height * 0.92,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(42),
-            topLeft: Radius.circular(42),
-          ),
-          color: Colors.white,
-        ),
-        padding: EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 88,
-              child: Divider(
-                height: 0,
-                color: c.greyMain,
-                thickness: 4,
-              ),
-            ),
-            SizedBox(height: 40),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.17,
-                  width: MediaQuery.of(context).size.width / 3,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(
-                          "assets/img/cds12002672-1-removebg-preview.png"),
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ),
-                Expanded(
-                    child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            right: 10, left: 10, top: 5, bottom: 5),
-                        child: Inter(
-                            text: "Aesop",
-                            size: 13,
-                            color: Colors.white,
-                            fontWeight: f.semiBold),
-                      ),
-                      decoration: BoxDecoration(
-                          color: Color(0xFF9FA8A3),
-                          borderRadius: BorderRadius.circular(50)),
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      "B & Tea Balancing Toner",
-                      textAlign: TextAlign.left,
-                      style: GoogleFonts.poppins(
-                          color: Color(0xFF053118),
-                          fontWeight: f.semiBold,
-                          fontSize: 16),
-                    ),
-                    Roboto(
-                        text:
-                            "It is a long established fact that a reader will be distracted.",
-                        size: 12,
-                        color: Color(0xFF9D9D9D),
-                        fontWeight: f.regular),
-                  ],
-                )),
-                Container(
-                  child: InkWell(
-                    onTap: () {},
-                    child:
-                        Icon(Icons.close_rounded, color: c.redMain, size: 24),
-                  ),
-                ),
-              ],
-            ),
-            Container(
-              width: MediaQuery.of(context).size.height,
-              child: Divider(
-                height: 0,
-                color: c.greyMain.withOpacity(0.5),
-                thickness: 1,
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.15,
-                  width: MediaQuery.of(context).size.width / 3,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image:
-                          AssetImage("assets/img/fresh-removebg-preview.png"),
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ),
-                Expanded(
-                    child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            right: 10, left: 10, top: 5, bottom: 5),
-                        child: Inter(
-                            text: "Fresh",
-                            size: 13,
-                            color: Colors.white,
-                            fontWeight: f.semiBold),
-                      ),
-                      decoration: BoxDecoration(
-                          color: Color(0xFF9FA8A3),
-                          borderRadius: BorderRadius.circular(50)),
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      "Rose Deep Hydration Facial Toner",
-                      textAlign: TextAlign.left,
-                      style: GoogleFonts.poppins(
-                          color: Color(0xFF053118),
-                          fontWeight: f.semiBold,
-                          fontSize: 16),
-                    ),
-                    Roboto(
-                        text:
-                            "It is a long established fact that a reader will be distracted.",
-                        size: 12,
-                        color: Color(0xFF9D9D9D),
-                        fontWeight: f.regular),
-                  ],
-                )),
-                Container(
-                  child: InkWell(
-                    onTap: () {},
-                    child:
-                        Icon(Icons.close_rounded, color: c.redMain, size: 24),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.height,
-              child: Divider(
-                height: 0,
-                color: c.greyMain.withOpacity(0.5),
-                thickness: 1,
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.15,
-                  width: MediaQuery.of(context).size.width / 3,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/img/pixi-glow.png"),
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ),
-                Expanded(
-                    child: Column(
-                  // mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            right: 10, left: 10, top: 5, bottom: 5),
-                        child: Inter(
-                            text: "Pixi Skintreast",
-                            size: 13,
-                            color: Colors.white,
-                            fontWeight: f.semiBold),
-                      ),
-                      decoration: BoxDecoration(
-                          color: Color(0xFF9FA8A3),
-                          borderRadius: BorderRadius.circular(50)),
-                    ),
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      "Glow Tonic Facial Toner",
-                      textAlign: TextAlign.left,
-                      style: GoogleFonts.poppins(
-                          color: Color(0xFF053118),
-                          fontWeight: f.semiBold,
-                          fontSize: 16),
-                    ),
-                    Roboto(
-                        text:
-                            "It is a long established fact that a reader will be distracted.",
-                        size: 12,
-                        color: Color(0xFF9D9D9D),
-                        fontWeight: f.regular),
-                  ],
-                )),
-                Container(
-                  child: InkWell(
-                    onTap: () {},
-                    child:
-                        Icon(Icons.close_rounded, color: c.redMain, size: 24),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 60),
-              child: RichText(
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: "Compare between ",
-                      style: GoogleFonts.roboto(
-                          color: Color(0xFFBDBDBD),
-                          fontWeight: f.medium,
-                          fontSize: 14),
-                    ),
-                    TextSpan(
-                      text: "3",
-                      style: GoogleFonts.roboto(
-                          color: Color(0xFF32A060),
-                          fontWeight: f.bold,
-                          fontSize: 13),
-                    ),
-                    TextSpan(
-                      text: " products",
-                      style: GoogleFonts.roboto(
-                          color: Color(0xFFBDBDBD),
-                          fontWeight: f.semiBold,
-                          fontSize: 14),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 7,
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height / 17,
-              width: MediaQuery.of(context).size.width / 1.6,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20),
-                ),
-                color: Color(0xFF32A060),
-              ),
-              child: TextButton(
-                onPressed: () {},
-                child: Inter(
-                    text: "COMPARE",
-                    letterSpacing: 1.7,
-                    size: 15,
-                    color: Color(0xFFFFFFFF),
-                    fontWeight: f.extraBold),
-              ),
-            )
-          ],
-        ),
-      );
+
 }

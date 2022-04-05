@@ -1,3 +1,4 @@
+import 'package:Florxy/pages/productoverview.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
@@ -10,35 +11,7 @@ import 'package:Florxy/NetworkHandler.dart';
 
 import '../postProvider.dart';
 
-class MostMention {
-  final String urlImage;
-  final String title;
-  final String rating;
-  final String numMention;
 
-  const MostMention({
-    required this.urlImage,
-    required this.title,
-    required this.rating,
-    required this.numMention,
-  });
-}
-
-class TopReview {
-  final String urlImage;
-  final String title;
-  final String rating;
-  final String numMention;
-  final String type;
-
-  const TopReview({
-    required this.urlImage,
-    required this.title,
-    required this.rating,
-    required this.numMention,
-    required this.type,
-  });
-}
 
 class Brandoverview extends StatefulWidget {
   String? p_brand;
@@ -49,7 +22,6 @@ class Brandoverview extends StatefulWidget {
 }
 
 class _BrandoverviewState extends State<Brandoverview> {
-  String? test;
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
 
@@ -58,6 +30,12 @@ class _BrandoverviewState extends State<Brandoverview> {
     print(widget.p_brand);
     await storage.write(key: "p_brand", value: widget.p_brand);
     await networkHandler.get("/product/brand/" + widget.p_brand!);
+    await networkHandler.get("/product/topmention/brand/" + widget.p_brand!);
+    await networkHandler.get("/product/topreview/brand/" + widget.p_brand!);
+    var x = await storage.read(key: "num");
+    if (x==null){
+      storage.write(key: "num", value: '0');
+    }
   }
 
   @override
@@ -65,128 +43,11 @@ class _BrandoverviewState extends State<Brandoverview> {
     fetchData();
     // TODO: implement initState
     Provider.of<PostProvider>(context, listen: false).fetchBrandOverview();
+    Provider.of<PostProvider>(context, listen: false).fetchTopmentionProduct();
+    Provider.of<PostProvider>(context, listen: false).fetchTopreviewProduct();
     super.initState();
-    // WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-    //   print(model.favPost![index]['favorite']['fullname']);
-    // });
+
   }
-
-  List<MostMention> MostMenitems = [
-    MostMention(
-        urlImage: "assets/img/pixi.jpg",
-        title: "Pixi Glow Tonic ",
-        rating: "4.8",
-        numMention: "5,230"),
-    MostMention(
-        urlImage: "assets/img/Pixi+Caroline.jpg",
-        title: "Pixi + Caroline Hirons Double ",
-        rating: "5.8",
-        numMention: "5,230"),
-    MostMention(
-        urlImage: "assets/img/Phenomenalgel.jpg",
-        title: "Phenomenal Gel ",
-        rating: "1.8",
-        numMention: "5,230"),
-    MostMention(
-        urlImage: "assets/img/pixi.jpg",
-        title: "Pixi Glow Tonic  ",
-        rating: "8.8",
-        numMention: "5,230"),
-    MostMention(
-        urlImage: "assets/img/Pixi+Caroline.jpg",
-        title: "Pixi + Caroline Hirons Double ",
-        rating: "9.8",
-        numMention: "5,230"),
-    MostMention(
-        urlImage: "assets/img/Phenomenalgel.jpg",
-        title: "Phenomenal Gel ",
-        rating: "10.0",
-        numMention: "5,230"),
-  ];
-
-  List<TopReview> Topitems = [
-    TopReview(
-        urlImage: "assets/img/Phenomenalgel.jpg",
-        title: "Phenomenal Gel ",
-        rating: "10.0",
-        numMention: "5,230",
-        type: "review"),
-    TopReview(
-        urlImage: "assets/img/Pixi+Caroline.jpg",
-        title: "Pixi + Caroline Hirons Double ",
-        rating: "10.0",
-        numMention: "5,230",
-        type: "review"),
-    TopReview(
-        urlImage: "assets/img/pixi.jpg",
-        title: "Pixi Glow Tonic",
-        rating: "10.0",
-        numMention: "5,230",
-        type: "mention"),
-    TopReview(
-        urlImage: "assets/img/Phenomenalgel.jpg",
-        title: "Phenomenal Gel",
-        rating: "10.0",
-        numMention: "",
-        type: ""),
-    TopReview(
-        urlImage: "assets/img/Pixi+Caroline.jpg",
-        title: "Pixi + Caroline Hirons Double kkkk",
-        rating: "10.0",
-        numMention: "5,230",
-        type: "mention"),
-    TopReview(
-        urlImage: "assets/img/pixi.jpg",
-        title: "Pixi Glow Tonic",
-        rating: "10.0",
-        numMention: "5,230",
-        type: "review"),
-  ];
-
-  // List<MoreProduct> Product = [
-  //   MoreProduct(
-  //       urlImage: "assets/img/pixi.jpg",
-  //       title: "Pixi Glow Tonic ",
-  //       rating: "10.0",
-  //       numMention: "",
-  //       type: ""
-  //   ),
-  //   MoreProduct(
-  //       urlImage: "assets/img/Pixi+Caroline.jpg",
-  //       title: "Pixi + Caroline Hirons Double kkkk ",
-  //       rating: "10.0",
-  //       numMention: "5,230",
-  //       type: "mention"
-  //   ),
-  //   MoreProduct(
-  //       urlImage: "assets/img/Phenomenalgel.jpg",
-  //       title: "Phenomenal Gel",
-  //       rating: "10.0",
-  //       numMention: "5,230",
-  //       type: "review"
-  //   ),
-  //   MoreProduct(
-  //       urlImage: "assets/img/pixi.jpg",
-  //       title: "Pixi Glow Tonic ",
-  //       rating: "10.0",
-  //       numMention: "5,230",
-  //       type: "mention"
-  //   ),
-  //   MoreProduct(
-  //       urlImage: "assets/img/Pixi+Caroline.jpg",
-  //       title: "Pixi + Caroline Hirons Double kkkk ",
-  //       rating: "10.0",
-  //       numMention: "5,230",
-  //       type: "mention"
-  //   ),
-  //   MoreProduct(
-  //       urlImage: "assets/img/Phenomenalgel.jpg",
-  //       title: "Phenomenal Gel",
-  //       rating: "10.0",
-  //       numMention: "5,230",
-  //       type: "mention"
-  //   ),
-  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -437,13 +298,23 @@ class _BrandoverviewState extends State<Brandoverview> {
                     height: MediaQuery.of(context).size.height * 0.31,
                     width: MediaQuery.of(context).size.height,
                     // color: c.redMain,
-                    child: ListView.separated(
-                      padding: EdgeInsets.only(left: 28, right: 2),
-                      itemCount: 6,
-                      separatorBuilder: (context, _) => SizedBox(width: 10),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) =>
-                          buildCard_brand_Mention(mention: MostMenitems[index]),
+                    child: Consumer<PostProvider>(
+                      builder: (context, model, _) => FutureBuilder(
+                        future: model.fetchTopmentionProduct(),
+                        builder: (context, snapshot) => ListView.separated(
+                          padding: EdgeInsets.only(left: 28, right: 2),
+                          itemCount: model.topmention?.length ?? 0,
+                          separatorBuilder: (context, _) => SizedBox(width: 10),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) =>
+                              buildCard_brand_Mention(
+                                  model.topmention![index]['p_name'],
+                                  model.topmention![index]['p_img'],
+                                  model.topmention![index]['_id'],
+                                  model.topmention![index]['mention']
+                              ),
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -468,13 +339,23 @@ class _BrandoverviewState extends State<Brandoverview> {
                     height: MediaQuery.of(context).size.height * 0.31,
                     width: MediaQuery.of(context).size.height,
                     // color: c.redMain,
-                    child: ListView.separated(
-                      padding: EdgeInsets.only(left: 28, right: 2),
-                      itemCount: 6,
-                      separatorBuilder: (context, _) => SizedBox(width: 10),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) =>
-                          buildCard_brand_Topreview(review: Topitems[index]),
+                    child: Consumer<PostProvider>(
+                      builder: (context, model, _) => FutureBuilder(
+                        future: model.fetchTopreviewProduct(),
+                        builder: (context, snapshot) => ListView.separated(
+                          padding: EdgeInsets.only(left: 28, right: 2),
+                          itemCount: model.topreview?.length ?? 0,
+                          separatorBuilder: (context, _) => SizedBox(width: 10),
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) =>
+                              buildCard_brand_Topreview(
+                                  model.topreview![index]['p_name'],
+                                  model.topreview![index]['p_img'],
+                                  model.topreview![index]['_id'],
+                                  model.topreview![index]['review']
+                              ),
+                        ),
+                      ),
                     ),
                   ),
                 ],
@@ -511,7 +392,9 @@ class _BrandoverviewState extends State<Brandoverview> {
                               buildCard_brand_MoreProduct(
                                   model.brandOverview![index]['p_name'],
                                   model.brandOverview![index]['p_img'],
-                                  model.brandOverview![index]['_id']),
+                                  model.brandOverview![index]['_id'],
+
+                              ),
                         ),
                       ),
                     ),
@@ -536,9 +419,11 @@ class _BrandoverviewState extends State<Brandoverview> {
           children: [
             Center(
               child: InkWell(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => comparepage(id: id)));
+                onTap: () async{
+
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage(id: id, currentState: 0,)));
+                  await storage.write(key: "p_id", value: id);
+
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.31,
@@ -616,7 +501,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                         Padding(
                           padding: const EdgeInsets.only(top: 3),
                           child: Inter(
-                              text: "mention",
+                              text: " mention",
                               size: 11,
                               color: c.blackMain,
                               fontWeight: f.medium),
@@ -631,9 +516,7 @@ class _BrandoverviewState extends State<Brandoverview> {
         ),
       );
 
-  Widget buildCard_brand_Mention({
-    required MostMention mention,
-  }) =>
+  Widget buildCard_brand_Mention(String p_name, String p_img, String id, int mention) =>
       Container(
         width: MediaQuery.of(context).size.width * 0.31,
         height: MediaQuery.of(context).size.height * 0.27,
@@ -643,7 +526,8 @@ class _BrandoverviewState extends State<Brandoverview> {
               child: InkWell(
                 onTap: () {
                   Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => comparepage()));
+                      MaterialPageRoute(builder: (context) => comparepage(id: id, currentState: 0)));
+
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.31,
@@ -672,8 +556,8 @@ class _BrandoverviewState extends State<Brandoverview> {
                             topRight: Radius.circular(15),
                           ),
                           image: DecorationImage(
-                            image: AssetImage(mention.urlImage),
-                            fit: BoxFit.fill,
+                            image:NetworkImage(p_img),
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ),
@@ -682,7 +566,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                         padding: const EdgeInsets.only(top: 5, left: 7),
                         width: MediaQuery.of(context).size.width * 0.34,
                         child: Text(
-                          mention.title,
+                          p_name,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
@@ -696,7 +580,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                           Padding(
                             padding: const EdgeInsets.only(left: 7, top: 3),
                             child: Inter(
-                                text: mention.rating,
+                                text: "0",
                                 size: 11,
                                 color: c.blackMain,
                                 fontWeight: f.semiBold),
@@ -715,7 +599,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                         Padding(
                           padding: const EdgeInsets.only(left: 7, top: 3),
                           child: Inter(
-                              text: mention.numMention,
+                              text: mention.toString(),
                               size: 11,
                               color: c.blackMain,
                               fontWeight: f.semiBold),
@@ -723,7 +607,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                         Padding(
                           padding: const EdgeInsets.only(top: 3),
                           child: Inter(
-                              text: "mentions",
+                              text: " mentions",
                               size: 11,
                               color: c.blackMain,
                               fontWeight: f.medium),
@@ -738,14 +622,18 @@ class _BrandoverviewState extends State<Brandoverview> {
         ),
       );
 
-  Widget buildCard_brand_Topreview({required TopReview review}) => Container(
+  Widget buildCard_brand_Topreview(String p_name, String p_img, String id, int review)
+  => Container(
         width: MediaQuery.of(context).size.width * 0.31,
         height: MediaQuery.of(context).size.height * 0.27,
         child: Stack(
           children: [
             Center(
               child: InkWell(
-                onTap: () {},
+                onTap: () async {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage(id: id, currentState: 0,)));
+                  await storage.write(key: "p_id", value: id);
+                },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.31,
                   height: MediaQuery.of(context).size.height * 0.27,
@@ -773,8 +661,8 @@ class _BrandoverviewState extends State<Brandoverview> {
                             topRight: Radius.circular(15),
                           ),
                           image: DecorationImage(
-                            image: AssetImage(review.urlImage),
-                            fit: BoxFit.fill,
+                            image:NetworkImage(p_img),
+                            fit: BoxFit.contain,
                           ),
                         ),
                       ),
@@ -783,7 +671,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                         padding: const EdgeInsets.only(top: 5, left: 7),
                         width: MediaQuery.of(context).size.width * 0.34,
                         child: Text(
-                          review.title,
+                          p_name,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.poppins(
@@ -797,7 +685,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                           Padding(
                             padding: const EdgeInsets.only(left: 7, top: 3),
                             child: Inter(
-                                text: review.rating,
+                                text: "0",
                                 size: 11,
                                 color: c.blackMain,
                                 fontWeight: f.semiBold),
@@ -816,7 +704,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                         Padding(
                           padding: const EdgeInsets.only(left: 7, top: 3),
                           child: Inter(
-                              text: review.numMention,
+                              text: review.toString(),
                               size: 11,
                               color: c.blackMain,
                               fontWeight: f.semiBold),
@@ -824,7 +712,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                         Padding(
                           padding: const EdgeInsets.only(top: 3),
                           child: Inter(
-                              text: review.type,
+                              text: " reviews",
                               size: 11,
                               color: c.blackMain,
                               fontWeight: f.medium),

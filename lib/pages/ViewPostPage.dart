@@ -7,6 +7,7 @@ import 'package:Florxy/widgets/CommentWidget.dart';
 import 'package:Florxy/widgets/ViewPhotoWidget.dart';
 import 'package:Florxy/widgets/button.dart';
 import 'package:Florxy/widgets/font.dart';
+import 'package:Florxy/widgets/productWidget.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,10 +26,10 @@ import '../postProvider.dart';
 import 'CreatePost.dart';
 
 class ViewPost extends StatefulWidget {
-  String? fullname, username, post, brand, product, desc, productImg,id;
-  int? comment,favorite,mention;
-  List? urlImage;
-  ViewPost({Key? key, this.fullname, this.username, this.post, this.brand, this.product, this.desc, this.productImg, this.comment, this.favorite, this.urlImage, this.mention, this.id}) : super(key: key);
+  String? fullname, username, img, professor, influencer, id, body;
+  int? comment,favorite;
+  List? urlImage,listProduct;
+  ViewPost({Key? key, this.fullname, this.username, this.img, this.comment, this.favorite, this.urlImage, this.influencer, this.professor, this.id, this.body, this.listProduct}) : super(key: key);
 
   @override
   _ViewPostState createState() => _ViewPostState();
@@ -39,7 +40,22 @@ class _ViewPostState extends State<ViewPost> {
   TextEditingController _commentController = TextEditingController();
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
-  String? myusername,myfullname;
+  ProfileModel profileModel = ProfileModel(
+    id: '',
+    username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],
+  );
 
   @override
   void initState() {
@@ -50,11 +66,9 @@ class _ViewPostState extends State<ViewPost> {
   }
 
   void fetchData() async{
-    var username = await storage.read(key: 'username');
-    var fullname = await storage.read(key: 'myfullname');
+    var response = await networkHandler.get("/profile/getData");
     setState(() {
-      myfullname = fullname;
-      myusername = username;
+      profileModel = ProfileModel.fromJson(response["data"]);
     });
 
   }
@@ -62,6 +76,7 @@ class _ViewPostState extends State<ViewPost> {
   @override
   Widget build(BuildContext context) {
     final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
+    List product = widget.listProduct!;
     return Scaffold(
       backgroundColor: c.textWhite,
       body: Stack(
@@ -92,8 +107,8 @@ class _ViewPostState extends State<ViewPost> {
                               CircleAvatar(
                                 radius: 30,
                                 backgroundColor: Colors.orange,
-                                // backgroundImage:
-                                // NetworkHandler().getImage(profileModel.email),
+                                backgroundImage:
+                                NetworkImage(widget.img!),
                               ),
                               SizedBox( width: 8 ),
                               Column(
@@ -109,12 +124,13 @@ class _ViewPostState extends State<ViewPost> {
                                   SizedBox( height: 7 ),
                                   Row(
                                     children: [
-                                      Container(
+                                      (widget.professor=="")?
+                                      Container():Container(
                                         child: Padding(
                                           padding: const EdgeInsets.only(
                                               right: 7, left: 7, top: 4, bottom: 4),
                                           child: Inter(
-                                              text: "Beauty Advisor",
+                                              text: widget.professor!,
                                               size: 8.5,
                                               color: Colors.white,
                                               fontWeight: f.semiBold),
@@ -124,12 +140,13 @@ class _ViewPostState extends State<ViewPost> {
                                             borderRadius: BorderRadius.circular(10)),
                                       ),
                                       SizedBox( width: 5 ),
-                                      Container(
+                                      (widget.influencer=="")?
+                                      Container():Container(
                                         child: Padding(
                                           padding: const EdgeInsets.only(
                                               right: 5, left: 5, top: 2, bottom: 2),
                                           child: Inter(
-                                              text: "Brand Presenter",
+                                              text: widget.influencer!,
                                               size: 8.5,
                                               color: c.blueMain,
                                               fontWeight: f.bold),
@@ -183,7 +200,7 @@ class _ViewPostState extends State<ViewPost> {
                       children: [
                         Align(
                           alignment: Alignment.topLeft,
-                          child: Inter(text: widget.post!, size: 14, color: c.postText, fontWeight: f.regular)
+                          child: Inter(text: widget.body!, size: 14, color: c.postText, fontWeight: f.regular)
                         ),
                         SizedBox(height: 15),
                         if(widget.urlImage?.length==null)SizedBox(height: 0),
@@ -483,73 +500,23 @@ class _ViewPostState extends State<ViewPost> {
                           height: 0,
                         ),
                         SizedBox(height: 8),
-                        Row(
-                          children: [
-                            Inter(text: widget.mention.toString(), size: 13.5, color: c.textBlack, fontWeight: f.bold),
-                            SizedBox(width: 3),
-                            Inter(text: 'Mention to', size: 12.5, color: c.textBlack, fontWeight: f.regular),
-                          ],
-                        ),
-                        SizedBox(height: 8),
-                        Container(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                            child: Row(
-                              // crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  child: Center(
-                                    child: Container(
-                                      height: 100,
-                                      decoration: BoxDecoration(
-                                          color: Colors.transparent,
-                                          image: DecorationImage(
-                                              image: NetworkImage(widget.productImg!),
-                                              fit: BoxFit.contain
-                                          )
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 11),
-                                  child: Container(
-                                    width: 230,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Container(
-                                            child: Padding(
-                                              padding: const EdgeInsets.symmetric(vertical: 2,horizontal: 8),
-                                              child: PoppinsLeft(text: widget.brand!, size: 10.5, color: Colors.white, fontWeight: f.semiBold),
-                                            ),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(50),
-                                            color: c.greySub
-                                          ),
-                                        ),
-                                        SizedBox(height: 2),
-                                        PoppinsLeft(text: widget.product!, size: 13.5, color: c.textBlack, fontWeight: f.semiBold),
-                                        SizedBox(height: 10),
-                                        Roboto(text: 'It is a long established fact that a reader will be distracted.', size: 12, color: c.greyMain, fontWeight: f.regular)
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: c.shadow.withOpacity(0.1),
-                                spreadRadius: -15,
-                                blurRadius: 41,
-                                offset: Offset(3, 7), // changes position of shadow
-                              ),
-                            ],
+                        MediaQuery.removePadding(
+                          context: context,
+                          removeTop: true,
+                          removeBottom: true,
+                          child: ListView.builder(
+                            itemCount: widget.listProduct!.length,
+                            itemBuilder: (context,int index){
+                              Map data = product[index];
+                              return ProductInMentionPost(
+                                brand: "${data['p_brand']}",
+                                product: "${data['p_name']}",
+                                productImg: "${data['p_img']}",
+                                desc: "${data['p_desc']}"
+                              );
+                            },
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
                           ),
                         ),
                         SizedBox(height: 15),
@@ -683,12 +650,12 @@ class _ViewPostState extends State<ViewPost> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Poppins(
-                                  text: myfullname!,
+                                  text: profileModel.fullname,
                                   fontWeight: f.semiBold,
                                   size: 11.5,
                                   color: Colors.black,
                                 ),
-                                Inter(text: "@" + myusername!, size: 10, color: c.textUsername, fontWeight: f.medium),
+                                Inter(text: "@" + profileModel.username, size: 10, color: c.textUsername, fontWeight: f.medium),
                               ],
                             ),
                           ],

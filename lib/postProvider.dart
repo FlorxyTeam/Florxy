@@ -16,10 +16,13 @@ class PostProvider extends ChangeNotifier {
   List<dynamic>? SearchData;
   List<dynamic>? listOfbrand;
   List<dynamic>? brandOverview;
-  List<dynamic>? productOverview;
+  List<dynamic>? topmention;
+  List<dynamic>? topreview;
   List<dynamic>? comment;
   List<dynamic>? profile;
   List<dynamic>? chat;
+  List<dynamic>? pro1;
+  List<dynamic>? com3;
 
 
 
@@ -64,22 +67,10 @@ class PostProvider extends ChangeNotifier {
     final Map parseBrand = await json.decode(response.body.toString());
 
     brandOverview = parseBrand["data"];
+
   }
 
-  Future fetchProductOverview() async {
-    print('BrandOverview');
-    String? token = await storage.read(key: "token");
-    var id = await storage.read(key: 'id');
-    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/" + id!);
-    http.Response response = await httpClient.get(
-      resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
-    );
 
-    final Map parseBrand = await json.decode(response.body.toString());
-
-    productOverview = parseBrand["data"];
-  }
 
   Future fetchMentionProduct() async {
     print('hereeeeeeee');
@@ -167,6 +158,80 @@ class PostProvider extends ChangeNotifier {
     chat = parsedProduct["showChat"];
     // print('comment');
     // print(comment);
+  }
+
+  Future fetchCompare2() async {
+    print('Compare2');
+    String? token = await storage.read(key: "token");
+    var p_id1 = await storage.read(key: 'p_id1');
+    var p_id2 = await storage.read(key: 'p_id2');
+    print('Compare2 '+ p_id1.toString());
+    print('Compare2 '+ p_id2.toString());
+    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/compare/" + p_id1!+"/"+p_id2!);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization": "Bearer $token"},
+    );
+
+    final Map parseBrand = await json.decode(response.body.toString());
+
+    pro1 = parseBrand["data"];
+
+  }
+
+  Future fetchCompare3() async {
+    print('Compare3');
+    String? token = await storage.read(key: "token");
+    var p_id1 = await storage.read(key: 'p_id1');
+    var p_id2 = await storage.read(key: 'p_id2');
+    var p_id3 = await storage.read(key: 'p_id3');
+    print('Compare3 '+ p_id1.toString());
+    print('Compare3 '+ p_id2.toString());
+    print('Compare3 '+ p_id3.toString());
+
+    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/compare/" + p_id1!+"/"+p_id2!+"/"+p_id3!);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization": "Bearer $token"},
+    );
+
+    final Map parseBrand = await json.decode(response.body.toString());
+
+    com3 = parseBrand["data"];
+
+
+  }
+
+  Future fetchTopmentionProduct() async {
+    print('Topmontion');
+    String? token = await storage.read(key: "token");
+    var p_brand = await storage.read(key: 'p_brand');
+    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/topmention/brand/" + p_brand!);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization": "Bearer $token"},
+    );
+
+    final Map parseBrand = await json.decode(response.body.toString());
+
+    topmention = parseBrand["data"];
+
+  }
+
+  Future fetchTopreviewProduct() async {
+    print('Topreview');
+    String? token = await storage.read(key: "token");
+    var p_brand = await storage.read(key: 'p_brand');
+    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/topreview/brand/" + p_brand!);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization": "Bearer $token"},
+    );
+
+    final Map parseBrand = await json.decode(response.body.toString());
+
+    topreview = parseBrand["data"];
+
   }
 
   String formater(String url) {

@@ -73,7 +73,7 @@ class _FavPostState extends State<FavPost> {
                 username: "${data['username']}",
                 postTime: "${data['updatedAt']}".toString().substring(0, 10),
                 post: "${data['body']}",
-                comment: data['comment'],
+                comment: 0,
                 urlImage: data['coverImage'],
                 id: "${data['_id']}",
               ):
@@ -81,7 +81,7 @@ class _FavPostState extends State<FavPost> {
                 username: "${data['username']}",
                 postTime: "${data['updatedAt']}".toString().substring(0, 10),
                 post: "${data['body']}",
-                comment: data['comment'],
+                comment: 0,
                 urlImage: data['coverImage'],
                 id: "${data['_id']}",
                 rating: data['rating'],
@@ -89,7 +89,7 @@ class _FavPostState extends State<FavPost> {
                 username: "${data['username']}",
                 postTime: "${data['updatedAt']}".toString().substring(0, 10),
                 post: "${data['body']}",
-                comment: data['comment'],
+                comment: 0,
                 urlImage: data['coverImage'],
                 id: "${data['_id']}",
               ):Container();

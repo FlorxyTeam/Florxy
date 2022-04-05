@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // TODO: implement initState
-    Provider.of<PostProvider>(context, listen: false).fetchData();
+
     super.initState();
     // fetchData();
   }
@@ -153,7 +153,6 @@ class _HomePageState extends State<HomePage> {
                                   post: model.postData![index]['body'],
                                   rating: model.postData![index]['rating'],
                                   comment: 0,
-                                  // favorite: model.postData![index]['favorite'],
                                   id: model.postData![index]['_id'],
                                 )
                               : model.postData![index]['type'] == 'post'
@@ -164,7 +163,6 @@ class _HomePageState extends State<HomePage> {
                                           .substring(0, 10),
                                       post: model.postData![index]['body'],
                                       comment: 0,
-                                      // favorite: model.postData![index]['favorite'],
                                       id: model.postData![index]['_id'],
                                       urlImage: model.postData![index]['coverImage'])
                                   : Container();

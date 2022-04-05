@@ -2,6 +2,7 @@ import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:async';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -38,8 +39,14 @@ class laboratory extends StatefulWidget {
 }
 
 class _laboratoryState extends State<laboratory> {
+  final storage = new FlutterSecureStorage();
   Future<void> _refreshPage() async {
     // refreshKey.currentState?.show(atTop: false);
+
+      await storage.delete(key: "p_id1");
+      await storage.delete(key: "p_id2");
+      await storage.delete(key: "p_id3");
+      storage.write(key: "num", value: '0');
 
     await Future.delayed(Duration(seconds: 1));
   }
@@ -411,8 +418,7 @@ class _laboratoryState extends State<laboratory> {
                           left: 28, right: 28, bottom: 27),
                       child: InkWell(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Brandoverview()));
+
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width,
