@@ -5,54 +5,59 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:boxicons/boxicons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../NetworkHandler.dart';
+import 'package:Florxy/Model/productModel.dart';
+import 'package:Florxy/pages/comparepage.dart';
 
-class CardItem {
-  final String urlImage;
-  final String title;
-
-  const CardItem({
-    required this.urlImage,
-    required this.title,
-  });
-}
 
 
 class ProductOverview extends StatefulWidget {
-  const ProductOverview({Key? key}) : super(key: key);
+  String? id;
+  ProductOverview({Key? key, this.id}) : super(key: key);
+
 
   @override
   _ProductOverviewState createState() => _ProductOverviewState();
 }
 
 class _ProductOverviewState extends State<ProductOverview> {
+  String? id_product;
+  NetworkHandler networkHandler = NetworkHandler();
+  final storage = new FlutterSecureStorage();
+  ProductModel productModel = ProductModel(
+    id:'',
+    p_name:'',
+    p_brand: '',
+    p_desc: '',
+    p_img: '',
+    ing_name: [],
+    ing_met: [],
+    ing_irr: [],
+    ing_rate: [],
+    mention: 0,
+    review: 0,
+  );
 
-  List<CardItem> items = [
-    CardItem(
-      urlImage: "assets/img/bioderma.jpg",
-      title: "Make up",
-    ),
-    CardItem(
-      urlImage: "assets/img/pixi.jpg",
-      title: "Skincare",
-    ),
-    CardItem(
-      urlImage: "assets/img/bioderma.jpg",
-      title: "Body",
-    ),
-    CardItem(
-      urlImage: "assets/img/pixi.jpg",
-      title: "Hair",
-    ),
-    CardItem(
-      urlImage: "assets/img/bioderma.jpg",
-      title: "Fragrance",
-    ),
-    CardItem(
-      urlImage: "assets/img/pixi.jpg",
-      title: "Oral Care",
-    ),
-  ];
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    fetchData();
+  }
+
+
+  void fetchData() async {
+    var id = await storage.read(key: "p_id");
+    var response = await networkHandler.get("/product/" + id!);
+    setState(() {
+      productModel = ProductModel.fromJson(response["data"]);
+
+    });
+  }
+
 
 
 
@@ -90,8 +95,8 @@ class _ProductOverviewState extends State<ProductOverview> {
                       width: MediaQuery.of(context).size.width/2,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage("assets/img/pixi-glow.png"),
-                          fit: BoxFit.fill,
+                          image:  NetworkImage( productModel.p_img),
+                          fit: BoxFit.contain,
                         ),
                       ),
                     ),
@@ -144,7 +149,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                                 padding: const EdgeInsets.only(
                                     right: 10, left: 10, top: 5, bottom: 5),
                                 child: Inter(
-                                    text: "Pixi Skintreast",
+                                    text: productModel.p_brand,
                                     size: 13,
                                     color: Colors.white,
                                     fontWeight: f.semiBold),
@@ -184,14 +189,14 @@ class _ProductOverviewState extends State<ProductOverview> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 11, left: 25, right:8),
-                        child: Text("Glow Tonic Facial Toner ",textAlign: TextAlign.left, style: GoogleFonts.poppins(
+                        child: Text(productModel.p_name,textAlign: TextAlign.left, style: GoogleFonts.poppins(
                             color: Color(0xFF053118), fontWeight: f.semiBold,fontSize: 19
                         ),),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 25, right: 8,top: 5),
                         child: Inter(
-                            text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been   the industry's standard dummy text ever since the 1500s.",
+                            text: productModel.p_desc,
 
                             size: 14,
                             color: Color(0xFF053118).withOpacity(0.68),
@@ -406,30 +411,6 @@ class _ProductOverviewState extends State<ProductOverview> {
                 child: Poppins(text: "Interesting Review", size: 22,  color: Color(0xFF053118), fontWeight: f.semiBold),
               ),
 
-
-
-
-              // Padding(
-              //   padding:
-              //   const EdgeInsets.only(left: 28, top: 22, bottom: 6),
-              //   child: Poppins(
-              //     text: "Search By Category",
-              //     color: c.blackMain,
-              //     fontWeight: f.semiBold,
-              //     size: 18,
-              //   ),
-              // ),
-              // Container(
-              //   height: MediaQuery.of(context).size.height * 0.2,
-              //   child: ListView.separated(
-              //     padding: EdgeInsets.only(left: 28, right: 2),
-              //     itemCount: 5,
-              //     separatorBuilder: (context, _) => SizedBox(width: 10),
-              //     scrollDirection: Axis.horizontal,
-              //     itemBuilder: (context, index) =>
-              //         buildCard(item: items[index]),
-              //   ),
-              // ),
               SizedBox(
                 height:MediaQuery.of(context).size.height/5,
               )

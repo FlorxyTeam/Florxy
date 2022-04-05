@@ -411,8 +411,7 @@ class _laboratoryState extends State<laboratory> {
                           left: 28, right: 28, bottom: 27),
                       child: InkWell(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Brandoverview()));
+
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width,
