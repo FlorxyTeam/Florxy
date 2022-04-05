@@ -30,7 +30,7 @@ router.route("/add").post((req, res)=> {
 });
 // list of brand
 router.route("/brand").get(middleware.checkToken, (req, res) => {
-    Product.find({}).distinct("p_brand", (err, result) => {
+    products.find({}).distinct("p_brand", (err, result) => {
         console.log("list of brand");
         if(err) res.status(500).json({msg: err});
         res.json({
@@ -41,7 +41,7 @@ router.route("/brand").get(middleware.checkToken, (req, res) => {
 });
 // go to brandOverview
 router.route("/brand/:p_brand").get(middleware.checkToken, (req, res) => {
-    Product.find({p_brand: req.params.p_brand},(err, result) => {
+    products.find({p_brand: req.params.p_brand},(err, result) => {
         if(err) res.status(500).json({msg: err});
         res.json({
             data: result,
@@ -55,7 +55,7 @@ router.route("/brand/:p_brand").get(middleware.checkToken, (req, res) => {
 
 // go to ProductOverview
 router.route("/:_id").get(middleware.checkToken, (req, res) => {
-    Product.findOne({_id: req.params._id}, (err, result) => {
+    products.findOne({_id: req.params._id}, (err, result) => {
         console.log("ProductOverview");
         if(err) res.status(500).json({msg: err});
         res.json({
@@ -81,23 +81,34 @@ router.route("/brand").get(middleware.checkToken, (req, res) => {
 router.route("/brand/:p_brand").get(middleware.checkToken, (req, res) => {
     products.find({p_brand: req.params.p_brand}, (err, result) => {
         if(err) res.status(500).json({msg: err});
-
-        products.find({p_brand: req.params.p_brand}).sort({mention: -1}).limit(5).exec(function(err, topmention){
-             if(err) res.status(500).json({msg: err});
-
-             products.find({p_brand: req.params.p_brand}).sort({review: -1}).limit(5).exec(function(err, topreview){
-                  if(err) res.status(500).json({msg: err});
-
                   res.json({
                                data: result,
-                               topmention: topmention,
-                               topreview:topreview,
                                p_brand: req.params.p_brand,
                       })
-              });
-        });
-
     });
+});
+
+
+// top 5 mentions
+router.route("/topmention/brand/:p_brand").get(middleware.checkToken, (req, res ) =>{
+     products.find({p_brand: req.params.p_brand}).sort({mention: -1}).limit(5).exec(function(err, mention){
+     if(err) res.status(500).json({msg: err});
+                       res.json({
+                                    data: mention,
+                                    p_brand: req.params.p_brand,
+                           })
+     });
+});
+
+// top 5 reviews
+router.route("/topreview/brand/:p_brand").get(middleware.checkToken, (req, res ) =>{
+     products.find({p_brand: req.params.p_brand}).sort({mention: -1}).limit(5).exec(function(err, review){
+     if(err) res.status(500).json({msg: err});
+                       res.json({
+                                    data: review,
+                                    p_brand: req.params.p_brand,
+                           })
+     });
 });
 
 //product Detail
@@ -124,44 +135,6 @@ router.route("/:refproduct").get(middleware.checkToken, (req, res) => {
     })
 });
 
-//compare 2 products
-router.route("/compare/:p1_id/:p2_id").get(middleware.checkToken, (req, res) => {
-    products.find({p1_id: req.params._id}, (err, result1) => {
-        console.log("Compare 2 products.");
-        if(err) res.status(500).json({msg: err});
-         products.find({p2_id: req.params._id}, (err, result2) => {
-
-          res.json({
-                     product1: [result1, result2],
-                     _id: req.params._id,
-                 })
-         });
-
-    })
-});
-
-
-
-//compare 3 products
-router.route("/compare/:p1_id/:p2_id/:p3_id").get(middleware.checkToken, (req, res) => {
-    products.find({p1_id: req.params._id}, (err, result1) => {
-        console.log("Compare 3 products.");
-        if(err) res.status(500).json({msg: err});
-         products.find({p2_id: req.params._id}, (err, result2) => {
-            if(err) res.status(500).json({msg: err});
-             products.find({p2_id: req.params._id}, (err, result3) => {
-              if(err) res.status(500).json({msg: err});
-             res.json({
-                         product1: [result1,result2,result3],
-
-              });
-
-             });
-
-         });
-
-    })
-});
 
 
 module.exports = router;

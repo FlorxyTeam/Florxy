@@ -22,7 +22,7 @@ class PostProvider extends ChangeNotifier {
   List<dynamic>? profile;
   List<dynamic>? chat;
   List<dynamic>? pro1;
-  List<dynamic>? pro2;
+  List<dynamic>? com3;
 
 
 
@@ -67,8 +67,7 @@ class PostProvider extends ChangeNotifier {
     final Map parseBrand = await json.decode(response.body.toString());
 
     brandOverview = parseBrand["data"];
-    topmention = parseBrand["topmention"];
-    topreview = parseBrand["topreview"];
+
   }
 
 
@@ -176,7 +175,7 @@ class PostProvider extends ChangeNotifier {
 
     final Map parseBrand = await json.decode(response.body.toString());
 
-    pro1 = parseBrand["product1"];
+    pro1 = parseBrand["data"];
 
   }
 
@@ -198,8 +197,40 @@ class PostProvider extends ChangeNotifier {
 
     final Map parseBrand = await json.decode(response.body.toString());
 
-    pro2 = parseBrand["product1"];
+    com3 = parseBrand["data"];
 
+
+  }
+
+  Future fetchTopmentionProduct() async {
+    print('Topmontion');
+    String? token = await storage.read(key: "token");
+    var p_brand = await storage.read(key: 'p_brand');
+    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/topmention/brand/" + p_brand!);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization": "Bearer $token"},
+    );
+
+    final Map parseBrand = await json.decode(response.body.toString());
+
+    topmention = parseBrand["data"];
+
+  }
+
+  Future fetchTopreviewProduct() async {
+    print('Topreview');
+    String? token = await storage.read(key: "token");
+    var p_brand = await storage.read(key: 'p_brand');
+    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/topreview/brand/" + p_brand!);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization": "Bearer $token"},
+    );
+
+    final Map parseBrand = await json.decode(response.body.toString());
+
+    topreview = parseBrand["data"];
 
   }
 
