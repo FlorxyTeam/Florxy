@@ -192,4 +192,49 @@ router.route("/getPost/viewPost/:id/:product")
       });
     });
 
+/*router.route("/getProductPost").get(middleware.checkToken, (req,res)=>{
+      Post.find().populate({
+                                 path: 'product',
+                                 match: {p_brand: "innisfree"},
+                               }).exec(function(err, result){
+        if(err) {
+          return console.log(err);
+        } else {
+          res.json({ getPost: result });
+        }
+      });
+    });*/
+
+router.route("/getSearchPost/:id").get(middleware.checkToken, (req,res)=>{
+      var query = req.params.id
+      //console.log(typeof Post)
+      Post.find({product : {$ne : null}},).populate({
+          path: 'product',
+        })/*.exec(function(err, result){
+             if(err) {
+                return res.json(err);
+             } else {
+                res.send({ getPost: result });
+             }
+        });*/
+        .then(result => console.log(typeof res.json(result))
+                /*result.find({$or: [
+                {"product.p_name": {$regex: query, $options:"i"}},
+                {"product.p_nbrand": {$regex: query, $options:"i"}},
+                ],},(err,result)=>{
+                                if(err)return res.json(err);
+                                return res.json({data:result})
+                            })*/
+       )
+    });
+
+
+
+
+
+
+
+
+
+
 module.exports = router;
