@@ -78,6 +78,8 @@ dependencies:
   screenshot: ^1.2.3
   path_provider: ^2.0.9
   share_plus: ^3.1.0
+  firebase_messaging: ^11.2.12
+  flutter_local_notifications: ^9.4.0
   firebase_core:
   firebase_storage:
   file_picker:
