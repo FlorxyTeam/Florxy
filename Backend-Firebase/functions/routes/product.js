@@ -7,7 +7,7 @@ const Post = require("../models/post.model");
 
 router.route("/add").post((req, res)=> {
   // eslint-disable-next-line new-cap
-  const product = Product({
+  const product = products({
     p_name: req.body.p_name,
     p_brand: req.body.p_brand,
     p_desc: req.body.p_desc,
@@ -65,7 +65,7 @@ router.route("/:_id").get(middleware.checkToken, (req, res) => {
     })
 });
 
-//Total brand
+// Total brand
 router.route("/brand").get(middleware.checkToken, (req, res) => {
     products.find({}).distinct('p_brand', (err, result) => {
         console.log("list of brand");
@@ -77,7 +77,7 @@ router.route("/brand").get(middleware.checkToken, (req, res) => {
     })
 });
 
-//brandOverview
+// brandOverview
 router.route("/brand/:p_brand").get(middleware.checkToken, (req, res) => {
     products.find({p_brand: req.params.p_brand}, (err, result) => {
         if(err) res.status(500).json({msg: err});
