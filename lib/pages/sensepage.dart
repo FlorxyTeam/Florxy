@@ -19,6 +19,7 @@ class SensePage extends StatefulWidget {
 }
 
 class _SensePageState extends State<SensePage> {
+
   late CameraController controller;
   File? import;
   XFile? pictureFile;
@@ -29,6 +30,10 @@ class _SensePageState extends State<SensePage> {
   int state = 0;
 
   String number = "";
+
+  late List<dynamic> _recognitions;
+  int _imageHeight = 0;
+  int _imageWidth = 0;
 
   Future takePhoto(ImageSource source) async {
     try {
@@ -94,6 +99,7 @@ class _SensePageState extends State<SensePage> {
     print(_name+" with "+_confident);
 
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -195,9 +201,9 @@ class _SensePageState extends State<SensePage> {
             bottom: 140,
             child: ElevatedButton(
               onPressed: () async {
-                pictureFile = await controller.takePicture();
-              print("hereeeeeeeeeeee"+pictureFile!.path);
-              applyModelOnImage(pictureFile!);
+              //   pictureFile = await controller.takePicture();
+              // print("hereeeeeeeeeeee"+pictureFile!.path);
+              // applyModelOnImage(pictureFile!);
               setState(() {
 
               });
