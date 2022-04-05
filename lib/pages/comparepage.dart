@@ -28,6 +28,7 @@ class _comparepageState extends State<comparepage> {
   int _currentIndex = 0;
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
+  String? num ;
 
   @override
   void fetchData() async {
@@ -35,17 +36,28 @@ class _comparepageState extends State<comparepage> {
 
     await storage.write(key: "p_id", value: widget.id);
     await networkHandler.get("/product/" + widget.id!);
+    num = await storage.read(key: "num");
   }
 
   @override
-  void initState() {
+  void initState()  {
     fetchData();
     // TODO: implement initState
     super.initState();
     _currentIndex = widget.currentState;
+
+
+
+
   }
 
+  @override
+  void dispose() {
+   super.dispose();
+   setState(() {
 
+   });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,20 +101,29 @@ class _comparepageState extends State<comparepage> {
                                   var x = await storage.read(key: "p_id1");
                                   var y = await storage.read(key: "p_id2");
                                   var z = await storage.read(key: "p_id3");
-                                  setState(() {
+                                  var numoflist = await storage.read(key: "num");
+                                  setState(() async {
                                     if( x == null && x != widget.id){
                                       storage.write(key: "p_id1", value: widget.id);
-
+                                    numoflist = (int.parse(numoflist!)+1).toString();
+                                      storage.write(key: "num", value: numoflist!);
                                     }else if(y == null && x != widget.id){
                                       storage.write(key: "p_id2", value: widget.id);
+                                      numoflist = (int.parse(numoflist!)+1).toString();
+                                      storage.write(key: "num", value: numoflist!);
                                     }else if(z == null && x != widget.id && y != widget.id){
                                       storage.write(key: "p_id3", value: widget.id);
+                                      numoflist = (int.parse(numoflist!)+1).toString();
+                                      storage.write(key: "num", value: numoflist!);
                                     }else{
                                       print("x: " + x.toString());
                                       print("y: " + y.toString());
                                       print("z: " + z.toString());
                                       print("full");
                                     }
+
+                                    num = (await storage.read(key: "num")).toString();
+                                    print("num "+ num.toString());
 
                                     if( x != null && y == null && z == null ){
 
@@ -156,7 +177,7 @@ class _comparepageState extends State<comparepage> {
                         ),
                         child: Center(
                           child: Inter(
-                              text: "2",
+                              text: num!,
                               size: 20,
                               color: Color(0xFF0B391E),
                               fontWeight: f.extraBold),
