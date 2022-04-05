@@ -502,6 +502,18 @@ class _MentionPostState extends State<MentionPost> {
                             SizedBox(width: 4),
                             Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
                           ],
+                        ):(product.length == 2 || product.length == 3 || product.length == 4)?
+                        Row(
+                          children: [
+                            Inter_Crop(
+                                text: 'mention ' + product.length.toString() + " products",
+                                size: 10,
+                                color: c.tag,
+                                fontWeight: f.semiBold
+                            ),
+                            SizedBox(width: 4),
+                            Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
+                          ],
                         ):Container()
                       ),
                       decoration: BoxDecoration(
@@ -546,7 +558,7 @@ class _MentionPostState extends State<MentionPost> {
                     Container(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 9, right: 4, top: 3, bottom: 3),
-                        child: Row(
+                        child: product.length == 1?Row(
                           children: [
                             Container(
                               constraints: BoxConstraints(maxWidth: 160),
@@ -560,7 +572,13 @@ class _MentionPostState extends State<MentionPost> {
                             SizedBox(width: 4),
                             Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
                           ],
-                        ),
+                        ):product.length == 2 && product.length == 3 && product.length == 4?
+                        Inter_Crop(
+                            text: 'mention ' + product.length.toString() + " products",
+                            size: 10,
+                            color: c.tag,
+                            fontWeight: f.semiBold
+                        ):Container()
                       ),
                       decoration: BoxDecoration(
                           color: c.greenLight2,
