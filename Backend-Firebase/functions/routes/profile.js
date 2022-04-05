@@ -4,9 +4,36 @@ const router = express.Router();
 const Profile = require("../models/profile.model");
 const Chat = require("../models/chat.model");
 const Post = require("../models/post.model");
+const Notification = require("../models/notification.model");
 const middleware = require("../middleware");
 
 
+router.route("/getNotificationData").get(middleware.checkToken, (req, res) => {
+  console.log(req.decoded.username)
+  Notification.find({ username: req.decoded.username }, (err, result) => {
+    if (err) return res.json({ err: err });
+    if (result == null) return res.json({ data: [] });
+    else return res.json({ data: result });
+  });
+});
+
+router.route("/addNotification").post(middleware.checkToken, (req, res) => {
+  // eslint-disable-next-line new-cap
+  const notification = Notification({
+    username: req.decoded.username,
+    otherusername: req.body.otherusername,
+    type: req.body.type,
+    body: req.body.body,
+  });
+  notification
+    .save()
+    .then(() => {
+      return res.json({ msg: "Notification successfully stored" });
+    })
+    .catch((err) => {
+      return res.status(400).json({ err: err });
+    });
+});
 
 router.route("/followercheck/:username/:myusername").get(middleware.checkToken, (req,res)=>{
     Profile.findOne({

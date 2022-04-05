@@ -16,6 +16,7 @@ class PostProvider extends ChangeNotifier {
   List<dynamic>? SearchData;
   List<dynamic>? listOfbrand;
   List<dynamic>? brandOverview;
+  List<dynamic>? notification;
   List<dynamic>? topmention;
   List<dynamic>? topreview;
   List<dynamic>? comment;
@@ -27,7 +28,7 @@ class PostProvider extends ChangeNotifier {
 
 
   FlutterSecureStorage storage = FlutterSecureStorage();
-
+  String baseurl = "https://fb45-182-53-205-175.ngrok.io";
   Future fetchData() async{
     String? token = await storage.read(key:"token");
     final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/home/getAllPost");
@@ -70,7 +71,22 @@ class PostProvider extends ChangeNotifier {
 
   }
 
+  Future fetchNotification() async {
+    print('Notification');
+    String? token = await storage.read(key: "token");
+    final Uri resAPIURL = Uri.parse(baseurl + "/profile/getNotificationData");
+    print(resAPIURL);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization": "Bearer $token"},
+    );
 
+    final Map parsedData = await json.decode(response.body.toString());
+
+    notification = parsedData["data"];
+    print(notification);
+
+  }
 
   Future fetchMentionProduct() async {
     print('hereeeeeeee');
