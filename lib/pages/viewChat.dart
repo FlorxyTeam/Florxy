@@ -5,7 +5,7 @@ import 'package:Florxy/widgets/messageWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:socket_io_client/socket_io_client.dart' ;
+// import 'package:socket_io_client/socket_io_client.dart' ;
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 
 import '../NetworkHandler.dart';
@@ -20,7 +20,7 @@ class ViewChatPage extends StatefulWidget {
 }
 
 class _ViewChatPageState extends State<ViewChatPage> {
-  late Socket socket;
+  // late Socket socket;
   final networkHandler = NetworkHandler();
   TextEditingController _messageController = TextEditingController();
   List<MessageModel> messages = [];
@@ -30,34 +30,34 @@ class _ViewChatPageState extends State<ViewChatPage> {
   void initState() {
     super.initState();
     Provider.of<PostProvider>(context,listen: false).fetchChat(widget.myUsername!, widget.username!);
-    connect();
+    // connect();
   }
 
-  void connect() {
-    print(widget.myUsername);
-    String baseurl = networkHandler.baseurl;
-    socket = io( baseurl,
-        OptionBuilder()
-            .setTransports(['websocket'])
-            .disableAutoConnect()
-            .build()
-    );
-    socket.connect();
-    socket.emit("test", widget.myUsername);
-    socket.onConnect((data) {
-      print("socket connected");
-      socket.on("message",(msg){
-        print(msg);
-        setMessage("destination", msg["message"], msg["myUsername"], msg["targetUsername"]);
-      });
-    });
-  }
+  // void connect() {
+  //   print(widget.myUsername);
+  //   String baseurl = networkHandler.baseurl;
+  //   socket = io( baseurl,
+  //       OptionBuilder()
+  //           .setTransports(['websocket'])
+  //           .disableAutoConnect()
+  //           .build()
+  //   );
+  //   socket.connect();
+  //   socket.emit("test", widget.myUsername);
+  //   socket.onConnect((data) {
+  //     print("socket connected");
+  //     socket.on("message",(msg){
+  //       print(msg);
+  //       setMessage("destination", msg["message"], msg["myUsername"], msg["targetUsername"]);
+  //     });
+  //   });
+  // }
 
-  void sendMessage(String message, String myUsername, String targetUsername) {
-    socket.emit("message",
-        {"message": message, "myUsername": myUsername, "targetUsername": targetUsername});
-    setMessage("source", message, myUsername, targetUsername);
-  }
+  // void sendMessage(String message, String myUsername, String targetUsername) {
+  //   socket.emit("message",
+  //       {"message": message, "myUsername": myUsername, "targetUsername": targetUsername});
+  //   setMessage("source", message, myUsername, targetUsername);
+  // }
 
   void setMessage(String type, String message, String sender, String receiver) async {
     MessageModel messageModel = MessageModel(type: type, message: message, time: DateTime.now().toString().substring(0,16));
@@ -312,7 +312,7 @@ class _ViewChatPageState extends State<ViewChatPage> {
                             padding: EdgeInsets.zero,
                             constraints: BoxConstraints(),
                             onPressed: () async {
-                              sendMessage(_messageController.text, widget.myUsername!, widget.username!);
+                              // sendMessage(_messageController.text, widget.myUsername!, widget.username!);
                               Map<String, String> data = {
                                 "sender": widget.myUsername!,
                                 "receiver": widget.username!,

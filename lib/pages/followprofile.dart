@@ -40,32 +40,33 @@ class _FollowProfileState extends State<FollowProfile> {
   int itfollowing = 0;
   ProfileModel profileModel = ProfileModel(
     id: '',
-    DOB: '',
-    img: '',
-    influencer: '',
-    fullname: '',
-    follower: 0,
-    following: 0,
-    bio: '',
-    email: '',
-    professor: '',
     username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
     favorite: [],
     listfollower: [],
     listfollowing: [],
   );
 
   ProfileModel myprofileModel = ProfileModel(
-    DOB: '',
-    img: '',
-    influencer: '',
-    fullname: '',
-    follower: 0,
-    following: 0,
-    bio: '',
-    email: '',
-    professor: '',
+    id: '',
     username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
     favorite: [],
     listfollower: [],
     listfollowing: [],
@@ -210,7 +211,7 @@ class _FollowProfileState extends State<FollowProfile> {
                   radius: 44,
                   backgroundColor: Colors.orange,
                   backgroundImage:
-                  NetworkHandler().getImage(profileModel.email),
+                  NetworkHandler().getImage(profileModel.img),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -413,10 +414,8 @@ class _FollowProfileState extends State<FollowProfile> {
                       Map<String, String> data = {
                         "img":profileModel.img,
                         "fullname":profileModel.fullname.toString(),
-                        "follower":(profileModel.follower+1).toString(),
                         "myimg":myprofileModel.img,
                         "myfullname":myprofileModel.fullname.toString(),
-                        "following":(myprofileModel.following+1).toString()
                       };
                       print(data);
                       var addfollow = await networkHandler
@@ -442,8 +441,6 @@ class _FollowProfileState extends State<FollowProfile> {
                     minWidth: 135,
                     onPressed: () async{
                       Map<String, String> data = {
-                        "follower":(profileModel.follower-1).toString(),
-                        "following":(myprofileModel.following-1).toString()
                       };
                       var unfollow = await networkHandler
                           .patch("/profile/unfollower/${profileModel.username}/${myprofileModel.username}",data);

@@ -3,7 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
 
+import '../postProvider.dart';
 import 'navbar.dart';
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key? key}) : super(key: key);
@@ -18,10 +20,13 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void initState() {
     super.initState();
     // print(isLoaded);
-    Future.delayed(Duration(seconds: 2),(){
-      Navigator.of(context).pushReplacement(
-          PageTransition(type: PageTransitionType.fade, child: Navbar(currentState: 0,), duration: Duration(milliseconds: 600)));
-    });
+    Provider.of<PostProvider>(context, listen: false).fetchData().then((value) =>
+        Future.delayed(Duration(seconds: 2),(){
+          Navigator.of(context).pushReplacement(
+              PageTransition(type: PageTransitionType.fade, child: Navbar(currentState: 0,), duration: Duration(milliseconds: 600)));
+        })
+    );
+
 
   }
 

@@ -1,4 +1,3 @@
-import 'package:Florxy/pages/FrankEditProfile.dart';
 import 'package:Florxy/pages/welcomepage.dart';
 import 'package:Florxy/provider/google_sign_in.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
@@ -211,6 +210,7 @@ Column _buildBottomNavigationMenu(context,username) {
                         child: ListTile(
                             onTap: () async {
                               await storage.delete(key: "token");
+                              await storage.delete(key: "username");
                               final user = FirebaseAuth.instance.currentUser;
                               print(user);
                               if(user?.providerData[0].providerId=='facebook.com'){

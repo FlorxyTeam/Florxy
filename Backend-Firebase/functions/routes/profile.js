@@ -2,56 +2,10 @@ const express = require("express");
 // eslint-disable-next-line new-cap
 const router = express.Router();
 const Profile = require("../models/profile.model");
+const Chat = require("../models/chat.model");
 const Post = require("../models/post.model");
 const middleware = require("../middleware");
-const multer = require("multer");
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "./uploads");
-  },
-  filename: (req, file, cb) => {
-    cb(null, req.decoded.email + ".jpg");
-  },
-});
 
-// const fileFilter = (req, file, cb) => {
-//   if (file.mimetype == "image/jpeg" || file.mimetype == "image/png") {
-//     cb(null, true);
-//   } else {
-//     cb(null, false);
-//   }
-// };
-
-const upload = multer({
-  storage: storage,
-  limits: {
-    fileSize: 1024 * 1024 * 6,
-  },
-  // fileFilter: fileFilter,
-});
-
-// adding and update profile image
-router
-    .route("/add/image")
-    .patch(middleware.checkToken, upload.single("img"), (req, res) => {
-      Profile.findOneAndUpdate(
-          {email: req.decoded.email},
-          {
-            $set: {
-              img: req.file.path,
-            },
-          },
-      { new: true },
-      (err, profile) => {
-        if (err) return res.status(500).send(err);
-        const response = {
-          message: "image added successfully updated",
-          data: profile,
-        };
-        return res.status(200).send(response);
-      }
-    );
-  });
 
 
 router.route("/followercheck/:username/:myusername").get(middleware.checkToken, (req,res)=>{
@@ -84,7 +38,7 @@ router.route("/addfollower/:username/:myusername").patch(middleware.checkToken, 
     console.log(req.params.username)
     console.log(req.params.myusername)
          if(docs == null && req.params.username != req.params.myusername){
-            console.log("hi null")
+            console.log("hi null");
 
             Profile.findOneAndUpdate(
                     {
@@ -167,7 +121,7 @@ router.route("/unfollower/:username/:myusername").patch(middleware.checkToken, (
     console.log(req.params.username)
     console.log(req.params.myusername)
          if(docs == null && req.params.username != req.params.myusername){
-            console.log("hi null")
+            console.log("hi null");
               const response = {
                 message: "you did not follow",
               };
@@ -220,15 +174,89 @@ router.route("/unfollower/:username/:myusername").patch(middleware.checkToken, (
                 );
               }
             );
-
-
          }
 
     });
 });
 
+// router.route("/chatWith/:myusername/:targetusername").post((req,res)=>{
+//   Profile.findOneAndUpdate({
+//     "username": req.params.myusername,
+//     "listmessage.username" : req.params.targetusername,
+//   },
+//   { $push: {
+//     "listmessage.$.message": {
+//         message:req.body.message,
+//         type:req.body.type,
+//         time:req.body.time,
+//     }
+//   }}, function(err,addChat){
+//     if(err){
+//       console.log(err);
+//     } else {
+//       return res.json('add chat succes!!');
+//     }
+//   });
+// });
 
+router.route("/chat").post((req, res) => {
+  // eslint-disable-next-line new-cap
+  const chat = Chat({
+    sender: req.body.sender,
+    receiver: req.body.receiver,
+    message: req.body.message,
+    time: req.body.time
+  });
+  chat
+    .save()
+    .then(() => {
+      return res.json("add chat successfull");
+    })
+    .catch((err) => {
+      return res.status(400).json({ err: err });
+    });
+});
 
+router.route("/getChat/:myusername/:targetusername").get((req,res)=>{
+  Chat.find({
+    $and: [
+      { $or: [{sender: req.params.myusername}, {sender: req.params.targetusername}] },
+      { $or: [{receiver: req.params.myusername}, {receiver: req.params.targetusername}] }
+    ]
+  }, (err,chats)=>{
+    if(err) {
+      console.log(err);
+    } else {
+      return res.json( { showChat: chats } );
+    }
+  });
+});
+
+// router.route("/chat").post((req, res) => {
+//   const profile = Profile({
+//     "listmessage.$.username": req.body.targetusername
+//   });
+//   profile
+//     .save()
+//     .then(() => {
+//       return res.json("add targetusername successfull");
+//     })
+//     .catch((err) => {
+//       return res.status(400).json({ err: err });
+//     });
+// });
+
+// router.route("/chat/:username").post((req,res)=>{
+//   console.log(req.params.username);
+//   console.log(req.body.targetusername);
+//   Profile.findOneAndUpdate({ username: req.params.username }, { $push:{ listmessage: { username: req.body.targetusername }}}, function(err, chatWith){
+//     if(err) {
+//       console.log(err);
+//     } else {
+//       return res.json("add targetusername successfull");
+//     }
+//   });
+// });
 
 
 router.route("/addprofessor/:username").patch(middleware.checkToken, (req,res)=>{
@@ -268,37 +296,10 @@ router.route("/addinfluencer/:username").patch(middleware.checkToken, (req,res)=
           );
 });
 
-router.route("/addintfollowing").post(middleware.checkToken, (req, res) => {
-    console.log(req.body.username)
-    console.log(req.body.following)
-   Profile.findOneAndUpdate(
-          {
-          username: req.body.username,
-           },
-          {
-            following: req.body.following,
-
-          },
-          {
-              new: true,
-              upsert: true
-            },
-          (err, profile) => {
-            if (err) return res.status(500).send(err);
-
-            const response = {
-              message: "follower more added",
-              data: profile,
-            };
-            return res.status(200).send(response);
-          }
-        );
-});
 router.route("/add").post(middleware.checkToken, (req, res) => {
   // eslint-disable-next-line new-cap
   const profile = Profile({
-    email: req.decoded.email,
-    username: req.body.username,
+    username: req.decoded.username,
     fullname: req.body.fullname,
     DOB: req.body.DOB,
   });
@@ -312,9 +313,8 @@ router.route("/add").post(middleware.checkToken, (req, res) => {
     });
 });
 
-
 router.route("/checkProfile").get(middleware.checkToken, (req, res) => {
-  Profile.findOne({ email: req.decoded.email }, (err, result) => {
+  Profile.findOne({ username: req.decoded.username }, (err, result) => {
     if (err) return res.json({ err: err });
     else if (result == null) {
       return res.json({ status: false });
@@ -339,7 +339,7 @@ router.route("/checkusername/:username").get((req,res)=>{
       })
 
     });
-    console.log("Username - Checked")
+    console.log("Username - Checked");
 })
 
 router.route("/PostAndReply/:username").get((req,res)=>{
@@ -352,8 +352,34 @@ router.route("/PostAndReply/:username").get((req,res)=>{
   })
 })
 
+router.route("/otherPostAndReply/:username").get((req,res)=>{
+  Post.find({username: req.params.username}, (err, result)=>{
+    if(err){
+      return res.json(err);
+    } else {
+      Profile.find({username: req.params.username}, (err,findProfile)=>{
+        if(err){
+          return res.json(err);
+        } else {
+          return res.send({ anotherPost: result, anotherProfile: findProfile });
+        }
+      })
+    }
+  })
+})
+
 router.route("/getData").get(middleware.checkToken, (req, res) => {
-  Profile.findOne({ email: req.decoded.email }, (err, result) => {
+  console.log(req.decoded.username)
+  Profile.findOne({ username: req.decoded.username }, (err, result) => {
+    if (err) return res.json({ err: err });
+    if (result == null) return res.json({ data: [] });
+    else return res.json({ data: result });
+  });
+});
+
+router.route("/getUsername/:email").get((req, res) => {
+  console.log(req.params.email)
+  Profile.find({ email: req.params.email }, (err, result) => {
     if (err) return res.json({ err: err });
     if (result == null) return res.json({ data: [] });
     else return res.json({ data: result });
@@ -382,7 +408,7 @@ router.route("/getFavPost/:id").get((req,res) => {
 
 router.route("/update").patch(middleware.checkToken, (req, res) => {
   let profile = {};
-  Profile.findOne({ email: req.decoded.email }, (err, result) => {
+  Profile.findOne({ username: req.decoded.username }, (err, result) => {
     if (err) {
       profile = {};
     }
@@ -390,8 +416,8 @@ router.route("/update").patch(middleware.checkToken, (req, res) => {
       profile = result;
     }
   });
-   Profile.findOneAndUpdate(
-    { email: req.decoded.email },
+  Profile.findOneAndUpdate(
+    { username: req.decoded.username },
     {
       $set: {
            fullname: req.body.fullname ? req.body.fullname : profile.fullname,
@@ -409,7 +435,7 @@ router.route("/update").patch(middleware.checkToken, (req, res) => {
 
 router.route("/update/profile").patch(middleware.checkToken, (req, res) => {
   let profile = {};
-  Profile.findOne({ email: req.decoded.email }, (err, result) => {
+  Profile.findOne({ username: req.decoded.username }, (err, result) => {
     if (err) {
       profile = {};
     }
@@ -418,7 +444,7 @@ router.route("/update/profile").patch(middleware.checkToken, (req, res) => {
     }
   });
   Profile.findOneAndUpdate(
-    { email: req.decoded.email },
+    { username: req.decoded.username },
     {
       $set: {
            img: req.body.img ? req.body.img : profile.img,
@@ -432,6 +458,5 @@ router.route("/update/profile").patch(middleware.checkToken, (req, res) => {
     }
   );
 });
-
 
 module.exports = router;

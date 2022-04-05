@@ -34,6 +34,16 @@ router.route("/getPost").get( (req, res) => {
   });
 });
 
+router.route("/getIDPost/:id").get(middleware.checkToken, (req,res)=>{
+  Post.findOne({ _id: req.params.id }).populate("product").exec(function(err, result){
+    if(err) {
+      return console.log(err);
+    } else {
+      res.json({ getPost: result });
+    }
+  });
+});
+
 router.route("/add/postImage/:id")
     .patch(middleware.checkToken, upload.single("img"), (req, res)=>{
       Post.findOneAndUpdate({_id: req.params.id},
@@ -53,8 +63,7 @@ router.route("/add/postImage/:id")
 router.route("/Add").post(middleware.checkToken, (req, res)=>{
   // eslint-disable-next-line new-cap
   const createpost = Post({
-    email: req.decoded.email,
-    username: req.body.username,
+    username: req.decoded.username,
     fullname: req.body.fullname,
     type: req.body.type,
     rating: req.body.rating,
@@ -72,7 +81,7 @@ router.route("/Add").post(middleware.checkToken, (req, res)=>{
 });
 
 router.route("/getOwnPost").get(middleware.checkToken, (req, res)=>{
-  Post.find({email: req.decoded.email}, (err, result)=>{
+  Post.find({username: req.decoded.username}, (err, result)=>{
     if (err) return res.json(err);
     return res.json({data: result});
   });
@@ -88,7 +97,7 @@ router.route("/getAllPost").get(middleware.checkToken, (req, res)=>{
 router.route("/delete/:id").delete(middleware.checkToken, (req, res)=>{
   Post.findOneAndDelete({
     $and: [
-      {email: req.decoded.email},
+      {username: req.decoded.username,},
       {_id: req.params.id},
     ],
   },
@@ -123,11 +132,7 @@ router.route("/addFav/:id").post(middleware.checkToken, (req, res)=>{
         if (err) {
           res.json(err);
         } else {
-          Post.findOneAndUpdate({_id: req.body.favorite},
-              {$inc: {favorite: 1}}, function(err, post) {
-                console.log(FavPost + post);
-                return res.json("Favorited succes!!");
-              });
+          return res.json("Favorited succes!!");
         }
       });
 });

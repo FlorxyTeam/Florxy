@@ -24,21 +24,23 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   bool circular = true;
   NetworkHandler networkHandler = NetworkHandler();
+
   ProfileModel profileModel = ProfileModel(
-      id: '',
-      DOB: '',
-      img: '',
-      influencer: '',
-      fullname: '',
-      follower: 0,
-      following: 0,
-      bio: '',
-      email: '',
-      professor: '',
-      username: '',
+    id: '',
+    username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
     favorite: [],
     listfollower: [],
-    listfollowing: [],);
+    listfollowing: [],
+  );
 
   @override
   void initState() {
@@ -50,6 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void fetchData() async {
     var response = await networkHandler.get("/profile/getData");
+    
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
       circular = false;

@@ -1,4 +1,5 @@
 import 'package:Florxy/pages/Loadingscreen.dart';
+import 'package:Florxy/pages/florxyScreen.dart';
 import 'package:Florxy/pages/lastthingspage.dart';
 import 'package:Florxy/pages/navbar.dart';
 import 'package:Florxy/pages/registerpage.dart';
@@ -39,7 +40,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Widget page = WelcomePage();
+  Widget page = FlorxyScreen();
   final storage = new FlutterSecureStorage();
   // This widget is the root of your application.
 
@@ -53,7 +54,7 @@ class _MyAppState extends State<MyApp> {
     print(token);
     if(token != null){
       setState(() {
-        page= LoadingScreen();
+        page= FlorxyScreen();
       });
     }else{
       setState(() {

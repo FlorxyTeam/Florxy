@@ -9,7 +9,7 @@
 // });
 const express = require("express");
 const mongoose = require("mongoose");
- const Port = process.env.PORT || 8080;
+const Port = process.env.PORT || 8080;
 const app = express();
 
 const mongoURI =
@@ -45,5 +45,30 @@ app.route("/").get((req, res) => res.json("Hello world"));
  app.listen(Port, "0.0.0.0", () =>
   console.log(`you server is running on port ${Port}`)
  );
+
+// const server = app;
+
+// const io = require("socket.io")(server);
+
+// const clients = {};
+
+
+// io.on("connection",(socket)=>{
+//   console.log("socket connected");
+//   console.log(socket.id, "has joined");
+  
+//   socket.on("test",(username)=>{
+//     console.log(username);
+//     clients[username] = socket;
+//     console.log(clients);
+//   });
+
+//   socket.on("message",(msg)=>{
+//     console.log(msg);
+//     const targetUsername = msg.targetUsername;
+//     if(clients[targetUsername]) clients[targetUsername].emit("message",msg);
+//   });
+
+// });
 
 //exports.app = functions.region("asia-southeast1").https.onRequest(app);

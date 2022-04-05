@@ -13,6 +13,7 @@ class PostProvider extends ChangeNotifier {
   List<dynamic>? myPost;
   List<dynamic>? anotherPost;
   List<dynamic>? favPost;
+  List<dynamic>? SearchData;
   List<dynamic>? listOfbrand;
   List<dynamic>? brandOverview;
   List<dynamic>? topmention;
@@ -48,7 +49,6 @@ class PostProvider extends ChangeNotifier {
       resAPIURL,
       headers: {"Authorization": "Bearer $token"},
     );
-
     final Map parseBrand = await json.decode(response.body.toString());
 
     listOfbrand = parseBrand["data"];

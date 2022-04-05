@@ -6,7 +6,8 @@ const middleware = require("../middleware");
 const Post = require("../models/post.model");
 
 router.route("/add").post((req, res)=> {
-  const product = products({
+  // eslint-disable-next-line new-cap
+  const product = Product({
     p_name: req.body.p_name,
     p_brand: req.body.p_brand,
     p_desc: req.body.p_desc,
@@ -26,6 +27,42 @@ router.route("/add").post((req, res)=> {
       .catch((err) => {
         return res.status(400).json({err: err});
       });
+});
+// list of brand
+router.route("/brand").get(middleware.checkToken, (req, res) => {
+    Product.find({}).distinct("p_brand", (err, result) => {
+        console.log("list of brand");
+        if(err) res.status(500).json({msg: err});
+        res.json({
+            data: result,
+            p_brand: req.body.p_brand,
+        })
+    })
+});
+// go to brandOverview
+router.route("/brand/:p_brand").get(middleware.checkToken, (req, res) => {
+    Product.find({p_brand: req.params.p_brand},(err, result) => {
+        if(err) res.status(500).json({msg: err});
+        res.json({
+            data: result,
+            p_brand: req.params.p_brand,
+        })
+    })
+});
+
+
+
+
+// go to ProductOverview
+router.route("/:_id").get(middleware.checkToken, (req, res) => {
+    Product.findOne({_id: req.params._id}, (err, result) => {
+        console.log("ProductOverview");
+        if(err) res.status(500).json({msg: err});
+        res.json({
+            data: result,
+            p_id: req.params._id,
+        })
+    })
 });
 
 //Total brand

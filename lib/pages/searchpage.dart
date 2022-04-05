@@ -1,15 +1,24 @@
+import 'dart:async';
+import 'dart:ffi';
+
+import 'package:Florxy/Model/postModel.dart';
 import 'package:Florxy/Post/addPost.dart';
-import 'package:Florxy/provider/storage_service.dart';
+import 'package:Florxy/widgets/SearchMentionPostWidget.dart';
 import 'package:Florxy/widgets/font.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:boxicons/boxicons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/scrapper/incidecoder.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'package:firebase_core/firebase_core.dart' as firebase_core;
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:get/get_rx/src/rx_workers/rx_workers.dart';
+import 'package:provider/provider.dart';
+
 
 import '../NetworkHandler.dart';
+import '../postProvider.dart';
+import '../widgets/PostWidget.dart';
+import '../widgets/searchwidget.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -17,19 +26,27 @@ class SearchPage extends StatefulWidget {
   @override
   _SearchPageState createState() => _SearchPageState();
 }
-  List results = [];
   NetworkHandler networkHandler = NetworkHandler();
 
 
 
 class _SearchPageState extends State<SearchPage> {
+  String see = "Post";
+  List<PostModel> posts = [];
+  String query = '';
+  Timer? debouncer;
+  String? post;
   List results = [];
-  final Storage storage = Storage();
+  // final Storage storage = Storage();
 
   @override
-  initState() {
+  void initState() {
     super.initState();
 
+    Provider.of<PostProvider>(context,listen: false).fetchData();
+    post = this.post;
+    super.initState();
+    init(query);
     // product();
     // WidgetsBinding.instance?.addPostFrameCallback((_) {
     //   // print("WidgetsBinding");
@@ -74,80 +91,243 @@ class _SearchPageState extends State<SearchPage> {
     // print(response);
 
   }
+//     Future<List> product() async{
+//     results = await Scraper.getData2('innisfree');
+//     return results;
+//   }
 
-
-  Future<List> product() async{
-    results = await Scraper.getData2('innisfree');
-    return results;
+  @override
+  void dispose() {
+    debouncer?.cancel();
+    super.dispose();
   }
+
+  void debounce(
+      VoidCallback callback, {
+        Duration duration = const Duration(milliseconds: 1000),
+      }) {
+    if (debouncer != null) {
+      debouncer!.cancel();
+    }
+
+    debouncer = Timer(duration, callback);
+  }
+
+  Future init(query) async {
+    //final posts = await PostSearch.getPosts(post!,query);
+
+    setState(() => this.posts = posts);
+  }
+
+  @override
+  seePost() {
+    setState((){
+      see = "Post";
+    });
+  }
+  seeReview() {
+    setState((){
+      see = "Review";
+    });
+  }
+  seeMention() {
+    setState((){
+      see = "Mention";
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // product();
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          FloatingActionButton(
-            onPressed:() async {
-            // Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddPost()));
-              final results = await FilePicker.platform.pickFiles(
-                allowMultiple: false,
-                type: FileType.custom,
-                allowedExtensions: ['png','jpg']
-              );
-              if (results == null){
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('No File')));
-                return null;
-              }
-              final path = results.files.single.path!;
-              final fileName = 'bacon.jpg';
-
-              print(path);
-              print(fileName);
-
-              storage.uploadProfile(path, fileName).then((value) => print(value));
-
-          },child: Icon(Icons.create_outlined),),
-          SizedBox(height: 20,),
-          FutureBuilder(
-              future: storage.listFiles(),
-              builder: (BuildContext context, AsyncSnapshot<firebase_storage.ListResult> snapshot){
-                if (snapshot.connectionState == ConnectionState.done){
-                  return Container(
-                    height: 50,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount: snapshot.data!.items.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return ElevatedButton(onPressed: (){}, child: Text(snapshot.data!.items[index].name),);
-                        }),
-                  );
-                }
-                if (snapshot.connectionState == ConnectionState.waiting || !snapshot.hasData){
-                  return CircularProgressIndicator();
-                }
-                return Container();
-              } ),
-          FutureBuilder(
-              future: storage.downloadURL('bacon.jpg'),
-              builder: (BuildContext context, AsyncSnapshot<String> snapshot){
-                if (snapshot.connectionState == ConnectionState.done && snapshot.hasData){
-                  return Container(
-                    width: 300,
-                    height: 250,
-                    child: Image.network(snapshot.data!, fit:BoxFit.cover),
-                  );
-                }
-                if (snapshot.connectionState == ConnectionState.waiting || !snapshot.hasData){
-                  return CircularProgressIndicator();
-                }
-                return Container();
-              } )
-
-          // Poppins(text: results[25].name, size: 20, color: c.greenMain, fontWeight: f.medium),
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: c.shadow.withOpacity(0.02),
+                  spreadRadius: -17,
+                  blurRadius: 30,
+                  offset: Offset(0, 6), // changes position of shadow
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: 0,),
+            child : Container(
+              width: double.infinity,
+              height: 150,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(26.0)),
+              ),
+              child: Padding(
+                padding: EdgeInsets.only(top: 40, left: 20, right: 10),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        buildSearch(),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Boxicons.bx_slider_alt,
+                            size: 30,
+                            color: c.blackMain,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 20, left: 25, right: 35),
+                      child : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            child : GestureDetector(
+                              onTap: () => seePost(),
+                              child: Poppins(
+                                text: "   Post    ",
+                                size: 14,
+                                color: c.greyMain,
+                                fontWeight: f.bold,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            child : GestureDetector(
+                              onTap: () => seeReview(),
+                              child: Poppins(
+                                text: "     Review ",
+                                size: 14,
+                                color: c.greyMain,
+                                fontWeight: f.bold,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            child : GestureDetector(
+                              onTap: () => seeMention(),
+                              child: Poppins(
+                                text: " Mention  ",
+                                size: 14,
+                                color: c.greyMain,
+                                fontWeight: f.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 10, left: 10, right: 20),
+                      child : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Container(
+                            height: 5,
+                            width: 90,
+                            decoration: BoxDecoration(
+                              color: see == "Post" ? c.greenMain : Colors.white,
+                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                            ),
+                          ),
+                          Container(
+                            height: 5,
+                            width: 90,
+                            decoration: BoxDecoration(
+                              color: see == "Review" ? c.greenMain : Colors.white,
+                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                            ),
+                          ),
+                          Container(
+                            height: 5,
+                            width: 90,
+                            decoration: BoxDecoration(
+                              color: see == "Mention" ? c.greenMain : Colors.white,
+                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Padding(
+          padding: EdgeInsets.only(top: 150),
+            child : Container(
+              height: MediaQuery.of(context).size.height-240,
+              child: Consumer<PostProvider>(builder: (context,model,_) => FutureBuilder(
+                future: model.fetchData(),
+                builder: (context,snapshot) => see == "Mention" ? ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: model.postData?.length??0,
+                  itemBuilder: (context,int index){
+                    return model.postData![index]['type']=='mention' ? MentionPost(
+                      username: model.postData![index]['username'],
+                      postTime: model.postData![index]['updatedAt'].toString().substring(0, 10),
+                      post: model.postData![index]['body'],
+                      comment: model.postData![index]['comment'],
+                      urlImage: model.postData![index]['coverImage'],
+                      id: model.postData![index]['_id'],
+                    ):Container();
+                  },
+                ): see == "Review" ? ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: model.postData?.length??0,
+                  itemBuilder: (context,int index){
+                    return model.postData![index]['type']=='review' ?ReviewPost(
+                      username: model.postData![index]['username'],
+                      postTime: model.postData![index]['updatedAt'].toString().substring(0, 10),
+                      urlImage: model.postData![index]['coverImage'],
+                      post: model.postData![index]['body'],
+                      rating: model.postData![index]['rating'],
+                      comment: model.postData![index]['comment'],
+                      id: model.postData![index]['_id'],
+                    ):Container();
+                  },
+                ): see == "Post" ? ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  itemCount: model.postData?.length??0,
+                  itemBuilder: (context,int index){
+                    return model.postData![index]['type']=='post' ? Post(
+                        username: model.postData![index]['username'],
+                        postTime: model.postData![index]['updatedAt'].toString().substring(0, 10),
+                        post: model.postData![index]['body'],
+                        comment: model.postData![index]['comment'],
+                        id: model.postData![index]['_id'],
+                        urlImage: model.postData![index]['coverImage']
+                    ):Container();
+                  },
+                ): Container(),
+              )),
+            ),
+          ),
         ],
       ),
     );
   }
+  Widget buildSearch() => SearchMentionPost(
+    text: query,
+    hintText: 'Search Post',
+    onChanged: SearchPost,
+  );
+
+  Future SearchPost(String query) async => debounce(() async {
+    //final posts = await PostSearch.getPosts(post!,query);
+
+    if (!mounted) return;
+
+    setState(() {
+      this.query = query;
+      this.posts = posts;
+    });
+  });
+
 }
