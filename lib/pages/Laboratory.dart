@@ -1,3 +1,4 @@
+import 'package:Florxy/pages/scrap.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/rendering.dart';
@@ -148,7 +149,11 @@ class _laboratoryState extends State<laboratory> {
                       icon: Icon(Icons.search_rounded),
                       color: c.blackMain,
                       iconSize: 30,
-                      onPressed: () {}),
+                      onPressed: () {
+                        // Scrap
+                        // Navigator.of(context).push(
+                        //     MaterialPageRoute(builder: (context) => Scrap()));
+                      }),
                 ],
               ),
             ),
