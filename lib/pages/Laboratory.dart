@@ -42,13 +42,11 @@ class _laboratoryState extends State<laboratory> {
   final storage = new FlutterSecureStorage();
   Future<void> _refreshPage() async {
     // refreshKey.currentState?.show(atTop: false);
-    setState(() async {
+
       await storage.delete(key: "p_id1");
       await storage.delete(key: "p_id2");
       await storage.delete(key: "p_id3");
       storage.write(key: "num", value: '0');
-
-    });
 
     await Future.delayed(Duration(seconds: 1));
   }

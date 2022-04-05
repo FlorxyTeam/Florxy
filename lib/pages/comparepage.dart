@@ -46,9 +46,6 @@ class _comparepageState extends State<comparepage> {
     super.initState();
     _currentIndex = widget.currentState;
 
-
-
-
   }
 
   @override
@@ -121,9 +118,9 @@ class _comparepageState extends State<comparepage> {
                                       print("z: " + z.toString());
                                       print("full");
                                     }
-
-                                    num = (await storage.read(key: "num")).toString();
-                                    print("num "+ num.toString());
+                                    //
+                                    // num = (await storage.read(key: "num")).toString();
+                                    // print("num "+ num.toString());
 
                                     if( x != null && y == null && z == null ){
 
@@ -177,7 +174,7 @@ class _comparepageState extends State<comparepage> {
                         ),
                         child: Center(
                           child: Inter(
-                              text: num!,
+                              text: num.toString(),
                               size: 20,
                               color: Color(0xFF0B391E),
                               fontWeight: f.extraBold),
