@@ -47,6 +47,7 @@ class _SensePageState extends State<SensePage> {
   @override
   void initState() {
     super.initState();
+    loadModel();
     controller = CameraController(
       widget.cameras![0],
       ResolutionPreset.max,
@@ -64,7 +65,6 @@ class _SensePageState extends State<SensePage> {
   void dispose() {
     controller.dispose();
     super.dispose();
-    loadModel();
   }
 
   loadModel() async{
@@ -108,7 +108,8 @@ class _SensePageState extends State<SensePage> {
       );
     }
 
-    return (state==0)?Scaffold(
+    return
+      (state==0)?Scaffold(
       backgroundColor: c.blackMain.withOpacity(0),
       body: Stack(
         children: <Widget>[
@@ -416,8 +417,8 @@ class _SensePageState extends State<SensePage> {
           ),
         ],
       ),
-    )
-        :Scaffold(
+    ) :
+    Scaffold(
       backgroundColor: c.blackMain.withOpacity(0),
       body: Stack(
         children: <Widget>[
