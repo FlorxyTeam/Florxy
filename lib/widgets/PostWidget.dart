@@ -108,8 +108,9 @@ class _MentionPostState extends State<MentionPost> {
                 CircleAvatar(
                   radius: 25,
                   backgroundColor: Colors.orange,
-                  backgroundImage:
-                  NetworkImage(profileModel.img),
+                  backgroundImage: profileModel.img.isNotEmpty?
+                  NetworkImage(profileModel.img)
+                  :null
                 ),
                 SizedBox( width: 8 ),
                 Column(
@@ -746,8 +747,9 @@ class _ReviewPostState extends State<ReviewPost> {
                 CircleAvatar(
                   radius: 25,
                   backgroundColor: Colors.orange,
-                  backgroundImage:
-                  NetworkImage(profileModel.img),
+                  backgroundImage: profileModel.img.isNotEmpty?
+                  NetworkImage(profileModel.img)
+                  :null
                 ),
                 SizedBox( width: 8 ),
                 Column(
@@ -1409,8 +1411,9 @@ class _PostState extends State<Post> {
                 CircleAvatar(
                   radius: 25,
                   backgroundColor: Colors.orange,
-                  backgroundImage:
-                  NetworkImage(profileModel.img),
+                  backgroundImage: profileModel.img.isNotEmpty?
+                  NetworkImage(profileModel.img)
+                  :null
                 ),
                 SizedBox( width: 8 ),
                 Column(
@@ -1947,8 +1950,9 @@ class _MentionPost2State extends State<MentionPost2> {
                 CircleAvatar(
                   radius: 25,
                   backgroundColor: Colors.orange,
-                  backgroundImage:
-                  NetworkImage(widget.profileImg!),
+                  backgroundImage: widget.profileImg!.isNotEmpty?
+                  NetworkImage(widget.profileImg!)
+                  :null
                 ),
                 SizedBox( width: 8 ),
                 Column(
@@ -2570,8 +2574,9 @@ class _ReviewPost2State extends State<ReviewPost2> {
                 CircleAvatar(
                   radius: 25,
                   backgroundColor: Colors.orange,
-                  backgroundImage:
-                  NetworkImage(widget.profileImg!),
+                  backgroundImage: widget.profileImg!.isNotEmpty?
+                  NetworkImage(widget.profileImg!)
+                  :null
                 ),
                 SizedBox( width: 8 ),
                 Column(
@@ -3179,8 +3184,9 @@ class _Post2State extends State<Post2> {
                 CircleAvatar(
                   radius: 25,
                   backgroundColor: Colors.orange,
-                  // backgroundImage:
-                  // NetworkHandler().getImage(profileModel.email),
+                  backgroundImage: widget.profileImg!.isNotEmpty?
+                  NetworkImage(widget.profileImg!)
+                  :null
                 ),
                 SizedBox( width: 8 ),
                 Column(
