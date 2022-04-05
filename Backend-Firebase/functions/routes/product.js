@@ -67,7 +67,7 @@ router.route("/:_id").get(middleware.checkToken, (req, res) => {
 
 // Total brand
 router.route("/brand").get(middleware.checkToken, (req, res) => {
-    products.find({}).distinct('p_brand', (err, result) => {
+    products.find({}).distinct("p_brand", (err, result) => {
         console.log("list of brand");
         if(err) res.status(500).json({msg: err});
         res.json({
@@ -111,7 +111,7 @@ router.route("/topreview/brand/:p_brand").get(middleware.checkToken, (req, res )
      });
 });
 
-//product Detail
+// product Detail
 router.route("/:_id").get(middleware.checkToken, (req, res) => {
     products.findOne({_id: req.params._id}, (err, result) => {
         console.log("ProductOverview");
@@ -123,7 +123,7 @@ router.route("/:_id").get(middleware.checkToken, (req, res) => {
     })
 });
 
-//Interesting review and mention
+// Interesting review and mention
 router.route("/:refproduct").get(middleware.checkToken, (req, res) => {
     Post.find({refproduct: req.params.refproduct}, (err, result) => {
         console.log("ProductOverview");
@@ -152,7 +152,7 @@ router.route("/compare/:p_id1/:p_id2").get(middleware.checkToken, (req, res) => 
 });
 
 
-//compare 3 products
+// compare 3 products
 router.route("/compare/:p_id1/:p_id2/:p_id3").get(middleware.checkToken, (req, res) => {
     products.findOne({_id: req.params.p_id1}, (err, result1) => {
         console.log("Compare 3 products.");
