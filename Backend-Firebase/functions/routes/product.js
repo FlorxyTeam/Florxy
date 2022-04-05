@@ -95,14 +95,14 @@ router.route("/compare/:p1_id/:p2_id").get(middleware.checkToken, (req, res) => 
          products.find({p2_id: req.params._id}, (err, result2) => {
 
           res.json({
-                     product1: result1,
-                     product2: result2,
+                     product1: [result1, result2],
                      _id: req.params._id,
                  })
          });
 
     })
 });
+
 
 
 //compare 3 products
@@ -115,9 +115,7 @@ router.route("/compare/:p1_id/:p2_id/:p3_id").get(middleware.checkToken, (req, r
              products.find({p2_id: req.params._id}, (err, result3) => {
               if(err) res.status(500).json({msg: err});
              res.json({
-                         product1: result1,
-                         product2: result2,
-                         product3: result3,
+                         product1: [result1,result2,result3],
 
               });
 

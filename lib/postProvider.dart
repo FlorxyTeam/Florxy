@@ -20,6 +20,8 @@ class PostProvider extends ChangeNotifier {
   List<dynamic>? comment;
   List<dynamic>? profile;
   List<dynamic>? chat;
+  List<dynamic>? pro1;
+  List<dynamic>? pro2;
 
 
 
@@ -157,6 +159,48 @@ class PostProvider extends ChangeNotifier {
     chat = parsedProduct["showChat"];
     // print('comment');
     // print(comment);
+  }
+
+  Future fetchCompare2() async {
+    print('Compare2');
+    String? token = await storage.read(key: "token");
+    var p_id1 = await storage.read(key: 'p_id1');
+    var p_id2 = await storage.read(key: 'p_id2');
+    print('Compare2 '+ p_id1.toString());
+    print('Compare2 '+ p_id2.toString());
+    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/compare/" + p_id1!+"/"+p_id2!);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization": "Bearer $token"},
+    );
+
+    final Map parseBrand = await json.decode(response.body.toString());
+
+    pro1 = parseBrand["product1"];
+
+  }
+
+  Future fetchCompare3() async {
+    print('Compare3');
+    String? token = await storage.read(key: "token");
+    var p_id1 = await storage.read(key: 'p_id1');
+    var p_id2 = await storage.read(key: 'p_id2');
+    var p_id3 = await storage.read(key: 'p_id3');
+    print('Compare3 '+ p_id1.toString());
+    print('Compare3 '+ p_id2.toString());
+    print('Compare3 '+ p_id3.toString());
+
+    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/compare/" + p_id1!+"/"+p_id2!+"/"+p_id3!);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization": "Bearer $token"},
+    );
+
+    final Map parseBrand = await json.decode(response.body.toString());
+
+    pro2 = parseBrand["product1"];
+
+
   }
 
   String formater(String url) {
