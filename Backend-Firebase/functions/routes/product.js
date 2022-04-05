@@ -135,6 +135,43 @@ router.route("/:refproduct").get(middleware.checkToken, (req, res) => {
     })
 });
 
+// compare 2 products
+router.route("/compare/:p_id1/:p_id2").get(middleware.checkToken, (req, res) => {
+    products.findOne({_id: req.params.p_id1}, (err, result1) => {
+        console.log("Compare 2 products.");
+        if(err) res.status(500).json({msg: err});
+         products.findOne({_id: req.params.p_id2}, (err, result2) => {
+
+          res.json({
+                     data: result1,result2
+
+                 })
+         });
+
+    })
+});
+
+
+//compare 3 products
+router.route("/compare/:p_id1/:p_id2/:p_id3").get(middleware.checkToken, (req, res) => {
+    products.findOne({_id: req.params.p_id1}, (err, result1) => {
+        console.log("Compare 3 products.");
+        if(err) res.status(500).json({msg: err});
+         products.findOne({_id: req.params.p_id2}, (err, result2) => {
+            if(err) res.status(500).json({msg: err});
+             products.findOne({_id: req.params.p_id3}, (err, result3) => {
+              if(err) res.status(500).json({msg: err});
+             res.json({
+                         data: [result1, result2, result3],
+
+              });
+
+             });
+
+         });
+
+    })
+});
 
 
 module.exports = router;
