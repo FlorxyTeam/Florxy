@@ -208,7 +208,7 @@ class _anotherProfileState extends State<anotherProfile> {
                   radius: 44,
                   backgroundColor: Colors.orange,
                   backgroundImage:
-                      NetworkHandler().getImage(profileModel.img),
+                  NetworkImage(profileModel.img),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

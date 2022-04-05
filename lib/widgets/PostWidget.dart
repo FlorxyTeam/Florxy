@@ -1376,11 +1376,11 @@ class _PostState extends State<Post> {
 
   @override
   void initState() {
+    fetchData();
     // TODO: implement initState
     super.initState();
-
-    fetchData();
   }
+
   void fetchData() async{
     var response = await networkHandler.get("/profile/getOtherData/" + widget.username!);
     var response2 = await networkHandler.get("/home/getIDPost/" + widget.id!);
@@ -1883,12 +1883,12 @@ class _PostState extends State<Post> {
 /////////////////////////////////////////////////////////
 
 class MentionPost2 extends StatefulWidget {
-  String? name, postTime, username, brand, product, post, id,professor,influencer;
-  int comment, favorite;
+  String? name, postTime, username, post, id,professor,influencer, profileImg;
+  int comment;
   List? urlImage;
 
   MentionPost2(
-      {Key? key, this.name, this.postTime, this.username, this.brand, this.product, this.post, required this.comment, required this.favorite, required this.professor, required this.influencer
+      {Key? key, this.name, this.postTime, this.profileImg, this.username, this.post, required this.comment, required this.professor, required this.influencer
         ,this.urlImage, this.id})
       : super(key: key);
 
@@ -1901,15 +1901,41 @@ class _MentionPost2State extends State<MentionPost2> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   bool isFav = false;
+  List favorite=[];
+  List product=[], staticData=[];
+  int countFav = 0;
+  Map? data;
+  PostModel postModel = PostModel(
+      favorite: [],
+      product: []
+  );
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    fetchData();
+  }
+
+  void fetchData() async{
+    var response2 = await networkHandler.get("/home/getIDPost/" + widget.id!);
+    setState(() {
+      postModel = PostModel.fromJson(response2["getPost"]);
+
+      favorite = postModel.favorite!;
+      countFav = favorite.length;
+
+      product = postModel.product!;
+      print('product');
+      print(product);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    if( product != null && product.length !=0 ){
+      data = product[0];
+    }
     return Container(
       child: Column(
         children: [
@@ -1921,8 +1947,8 @@ class _MentionPost2State extends State<MentionPost2> {
                 CircleAvatar(
                   radius: 25,
                   backgroundColor: Colors.orange,
-                  // backgroundImage:
-                  // NetworkHandler().getImage(profileModel.email),
+                  backgroundImage:
+                  NetworkImage(widget.profileImg!),
                 ),
                 SizedBox( width: 8 ),
                 Column(
@@ -2301,12 +2327,12 @@ class _MentionPost2State extends State<MentionPost2> {
                     Container(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 9, right: 4, top: 3, bottom: 3),
-                        child: Row(
+                        child: product.length==1?Row(
                           children: [
                             Container(
                               constraints: BoxConstraints(maxWidth: 160),
                               child: Inter_Crop(
-                                  text: '',
+                                  text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
                                   size: 10,
                                   color: c.tag,
                                   fontWeight: f.semiBold
@@ -2315,7 +2341,19 @@ class _MentionPost2State extends State<MentionPost2> {
                             SizedBox(width: 4),
                             Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
                           ],
-                        ),
+                        ):(product.length == 2 || product.length == 3 || product.length == 4)?
+                        Row(
+                          children: [
+                            Inter_Crop(
+                                text: 'mention ' + product.length.toString() + " products",
+                                size: 10,
+                                color: c.tag,
+                                fontWeight: f.semiBold
+                            ),
+                            SizedBox(width: 4),
+                            Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
+                          ],
+                        ):Container()
                       ),
                       decoration: BoxDecoration(
                           color: c.greenLight2,
@@ -2325,19 +2363,23 @@ class _MentionPost2State extends State<MentionPost2> {
                 ),
                 if(widget.urlImage?.length!=null)SizedBox(height: 8),
                 GestureDetector(
-                  onTap: () async {
-                    var product = widget.product!;
-                    product = product.replaceAll(" ","_");
-                    var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id! + "/" + product);
-                    print(res);
+                  onTap: () {
+                    // var product = widget.product!;
+                    // product = product.replaceAll(" ","_");
+                    // var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id! + "/" + product);
+                    // print(res);
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPost(
-                        // img: profileModel.img,
-                        // username: widget.username,
-                        // fullname: fullname,
-                        // id: widget.id,
-                        // body: widget.post,
-                        // urlImage: widget.urlImage,
-                        // listProduct : product
+                      img: widget.profileImg,
+                      username: widget.username,
+                      fullname: widget.name,
+                      id: widget.id,
+                      body: widget.post,
+                      urlImage: widget.urlImage,
+                      listProduct : product,
+                      professor: widget.professor,
+                      influencer: widget.influencer,
+                      comment: widget.comment,
+                      favorite: countFav,
 
                     )));
                   },
@@ -2355,12 +2397,12 @@ class _MentionPost2State extends State<MentionPost2> {
                     Container(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 9, right: 4, top: 3, bottom: 3),
-                        child: Row(
+                        child: product.length==1?Row(
                           children: [
                             Container(
                               constraints: BoxConstraints(maxWidth: 160),
                               child: Inter_Crop(
-                                  text: '',
+                                  text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
                                   size: 10,
                                   color: c.tag,
                                   fontWeight: f.semiBold
@@ -2369,7 +2411,19 @@ class _MentionPost2State extends State<MentionPost2> {
                             SizedBox(width: 4),
                             Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
                           ],
-                        ),
+                        ):(product.length == 2 || product.length == 3 || product.length == 4)?
+                        Row(
+                          children: [
+                            Inter_Crop(
+                                text: 'mention ' + product.length.toString() + " products",
+                                size: 10,
+                                color: c.tag,
+                                fontWeight: f.semiBold
+                            ),
+                            SizedBox(width: 4),
+                            Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
+                          ],
+                        ):Container()
                       ),
                       decoration: BoxDecoration(
                           color: c.greenLight2,
@@ -2386,14 +2440,14 @@ class _MentionPost2State extends State<MentionPost2> {
                     Expanded(child: Container()),
                     if(isFav == false)InkWell(
                         onTap: () async {
-                          Map<String, String> data = {
-                            "favorite":widget.id!
-                          };
-                          print(data);
-                          var idStorage = await storage.read(key: 'id');
-                          await networkHandler.post("/home/addFav/" + idStorage!, data);
+                          // Map<String, String> data = {
+                          //   "favorite":widget.id!
+                          // };
+                          // print(data);
+                          // var idStorage = await storage.read(key: 'id');
+                          // await networkHandler.post("/home/addFav/" + idStorage!, data);
                           setState(() {
-                            widget.favorite+=1;
+                            countFav+=1;
                             isFav = true;
                           });
                         },
@@ -2408,15 +2462,15 @@ class _MentionPost2State extends State<MentionPost2> {
                           var idStorage = await storage.read(key: 'id');
                           await networkHandler.post("/home/unFav/" + idStorage!, data);
                           setState(() {
-                            widget.favorite-=1;
+                            countFav-=1;
                             isFav = false;
                           });
                         },
                         child: Icon(Boxicons.bxs_heart, size:19, color: c.redMain)
                     ),
                     SizedBox(width: 3),
-                    if(isFav == false)Inter(text: widget.favorite.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
-                    if(isFav == true)Inter(text: widget.favorite.toString(), size: 11, color: c.redMain, fontWeight: f.medium),
+                    if(isFav == false)Inter(text: countFav.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
+                    if(isFav == true)Inter(text: countFav.toString(), size: 11, color: c.redMain, fontWeight: f.medium),
                     Expanded(child: Container()),
                     IconButton(
                       icon: Icon(FeatherIcons.share2, size:19, color: c.greyMain),
@@ -2452,13 +2506,13 @@ class _MentionPost2State extends State<MentionPost2> {
 }
 
 class ReviewPost2 extends StatefulWidget {
-  String? name, postTime, username, brand, product, post, id,professor,influencer;
-  int comment, favorite;
+  String? name, postTime, username, post, id,professor,influencer, profileImg;
+  int comment;
   double rating;
   List? urlImage;
 
   ReviewPost2(
-      {Key? key,required this.professor,required this.influencer ,this.name, this.postTime, this.username, this.brand, this.product, this.post, required this.comment, required this.favorite, this.urlImage, this.id, required this.rating})
+      {Key? key,required this.professor,required this.influencer , this.profileImg, this.name, this.postTime, this.username, this.post, required this.comment, this.urlImage, this.id, required this.rating})
       : super(key: key);
 
   @override
@@ -2470,15 +2524,41 @@ class _ReviewPost2State extends State<ReviewPost2> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   bool isFav = false;
+  List favorite=[];
+  List product=[], staticData=[];
+  int countFav = 0;
+  Map? data;
+  PostModel postModel = PostModel(
+      favorite: [],
+      product: []
+  );
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    fetchData();
+  }
+
+  void fetchData() async{
+    var response2 = await networkHandler.get("/home/getIDPost/" + widget.id!);
+    setState(() {
+      postModel = PostModel.fromJson(response2["getPost"]);
+
+      favorite = postModel.favorite!;
+      countFav = favorite.length;
+
+      product = postModel.product!;
+      print('product');
+      print(product);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    if( product != null && product.length !=0 ){
+      data = product[0];
+    }
     return Container(
       child: Column(
         children: [
@@ -2490,8 +2570,8 @@ class _ReviewPost2State extends State<ReviewPost2> {
                 CircleAvatar(
                   radius: 25,
                   backgroundColor: Colors.orange,
-                  // backgroundImage:
-                  // NetworkHandler().getImage(profileModel.email),
+                  backgroundImage:
+                  NetworkImage(widget.profileImg!),
                 ),
                 SizedBox( width: 8 ),
                 Column(
@@ -2874,26 +2954,10 @@ class _ReviewPost2State extends State<ReviewPost2> {
                         padding: const EdgeInsets.only(left: 9, right: 4,top: 2.5,bottom: 2.5),
                         child: Row(
                           children: [
-                            // Inter(
-                            //     text: brand!,
-                            //     size: 10,
-                            //     color: Colors.white,
-                            //     fontWeight: f.semiBold
-                            // ),
-                            // SizedBox(
-                            //     height: 20,
-                            //     child: VerticalDivider(
-                            //       color: Colors.white,
-                            //       thickness: 1.5,
-                            //       indent: 3.3,
-                            //       endIndent: 3.3,
-                            //       width: 13,
-                            //     )
-                            // ),
                             Container(
                               constraints: BoxConstraints(maxWidth: 125),
                               child: Inter_Crop(
-                                  text: widget.brand!+" "+widget.product!,
+                                  text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
                                   size: 10,
                                   color: c.tag,
                                   fontWeight: f.semiBold
@@ -2911,7 +2975,7 @@ class _ReviewPost2State extends State<ReviewPost2> {
                             SizedBox(width: 4),
                             Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
                           ],
-                        ),
+                        )
                       ),
                       decoration: BoxDecoration(
                           color: c.greenLight2,
@@ -2921,19 +2985,23 @@ class _ReviewPost2State extends State<ReviewPost2> {
                 ),
                 if(widget.urlImage?.length!=null)SizedBox(height: 8),
                 GestureDetector(
-                  onTap: () async {
-                    var product = widget.product!;
-                    product = product.replaceAll(" ","_");
-                    var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id! + "/" + product);
-                    print(res);
+                  onTap: () {
+                    // var product = widget.product!;
+                    // product = product.replaceAll(" ","_");
+                    // var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id! + "/" + product);
+                    // print(res);
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPost(
-                        // img: profileModel.img,
-                        // username: widget.username,
-                        // fullname: fullname,
-                        // id: widget.id,
-                        // body: widget.post,
-                        // urlImage: widget.urlImage,
-                        // listProduct : product
+                      img: widget.profileImg,
+                      username: widget.username,
+                      fullname: widget.name,
+                      id: widget.id,
+                      body: widget.post,
+                      urlImage: widget.urlImage,
+                      listProduct : product,
+                      professor: widget.professor,
+                      influencer: widget.influencer,
+                      comment: widget.comment,
+                      favorite: countFav,
 
                     )));
                   },
@@ -2953,26 +3021,10 @@ class _ReviewPost2State extends State<ReviewPost2> {
                         padding: const EdgeInsets.only(left: 9, right: 4,top: 2.5,bottom: 2.5),
                         child: Row(
                           children: [
-                            // Inter(
-                            //     text: brand!,
-                            //     size: 10,
-                            //     color: Colors.white,
-                            //     fontWeight: f.semiBold
-                            // ),
-                            // SizedBox(
-                            //     height: 20,
-                            //     child: VerticalDivider(
-                            //       color: Colors.white,
-                            //       thickness: 1.5,
-                            //       indent: 3.3,
-                            //       endIndent: 3.3,
-                            //       width: 13,
-                            //     )
-                            // ),
                             Container(
                               constraints: BoxConstraints(maxWidth: 125),
                               child: Inter_Crop(
-                                  text: widget.brand!+" "+widget.product!,
+                                  text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
                                   size: 10,
                                   color: c.tag,
                                   fontWeight: f.semiBold
@@ -3014,7 +3066,7 @@ class _ReviewPost2State extends State<ReviewPost2> {
                           var idStorage = await storage.read(key: 'id');
                           await networkHandler.post("/home/addFav/" + idStorage!, data);
                           setState(() {
-                            widget.favorite+=1;
+                            countFav+=1;
                             isFav = true;
                           });
                         },
@@ -3029,15 +3081,15 @@ class _ReviewPost2State extends State<ReviewPost2> {
                           var idStorage = await storage.read(key: 'id');
                           await networkHandler.post("/home/unFav/" + idStorage!, data);
                           setState(() {
-                            widget.favorite-=1;
+                            countFav-=1;
                             isFav = false;
                           });
                         },
                         child: Icon(Boxicons.bxs_heart, size:19, color: c.redMain)
                     ),
                     SizedBox(width: 3),
-                    if(isFav == false)Inter(text: widget.favorite.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
-                    if(isFav == true)Inter(text: widget.favorite.toString(), size: 11, color: c.redMain, fontWeight: f.medium),
+                    if(isFav == false)Inter(text: countFav.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
+                    if(isFav == true)Inter(text: countFav.toString(), size: 11, color: c.redMain, fontWeight: f.medium),
                     Expanded(child: Container()),
                     IconButton(
                       icon: Icon(FeatherIcons.share2, size:19, color: c.greyMain),
@@ -3073,12 +3125,12 @@ class _ReviewPost2State extends State<ReviewPost2> {
 }
 
 class Post2 extends StatefulWidget {
-  String? name, postTime, username, post, id,professor,influencer;
+  String? name, postTime, username, post, id,professor,influencer, profileImg;
   int comment, favorite;
   List? urlImage;
 
   Post2(
-      {Key? key, this.name, this.postTime, this.username, this.post, required this.comment, required this.favorite, required this.professor, required this.influencer
+      {Key? key, this.name, this.postTime, this.username, this.profileImg, this.post, required this.comment, required this.favorite, required this.professor, required this.influencer
         ,this.urlImage, this.id})
       : super(key: key);
 
@@ -3091,11 +3143,27 @@ class _Post2State extends State<Post2> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   bool isFav = false;
+  List favorite=[];
+  int countFav = 0;
+  PostModel postModel = PostModel(
+      favorite: []
+  );
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    fetchData();
+  }
+
+  void fetchData() async{
+    var response = await networkHandler.get("/home/getIDPost/" + widget.id!);
+    setState(() {
+      postModel = PostModel.fromJson(response["getPost"]);
+
+      favorite = postModel.favorite!;
+      countFav = favorite.length;
+    });
   }
 
   @override
@@ -3488,13 +3556,16 @@ class _Post2State extends State<Post2> {
                     var res = await networkHandler.get("/home/getPost/viewPost/" + widget.id!);
                     print(res);
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ViewPost(
-                        // img: profileModel.img,
-                        // username: widget.username,
-                        // fullname: fullname,
-                        // id: widget.id,
-                        // body: widget.post,
-                        // urlImage: widget.urlImage,
-                        // listProduct : product
+                      img: widget.profileImg,
+                      username: widget.username,
+                      fullname: widget.name,
+                      id: widget.id,
+                      body: widget.post,
+                      urlImage: widget.urlImage,
+                      professor: widget.professor,
+                      influencer: widget.influencer,
+                      comment: widget.comment,
+                      favorite: countFav,
 
                     )));
                   },

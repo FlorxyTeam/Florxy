@@ -132,11 +132,7 @@ router.route("/addFav/:id").post(middleware.checkToken, (req, res)=>{
         if (err) {
           res.json(err);
         } else {
-          Post.findOneAndUpdate({_id: req.body.favorite},
-              {$inc: {favorite: 1}}, function(err, post) {
-                console.log(FavPost + post);
-                return res.json("Favorited succes!!");
-              });
+          return res.json("Favorited succes!!");
         }
       });
 });
