@@ -4,6 +4,7 @@ const middleware = require("../middleware");
 const Profile = require("../models/profile.model");
 const Post = require("../models/post.model");
 const Product = require("../models/product.model");
+const Comment = require("../models/comment.model");
 const multer = require("multer");
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -188,6 +189,58 @@ router.route("/getPost/viewPost/:id/:product")
               return res.send({post: findPost, product: findProduct});
             }
           });
+        }
+      });
+    });
+
+    router.route("/comment").post((req, res) => {
+      const comment = Comment({
+        username: req.body.username,
+        mainpost: req.body.mainpost,
+        body: req.body.comment,
+      });
+      comment
+        .save()
+        .then(() => {
+          return res.json("add comment successfull");
+        })
+        .catch((err) => {
+          return res.status(400).json({ err: err });
+        });
+    });
+    
+    // router.route("/getComment/:id").get((req,res)=>{
+    //   Comment.find({mainpost:req.params.id}).populate("owner").exec(function(err,findComment) {
+    //   let username = Comment("owner.username");
+    //   console.log(username);
+    //     Profile.find({username:username}).exec(function(err,findOwner) {
+    //       if(err){
+    //         return res.json(err);
+    //       } else {
+    //         console.log(findComment);
+    //         console.log(findOwner);
+    //         return res.send({ comment: findComment , owner: findOwner});
+    //       }
+    //     })
+    //   })
+    // })
+    
+    router.route("/getComment/:id").get((req,res)=>{
+      Comment.find({mainpost:req.params.id}).exec(function(err,findComment) {
+          if(err){
+            return res.json(err);
+          } else {
+            return res.send({ comment: findComment });
+          }
+      });
+    });
+
+    router.route("/getDataComment/:id").get((req,res)=>{
+      Comment.findOne({_id:req.params.id}).exec(function(err, comment){
+        if(err){
+          console.log(err);
+        } else {
+          return res.send({ dataComment: comment });
         }
       });
     });

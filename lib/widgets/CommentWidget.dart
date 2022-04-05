@@ -1,3 +1,4 @@
+import 'package:Florxy/Model/commentModel.dart';
 import 'package:Florxy/Model/profileModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,9 +9,8 @@ import 'fontWeight.dart';
 import 'font.dart';
 
 class Comment extends StatefulWidget {
-  String? name,username,postTime,owner,body;
-  int favorite,comment;
-  Comment({Key? key, required this.favorite, this.username, this.name, this.body, this.postTime, this.owner, required this.comment}) : super(key: key);
+  String? username, postTime, body, owner, mainPost, idComment;
+  Comment({Key? key, this.username, this.body, this.postTime, this.owner, this.mainPost, this.idComment}) : super(key: key);
 
   @override
   _CommentState createState() => _CommentState();
@@ -33,6 +33,10 @@ class _CommentState extends State<Comment> {
     listfollower: [],
     listfollowing: [],
   );
+  CommentModel commentModel = CommentModel(
+    vote: []
+  );
+  int countVote = 0;
 
   @override
   void initState() {
@@ -44,8 +48,11 @@ class _CommentState extends State<Comment> {
   void fetchData() async{
     final networkHandler = NetworkHandler();
     var response = await networkHandler.get("/profile/getOtherData/" + widget.username!);
+    var response2 = await networkHandler.get("/home/getDataComment/" + widget.idComment!);
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
+      commentModel = CommentModel.fromJson(response2["dataComment"]);
+      countVote = commentModel.vote!.length;
     });
 
   }
@@ -62,8 +69,9 @@ class _CommentState extends State<Comment> {
                 CircleAvatar(
                   radius: 20,
                   backgroundColor: Colors.orange,
-                  // backgroundImage:
-                  // NetworkHandler().getImage(profileModel.email),
+                  backgroundImage: profileModel.img.isNotEmpty?
+                  NetworkImage(profileModel.img)
+                  :null
                 ),
                 SizedBox(width: 8),
                 Column(
@@ -105,9 +113,8 @@ class _CommentState extends State<Comment> {
                       SizedBox(width: 10),
                       Column(
                         children: [
-                          Icon(FeatherIcons.heart, size:19, color: c.greyMain),
-                          SizedBox(height: 1),
-                          Inter(text: widget.favorite.toString(), size: 11, color: c.graySub2, fontWeight: f.medium)
+                          Icon(FeatherIcons.chevronsUp, size:23, color: c.greyMain),
+                          Inter(text: countVote.toString(), size: 11, color: c.graySub2, fontWeight: f.medium)
                         ],
                       )
                     ],
