@@ -30,6 +30,8 @@ class _BrandoverviewState extends State<Brandoverview> {
     print(widget.p_brand);
     await storage.write(key: "p_brand", value: widget.p_brand);
     await networkHandler.get("/product/brand/" + widget.p_brand!);
+    await networkHandler.get("/product/topmention/brand/" + widget.p_brand!);
+    await networkHandler.get("/product/topreview/brand/" + widget.p_brand!);
   }
 
   @override
@@ -37,6 +39,8 @@ class _BrandoverviewState extends State<Brandoverview> {
     fetchData();
     // TODO: implement initState
     Provider.of<PostProvider>(context, listen: false).fetchBrandOverview();
+    Provider.of<PostProvider>(context, listen: false).fetchTopmentionProduct();
+    Provider.of<PostProvider>(context, listen: false).fetchTopreviewProduct();
     super.initState();
 
   }
@@ -292,7 +296,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                     // color: c.redMain,
                     child: Consumer<PostProvider>(
                       builder: (context, model, _) => FutureBuilder(
-                        future: model.fetchBrandOverview(),
+                        future: model.fetchTopmentionProduct(),
                         builder: (context, snapshot) => ListView.separated(
                           padding: EdgeInsets.only(left: 28, right: 2),
                           itemCount: model.topmention?.length ?? 0,
@@ -333,7 +337,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                     // color: c.redMain,
                     child: Consumer<PostProvider>(
                       builder: (context, model, _) => FutureBuilder(
-                        future: model.fetchBrandOverview(),
+                        future: model.fetchTopreviewProduct(),
                         builder: (context, snapshot) => ListView.separated(
                           padding: EdgeInsets.only(left: 28, right: 2),
                           itemCount: model.topreview?.length ?? 0,
