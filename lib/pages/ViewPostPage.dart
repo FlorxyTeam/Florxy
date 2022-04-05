@@ -604,19 +604,17 @@ class _ViewPostState extends State<ViewPost> {
                               itemBuilder: (context,int index){
                                 // fetchData(model.comment![index]['owner']);
                                 return Comment(
-                                  name: 'profileModel.fullname',
-                                  username: model.comment![index]['owner'],
+                                  idComment: model.comment![index]['_id'],
+                                  username: model.comment![index]['username'],
                                   postTime: model.comment![index]['updatedAt'].toString().substring(0, 10),
                                   body: model.comment![index]['body'],
-                                  comment: model.comment![index]['comment'],
-                                  favorite: model.comment![index]['favorite'],
-                                  owner: widget.username,
+                                  owner: widget.username
                                 );
                               },
                             ),
                           ),
                         )),
-                        SizedBox(height: 90)
+                        SizedBox(height: 150)
                       ],
                     ),
                   ),
@@ -642,8 +640,9 @@ class _ViewPostState extends State<ViewPost> {
                             CircleAvatar(
                               radius: 15,
                               backgroundColor: Colors.orange,
-                              // backgroundImage:
-                              // NetworkHandler().getImage(profileModel.email),
+                              backgroundImage: profileModel.img.isNotEmpty?
+                              NetworkImage(profileModel.img)
+                              :null
                             ),
                             SizedBox(width: 5),
                             Column(
@@ -733,7 +732,7 @@ class _ViewPostState extends State<ViewPost> {
                               onTap: () async {
                                 var username = await storage.read(key: 'username');
                                 Map<String, String> data = {
-                                  "owner": username!,
+                                  "username": username!,
                                   "mainpost": widget.id!,
                                   "comment": _commentController.text,
                                 };
@@ -742,6 +741,7 @@ class _ViewPostState extends State<ViewPost> {
                                 setState(() {
                                   Provider.of<PostProvider>(context,listen: false).fetchComment(widget.id!);
                                 });
+                                _commentController.clear();
                               },
                             ),
                           ],
