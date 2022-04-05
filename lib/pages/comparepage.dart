@@ -92,6 +92,7 @@ class _comparepageState extends State<comparepage> {
                                   setState(() {
                                     if( x == null && x != widget.id){
                                       storage.write(key: "p_id1", value: widget.id);
+
                                     }else if(y == null && x != widget.id){
                                       storage.write(key: "p_id2", value: widget.id);
                                     }else if(z == null && x != widget.id && y != widget.id){
