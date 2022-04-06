@@ -13,7 +13,6 @@ class PostProvider extends ChangeNotifier {
   List<dynamic>? myPost;
   List<dynamic>? anotherPost;
   List<dynamic>? favPost;
-  List<dynamic>? SearchData;
   List<dynamic>? listOfbrand;
   List<dynamic>? brandOverview;
   List<dynamic>? topmention;
@@ -23,7 +22,9 @@ class PostProvider extends ChangeNotifier {
   List<dynamic>? chat;
   List<dynamic>? pro1;
   List<dynamic>? com3;
-
+  List<dynamic>? searchPost;
+  List<dynamic>? searchProduct;
+  List<dynamic>? searchUser;
 
 
   FlutterSecureStorage storage = FlutterSecureStorage();
@@ -238,4 +239,53 @@ class PostProvider extends ChangeNotifier {
     print(networkHandler.baseurl + url);
     return networkHandler.baseurl + url;
   }
+
+  Future fetchSearchBody(String query) async{
+    String? token = await storage.read(key:"token");
+    final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/home/getSearchBody/"+query);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization": "Bearer $token"},
+    );
+    final Map parsedProduct = await json.decode(response.body.toString());
+
+    searchPost = parsedProduct["getBody"];
+  }
+
+  Future fetchSearchProductPost(String query) async{
+    String? token = await storage.read(key:"token");
+    final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/home/getSearchProductPost/"+query);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization": "Bearer $token"},
+    );
+    final Map parsedProduct = await json.decode(response.body.toString());
+
+    searchPost = parsedProduct["getProductPost"];
+  }
+
+  Future fetchSearchUser(String query) async{
+    String? token = await storage.read(key:"token");
+    final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/profile/getSearchUser/"+query);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization": "Bearer $token"},
+    );
+    final Map parsedProduct = await json.decode(response.body.toString());
+
+    searchUser = parsedProduct["getUser"];
+  }
+
+  Future fetchSearchProduct(String query) async{
+    String? token = await storage.read(key:"token");
+    final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/product/getSearchProduct/"+query);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization": "Bearer $token"},
+    );
+    final Map parsedProduct = await json.decode(response.body.toString());
+
+    searchProduct = parsedProduct["getProduct"];
+  }
+
 }

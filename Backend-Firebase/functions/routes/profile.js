@@ -459,4 +459,18 @@ router.route("/update/profile").patch(middleware.checkToken, (req, res) => {
   );
 });
 
+router.route("/getSearchUser/:id").get(middleware.checkToken,(req,res)=>{
+        var query = req.params.id
+        Profile.find({$or: [
+                        {username: {$regex: query, $options:"i"}},
+                        {fullname: {$regex: query, $options:"i"}},
+                        ],
+                        },
+        (err,result)=>{
+            if(err)return res.json(err);
+            return res.json({getUser : result})
+        });
+    });
+
+
 module.exports = router;
