@@ -89,11 +89,15 @@ class _MentionPostState extends State<MentionPost> {
     listfollowing: [],
   );
 
+
+  late bool _isLoading;
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
+    _isLoading = true;
+
     fetchData();
+    super.initState();
   }
 
   fetchData() async{
@@ -122,7 +126,7 @@ class _MentionPostState extends State<MentionPost> {
       // }
       // print(myfav);
       comment = response3["countComment"];
-
+      _isLoading =false;
     });
   }
 
@@ -155,7 +159,12 @@ class _MentionPostState extends State<MentionPost> {
     return FutureBuilder(
       future: fetchComment(),
       builder: (context, snapshot) => Container(
-        child: Column(
+        child:  _isLoading
+            ?Padding(
+              padding: EdgeInsets.only(left: 23, right: 22,top:  20),
+              child: NewCardSkeleton(),
+            )
+            :Column(
           children: [
             SizedBox(height: 8),
             Padding(
@@ -199,7 +208,7 @@ class _MentionPostState extends State<MentionPost> {
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
                               }
                               else{
-                                Navbar(currentState: 4);
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
                               }
                             },
                           ),
@@ -820,12 +829,14 @@ class _ReviewPostState extends State<ReviewPost> {
     listfollowing: [],
   );
 
+  late bool _isLoading;
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
 
+    _isLoading = true;
     fetchData();
+    super.initState();
   }
 
   fetchData() async{
@@ -845,6 +856,7 @@ class _ReviewPostState extends State<ReviewPost> {
       product = postModel.product!;
 
       comment = response3["countComment"];
+      _isLoading =false;
     });
   }
 
@@ -877,7 +889,12 @@ class _ReviewPostState extends State<ReviewPost> {
     return FutureBuilder(
         future: fetchComment(),
         builder: (context, snapshot) => Container(
-        child: Column(
+        child: _isLoading
+            ?Padding(
+          padding: EdgeInsets.only(left: 23, right: 22,top:  20),
+          child: NewCardSkeleton(),
+        )
+            :Column(
           children: [
             SizedBox(height: 8),
             Padding(
@@ -921,7 +938,7 @@ class _ReviewPostState extends State<ReviewPost> {
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
                               }
                               else{
-                                Navbar(currentState: 4);
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
                               }
 
                             },
@@ -1536,10 +1553,13 @@ class _PostState extends State<Post> {
     listfollower: [],
     listfollowing: [],
   );
+
+  late bool _isLoading;
   @override
   void initState() {
-    fetchData();
     // TODO: implement initState
+    _isLoading = true;
+    fetchData();
     super.initState();
   }
 
@@ -1558,6 +1578,7 @@ class _PostState extends State<Post> {
       countFav = favorite!.length;
 
       comment = response3["countComment"];
+      _isLoading =false;
     });
   }
 
@@ -1588,7 +1609,12 @@ class _PostState extends State<Post> {
     return FutureBuilder(
       future: fetchComment(),
       builder: (context, snapshot) => Container(
-        child: Column(
+        child: _isLoading
+            ?Padding(
+          padding: EdgeInsets.only(left: 23, right: 22,top:  20),
+          child: NewCardSkeleton(),
+        )
+            :Column(
           children: [
             SizedBox(height: 8),
             Padding(
@@ -1631,7 +1657,7 @@ class _PostState extends State<Post> {
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
                               }
                               else{
-                                Navbar(currentState: 4);
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
                               }
                             },
                           ),
@@ -2125,11 +2151,14 @@ class _MentionPost2State extends State<MentionPost2> {
     listfollower: [],
     listfollowing: [],
   );
+
+  late bool _isLoading;
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
+    _isLoading = true;
     fetchData();
+    super.initState();
   }
 
   fetchData() async{
@@ -2145,6 +2174,7 @@ class _MentionPost2State extends State<MentionPost2> {
       print('product');
       print(product);
       widget.comment = response3["countComment"];
+      _isLoading =false;
     });
   }
 
@@ -2177,7 +2207,12 @@ class _MentionPost2State extends State<MentionPost2> {
     return FutureBuilder(
       future: fetchComment(),
       builder: (context, snapshot) => Container(
-        child: Column(
+        child: _isLoading
+            ?Padding(
+          padding: EdgeInsets.only(left: 23, right: 22,top:  20),
+          child: NewCardSkeleton(),
+        )
+            :Column(
           children: [
             SizedBox(height: 8),
             Padding(
@@ -2221,7 +2256,7 @@ class _MentionPost2State extends State<MentionPost2> {
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
                               }
                               else{
-                                Navbar(currentState: 4);
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
                               }
                             },
                           ),
@@ -2820,11 +2855,14 @@ class _ReviewPost2State extends State<ReviewPost2> {
     listfollower: [],
     listfollowing: [],
   );
+
+  late bool _isLoading;
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
+    _isLoading = true;
     fetchData();
+    super.initState();
   }
 
   fetchData() async{
@@ -2841,6 +2879,7 @@ class _ReviewPost2State extends State<ReviewPost2> {
       print(product);
 
       widget.comment = response3["countComment"];
+      _isLoading =false;
     });
   }
 
@@ -2873,7 +2912,12 @@ class _ReviewPost2State extends State<ReviewPost2> {
     return FutureBuilder(
       future: fetchComment(),
       builder: (context, snapshot) => Container(
-        child: Column(
+        child: _isLoading
+            ?Padding(
+          padding: EdgeInsets.only(left: 23, right: 22,top:  20),
+          child: NewCardSkeleton(),
+        )
+            :Column(
           children: [
             SizedBox(height: 8),
             Padding(
@@ -2917,7 +2961,7 @@ class _ReviewPost2State extends State<ReviewPost2> {
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
                               }
                               else{
-                                Navbar(currentState: 4);
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
                               }
 
                             },
@@ -3498,11 +3542,14 @@ class _Post2State extends State<Post2> {
     listfollower: [],
     listfollowing: [],
   );
+
+  late bool _isLoading;
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
+    _isLoading = true;
     fetchData();
+    super.initState();
   }
 
   fetchData() async{
@@ -3515,6 +3562,7 @@ class _Post2State extends State<Post2> {
       countFav = favorite.length;
 
       widget.comment = response3["countComment"];
+      _isLoading =false;
     });
   }
 
@@ -3546,7 +3594,12 @@ class _Post2State extends State<Post2> {
     return FutureBuilder(
       future: fetchComment(),
       builder: (context, snapshot) => Container(
-        child: Column(
+        child: _isLoading
+            ?Padding(
+          padding: EdgeInsets.only(left: 23, right: 22,top:  20),
+          child: NewCardSkeleton(),
+        )
+            :Column(
           children: [
             SizedBox(height: 8),
             Padding(
@@ -3589,7 +3642,7 @@ class _Post2State extends State<Post2> {
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
                               }
                               else{
-                                Navbar(currentState: 4);
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
                               }
                             },
                           ),
@@ -4034,6 +4087,174 @@ class _Post2State extends State<Post2> {
   }
 }
 
+
+class DoubleCard extends StatelessWidget {
+  const DoubleCard({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      SizedBox(height: 20,),
+      NewCardSkeleton(),
+      SizedBox(height: 20,),
+      NewCardSkeleton(),
+    ],);
+  }
+}
+
+
+class NewCardSkeleton extends StatelessWidget {
+  const NewCardSkeleton({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            CirSkeleton(
+              height: 56,
+              width: 56,
+              opa: 0.04,
+            ),
+            SizedBox(width: 10,),
+            Expanded(child: Column(
+              children: [
+                Row(children: [
+                  Expanded(child: Skeleton(height: 10,width: 20,)),
+                  SizedBox(width: 10,),
+                  Expanded(child: Skeleton(height: 10,width: 5,)),
+                ],),
+                SizedBox(height: 8,),
+
+                Row(children: [
+                  Skeleton(height: 10,width: 50,),
+
+
+                ],
+                ),
+                SizedBox(height: 8,),
+              ],
+            ),
+            ),
+          ],
+        ),
+        Row(children: [
+          CirSkeleton2(
+            height: 56,
+            width: 56,
+            opa: 0.00,
+          ),
+          SizedBox(width: 10,),
+          Skeleton(height: 250, width: 300,),
+        ],
+        ),
+        Row(children: [
+          CirSkeleton2(
+            height: 30,
+            width: 56,
+            opa: 0.00,
+          ),
+          SizedBox(width: 10,),
+          Skeleton(height: 10,width: 70,),
+          SizedBox(width: 8,),
+          Skeleton(height: 15,width: 170,),
+        ],),
+        Row(children: [
+          CirSkeleton2(
+            height: 0,
+            width: 56,
+            opa: 0.00,
+          ),
+          SizedBox(width: 10,),
+          Expanded(child: Skeleton(height: 10,width: 70,)),
+        ],),
+        SizedBox(height: 7,),
+        Row(children: [
+          CirSkeleton2(
+            height: 0,
+            width: 56,
+            opa: 0.00,
+          ),
+          SizedBox(width: 10,),
+          Expanded(child: Skeleton(height: 10,width: 70,)),
+        ],),
+        SizedBox(height: 7,),
+        Row(children: [
+          CirSkeleton2(
+            height: 0,
+            width: 56,
+            opa: 0.00,
+          ),
+          SizedBox(width: 10,),
+          Expanded(child: Skeleton(height: 10,width: 70,)),
+        ],),
+      ],
+
+    );
+  }
+}
+
+class CirSkeleton2 extends StatelessWidget {
+  const CirSkeleton2({
+    Key? key,
+    this.height,
+    this.width,
+    this.opa,
+  }): super(key:key);
+  final double? height, width, opa;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      width: width,
+      child: CircleAvatar(backgroundColor: Colors.black.withOpacity(0.00),radius: 28,),
+
+    );
+  }
+}
+
+class CirSkeleton extends StatelessWidget {
+  const CirSkeleton({
+    Key? key,
+    this.height,
+    this.width,
+    this.opa,
+  }): super(key:key);
+  final double? height, width, opa;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      width: width,
+      child: CircleAvatar(backgroundColor: Colors.black.withOpacity(0.04),radius: 28,),
+
+    );
+  }
+}
+
+class Skeleton extends StatelessWidget {
+  const Skeleton({
+    Key? key,
+    this.height,
+    this.width,
+  }): super(key:key);
+  final double? height, width;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      width: width,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.04),
+        borderRadius: const BorderRadius.all(Radius.circular(16)),
+      ),
+    );
+  }
+}
 
 
 
