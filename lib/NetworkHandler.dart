@@ -9,10 +9,11 @@ class NetworkHandler {
 
   // String baseurl = "https://asia-southeast1-florxy.cloudfunctions.net/app";
   // String baseurl = "http://192.168.101.79:8080"; //nicha
-  // String baseurl = "http://192.168.2.36:8080"; //deuan
-  // String baseurl = "http://192.168.90.207:8080"; //Leo
+  //String baseurl = "http://192.168.2.36:8080"; //deuan
+  String baseurl = "http://192.168.2.38:8080"; //Leo
   //String baseurl = "http://192.168.1.5:8080"; //Frank
-  String baseurl = "http://192.168.1.130:8080"; //Frank
+  //String baseurl = "http://192.168.1.130:8080"; //Frank
+  // String baseurl = "http://192.168.1.5:8080"; //Frank
 
   var log = Logger();
 

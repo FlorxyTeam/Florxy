@@ -60,10 +60,16 @@ class Scraper {
     var alling_met = [];
     var alling_irr = [];
     var alling_rate = [];
+    String? img = "";
     final parse_body = parse(body);
     final name = parse_body.querySelectorAll('#product-title')[0].innerHtml.trim();
     final brand = parse_body.querySelectorAll('#product-brand-title > a')[0].innerHtml.trim();
-    final img = parse_body.querySelectorAll('#product-main-image')[0].querySelectorAll('img')[0].attributes['src'];
+    if (parse_body.querySelectorAll('#product-main-image').length>0&&parse_body.querySelectorAll('#product-main-image')[0].querySelectorAll('img').length>0){
+      img = parse_body.querySelectorAll('#product-main-image')[0].querySelectorAll('img')[0].attributes['src'];
+    }
+    else{
+       img = "";
+    }
     final detail = parse_body.querySelectorAll('#product-details')[0].innerHtml.trim();
 
 
