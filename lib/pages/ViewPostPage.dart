@@ -9,6 +9,7 @@ import 'package:Florxy/widgets/button.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/productWidget.dart';
 import 'package:boxicons/boxicons.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:camera/camera.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -59,7 +60,7 @@ class _ViewPostState extends State<ViewPost> {
 
   @override
   void initState() {
-    // fetchData();
+    fetchData();
     // TODO: implement initState
     Provider.of<PostProvider>(context,listen: false).fetchComment(widget.id!);
     super.initState();
@@ -77,9 +78,7 @@ class _ViewPostState extends State<ViewPost> {
   Widget build(BuildContext context) {
     final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
     List product = widget.listProduct!;
-    return FutureBuilder(
-      future: fetchData(),
-      builder: (context, snapshot) => Scaffold(
+    return Scaffold(
         backgroundColor: c.textWhite,
         body: Stack(
           children: [
@@ -106,11 +105,17 @@ class _ViewPostState extends State<ViewPost> {
                             padding: const EdgeInsets.only(top: 11),
                             child: Row(
                               children: [
-                                CircleAvatar(
-                                  radius: 30,
-                                  backgroundColor: Colors.orange,
-                                  backgroundImage:
-                                  NetworkImage(widget.img!),
+                                Container(
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Color(0xFFE5E5E5)
+                                    ),
+                                    width: 60,
+                                    height: 60,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: CachedNetworkImage(imageUrl: profileModel.img,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
+                                    )
                                 ),
                                 SizedBox( width: 8 ),
                                 Column(
@@ -640,12 +645,17 @@ class _ViewPostState extends State<ViewPost> {
                           padding: const EdgeInsets.only(bottom: 10),
                           child: Row(
                             children: [
-                              CircleAvatar(
-                                radius: 15,
-                                backgroundColor: Colors.orange,
-                                backgroundImage: profileModel.img.isNotEmpty?
-                                NetworkImage(profileModel.img)
-                                :null
+                              Container(
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Color(0xFFE5E5E5)
+                                  ),
+                                  width: 30,
+                                  height: 30,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: CachedNetworkImage(imageUrl: profileModel.img,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
+                                  )
                               ),
                               SizedBox(width: 5),
                               Column(
@@ -759,7 +769,6 @@ class _ViewPostState extends State<ViewPost> {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }

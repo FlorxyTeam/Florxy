@@ -1,6 +1,7 @@
 import 'package:Florxy/Model/commentModel.dart';
 import 'package:Florxy/Model/profileModel.dart';
 import 'package:boxicons/boxicons.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -41,7 +42,7 @@ class _CommentState extends State<Comment> {
 
   @override
   void initState() {
-    // fetchData();
+    fetchData();
     // TODO: implement initState
     super.initState();
   }
@@ -55,13 +56,21 @@ class _CommentState extends State<Comment> {
       commentModel = CommentModel.fromJson(response2["dataComment"]);
       countVote = commentModel.vote!.length;
     });
+  }
 
+  fetchVote() async {
+    final networkHandler = NetworkHandler();
+    var response2 = await networkHandler.get("/home/getDataComment/" + widget.idComment!);
+    setState(() {
+      commentModel = CommentModel.fromJson(response2["dataComment"]);
+      countVote = commentModel.vote!.length;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: fetchData(),
+      future: fetchVote(),
       builder: (context, snapshot) => Padding(
         padding: const EdgeInsets.only(top: 15),
         child: Container(
@@ -70,12 +79,17 @@ class _CommentState extends State<Comment> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CircleAvatar(
-                    radius: 20,
-                    backgroundColor: Colors.orange,
-                    backgroundImage: profileModel.img.isNotEmpty?
-                    NetworkImage(profileModel.img)
-                    :null
+                  Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xFFE5E5E5)
+                      ),
+                      width: 40,
+                      height: 40,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: CachedNetworkImage(imageUrl: profileModel.img,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
+                      )
                   ),
                   SizedBox(width: 8),
                   Column(

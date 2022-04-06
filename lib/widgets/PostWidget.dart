@@ -7,6 +7,7 @@ import 'package:Florxy/pages/navbar.dart';
 import 'package:Florxy/widgets/ModalViewProduct.dart';
 import 'package:Florxy/widgets/modelreportpost.dart';
 import 'package:boxicons/boxicons.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/font.dart';
@@ -71,7 +72,7 @@ class _MentionPostState extends State<MentionPost> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // fetchData();
+    fetchData();
   }
 
   fetchData() async{
@@ -95,13 +96,20 @@ class _MentionPostState extends State<MentionPost> {
     });
   }
 
+  fetchComment () async {
+    var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
+    setState(() {
+      widget.comment = response3["countComment"];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if( product != null && product.length !=0 ){
       data = product[0];
     }
     return FutureBuilder(
-      future: fetchData(),
+      future: fetchComment(),
       builder: (context, snapshot) => Container(
         child: Column(
           children: [
@@ -110,13 +118,19 @@ class _MentionPostState extends State<MentionPost> {
               padding: const EdgeInsets.only(left: 23, right: 4),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundColor: Colors.orange,
-                    backgroundImage: profileModel.img.isNotEmpty?
-                    NetworkImage(profileModel.img)
-                    :null
+                  Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xFFE5E5E5)
+                      ),
+                      width: 50,
+                      height: 50,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: CachedNetworkImage(imageUrl: profileModel.img,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
+                      )
                   ),
+
                   SizedBox( width: 8 ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -744,8 +758,9 @@ class _ReviewPostState extends State<ReviewPost> {
     // TODO: implement initState
     super.initState();
 
-    // fetchData();
+    fetchData();
   }
+
   fetchData() async{
     var response = await networkHandler.get("/profile/getOtherData/"+ widget.username!);
     var response2 = await networkHandler.get("/home/getIDPost/" + widget.id!);
@@ -766,13 +781,20 @@ class _ReviewPostState extends State<ReviewPost> {
     });
   }
 
+  fetchComment () async {
+    var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
+    setState(() {
+      widget.comment = response3["countComment"];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if( product != null && product.length !=0 ){
       data = product[0];
     }
     return FutureBuilder(
-        future: fetchData(),
+        future: fetchComment(),
         builder: (context, snapshot) => Container(
         child: Column(
           children: [
@@ -781,12 +803,17 @@ class _ReviewPostState extends State<ReviewPost> {
               padding: const EdgeInsets.only(left: 23, right: 4),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundColor: Colors.orange,
-                    backgroundImage: profileModel.img.isNotEmpty?
-                    NetworkImage(profileModel.img)
-                    :null
+                  Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xFFE5E5E5)
+                      ),
+                      width: 50,
+                      height: 50,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: CachedNetworkImage(imageUrl: profileModel.img,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
+                      )
                   ),
                   SizedBox( width: 8 ),
                   Column(
@@ -1410,7 +1437,7 @@ class _PostState extends State<Post> {
 
   @override
   void initState() {
-    // fetchData();
+    fetchData();
     // TODO: implement initState
     super.initState();
   }
@@ -1433,10 +1460,17 @@ class _PostState extends State<Post> {
     });
   }
 
+  fetchComment () async {
+    var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
+    setState(() {
+      widget.comment = response3["countComment"];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: fetchData(),
+      future: fetchComment(),
       builder: (context, snapshot) => Container(
         child: Column(
           children: [
@@ -1445,12 +1479,17 @@ class _PostState extends State<Post> {
               padding: const EdgeInsets.only(left: 23, right: 4),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundColor: Colors.orange,
-                    backgroundImage: profileModel.img.isNotEmpty?
-                    NetworkImage(profileModel.img)
-                    :null
+                  Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xFFE5E5E5)
+                      ),
+                      width: 50,
+                      height: 50,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: CachedNetworkImage(imageUrl: profileModel.img,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
+                      )
                   ),
                   SizedBox( width: 8 ),
                   Column(
