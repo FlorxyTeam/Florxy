@@ -8,32 +8,32 @@ part of 'postModel.dart';
 
 PostModel _$PostModelFromJson(Map<String, dynamic> json) {
   return PostModel(
-      pinnedcomment: json['pinnedcomment'] as String,
-      username: json['username'] as String,
-      comment: json['comment'] as List,
-      favorite: json['favorite'] as List,
-      product: json['product'] as List,
-      archive: json['archive'] as bool,
-      coverImage: json['coverImage'] as List,
-      type: json['type'] as String,
-      rating: json['rating'] as double,
-      body: json['body'] as String,
-      createdAt: json['createdAt'] as String,
-      updatedAt: json['updatedAt'] as String
+    body: json['body'] as String?,
+    comment: json['comment'] as List<dynamic>?,
+    favorite: json['favorite'] as List<dynamic>?,
+    rating: (json['rating'] as num?)?.toDouble(),
+    username: json['username'] as String?,
+    pinnedcomment: json['pinnedcomment'] as String?,
+    product: json['product'] as List<dynamic>?,
+    archive: json['archive'] as bool?,
+    coverImage: json['coverImage'] as List<dynamic>?,
+    type: json['type'] as String?,
+    createdAt: json['createdAt'] as String?,
+    updatedAt: json['updatedAt'] as String?,
   );
 }
 
 Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
-      'username': instance.username,
-      'coverImage': instance.coverImage,
-      'type': instance.type,
-      'rating': instance.rating,
-      'body': instance.body,
+      'pinnedcomment': instance.pinnedcomment,
       'comment': instance.comment,
       'favorite': instance.favorite,
+      'type': instance.type,
+      'coverImage': instance.coverImage,
+      'body': instance.body,
+      'product': instance.product,
+      'archive': instance.archive,
+      'username': instance.username,
+      'rating': instance.rating,
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,
-      'pinnedcomment': instance.pinnedcomment,
-      'product': instance.product,
-      'archive': instance.archive
     };

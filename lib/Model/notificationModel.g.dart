@@ -1,28 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'commentModel.dart';
+part of 'notificationModel.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-CommentModel _$CommentModelFromJson(Map<String, dynamic> json) {
-  return CommentModel(
-    body: json['body'] as String,
-    vote: json['vote'] as List,
+NotificationModel _$NotificationModelFromJson(Map<String, dynamic> json) {
+  return NotificationModel(
     username: json['username'] as String,
-    mainpost: json['mainpost'] as String,
+    otherusername: json['otherusername'] as String,
+    type: json['type'] as String,
+    body: json['body'] as String,
     createdAt: json['createdAt'] as String,
-    updatedAt: json['updatedAt'] as String
   );
 }
 
-Map<String, dynamic> _$CommentModelToJson(CommentModel instance) =>
+Map<String, dynamic> _$NotificationModelToJson(NotificationModel instance) =>
     <String, dynamic>{
       'username': instance.username,
-      'mainpost': instance.mainpost,
+      'otherusername': instance.otherusername,
+      'type': instance.type,
       'body': instance.body,
-      'vote': instance.vote,
       'createdAt': instance.createdAt,
-      'updatedAt': instance.updatedAt,
     };
