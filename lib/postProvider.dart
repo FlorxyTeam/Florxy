@@ -218,6 +218,7 @@ class PostProvider extends ChangeNotifier {
     final Map parseBrand = await json.decode(response.body.toString());
 
     com3 = parseBrand["data"];
+    print(com3);
 
 
   }
