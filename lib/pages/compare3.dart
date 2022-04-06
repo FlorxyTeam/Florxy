@@ -1,5 +1,7 @@
 import 'package:Florxy/NetworkHandler.dart';
+import 'package:Florxy/pages/Comparechecker.dart';
 import 'package:Florxy/pages/Loadingscreen.dart';
+import 'package:Florxy/pages/compare1.dart';
 import 'package:Florxy/widgets/button.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
@@ -47,6 +50,39 @@ class ModalMentionPost {
               ),
               SizedBox(height: 30),
               Expanded(child: Product(id1: x, id2: y, id3: z)),
+              SizedBox(
+                height: 5,
+              ),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: RichText(
+                    text: TextSpan(
+
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: "Compare between ",
+                          style: GoogleFonts.roboto(
+                              color: Color(0xFFBDBDBD).withOpacity(0.68), fontWeight: f.medium,fontSize: 15
+                          ),
+                        ),
+                        TextSpan(
+                          text: "3",
+                          style: GoogleFonts.roboto(
+                              color: Color(0xFF32A060), fontWeight: f.bold,fontSize: 16
+                          ),
+                        ),
+                        TextSpan(
+                          text: " products",
+                          style: GoogleFonts.roboto(
+                              color: Color(0xFFBDBDBD).withOpacity(0.68), fontWeight: f.medium,fontSize: 15
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
               Padding(
                   padding: EdgeInsets.only(left: 50,right: 50,bottom: 50),
                   child: Column(
@@ -55,7 +91,7 @@ class ModalMentionPost {
                       InkWell(
 
                         onTap: (){
-
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => compare1(id1: x, id2: y, id3: z,)));
                         },
                         child: GreenButton(
                           text: 'COMPARE',
@@ -106,13 +142,12 @@ class _ProductState extends State<Product> {
 
 
     fetchData();
-    Provider.of<PostProvider>(context, listen: false).fetchCompare3();
+    // Provider.of<PostProvider>(context, listen: false).fetchCompare3();
     // TODO: implement initState
     super.initState();
+    Provider.of<PostProvider>(context, listen: false).fetchCompare3();
 
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +156,7 @@ class _ProductState extends State<Product> {
         color: Colors.white,
         child: Consumer<PostProvider>(builder: (context,model,_) => FutureBuilder(
           future: model.fetchCompare3(),
-          builder: (context,snapshot) => ListView.builder(
+          builder: (context, snapshot) => ListView.builder(
             // scrollDirection: Axis.vertical,
             itemCount: model.com3?.length??0,
             itemBuilder: (context,int index){
@@ -172,7 +207,7 @@ class _ProductState extends State<Product> {
                                   height: 7,
                                 ),
                                 PoppinsLeft(text:  model.com3![index]['p_name'], size: 15, color: Color(0xFF053118), fontWeight: f.semiBold),
-                                SizedBox(height: 10),
+                                SizedBox(height: 4),
                                 Roboto(text: model.com3![index]['p_desc'].toString().substring(0, 70) + "...", size: 12,  color: Color(0xFF9D9D9D), fontWeight: f.regular)
                               ],
                             ),
@@ -181,11 +216,7 @@ class _ProductState extends State<Product> {
                         Padding(
                           padding: const EdgeInsets.only(left: 20),
                           child: InkWell(
-                            onTap: () {
-                              setState(() {
-                                
-                              });
-
+                            onTap: ()  {
 
                             },
                             child:
