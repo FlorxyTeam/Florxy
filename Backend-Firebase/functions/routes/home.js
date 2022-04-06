@@ -224,7 +224,52 @@ router.route("/getPost/viewPost/:id/:product")
     //     })
     //   })
     // })
-    
+    router.route("/getSearchPost/:id").get(middleware.checkToken, (req,res)=>{
+          var query = req.params.id.toLowerCase()
+          //console.log(typeof Post)
+          Post.find({product : {$ne : null}},).populate({
+              path: 'product',
+            }).exec(function(err, result){
+                 if(err) {
+                    return res.json(err);
+                 } else {
+                    var i = 0;
+                    var my_result = []
+                    while(i < result.length){
+                    if(result[i].body.includes(query)){
+                        my_result.push(result[i]);
+//                        console.log(my_result);
+                    }
+                      else if(result[i].product.length>0){
+                            for (let x = 0; x<result[i].product.length; x++ ){
+//                            console.log()
+                                if(result[i].product[x].p_brand.toLowerCase().includes(query)||result[i].product[x].p_name.toLowerCase().includes(query)){
+                                  my_result.push(result[i]);
+                                }
+
+                            }
+//                            console.log();
+//                            console.log(result[i].product[x].p_brand,result[i].product[x].p_name);
+
+                        }
+
+                    i++;
+                    }
+                    console.log(my_result.length)
+                    res.send({ getPost: my_result,
+                               length: my_result.length});
+                 }
+            }
+            /*.then(result => console.log(typeof res.json(result))
+                    /result.find({$or: [
+                    {"product.p_name": {$regex: query, $options:"i"}},
+                    {"product.p_nbrand": {$regex: query, $options:"i"}},
+                    ],},(err,result)=>{
+                                    if(err)return res.json(err);
+                                    return res.json({data:result})
+                                })*/
+           )
+        });
     router.route("/getComment/:id").get((req,res)=>{
       Comment.find({mainpost:req.params.id}).exec(function(err,findComment) {
           if(err){
