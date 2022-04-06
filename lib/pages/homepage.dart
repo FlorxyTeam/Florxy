@@ -24,10 +24,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     // fetchData();
   }
 
