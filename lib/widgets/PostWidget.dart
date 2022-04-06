@@ -3952,7 +3952,7 @@ class _Post2State extends State<Post2> {
                             var idStorage = await storage.read(key: 'id');
                             await networkHandler.post("/home/addFav/" + idStorage!, data);
                             setState(() {
-                              widget.favorite+=1;
+                              countFav+=1;
                               isFav = true;
                             });
                           },
@@ -3967,15 +3967,15 @@ class _Post2State extends State<Post2> {
                             var idStorage = await storage.read(key: 'id');
                             await networkHandler.post("/home/unFav/" + idStorage!, data);
                             setState(() {
-                              widget.favorite-=1;
+                              countFav-=1;
                               isFav = false;
                             });
                           },
                           child: Icon(Boxicons.bxs_heart, size:19, color: c.redMain)
                       ),
                       SizedBox(width: 3),
-                      if(isFav == false)Inter(text: widget.favorite.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
-                      if(isFav == true)Inter(text: widget.favorite.toString(), size: 11, color: c.redMain, fontWeight: f.medium),
+                      if(isFav == false)Inter(text: countFav.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
+                      if(isFav == true)Inter(text: countFav.toString(), size: 11, color: c.redMain, fontWeight: f.medium),
                       Expanded(child: Container()),
                       IconButton(
                         icon: Icon(FeatherIcons.share2, size:19, color: c.greyMain),
