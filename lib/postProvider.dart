@@ -132,20 +132,20 @@ class PostProvider extends ChangeNotifier {
     profile = parsedProduct["anotherProfile"];
   }
 
-  Future fetchFavPost() async {
-    var id = await storage.read(key: 'idFavPost');
-    String? token = await storage.read(key:"token");
-    final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/profile/getFavPost/"+id!);
-    http.Response response = await httpClient.get(
-      resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
-    );
-    final Map parsedProduct = await json.decode(response.body.toString());
-
-    favPost = parsedProduct["favPost"];
-    print("favPost");
-    print(favPost);
-  }
+  // Future fetchFavPost() async {
+  //   var id = await storage.read(key: 'idFavPost');
+  //   String? token = await storage.read(key:"token");
+  //   final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/profile/getFavPost/"+id!);
+  //   http.Response response = await httpClient.get(
+  //     resAPIURL,
+  //     headers: {"Authorization": "Bearer $token"},
+  //   );
+  //   final Map parsedProduct = await json.decode(response.body.toString());
+  //
+  //   favPost = parsedProduct["favPost"];
+  //   print("favPost");
+  //   print(favPost);
+  // }
 
   Future fetchComment(String idPost) async{
     // var id = await storage.read(key: 'idPost');

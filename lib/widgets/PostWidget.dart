@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:Florxy/Model/postModel.dart';
 import 'package:Florxy/Model/profileModel.dart';
+import 'package:Florxy/pages/FavPost.dart';
 import 'package:Florxy/pages/ViewPostPage.dart';
 import 'package:Florxy/pages/navbar.dart';
 import 'package:Florxy/widgets/ModalViewProduct.dart';
@@ -27,10 +28,11 @@ class MentionPost extends StatefulWidget {
   String? postTime, username, post, id;
   int comment;
   List? urlImage;
+  Future? fetchdata;
 
   MentionPost(
       {Key? key, this.postTime, this.username, this.post, required this.comment,
-  this.urlImage, this.id})
+  this.urlImage, this.id, this.fetchdata})
       : super(key: key);
 
   @override
@@ -46,6 +48,7 @@ class _MentionPostState extends State<MentionPost> {
   String? fullname='',influencer='',professor='';
   List favorite=[];
   List product=[], staticData=[];
+  int? comment;
   int countFav = 0;
   Map? data;
   PostModel postModel = PostModel(
@@ -118,7 +121,7 @@ class _MentionPostState extends State<MentionPost> {
       //   print('same fuck fuck');
       // }
       // print(myfav);
-      widget.comment = response3["countComment"];
+      comment = response3["countComment"];
 
     });
   }
@@ -127,7 +130,7 @@ class _MentionPostState extends State<MentionPost> {
     var response4 = await networkHandler.get("/profile/getData/");
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
     setState(() {
-      widget.comment = response3["countComment"];
+      comment = response3["countComment"];
       myprofileModel = ProfileModel.fromJson(response4["data"]);
       myfav = myprofileModel.favorite;
       var i=0;
@@ -610,7 +613,7 @@ class _MentionPostState extends State<MentionPost> {
                           listProduct : product,
                           professor: professor,
                           influencer: influencer,
-                          comment: widget.comment,
+                          comment: comment!,
                           favorite: countFav,
 
                       )));
@@ -678,16 +681,18 @@ class _MentionPostState extends State<MentionPost> {
                     children: [
                       Icon(FeatherIcons.messageSquare, size:19, color: c.greyMain),
                       SizedBox(width: 3),
-                      Inter(text: widget.comment.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
+                      Inter(text: comment.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
                       Expanded(child: Container()),
                       if(isFav == false)InkWell(
                           onTap: () async {
-                            // Map<String, String> data = {
-                            //   "favorite":widget.id!
-                            // };
-                            // print(data);
-                            // var idStorage = await storage.read(key: 'id');
-                            // await networkHandler.post("/home/addFav/" + idStorage!, data);
+                            // var username = await storage.read(key: 'username');
+                            Map<String, String> data = {
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
+                            };
+                            var idStorage = await storage.read(key: 'id');
+                            await networkHandler.post("/home/addFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
                               countFav+=1;
                               isFav = true;
@@ -697,12 +702,13 @@ class _MentionPostState extends State<MentionPost> {
                       ),
                       if(isFav == true)InkWell(
                           onTap: () async {
-                            // Map<String, String> data = {
-                            //   "favorite":widget.id!
-                            // };
-                            // print(data);
-                            // var idStorage = await storage.read(key: 'id');
-                            // await networkHandler.post("/home/unFav/" + idStorage!, data);
+                            Map<String, String> data = {
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
+                            };
+                            var idStorage = await storage.read(key: 'id');
+                            await networkHandler.post("/home/unFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
                               countFav-=1;
                               isFav = false;
@@ -753,9 +759,10 @@ class ReviewPost extends StatefulWidget {
   int comment;
   double rating;
   List? urlImage;
+  Future? fetchdata;
 
   ReviewPost(
-      {Key? key,this.postTime, this.username, this.post, required this.comment, this.urlImage, this.id, required this.rating})
+      {Key? key,this.postTime, this.fetchdata, this.username, this.post, required this.comment, this.urlImage, this.id, required this.rating})
       : super(key: key);
 
   @override
@@ -773,6 +780,7 @@ class _ReviewPostState extends State<ReviewPost> {
   List product=[];
   Map? data;
   int countFav = 0;
+  int? comment;
   PostModel postModel = PostModel(
       favorite: [],
       product: []
@@ -836,7 +844,7 @@ class _ReviewPostState extends State<ReviewPost> {
 
       product = postModel.product!;
 
-      widget.comment = response3["countComment"];
+      comment = response3["countComment"];
     });
   }
 
@@ -844,7 +852,7 @@ class _ReviewPostState extends State<ReviewPost> {
     var response4 = await networkHandler.get("/profile/getData/");
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
     setState(() {
-      widget.comment = response3["countComment"];
+      comment = response3["countComment"];
       myprofileModel = ProfileModel.fromJson(response4["data"]);
       myfav = myprofileModel.favorite;
       var i=0;
@@ -1320,7 +1328,7 @@ class _ReviewPostState extends State<ReviewPost> {
                         listProduct : product,
                         professor: professor,
                         influencer: influencer,
-                        comment: widget.comment,
+                        comment: comment!,
                         favorite: countFav,
 
                       )));
@@ -1396,16 +1404,17 @@ class _ReviewPostState extends State<ReviewPost> {
                     children: [
                       Icon(FeatherIcons.messageSquare, size:19, color: c.greyMain),
                       SizedBox(width: 3),
-                      Inter(text: widget.comment.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
+                      Inter(text: comment.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
                       Expanded(child: Container()),
                       if(isFav == false)InkWell(
                           onTap: () async {
-                            // Map<String, String> data = {
-                            //   "favorite":widget.id!
-                            // };
-                            // print(data);
-                            // var idStorage = await storage.read(key: 'id');
-                            // await networkHandler.post("/home/addFav/" + idStorage!, data);
+                            Map<String, String> data = {
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
+                            };
+                            var idStorage = await storage.read(key: 'id');
+                            await networkHandler.post("/home/addFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
                               countFav+=1;
                               isFav = true;
@@ -1415,12 +1424,13 @@ class _ReviewPostState extends State<ReviewPost> {
                       ),
                       if(isFav == true)InkWell(
                           onTap: () async {
-                            // Map<String, String> data = {
-                            //   "favorite":widget.id!
-                            // };
-                            // print(data);
-                            // var idStorage = await storage.read(key: 'id');
-                            // await networkHandler.post("/home/unFav/" + idStorage!, data);
+                            Map<String, String> data = {
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
+                            };
+                            var idStorage = await storage.read(key: 'id');
+                            await networkHandler.post("/home/unFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
                               countFav-=1;
                               isFav = false;
@@ -1470,9 +1480,10 @@ class Post extends StatefulWidget {
   String? postTime, username, post, id;
   int comment;
   List? urlImage;
+  Future? fetchdata;
 
   Post(
-      {Key? key, this.postTime, this.username, this.post, required this.comment,this.urlImage, this.id})
+      {Key? key, this.postTime, this.username, this.fetchdata, this.post, required this.comment,this.urlImage, this.id})
       : super(key: key);
 
   @override
@@ -1487,6 +1498,7 @@ class _PostState extends State<Post> {
   String? fullname='',influencer='',professor='';
   List? favorite=[];
   int countFav = 0;
+  int? comment;
   PostModel postModel = PostModel(
       favorite: [],
       product: []
@@ -1545,7 +1557,7 @@ class _PostState extends State<Post> {
       favorite = postModel.favorite!;
       countFav = favorite!.length;
 
-      widget.comment = response3["countComment"];
+      comment = response3["countComment"];
     });
   }
 
@@ -1554,7 +1566,7 @@ class _PostState extends State<Post> {
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
     setState(() {
 
-      widget.comment = response3["countComment"];
+      comment = response3["countComment"];
       myprofileModel = ProfileModel.fromJson(response4["data"]);
       myfav = myprofileModel.favorite;
       var i=0;
@@ -1977,7 +1989,7 @@ class _PostState extends State<Post> {
                         urlImage: widget.urlImage,
                         professor: professor,
                         influencer: influencer,
-                        comment: widget.comment,
+                        comment: comment!,
                         favorite: countFav,
 
                       )));
@@ -1992,16 +2004,17 @@ class _PostState extends State<Post> {
                     children: [
                       Icon(FeatherIcons.messageSquare, size:19, color: c.greyMain),
                       SizedBox(width: 3),
-                      Inter(text: widget.comment.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
+                      Inter(text: comment.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
                       Expanded(child: Container()),
                       if(isFav == false)InkWell(
                           onTap: () async {
-                            // Map<String, String> data = {
-                            //   "favorite":widget.id!
-                            // };
-                            // print(data);
-                            // var idStorage = await storage.read(key: 'id');
-                            // await networkHandler.post("/home/addFav/" + idStorage!, data);
+                            Map<String, String> data = {
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
+                            };
+                            var idStorage = await storage.read(key: 'id');
+                            await networkHandler.post("/home/addFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
                               countFav+=1;
                               isFav = true;
@@ -2011,12 +2024,13 @@ class _PostState extends State<Post> {
                       ),
                       if(isFav == true)InkWell(
                           onTap: () async {
-                            // Map<String, String> data = {
-                            //   "favorite":widget.id!
-                            // };
-                            // print(data);
-                            // var idStorage = await storage.read(key: 'id');
-                            // await networkHandler.post("/home/unFav/" + idStorage!, data);
+                            Map<String, String> data = {
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
+                            };
+                            var idStorage = await storage.read(key: 'id');
+                            await networkHandler.post("/home/unFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
                               countFav-=1;
                               isFav = false;
@@ -2070,10 +2084,11 @@ class MentionPost2 extends StatefulWidget {
   String? name, postTime, username, post, id,professor,influencer, profileImg;
   int comment;
   List? urlImage;
+  Future? fetchdata;
 
   MentionPost2(
       {Key? key, this.name, this.postTime, this.profileImg, this.username, this.post, required this.comment, required this.professor, required this.influencer
-        ,this.urlImage, this.id})
+        ,this.urlImage, this.id, this.fetchdata})
       : super(key: key);
 
   @override
@@ -2692,12 +2707,13 @@ class _MentionPost2State extends State<MentionPost2> {
                       Expanded(child: Container()),
                       if(isFav == false)InkWell(
                           onTap: () async {
-                            // Map<String, String> data = {
-                            //   "favorite":widget.id!
-                            // };
-                            // print(data);
-                            // var idStorage = await storage.read(key: 'id');
-                            // await networkHandler.post("/home/addFav/" + idStorage!, data);
+                            Map<String, String> data = {
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
+                            };
+                            var idStorage = await storage.read(key: 'id');
+                            await networkHandler.post("/home/addFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
                               countFav+=1;
                               isFav = true;
@@ -2708,11 +2724,12 @@ class _MentionPost2State extends State<MentionPost2> {
                       if(isFav == true)InkWell(
                           onTap: () async {
                             Map<String, String> data = {
-                              "favorite":widget.id!
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
                             };
-                            print(data);
                             var idStorage = await storage.read(key: 'id');
-                            await networkHandler.post("/home/unFav/" + idStorage!, data);
+                            await networkHandler.post("/home/unFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
                               countFav-=1;
                               isFav = false;
@@ -2763,9 +2780,10 @@ class ReviewPost2 extends StatefulWidget {
   int comment;
   double rating;
   List? urlImage;
+  Future? fetchdata;
 
   ReviewPost2(
-      {Key? key,required this.professor,required this.influencer , this.profileImg, this.name, this.postTime, this.username, this.post, required this.comment, this.urlImage, this.id, required this.rating})
+      {Key? key,required this.professor,required this.influencer, this.fetchdata , this.profileImg, this.name, this.postTime, this.username, this.post, required this.comment, this.urlImage, this.id, required this.rating})
       : super(key: key);
 
   @override
@@ -3371,11 +3389,12 @@ class _ReviewPost2State extends State<ReviewPost2> {
                       if(isFav == false)InkWell(
                           onTap: () async {
                             Map<String, String> data = {
-                              "favorite":widget.id!
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
                             };
-                            print(data);
                             var idStorage = await storage.read(key: 'id');
-                            await networkHandler.post("/home/addFav/" + idStorage!, data);
+                            await networkHandler.post("/home/addFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
                               countFav+=1;
                               isFav = true;
@@ -3386,11 +3405,12 @@ class _ReviewPost2State extends State<ReviewPost2> {
                       if(isFav == true)InkWell(
                           onTap: () async {
                             Map<String, String> data = {
-                              "favorite":widget.id!
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
                             };
-                            print(data);
                             var idStorage = await storage.read(key: 'id');
-                            await networkHandler.post("/home/unFav/" + idStorage!, data);
+                            await networkHandler.post("/home/unFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
                               countFav-=1;
                               isFav = false;
@@ -3440,9 +3460,10 @@ class Post2 extends StatefulWidget {
   String? name, postTime, username, post, id,professor,influencer, profileImg;
   int comment;
   List? urlImage;
+  Future? fetchdata;
 
   Post2(
-      {Key? key, this.name, this.postTime, this.username, this.profileImg, this.post, required this.comment, required this.professor, required this.influencer
+      {Key? key, this.name, this.postTime, this.username, this.fetchdata, this.profileImg, this.post, required this.comment, required this.professor, required this.influencer
         ,this.urlImage, this.id})
       : super(key: key);
 
@@ -3946,11 +3967,12 @@ class _Post2State extends State<Post2> {
                       if(isFav == false)InkWell(
                           onTap: () async {
                             Map<String, String> data = {
-                              "favorite":widget.id!
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
                             };
-                            print(data);
                             var idStorage = await storage.read(key: 'id');
-                            await networkHandler.post("/home/addFav/" + idStorage!, data);
+                            await networkHandler.post("/home/addFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
                               countFav+=1;
                               isFav = true;
@@ -3961,11 +3983,12 @@ class _Post2State extends State<Post2> {
                       if(isFav == true)InkWell(
                           onTap: () async {
                             Map<String, String> data = {
-                              "favorite":widget.id!
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
                             };
-                            print(data);
                             var idStorage = await storage.read(key: 'id');
-                            await networkHandler.post("/home/unFav/" + idStorage!, data);
+                            await networkHandler.post("/home/unFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
                               countFav-=1;
                               isFav = false;

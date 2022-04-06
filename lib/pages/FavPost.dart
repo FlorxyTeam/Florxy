@@ -37,9 +37,9 @@ class _FavPostState extends State<FavPost> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
 
-  void fetchData() async{
+  fetchData() async{
     print(widget.idFavPost);
-    await storage.write(key: "idFavPost", value: widget.idFavPost);
+    // await storage.write(key: "idFavPost", value: widget.idFavPost);
     var response = await networkHandler.get("/profile/getFavPost/"+widget.idFavPost!);
 
     setState(() {
@@ -54,7 +54,6 @@ class _FavPostState extends State<FavPost> {
   void initState() {
     fetchData();
     // TODO: implement initState
-    Provider.of<PostProvider>(context,listen: false).fetchFavPost();
     super.initState();
   }
 
@@ -76,6 +75,7 @@ class _FavPostState extends State<FavPost> {
                 comment: 0,
                 urlImage: data['coverImage'],
                 id: "${data['_id']}",
+                fetchdata: fetchData(),
               ):
               "${data['type']}"=='review'?ReviewPost(
                 username: "${data['username']}",
@@ -85,6 +85,7 @@ class _FavPostState extends State<FavPost> {
                 urlImage: data['coverImage'],
                 id: "${data['_id']}",
                 rating: data['rating'],
+                fetchdata: fetchData(),
               ):"${data['type']}"=='post'?Post(
                 username: "${data['username']}",
                 postTime: "${data['updatedAt']}".toString().substring(0, 10),
@@ -92,6 +93,7 @@ class _FavPostState extends State<FavPost> {
                 comment: 0,
                 urlImage: data['coverImage'],
                 id: "${data['_id']}",
+                fetchdata: fetchData(),
               ):Container();
             },
           ),

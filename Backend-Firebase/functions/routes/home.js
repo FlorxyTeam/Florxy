@@ -125,30 +125,36 @@ router.route("/delete/:id").delete(middleware.checkToken, (req, res)=>{
 //     });
 // });
 
-router.route("/addFav/:id").post(middleware.checkToken, (req, res)=>{
+router.route("/addFav/:id/:postID").post(middleware.checkToken, (req, res)=>{
   // res.json(req.params.id);
   Profile.findOneAndUpdate({_id: req.params.id},
       {$push: {favorite: req.body.favorite}}, function(err, FavPost) {
         console.log(req.params.id);
         if (err) {
-          res.json(err);
+          return res.json(err);
         } else {
-          return res.json("Favorited succes!!");
+          Post.findOneAndUpdate({_id: req.params.postID},
+            {$push: {favorite: { username: req.body.username }}}, function(err, addUsername){
+              if(err) {
+                return res.json(err);
+              } else {
+                return res.json("Favorited succes!!");
+              }
+            });
         }
       });
 });
 
-router.route("/unFav/:id").post(middleware.checkToken, (req, res)=>{
+router.route("/unFav/:id/:postID").post(middleware.checkToken, (req, res)=>{
   // res.json(req.params.id);
   Profile.findOneAndUpdate({_id: req.params.id},
       {$pull: {favorite: req.body.favorite}}, function(err, unFavPost) {
       // console.log(req.params.id);
         if (err) {
-          res.json(err);
+          return res.json(err);
         } else {
-          Post.findOneAndUpdate({_id: req.body.favorite},
-              {$inc: {favorite: -1}}, function(err, post) {
-                console.log(unFavPost + post);
+          Post.findOneAndUpdate({_id: req.params.postID},
+            {$pull: {favorite: { username: req.body.username }}}, function(err, post) {
                 return res.json("unFavorited succes!!");
               });
         }
