@@ -211,6 +211,7 @@ Column _buildBottomNavigationMenu(context,username) {
                             onTap: () async {
                               await storage.delete(key: "token");
                               await storage.delete(key: "username");
+                              await storage.deleteAll();
                               final user = FirebaseAuth.instance.currentUser;
                               print(user);
                               if(user?.providerData[0].providerId=='facebook.com'){

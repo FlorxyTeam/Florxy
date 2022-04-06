@@ -182,6 +182,9 @@ class _ProductState extends State<Product> {
                           padding: const EdgeInsets.only(left: 20),
                           child: InkWell(
                             onTap: () {
+                              setState(() {
+                                
+                              });
 
 
                             },

@@ -124,16 +124,17 @@ router.route("/:_id").get(middleware.checkToken, (req, res) => {
 });
 
 // Interesting review and mention
-router.route("/:refproduct").get(middleware.checkToken, (req, res) => {
-    Post.find({refproduct: req.params.refproduct}, (err, result) => {
-        console.log("ProductOverview");
+router.route("/post/interestingreview/:_id").get(middleware.checkToken, (req, res ) =>{
+     Post.find({product: req.params._id, type:"review" } ).sort({rating: -1}).exec(function(err, result){
         if(err) res.status(500).json({msg: err});
-        res.json({
-            data: result,
-           refproduct: req.params.refproduct,
-        })
-    })
+                res.json({
+                    interesting: result,
+                    p_id: req.params._id,
+                })
+
+     });
 });
+
 
 // compare 2 products
 router.route("/compare/:p_id1/:p_id2").get(middleware.checkToken, (req, res) => {

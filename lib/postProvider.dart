@@ -23,6 +23,7 @@ class PostProvider extends ChangeNotifier {
   List<dynamic>? chat;
   List<dynamic>? pro1;
   List<dynamic>? com3;
+  List<dynamic>? interestingreview;
 
 
 
@@ -231,6 +232,25 @@ class PostProvider extends ChangeNotifier {
     final Map parseBrand = await json.decode(response.body.toString());
 
     topreview = parseBrand["data"];
+
+  }
+
+  Future fetchInteresting() async {
+    print('Interesting review');
+    String? token = await storage.read(key: "token");
+    var id = await storage.read(key: 'p_id');
+    print(id);
+    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/post/interestingreview/" + id!);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization": "Bearer $token"},
+    );
+
+    final Map parseBrand = await json.decode(response.body.toString());
+
+    interestingreview = parseBrand["interesting"];
+    print(interestingreview);
+
 
   }
 
