@@ -112,8 +112,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                     child: Container(
                       child: InkWell(
                         onTap: (){
-
-
+                          Provider.of<PostProvider>(context, listen: false).fetchCompare3();
                         },
                         child: Icon(Boxicons
                             .bx_dots_vertical_rounded,
@@ -420,6 +419,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                       removeTop: true,
                       removeBottom: true,
                       child: ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: model.interestingreview?.length ?? 0,
                         itemBuilder: (context, int index) {
@@ -442,7 +442,7 @@ class _ProductOverviewState extends State<ProductOverview> {
 
 
               SizedBox(
-                height:MediaQuery.of(context).size.height/5,
+                height:MediaQuery.of(context).size.height/6.5,
               )
             ],
           ),
