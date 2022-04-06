@@ -172,9 +172,17 @@ class _NotificationFollowState extends State<NotificationFollow> {
           SizedBox(width: 30,),
           Stack(
             children: [
-              CircleAvatar(
-                backgroundImage: profileModel.img.isNotEmpty? NetworkImage(profileModel.img): null,
-                radius: 28,
+              Container(
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xFFE5E5E5)
+                  ),
+                  width: 56,
+                  height: 56,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: CachedNetworkImage(imageUrl: profileModel.img,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
+                  )
               ),
               Positioned(child: CircleAvatar(
                 child: Icon(
@@ -270,9 +278,17 @@ class _NotificationFavPostState extends State<NotificationFavPost> {
           SizedBox(width: 30,),
           Stack(
             children: [
-              CircleAvatar(
-                backgroundImage: profileModel.img.isNotEmpty? NetworkImage(profileModel.img): null,
-                radius: 28,
+              Container(
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xFFE5E5E5)
+                  ),
+                  width: 56,
+                  height: 56,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: CachedNetworkImage(imageUrl: profileModel.img,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
+                  )
               ),
               Positioned(child: CircleAvatar(
                 child: Icon(
