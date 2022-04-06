@@ -1995,7 +1995,7 @@ class _MentionPost2State extends State<MentionPost2> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // fetchData();
+    fetchData();
   }
 
   fetchData() async{
@@ -2014,13 +2014,20 @@ class _MentionPost2State extends State<MentionPost2> {
     });
   }
 
+  fetchComment () async {
+    var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
+    setState(() {
+      widget.comment = response3["countComment"];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if( product != null && product.length !=0 ){
       data = product[0];
     }
     return FutureBuilder(
-      future: fetchData(),
+      future: fetchComment(),
       builder: (context, snapshot) => Container(
         child: Column(
           children: [
@@ -2029,13 +2036,19 @@ class _MentionPost2State extends State<MentionPost2> {
               padding: const EdgeInsets.only(left: 23, right: 4),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundColor: Colors.orange,
-                    backgroundImage: widget.profileImg!.isNotEmpty?
-                    NetworkImage(widget.profileImg!)
-                    :null
+                  Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xFFE5E5E5)
+                      ),
+                      width: 50,
+                      height: 50,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: CachedNetworkImage(imageUrl: widget.profileImg!,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
+                      )
                   ),
+
                   SizedBox( width: 8 ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -2644,7 +2657,7 @@ class _ReviewPost2State extends State<ReviewPost2> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // fetchData();
+    fetchData();
   }
 
   fetchData() async{
@@ -2664,13 +2677,20 @@ class _ReviewPost2State extends State<ReviewPost2> {
     });
   }
 
+  fetchComment () async {
+    var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
+    setState(() {
+      widget.comment = response3["countComment"];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     if( product != null && product.length !=0 ){
       data = product[0];
     }
     return FutureBuilder(
-      future: fetchData(),
+      future: fetchComment(),
       builder: (context, snapshot) => Container(
         child: Column(
           children: [
@@ -2679,12 +2699,17 @@ class _ReviewPost2State extends State<ReviewPost2> {
               padding: const EdgeInsets.only(left: 23, right: 4),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundColor: Colors.orange,
-                    backgroundImage: widget.profileImg!.isNotEmpty?
-                    NetworkImage(widget.profileImg!)
-                    :null
+                  Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xFFE5E5E5)
+                      ),
+                      width: 50,
+                      height: 50,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: CachedNetworkImage(imageUrl: widget.profileImg!,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
+                      )
                   ),
                   SizedBox( width: 8 ),
                   Column(
@@ -3277,7 +3302,7 @@ class _Post2State extends State<Post2> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // fetchData();
+    fetchData();
   }
 
   fetchData() async{
@@ -3293,10 +3318,17 @@ class _Post2State extends State<Post2> {
     });
   }
 
+  fetchComment () async {
+    var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
+    setState(() {
+      widget.comment = response3["countComment"];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: fetchData(),
+      future: fetchComment(),
       builder: (context, snapshot) => Container(
         child: Column(
           children: [
@@ -3305,12 +3337,17 @@ class _Post2State extends State<Post2> {
               padding: const EdgeInsets.only(left: 23, right: 4),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    radius: 25,
-                    backgroundColor: Colors.orange,
-                    backgroundImage: widget.profileImg!.isNotEmpty?
-                    NetworkImage(widget.profileImg!)
-                    :null
+                  Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Color(0xFFE5E5E5)
+                      ),
+                      width: 50,
+                      height: 50,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(50),
+                        child: CachedNetworkImage(imageUrl: widget.profileImg!,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
+                      )
                   ),
                   SizedBox( width: 8 ),
                   Column(
