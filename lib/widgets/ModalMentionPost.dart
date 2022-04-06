@@ -114,6 +114,7 @@ class _ProductState extends State<Product> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        SizedBox(width: 14),
                         Expanded(
                           child: Center(
                             child: Container(
@@ -129,16 +130,16 @@ class _ProductState extends State<Product> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(left: 12),
+                          padding: const EdgeInsets.only(left: 20),
                           child: Container(
-                            width: 190,
+                            width: 200,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 PoppinsLeft(text: model.productData![index]['p_brand'], size: 13, color: c.textBlack, fontWeight: f.semiBold),
                                 PoppinsLeft(text: model.productData![index]['p_name'], size: 13, color: c.textBlack, fontWeight: f.semiBold),
                                 SizedBox(height: 15),
-                                Roboto(text: 'It is a long established fact that a reader will be distracted.', size: 12, color: c.greySub, fontWeight: f.regular)
+                                Roboto_Crop(text: model.productData![index]['p_desc'], size: 12, color: c.greySub, fontWeight: f.regular)
                               ],
                             ),
                           ),

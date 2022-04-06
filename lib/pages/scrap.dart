@@ -45,6 +45,7 @@ class _ScrapState extends State<Scrap> {
           print(response);
 
         }
+        print("finish");
         // Navigator.pop(context);
       });
 
@@ -58,7 +59,7 @@ class _ScrapState extends State<Scrap> {
   }
 
   Future<List> product() async{
-    results = await Scraper.getData2('estee-lauder');
+    results = await Scraper.getData2('origins');
     return results;
   }
   @override

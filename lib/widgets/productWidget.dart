@@ -37,6 +37,7 @@ class _ProductInMentionPostState extends State<ProductInMentionPost> {
                   child: Row(
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      SizedBox(width: 12),
                       Expanded(
                         child: Center(
                           child: Container(
@@ -52,9 +53,9 @@ class _ProductInMentionPostState extends State<ProductInMentionPost> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(left: 11, right: 8),
+                        padding: const EdgeInsets.only(left: 18, right: 8),
                         child: Container(
-                          width: 250,
+                          width: 245,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

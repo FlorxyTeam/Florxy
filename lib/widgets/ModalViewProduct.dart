@@ -110,6 +110,7 @@ class _ProductViewState extends State<ProductView> {
               child: Row(
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(width: 15),
                   Expanded(
                     child: Center(
                       child: Container(
@@ -125,7 +126,7 @@ class _ProductViewState extends State<ProductView> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 11, right: 8),
+                    padding: const EdgeInsets.only(left: 15, right: 8),
                     child: Container(
                       width: 290,
                       child: Column(
