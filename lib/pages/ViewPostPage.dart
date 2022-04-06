@@ -114,7 +114,7 @@ class _ViewPostState extends State<ViewPost> {
                                     height: 60,
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(50),
-                                      child: CachedNetworkImage(imageUrl: profileModel.img,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
+                                      child: CachedNetworkImage(imageUrl: widget.img!,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
                                     )
                                 ),
                                 SizedBox( width: 8 ),

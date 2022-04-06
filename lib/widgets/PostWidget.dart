@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:Florxy/Model/postModel.dart';
 import 'package:Florxy/Model/profileModel.dart';
+import 'package:Florxy/pages/FavPost.dart';
 import 'package:Florxy/pages/ViewPostPage.dart';
 import 'package:Florxy/pages/navbar.dart';
 import 'package:Florxy/widgets/ModalViewProduct.dart';
@@ -27,10 +28,11 @@ class MentionPost extends StatefulWidget {
   String? postTime, username, post, id;
   int comment;
   List? urlImage;
+  Future? fetchdata;
 
   MentionPost(
       {Key? key, this.postTime, this.username, this.post, required this.comment,
-  this.urlImage, this.id})
+  this.urlImage, this.id, this.fetchdata})
       : super(key: key);
 
   @override
@@ -46,6 +48,7 @@ class _MentionPostState extends State<MentionPost> {
   String? fullname='',influencer='',professor='';
   List favorite=[];
   List product=[], staticData=[];
+  int? comment;
   int countFav = 0;
   Map? data;
   PostModel postModel = PostModel(
@@ -69,20 +72,44 @@ class _MentionPostState extends State<MentionPost> {
     listfollowing: [],
   );
 
+  ProfileModel myprofileModel = ProfileModel(
+    id: '',
+    username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],
+  );
+
+
+  late bool _isLoading;
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
+    _isLoading = true;
+
     fetchData();
+    super.initState();
   }
 
   fetchData() async{
     var response = await networkHandler.get("/profile/getOtherData/" + widget.username!);
     var response2 = await networkHandler.get("/home/getIDPost/" + widget.id!);
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
+
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
+
       postModel = PostModel.fromJson(response2["getPost"]);
+
       fullname = profileModel.fullname;
       influencer = profileModel.influencer;
       professor = profileModel.professor;
@@ -90,17 +117,37 @@ class _MentionPostState extends State<MentionPost> {
       countFav = favorite.length;
       product = postModel.product!;
 
-      myfav = profileModel.favorite;
-      // print(myfav);
-      widget.comment = response3["countComment"];
 
+      // print(myprofileModel.favorite);
+      // print(myfav);
+      // print(pro)
+      // if(myfav == myprofileModel.username){
+      //   print('same fuck fuck');
+      // }
+      // print(myfav);
+      comment = response3["countComment"];
+      _isLoading =false;
     });
   }
 
   fetchComment () async {
+    var response4 = await networkHandler.get("/profile/getData/");
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
     setState(() {
-      widget.comment = response3["countComment"];
+      comment = response3["countComment"];
+      myprofileModel = ProfileModel.fromJson(response4["data"]);
+      myfav = myprofileModel.favorite;
+      var i=0;
+      for(i;i<myfav.length;i++){
+          if(widget.id == myfav[i]){
+            // print(widget.id);
+            // print(myfav[i]);
+            // print('same naja'+i.toString());
+            setState(() {
+              isFav = true;
+            });
+          }
+      }
     });
   }
 
@@ -112,7 +159,12 @@ class _MentionPostState extends State<MentionPost> {
     return FutureBuilder(
       future: fetchComment(),
       builder: (context, snapshot) => Container(
-        child: Column(
+        child:  _isLoading
+            ?Padding(
+              padding: EdgeInsets.only(left: 23, right: 22,top:  20),
+              child: NewCardSkeleton(),
+            )
+            :Column(
           children: [
             SizedBox(height: 8),
             Padding(
@@ -156,7 +208,7 @@ class _MentionPostState extends State<MentionPost> {
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
                               }
                               else{
-                                Navbar(currentState: 4);
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
                               }
                             },
                           ),
@@ -570,7 +622,7 @@ class _MentionPostState extends State<MentionPost> {
                           listProduct : product,
                           professor: professor,
                           influencer: influencer,
-                          comment: widget.comment,
+                          comment: comment!,
                           favorite: countFav,
 
                       )));
@@ -638,16 +690,18 @@ class _MentionPostState extends State<MentionPost> {
                     children: [
                       Icon(FeatherIcons.messageSquare, size:19, color: c.greyMain),
                       SizedBox(width: 3),
-                      Inter(text: widget.comment.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
+                      Inter(text: comment.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
                       Expanded(child: Container()),
                       if(isFav == false)InkWell(
                           onTap: () async {
-                            // Map<String, String> data = {
-                            //   "favorite":widget.id!
-                            // };
-                            // print(data);
-                            // var idStorage = await storage.read(key: 'id');
-                            // await networkHandler.post("/home/addFav/" + idStorage!, data);
+                            // var username = await storage.read(key: 'username');
+                            Map<String, String> data = {
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
+                            };
+                            var idStorage = await storage.read(key: 'id');
+                            await networkHandler.post("/home/addFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
                               countFav+=1;
                               isFav = true;
@@ -657,12 +711,13 @@ class _MentionPostState extends State<MentionPost> {
                       ),
                       if(isFav == true)InkWell(
                           onTap: () async {
-                            // Map<String, String> data = {
-                            //   "favorite":widget.id!
-                            // };
-                            // print(data);
-                            // var idStorage = await storage.read(key: 'id');
-                            // await networkHandler.post("/home/unFav/" + idStorage!, data);
+                            Map<String, String> data = {
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
+                            };
+                            var idStorage = await storage.read(key: 'id');
+                            await networkHandler.post("/home/unFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
                               countFav-=1;
                               isFav = false;
@@ -713,9 +768,10 @@ class ReviewPost extends StatefulWidget {
   int comment;
   double rating;
   List? urlImage;
+  Future? fetchdata;
 
   ReviewPost(
-      {Key? key,this.postTime, this.username, this.post, required this.comment, this.urlImage, this.id, required this.rating})
+      {Key? key,this.postTime, this.fetchdata, this.username, this.post, required this.comment, this.urlImage, this.id, required this.rating})
       : super(key: key);
 
   @override
@@ -727,11 +783,13 @@ class _ReviewPostState extends State<ReviewPost> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   bool isFav = false;
+
   String? fullname='',influencer='',professor='';
   List? favorite=[];
   List product=[];
   Map? data;
   int countFav = 0;
+  int? comment;
   PostModel postModel = PostModel(
       favorite: [],
       product: []
@@ -753,13 +811,32 @@ class _ReviewPostState extends State<ReviewPost> {
     listfollower: [],
     listfollowing: [],
   );
+  List myfav = [];
+  ProfileModel myprofileModel = ProfileModel(
+    id: '',
+    username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],
+  );
 
+  late bool _isLoading;
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
 
+    _isLoading = true;
     fetchData();
+    super.initState();
   }
 
   fetchData() async{
@@ -778,14 +855,29 @@ class _ReviewPostState extends State<ReviewPost> {
 
       product = postModel.product!;
 
-      widget.comment = response3["countComment"];
+      comment = response3["countComment"];
+      _isLoading =false;
     });
   }
 
   fetchComment () async {
+    var response4 = await networkHandler.get("/profile/getData/");
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
     setState(() {
-      widget.comment = response3["countComment"];
+      comment = response3["countComment"];
+      myprofileModel = ProfileModel.fromJson(response4["data"]);
+      myfav = myprofileModel.favorite;
+      var i=0;
+      for(i;i<myfav.length;i++){
+        if(widget.id == myfav[i]){
+          // print(widget.id);
+          // print(myfav[i]);
+          // print('same naja'+i.toString());
+          setState(() {
+            isFav = true;
+          });
+        }
+      }
     });
   }
 
@@ -797,7 +889,12 @@ class _ReviewPostState extends State<ReviewPost> {
     return FutureBuilder(
         future: fetchComment(),
         builder: (context, snapshot) => Container(
-        child: Column(
+        child: _isLoading
+            ?Padding(
+          padding: EdgeInsets.only(left: 23, right: 22,top:  20),
+          child: NewCardSkeleton(),
+        )
+            :Column(
           children: [
             SizedBox(height: 8),
             Padding(
@@ -841,7 +938,7 @@ class _ReviewPostState extends State<ReviewPost> {
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
                               }
                               else{
-                                Navbar(currentState: 4);
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
                               }
 
                             },
@@ -1248,7 +1345,7 @@ class _ReviewPostState extends State<ReviewPost> {
                         listProduct : product,
                         professor: professor,
                         influencer: influencer,
-                        comment: widget.comment,
+                        comment: comment!,
                         favorite: countFav,
 
                       )));
@@ -1324,16 +1421,17 @@ class _ReviewPostState extends State<ReviewPost> {
                     children: [
                       Icon(FeatherIcons.messageSquare, size:19, color: c.greyMain),
                       SizedBox(width: 3),
-                      Inter(text: widget.comment.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
+                      Inter(text: comment.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
                       Expanded(child: Container()),
                       if(isFav == false)InkWell(
                           onTap: () async {
-                            // Map<String, String> data = {
-                            //   "favorite":widget.id!
-                            // };
-                            // print(data);
-                            // var idStorage = await storage.read(key: 'id');
-                            // await networkHandler.post("/home/addFav/" + idStorage!, data);
+                            Map<String, String> data = {
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
+                            };
+                            var idStorage = await storage.read(key: 'id');
+                            await networkHandler.post("/home/addFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
                               countFav+=1;
                               isFav = true;
@@ -1343,12 +1441,13 @@ class _ReviewPostState extends State<ReviewPost> {
                       ),
                       if(isFav == true)InkWell(
                           onTap: () async {
-                            // Map<String, String> data = {
-                            //   "favorite":widget.id!
-                            // };
-                            // print(data);
-                            // var idStorage = await storage.read(key: 'id');
-                            // await networkHandler.post("/home/unFav/" + idStorage!, data);
+                            Map<String, String> data = {
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
+                            };
+                            var idStorage = await storage.read(key: 'id');
+                            await networkHandler.post("/home/unFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
                               countFav-=1;
                               isFav = false;
@@ -1398,9 +1497,10 @@ class Post extends StatefulWidget {
   String? postTime, username, post, id;
   int comment;
   List? urlImage;
+  Future? fetchdata;
 
   Post(
-      {Key? key, this.postTime, this.username, this.post, required this.comment,this.urlImage, this.id})
+      {Key? key, this.postTime, this.username, this.fetchdata, this.post, required this.comment,this.urlImage, this.id})
       : super(key: key);
 
   @override
@@ -1415,6 +1515,7 @@ class _PostState extends State<Post> {
   String? fullname='',influencer='',professor='';
   List? favorite=[];
   int countFav = 0;
+  int? comment;
   PostModel postModel = PostModel(
       favorite: [],
       product: []
@@ -1435,11 +1536,30 @@ class _PostState extends State<Post> {
     listfollower: [],
     listfollowing: [],
   );
+  List myfav = [];
+  ProfileModel myprofileModel = ProfileModel(
+    id: '',
+    username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],
+  );
 
+  late bool _isLoading;
   @override
   void initState() {
-    fetchData();
     // TODO: implement initState
+    _isLoading = true;
+    fetchData();
     super.initState();
   }
 
@@ -1457,14 +1577,30 @@ class _PostState extends State<Post> {
       favorite = postModel.favorite!;
       countFav = favorite!.length;
 
-      widget.comment = response3["countComment"];
+      comment = response3["countComment"];
+      _isLoading =false;
     });
   }
 
   fetchComment () async {
+    var response4 = await networkHandler.get("/profile/getData/");
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
     setState(() {
-      widget.comment = response3["countComment"];
+
+      comment = response3["countComment"];
+      myprofileModel = ProfileModel.fromJson(response4["data"]);
+      myfav = myprofileModel.favorite;
+      var i=0;
+      for(i;i<myfav.length;i++){
+        if(widget.id == myfav[i]){
+          // print(widget.id);
+          // print(myfav[i]);
+          // print('same naja'+i.toString());
+          setState(() {
+            isFav = true;
+          });
+        }
+      }
     });
   }
 
@@ -1473,7 +1609,12 @@ class _PostState extends State<Post> {
     return FutureBuilder(
       future: fetchComment(),
       builder: (context, snapshot) => Container(
-        child: Column(
+        child: _isLoading
+            ?Padding(
+          padding: EdgeInsets.only(left: 23, right: 22,top:  20),
+          child: NewCardSkeleton(),
+        )
+            :Column(
           children: [
             SizedBox(height: 8),
             Padding(
@@ -1516,7 +1657,7 @@ class _PostState extends State<Post> {
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
                               }
                               else{
-                                Navbar(currentState: 4);
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
                               }
                             },
                           ),
@@ -1874,7 +2015,7 @@ class _PostState extends State<Post> {
                         urlImage: widget.urlImage,
                         professor: professor,
                         influencer: influencer,
-                        comment: widget.comment,
+                        comment: comment!,
                         favorite: countFav,
 
                       )));
@@ -1889,16 +2030,17 @@ class _PostState extends State<Post> {
                     children: [
                       Icon(FeatherIcons.messageSquare, size:19, color: c.greyMain),
                       SizedBox(width: 3),
-                      Inter(text: widget.comment.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
+                      Inter(text: comment.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
                       Expanded(child: Container()),
                       if(isFav == false)InkWell(
                           onTap: () async {
-                            // Map<String, String> data = {
-                            //   "favorite":widget.id!
-                            // };
-                            // print(data);
-                            // var idStorage = await storage.read(key: 'id');
-                            // await networkHandler.post("/home/addFav/" + idStorage!, data);
+                            Map<String, String> data = {
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
+                            };
+                            var idStorage = await storage.read(key: 'id');
+                            await networkHandler.post("/home/addFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
                               countFav+=1;
                               isFav = true;
@@ -1908,12 +2050,13 @@ class _PostState extends State<Post> {
                       ),
                       if(isFav == true)InkWell(
                           onTap: () async {
-                            // Map<String, String> data = {
-                            //   "favorite":widget.id!
-                            // };
-                            // print(data);
-                            // var idStorage = await storage.read(key: 'id');
-                            // await networkHandler.post("/home/unFav/" + idStorage!, data);
+                            Map<String, String> data = {
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
+                            };
+                            var idStorage = await storage.read(key: 'id');
+                            await networkHandler.post("/home/unFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
                               countFav-=1;
                               isFav = false;
@@ -1967,10 +2110,11 @@ class MentionPost2 extends StatefulWidget {
   String? name, postTime, username, post, id,professor,influencer, profileImg;
   int comment;
   List? urlImage;
+  Future? fetchdata;
 
   MentionPost2(
       {Key? key, this.name, this.postTime, this.profileImg, this.username, this.post, required this.comment, required this.professor, required this.influencer
-        ,this.urlImage, this.id})
+        ,this.urlImage, this.id, this.fetchdata})
       : super(key: key);
 
   @override
@@ -1990,12 +2134,31 @@ class _MentionPost2State extends State<MentionPost2> {
       favorite: [],
       product: []
   );
+  List myfav = [];
+  ProfileModel myprofileModel = ProfileModel(
+    id: '',
+    username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],
+  );
 
+  late bool _isLoading;
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
+    _isLoading = true;
     fetchData();
+    super.initState();
   }
 
   fetchData() async{
@@ -2011,13 +2174,28 @@ class _MentionPost2State extends State<MentionPost2> {
       print('product');
       print(product);
       widget.comment = response3["countComment"];
+      _isLoading =false;
     });
   }
 
   fetchComment () async {
+    var response4 = await networkHandler.get("/profile/getData/");
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
     setState(() {
       widget.comment = response3["countComment"];
+      myprofileModel = ProfileModel.fromJson(response4["data"]);
+      myfav = myprofileModel.favorite;
+      var i=0;
+      for(i;i<myfav.length;i++){
+        if(widget.id == myfav[i]){
+          // print(widget.id);
+          // print(myfav[i]);
+          // print('same naja'+i.toString());
+          setState(() {
+            isFav = true;
+          });
+        }
+      }
     });
   }
 
@@ -2029,7 +2207,12 @@ class _MentionPost2State extends State<MentionPost2> {
     return FutureBuilder(
       future: fetchComment(),
       builder: (context, snapshot) => Container(
-        child: Column(
+        child: _isLoading
+            ?Padding(
+          padding: EdgeInsets.only(left: 23, right: 22,top:  20),
+          child: NewCardSkeleton(),
+        )
+            :Column(
           children: [
             SizedBox(height: 8),
             Padding(
@@ -2073,7 +2256,7 @@ class _MentionPost2State extends State<MentionPost2> {
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
                               }
                               else{
-                                Navbar(currentState: 4);
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
                               }
                             },
                           ),
@@ -2559,12 +2742,13 @@ class _MentionPost2State extends State<MentionPost2> {
                       Expanded(child: Container()),
                       if(isFav == false)InkWell(
                           onTap: () async {
-                            // Map<String, String> data = {
-                            //   "favorite":widget.id!
-                            // };
-                            // print(data);
-                            // var idStorage = await storage.read(key: 'id');
-                            // await networkHandler.post("/home/addFav/" + idStorage!, data);
+                            Map<String, String> data = {
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
+                            };
+                            var idStorage = await storage.read(key: 'id');
+                            await networkHandler.post("/home/addFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
                               countFav+=1;
                               isFav = true;
@@ -2575,11 +2759,12 @@ class _MentionPost2State extends State<MentionPost2> {
                       if(isFav == true)InkWell(
                           onTap: () async {
                             Map<String, String> data = {
-                              "favorite":widget.id!
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
                             };
-                            print(data);
                             var idStorage = await storage.read(key: 'id');
-                            await networkHandler.post("/home/unFav/" + idStorage!, data);
+                            await networkHandler.post("/home/unFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
                               countFav-=1;
                               isFav = false;
@@ -2630,9 +2815,10 @@ class ReviewPost2 extends StatefulWidget {
   int comment;
   double rating;
   List? urlImage;
+  Future? fetchdata;
 
   ReviewPost2(
-      {Key? key,required this.professor,required this.influencer , this.profileImg, this.name, this.postTime, this.username, this.post, required this.comment, this.urlImage, this.id, required this.rating})
+      {Key? key,required this.professor,required this.influencer, this.fetchdata , this.profileImg, this.name, this.postTime, this.username, this.post, required this.comment, this.urlImage, this.id, required this.rating})
       : super(key: key);
 
   @override
@@ -2652,12 +2838,31 @@ class _ReviewPost2State extends State<ReviewPost2> {
       favorite: [],
       product: []
   );
+  List myfav = [];
+  ProfileModel myprofileModel = ProfileModel(
+    id: '',
+    username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],
+  );
 
+  late bool _isLoading;
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
+    _isLoading = true;
     fetchData();
+    super.initState();
   }
 
   fetchData() async{
@@ -2674,13 +2879,28 @@ class _ReviewPost2State extends State<ReviewPost2> {
       print(product);
 
       widget.comment = response3["countComment"];
+      _isLoading =false;
     });
   }
 
   fetchComment () async {
+    var response4 = await networkHandler.get("/profile/getData/");
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
     setState(() {
       widget.comment = response3["countComment"];
+      myprofileModel = ProfileModel.fromJson(response4["data"]);
+      myfav = myprofileModel.favorite;
+      var i=0;
+      for(i;i<myfav.length;i++){
+        if(widget.id == myfav[i]){
+          // print(widget.id);
+          // print(myfav[i]);
+          // print('same naja'+i.toString());
+          setState(() {
+            isFav = true;
+          });
+        }
+      }
     });
   }
 
@@ -2692,7 +2912,12 @@ class _ReviewPost2State extends State<ReviewPost2> {
     return FutureBuilder(
       future: fetchComment(),
       builder: (context, snapshot) => Container(
-        child: Column(
+        child: _isLoading
+            ?Padding(
+          padding: EdgeInsets.only(left: 23, right: 22,top:  20),
+          child: NewCardSkeleton(),
+        )
+            :Column(
           children: [
             SizedBox(height: 8),
             Padding(
@@ -2736,7 +2961,7 @@ class _ReviewPost2State extends State<ReviewPost2> {
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
                               }
                               else{
-                                Navbar(currentState: 4);
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
                               }
 
                             },
@@ -3208,11 +3433,12 @@ class _ReviewPost2State extends State<ReviewPost2> {
                       if(isFav == false)InkWell(
                           onTap: () async {
                             Map<String, String> data = {
-                              "favorite":widget.id!
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
                             };
-                            print(data);
                             var idStorage = await storage.read(key: 'id');
-                            await networkHandler.post("/home/addFav/" + idStorage!, data);
+                            await networkHandler.post("/home/addFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
                               countFav+=1;
                               isFav = true;
@@ -3223,11 +3449,12 @@ class _ReviewPost2State extends State<ReviewPost2> {
                       if(isFav == true)InkWell(
                           onTap: () async {
                             Map<String, String> data = {
-                              "favorite":widget.id!
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
                             };
-                            print(data);
                             var idStorage = await storage.read(key: 'id');
-                            await networkHandler.post("/home/unFav/" + idStorage!, data);
+                            await networkHandler.post("/home/unFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
                               countFav-=1;
                               isFav = false;
@@ -3275,11 +3502,12 @@ class _ReviewPost2State extends State<ReviewPost2> {
 
 class Post2 extends StatefulWidget {
   String? name, postTime, username, post, id,professor,influencer, profileImg;
-  int comment, favorite;
+  int comment;
   List? urlImage;
+  Future? fetchdata;
 
   Post2(
-      {Key? key, this.name, this.postTime, this.username, this.profileImg, this.post, required this.comment, required this.favorite, required this.professor, required this.influencer
+      {Key? key, this.name, this.postTime, this.username, this.fetchdata, this.profileImg, this.post, required this.comment, required this.professor, required this.influencer
         ,this.urlImage, this.id})
       : super(key: key);
 
@@ -3297,12 +3525,31 @@ class _Post2State extends State<Post2> {
   PostModel postModel = PostModel(
       favorite: []
   );
+  List myfav = [];
+  ProfileModel myprofileModel = ProfileModel(
+    id: '',
+    username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],
+  );
 
+  late bool _isLoading;
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
+    _isLoading = true;
     fetchData();
+    super.initState();
   }
 
   fetchData() async{
@@ -3315,13 +3562,30 @@ class _Post2State extends State<Post2> {
       countFav = favorite.length;
 
       widget.comment = response3["countComment"];
+      _isLoading =false;
     });
   }
 
   fetchComment () async {
+    var response4 = await networkHandler.get("/profile/getData/");
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
     setState(() {
+
       widget.comment = response3["countComment"];
+
+      myprofileModel = ProfileModel.fromJson(response4["data"]);
+      myfav = myprofileModel.favorite;
+      var i=0;
+      for(i;i<myfav.length;i++){
+        if(widget.id == myfav[i]){
+          // print(widget.id);
+          // print(myfav[i]);
+          // print('same naja'+i.toString());
+          setState(() {
+            isFav = true;
+          });
+        }
+      }
     });
   }
 
@@ -3330,7 +3594,12 @@ class _Post2State extends State<Post2> {
     return FutureBuilder(
       future: fetchComment(),
       builder: (context, snapshot) => Container(
-        child: Column(
+        child: _isLoading
+            ?Padding(
+          padding: EdgeInsets.only(left: 23, right: 22,top:  20),
+          child: NewCardSkeleton(),
+        )
+            :Column(
           children: [
             SizedBox(height: 8),
             Padding(
@@ -3373,7 +3642,7 @@ class _Post2State extends State<Post2> {
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
                               }
                               else{
-                                Navbar(currentState: 4);
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
                               }
                             },
                           ),
@@ -3751,13 +4020,14 @@ class _Post2State extends State<Post2> {
                       if(isFav == false)InkWell(
                           onTap: () async {
                             Map<String, String> data = {
-                              "favorite":widget.id!
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
                             };
-                            print(data);
                             var idStorage = await storage.read(key: 'id');
-                            await networkHandler.post("/home/addFav/" + idStorage!, data);
+                            await networkHandler.post("/home/addFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
-                              widget.favorite+=1;
+                              countFav+=1;
                               isFav = true;
                             });
                           },
@@ -3766,21 +4036,22 @@ class _Post2State extends State<Post2> {
                       if(isFav == true)InkWell(
                           onTap: () async {
                             Map<String, String> data = {
-                              "favorite":widget.id!
+                              "favorite": widget.id!,
+                              "username": myprofileModel.username
                             };
-                            print(data);
                             var idStorage = await storage.read(key: 'id');
-                            await networkHandler.post("/home/unFav/" + idStorage!, data);
+                            await networkHandler.post("/home/unFav/" + idStorage! + "/" + widget.id! , data);
+                            widget.fetchdata;
                             setState(() {
-                              widget.favorite-=1;
+                              countFav-=1;
                               isFav = false;
                             });
                           },
                           child: Icon(Boxicons.bxs_heart, size:19, color: c.redMain)
                       ),
                       SizedBox(width: 3),
-                      if(isFav == false)Inter(text: widget.favorite.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
-                      if(isFav == true)Inter(text: widget.favorite.toString(), size: 11, color: c.redMain, fontWeight: f.medium),
+                      if(isFav == false)Inter(text: countFav.toString(), size: 11, color: c.greyMain, fontWeight: f.medium),
+                      if(isFav == true)Inter(text: countFav.toString(), size: 11, color: c.redMain, fontWeight: f.medium),
                       Expanded(child: Container()),
                       IconButton(
                         icon: Icon(FeatherIcons.share2, size:19, color: c.greyMain),
@@ -3816,6 +4087,174 @@ class _Post2State extends State<Post2> {
   }
 }
 
+
+class DoubleCard extends StatelessWidget {
+  const DoubleCard({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [
+      SizedBox(height: 20,),
+      NewCardSkeleton(),
+      SizedBox(height: 20,),
+      NewCardSkeleton(),
+    ],);
+  }
+}
+
+
+class NewCardSkeleton extends StatelessWidget {
+  const NewCardSkeleton({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            CirSkeleton(
+              height: 56,
+              width: 56,
+              opa: 0.04,
+            ),
+            SizedBox(width: 10,),
+            Expanded(child: Column(
+              children: [
+                Row(children: [
+                  Expanded(child: Skeleton(height: 10,width: 20,)),
+                  SizedBox(width: 10,),
+                  Expanded(child: Skeleton(height: 10,width: 5,)),
+                ],),
+                SizedBox(height: 8,),
+
+                Row(children: [
+                  Skeleton(height: 10,width: 50,),
+
+
+                ],
+                ),
+                SizedBox(height: 8,),
+              ],
+            ),
+            ),
+          ],
+        ),
+        Row(children: [
+          CirSkeleton2(
+            height: 56,
+            width: 56,
+            opa: 0.00,
+          ),
+          SizedBox(width: 10,),
+          Skeleton(height: 250, width: 300,),
+        ],
+        ),
+        Row(children: [
+          CirSkeleton2(
+            height: 30,
+            width: 56,
+            opa: 0.00,
+          ),
+          SizedBox(width: 10,),
+          Skeleton(height: 10,width: 70,),
+          SizedBox(width: 8,),
+          Skeleton(height: 15,width: 170,),
+        ],),
+        Row(children: [
+          CirSkeleton2(
+            height: 0,
+            width: 56,
+            opa: 0.00,
+          ),
+          SizedBox(width: 10,),
+          Expanded(child: Skeleton(height: 10,width: 70,)),
+        ],),
+        SizedBox(height: 7,),
+        Row(children: [
+          CirSkeleton2(
+            height: 0,
+            width: 56,
+            opa: 0.00,
+          ),
+          SizedBox(width: 10,),
+          Expanded(child: Skeleton(height: 10,width: 70,)),
+        ],),
+        SizedBox(height: 7,),
+        Row(children: [
+          CirSkeleton2(
+            height: 0,
+            width: 56,
+            opa: 0.00,
+          ),
+          SizedBox(width: 10,),
+          Expanded(child: Skeleton(height: 10,width: 70,)),
+        ],),
+      ],
+
+    );
+  }
+}
+
+class CirSkeleton2 extends StatelessWidget {
+  const CirSkeleton2({
+    Key? key,
+    this.height,
+    this.width,
+    this.opa,
+  }): super(key:key);
+  final double? height, width, opa;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      width: width,
+      child: CircleAvatar(backgroundColor: Colors.black.withOpacity(0.00),radius: 28,),
+
+    );
+  }
+}
+
+class CirSkeleton extends StatelessWidget {
+  const CirSkeleton({
+    Key? key,
+    this.height,
+    this.width,
+    this.opa,
+  }): super(key:key);
+  final double? height, width, opa;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      width: width,
+      child: CircleAvatar(backgroundColor: Colors.black.withOpacity(0.04),radius: 28,),
+
+    );
+  }
+}
+
+class Skeleton extends StatelessWidget {
+  const Skeleton({
+    Key? key,
+    this.height,
+    this.width,
+  }): super(key:key);
+  final double? height, width;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: height,
+      width: width,
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.black.withOpacity(0.04),
+        borderRadius: const BorderRadius.all(Radius.circular(16)),
+      ),
+    );
+  }
+}
 
 
 

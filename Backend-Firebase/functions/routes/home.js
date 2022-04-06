@@ -125,30 +125,36 @@ router.route("/delete/:id").delete(middleware.checkToken, (req, res)=>{
 //     });
 // });
 
-router.route("/addFav/:id").post(middleware.checkToken, (req, res)=>{
+router.route("/addFav/:id/:postID").post(middleware.checkToken, (req, res)=>{
   // res.json(req.params.id);
   Profile.findOneAndUpdate({_id: req.params.id},
       {$push: {favorite: req.body.favorite}}, function(err, FavPost) {
         console.log(req.params.id);
         if (err) {
-          res.json(err);
+          return res.json(err);
         } else {
-          return res.json("Favorited succes!!");
+          Post.findOneAndUpdate({_id: req.params.postID},
+            {$push: {favorite: { username: req.body.username }}}, function(err, addUsername){
+              if(err) {
+                return res.json(err);
+              } else {
+                return res.json("Favorited succes!!");
+              }
+            });
         }
       });
 });
 
-router.route("/unFav/:id").post(middleware.checkToken, (req, res)=>{
+router.route("/unFav/:id/:postID").post(middleware.checkToken, (req, res)=>{
   // res.json(req.params.id);
   Profile.findOneAndUpdate({_id: req.params.id},
       {$pull: {favorite: req.body.favorite}}, function(err, unFavPost) {
       // console.log(req.params.id);
         if (err) {
-          res.json(err);
+          return res.json(err);
         } else {
-          Post.findOneAndUpdate({_id: req.body.favorite},
-              {$inc: {favorite: -1}}, function(err, post) {
-                console.log(unFavPost + post);
+          Post.findOneAndUpdate({_id: req.params.postID},
+            {$pull: {favorite: { username: req.body.username }}}, function(err, post) {
                 return res.json("unFavorited succes!!");
               });
         }
@@ -224,7 +230,18 @@ router.route("/getPost/viewPost/:id/:product")
     //     })
     //   })
     // })
-    router.route("/getSearchPost/:id").get(middleware.checkToken, (req,res)=>{
+    router.route("/getSearchBody/:id").get(middleware.checkToken,(req,res)=>{
+                print("getSearchBody")
+                var query = req.params.id
+                Post.find({$or: [{username: {$regex: query, $options:"i"}},
+                                 {body: {$regex: query, $options:"i"}},],},
+                (err,result)=>{
+                    if(err)return res.json(err);
+                    return res.json({getBody : result})
+                });
+            });
+
+    router.route("/getSearchProductPost/:id").get(middleware.checkToken, (req,res)=>{
           var query = req.params.id.toLowerCase()
           //console.log(typeof Post)
           Post.find({product : {$ne : null}},).populate({
@@ -270,6 +287,7 @@ router.route("/getPost/viewPost/:id/:product")
                                 })*/
            )
         });
+
     router.route("/getComment/:id").get((req,res)=>{
       Comment.find({mainpost:req.params.id}).exec(function(err,findComment) {
           if(err){

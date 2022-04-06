@@ -59,7 +59,7 @@ class _ScrapState extends State<Scrap> {
   }
 
   Future<List> product() async{
-    results = await Scraper.getData2('origins');
+    results = await Scraper.getData2('anua');
     return results;
   }
   @override

@@ -174,5 +174,15 @@ router.route("/compare/:p_id1/:p_id2/:p_id3").get(middleware.checkToken, (req, r
     })
 });
 
+router.route("/getSearchProduct/:id").get(middleware.checkToken,(req,res)=>{
+                print("getSearchProduct")
+                var query = req.params.id
+                product.find({$or: [{p_name: {$regex: query, $options:"i"}},
+                                    {p_brand: {$regex: query, $options:"i"}},],},
+                (err,result)=>{
+                    if(err)return res.json(err);
+                    return res.json({getProduct : result})
+                });
+            });
 
 module.exports = router;
