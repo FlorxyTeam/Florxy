@@ -38,7 +38,7 @@ const Post = schema(
       username: String,
       rating: {
         type: Number,
-        default: 0,
+        default: "",
       },
     },
     {

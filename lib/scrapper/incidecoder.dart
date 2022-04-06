@@ -356,12 +356,12 @@ Future<void> main() async{
  //   print('${results[i].name} , ${results[i].link}');
  //  }
  //  print(stopwatch.elapsed);
- //  List results = [];
- //  results = await Scraper.getData2('innisfree');
- //  for (var result in results){
- //    // print(result.link);
- //
- //    Real x = await Scraper.getBrand(result.link);
+  List results = [];
+  results = await Scraper.getData2('innisfree');
+  for (var result in results) {
+    print(result.link);
+  }
+    // Real x = await Scraper.getBrand(result.link);
     //
   Real x = await Scraper.getBrand('/products/innisfree-innisfree-bija-trouble-lotion');
   //

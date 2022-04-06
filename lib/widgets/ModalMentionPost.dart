@@ -41,15 +41,6 @@ class ModalMentionPost {
 }
 
 Widget _buildSelectProductMenu(context) {
-  // List results = [];
-  // Future<void> product() async{
-  //   results = await Scraper.getData('vitamin-c');
-  //   print(results);
-  // }
-
-  // product();
-  // final user = FirebaseAuth.instance.currentUser!;
-
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -75,62 +66,6 @@ Widget _buildSelectProductMenu(context) {
       ),
       SizedBox(height: 15),
       Expanded(child: Product()),
-      // Product(),
-      // Container(
-      //   child: Row(
-      //     children: [
-      //       Container(
-      //         height: 60,
-      //         decoration: BoxDecoration(
-      //             color: c.graySub2,
-      //             image: DecorationImage(
-      //                 image: NetworkImage(results[4].link),
-      //                 fit: BoxFit.cover
-      //             )
-      //         ),
-      //       ),
-      //       Column(
-      //         children: [
-      //           Poppins(text: results[4].name, size: 13, color: c.textBlack, fontWeight: f.semiBold),
-      //           SizedBox(height: 15),
-      //           Roboto(text: 'It is a long established fact that a reader will be distracted.', size: 11, color: c.greySub, fontWeight: f.regular)
-      //         ],
-      //       )
-      //     ],
-      //   ),
-      // ),
-
-
-      // ListView.builder(
-      //   itemCount: 4,
-      //   itemBuilder: (context, index) {
-      //     return Padding(
-      //       padding: const EdgeInsets.only(left: 23, right: 23),
-      //       child: Container(
-      //         child: Row(
-      //           children: [
-      //             Container(
-      //               height: 60,
-      //               decoration: BoxDecoration(
-      //                   color: c.graySub2,
-      //                   image: DecorationImage(
-      //                       image: NetworkImage(results[index].link),
-      //                       fit: BoxFit.cover
-      //                   )
-      //               ),
-      //             ),
-      //             Column(
-      //               children: [
-      //                 Poppins(text: results[index].name, size: 13, color: c.textBlack, fontWeight: f.semiBold),
-      //                 SizedBox(height: 15),
-      //                 Roboto(text: 'It is a long established fact that a reader will be distracted.', size: 11, color: c.greySub, fontWeight: f.regular)
-      //               ],
-      //             )
-      //           ],
-      //         ),
-      //       ),
-      //     );
-      // })
     ],
   );
 

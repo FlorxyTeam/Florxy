@@ -3,17 +3,16 @@ part 'commentModel.g.dart';
 
 @JsonSerializable()
 class CommentModel {
-  String? owner;
+  String? username;
   String? mainpost;
   String? body;
-  int? comment;
-  int? favorite;
-  DateTime? createdAt;
-  DateTime? updatedAt;
-  CommentModel({this.body,
-    this.comment,
-    this.favorite,
-    this.owner,
+  List? vote;
+  String? createdAt;
+  String? updatedAt;
+  CommentModel({
+    this.body,
+    this.vote,
+    this.username,
     this.mainpost,
     this.createdAt,
     this.updatedAt});

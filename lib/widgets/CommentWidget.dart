@@ -1,4 +1,6 @@
+import 'package:Florxy/Model/commentModel.dart';
 import 'package:Florxy/Model/profileModel.dart';
+import 'package:boxicons/boxicons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -8,9 +10,8 @@ import 'fontWeight.dart';
 import 'font.dart';
 
 class Comment extends StatefulWidget {
-  String? name,username,postTime,owner,body;
-  int favorite,comment;
-  Comment({Key? key, required this.favorite, this.username, this.name, this.body, this.postTime, this.owner, required this.comment}) : super(key: key);
+  String? username, postTime, body, owner, mainPost, idComment;
+  Comment({Key? key, this.username, this.body, this.postTime, this.owner, this.mainPost, this.idComment}) : super(key: key);
 
   @override
   _CommentState createState() => _CommentState();
@@ -33,107 +34,113 @@ class _CommentState extends State<Comment> {
     listfollower: [],
     listfollowing: [],
   );
+  CommentModel commentModel = CommentModel(
+    vote: []
+  );
+  int? countVote;
 
   @override
   void initState() {
-    fetchData();
+    // fetchData();
     // TODO: implement initState
     super.initState();
   }
 
-  void fetchData() async{
+  fetchData() async{
     final networkHandler = NetworkHandler();
     var response = await networkHandler.get("/profile/getOtherData/" + widget.username!);
+    var response2 = await networkHandler.get("/home/getDataComment/" + widget.idComment!);
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
+      commentModel = CommentModel.fromJson(response2["dataComment"]);
+      countVote = commentModel.vote!.length;
     });
 
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 15),
-      child: Container(
-        child: Column(
-          children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  radius: 20,
-                  backgroundColor: Colors.orange,
-                  // backgroundImage:
-                  // NetworkHandler().getImage(profileModel.email),
-                ),
-                SizedBox(width: 8),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Poppins(
-                          text: profileModel.fullname,
-                          fontWeight: f.semiBold,
-                          size: 13,
-                          color: Colors.black,
-                        ),
-                        SizedBox(width: 5),
-                        Inter(text: '@'+profileModel.username, size: 12, color: c.textUsername, fontWeight: f.medium),
-                        SizedBox(width: 5),
-                        Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Inter(text: 'Replying to', size: 11, color: c.blackSub2, fontWeight: f.regular),
-                        SizedBox(width: 5),
-                        Inter(text: '@'+widget.owner!, size: 12, color: c.greenMain, fontWeight: f.medium),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.only(left: 47),
-              child: Column(
+    return FutureBuilder(
+      future: fetchData(),
+      builder: (context, snapshot) => Padding(
+        padding: const EdgeInsets.only(top: 15),
+        child: Container(
+          child: Column(
+            children: [
+              Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundColor: Colors.orange,
+                    backgroundImage: profileModel.img.isNotEmpty?
+                    NetworkImage(profileModel.img)
+                    :null
+                  ),
+                  SizedBox(width: 8),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(child: Inter(text: widget.body!, size: 12, color: c.postText, fontWeight: f.regular)),
-                      SizedBox(width: 10),
-                      Column(
+                      Row(
                         children: [
-                          Icon(FeatherIcons.heart, size:19, color: c.greyMain),
-                          SizedBox(height: 1),
-                          Inter(text: widget.favorite.toString(), size: 11, color: c.graySub2, fontWeight: f.medium)
+                          Poppins(
+                            text: profileModel.fullname,
+                            fontWeight: f.semiBold,
+                            size: 13,
+                            color: Colors.black,
+                          ),
+                          SizedBox(width: 5),
+                          Inter(text: '@'+profileModel.username, size: 12, color: c.textUsername, fontWeight: f.medium),
+                          SizedBox(width: 5),
+                          Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                         ],
-                      )
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(FeatherIcons.messageSquare, size:19, color: c.greyMain),
-                      SizedBox(width: 18),
-                      IconButton(
-                        icon: Icon(FeatherIcons.share2, size:19, color: c.greyMain),
-                        padding: EdgeInsets.zero,
-                        constraints: BoxConstraints(),
-                        onPressed: () async {},
                       ),
+                      SizedBox(height: 2),
+                      Row(
+                        children: [
+                          Inter(text: 'Replying to', size: 11, color: c.blackSub2, fontWeight: f.regular),
+                          SizedBox(width: 5),
+                          Inter(text: '@'+widget.owner!, size: 12, color: c.greenMain, fontWeight: f.medium),
+                        ],
+                      ),
+                      SizedBox(height: 15),
+                      Inter(text: widget.body!, size: 12, color: c.postText, fontWeight: f.regular),
                     ],
                   ),
+                  Expanded(child: Container()),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Icon(Boxicons.bxs_up_arrow, size:21, color: c.greyMain),
+                      Inter(text: countVote.toString(), size: 12, color: c.graySub2, fontWeight: f.medium)
+                    ],
+                  )
                 ],
               ),
-            ),
-            SizedBox(height: 15),
-            Divider(
-              color: c.greyMain,
-              thickness: 0.7,
-              height: 0,
-            ),
-          ],
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 47),
+              //   child: Row(
+              //     children: [
+              //       Expanded(child: Inter(text: widget.body!, size: 12, color: c.postText, fontWeight: f.regular)),
+              //       SizedBox(width: 10),
+              //       Column(
+              //         mainAxisAlignment: MainAxisAlignment.start,
+              //         children: [
+              //           Icon(Boxicons.bxs_up_arrow, size:18, color: c.greyMain),
+              //           Inter(text: countVote.toString(), size: 12, color: c.graySub2, fontWeight: f.medium)
+              //         ],
+              //       )
+              //     ],
+              //   ),
+              // ),
+              SizedBox(height: 15),
+              Divider(
+                color: c.greyMain,
+                thickness: 0.7,
+                height: 0,
+              ),
+            ],
+          ),
         ),
       ),
     );
