@@ -3438,11 +3438,11 @@ class _ReviewPost2State extends State<ReviewPost2> {
 
 class Post2 extends StatefulWidget {
   String? name, postTime, username, post, id,professor,influencer, profileImg;
-  int comment, favorite;
+  int comment;
   List? urlImage;
 
   Post2(
-      {Key? key, this.name, this.postTime, this.username, this.profileImg, this.post, required this.comment, required this.favorite, required this.professor, required this.influencer
+      {Key? key, this.name, this.postTime, this.username, this.profileImg, this.post, required this.comment, required this.professor, required this.influencer
         ,this.urlImage, this.id})
       : super(key: key);
 
