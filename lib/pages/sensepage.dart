@@ -85,7 +85,7 @@ class _SensePageState extends State<SensePage> {
   applyModelOnImage(XFile file) async {
     var res = await Tflite.runModelOnImage(
       path: file.path,
-      numResults: 2,
+      numResults: 10,
       threshold: 0.5,
       imageMean: 127.5,
       imageStd: 127.5
@@ -93,12 +93,13 @@ class _SensePageState extends State<SensePage> {
     setState(() {
       _result = res!;
 
-      String str = _result[0]["label"];
-
-      _name = str.substring(2);
-      _confident = _result != null ? (_result[0]['confidence'] * 100.0).toString().substring(0,2) + "%" : "";
+      // String str = _result[0]["label"];
+      //
+      // _name = str.substring(2);
+      // _confident = _result != null ? (_result[0]['confidence'] * 100.0).toString().substring(0,2) + "%" : "";
     });
-    print(_name+" with "+_confident);
+    // print(_name+" with "+_confident);
+    print(_result);
 
   }
 
