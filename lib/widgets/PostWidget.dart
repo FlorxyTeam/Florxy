@@ -90,7 +90,7 @@ class _MentionPostState extends State<MentionPost> {
       product = postModel.product!;
 
       myfav = profileModel.favorite;
-      print(myfav);
+      // print(myfav);
       widget.comment = response3["countComment"];
 
     });

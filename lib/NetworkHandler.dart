@@ -25,12 +25,12 @@ class NetworkHandler {
       },
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
-      log.i(response.body);
+      // log.i(response.body);
 
       return json.decode(response.body);
     }
-    log.i(response.body);
-    log.i(response.statusCode);
+    // log.i(response.body);
+    // log.i(response.statusCode);
   }
 
   Future<http.Response> post(String url, Map<String, String> body) async {
@@ -79,7 +79,7 @@ class NetworkHandler {
   }
 
   String formater(String url) {
-    print(baseurl+url);
+    // print(baseurl+url);
     return baseurl + url;
   }
   NetworkImage getImage(String email){
