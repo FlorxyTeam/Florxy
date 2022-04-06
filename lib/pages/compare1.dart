@@ -20,7 +20,7 @@ class compare1 extends StatefulWidget {
 }
 
 class _compare1State extends State<compare1> {
-  List data = [];
+
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   @override

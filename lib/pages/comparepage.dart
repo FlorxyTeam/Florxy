@@ -133,8 +133,8 @@ class _comparepageState extends State<comparepage> {
                                     }else if( x != null && y == null && z == null ){
 
                                     }else if( x != null && y != null && z != null ){
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(builder: (context) => compare1(id1: x,id2: y,id3: z)));
+
+                                      ModalMentionPost.Dialog_Settings(context,x,y,z);
 
 
                                     }

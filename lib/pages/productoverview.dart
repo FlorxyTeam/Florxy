@@ -6,10 +6,14 @@ import 'dart:async';
 import 'package:boxicons/boxicons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 
 import '../NetworkHandler.dart';
 import 'package:Florxy/Model/productModel.dart';
 import 'package:Florxy/pages/comparepage.dart';
+
+import '../postProvider.dart';
+import '../widgets/PostWidget.dart';
 
 
 
@@ -40,22 +44,24 @@ class _ProductOverviewState extends State<ProductOverview> {
     review: 0,
   );
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-    fetchData();
-  }
-
 
   void fetchData() async {
     var id = await storage.read(key: "p_id");
+
     var response = await networkHandler.get("/product/" + id!);
     setState(() {
       productModel = ProductModel.fromJson(response["data"]);
 
     });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<PostProvider>(context, listen: false).fetchInteresting();
+
+    fetchData();
   }
 
 
@@ -95,7 +101,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                       width: MediaQuery.of(context).size.width/2,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image:  NetworkImage( productModel.p_img),
+                          image:  NetworkImage(productModel.p_img),
                           fit: BoxFit.contain,
                         ),
                       ),
@@ -106,7 +112,6 @@ class _ProductOverviewState extends State<ProductOverview> {
                     child: Container(
                       child: InkWell(
                         onTap: (){
-
 
 
                         },
@@ -404,6 +409,7 @@ class _ProductOverviewState extends State<ProductOverview> {
 
 
 
+
                   ],
                 ),
               ),
@@ -412,6 +418,34 @@ class _ProductOverviewState extends State<ProductOverview> {
                 padding: const EdgeInsets.only(top: 20, left: 25, right: 25),
                 child: Poppins(text: "Interesting Review", size: 22,  color: Color(0xFF053118), fontWeight: f.semiBold),
               ),
+              Consumer<PostProvider>(
+                  builder: (context, model, _) => FutureBuilder(
+                    future: model.fetchInteresting(),
+                    builder: (context, snapshot) => MediaQuery.removePadding(
+                      context: context,
+                      removeTop: true,
+                      removeBottom: true,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: model.interestingreview?.length ?? 0,
+                        itemBuilder: (context, int index) {
+                          return model.interestingreview![index]['type'] == 'review'?ReviewPost(
+                            username: model.interestingreview![index]['username'],
+                            postTime: model.interestingreview![index]['updatedAt']
+                                .toString()
+                                .substring(0, 10),
+                            urlImage: model.interestingreview![index]['coverImage'],
+                            post: model.interestingreview![index]['body'],
+                            rating: model.interestingreview![index]['rating'],
+                            comment: 0,
+                            id: model.interestingreview![index]['_id'],
+                          ):Container();
+                        },
+                      ),
+                    ),
+                  )),
+
+
 
               SizedBox(
                 height:MediaQuery.of(context).size.height/5,
