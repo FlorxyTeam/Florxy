@@ -154,7 +154,6 @@ class _AnotherPostReplyState extends State<AnotherPostReply> {
                   postTime: model.anotherPost![index]['updatedAt'].toString().substring(0, 10),
                   post: model.anotherPost![index]['body'],
                   comment: 0,
-                  favorite: model.anotherPost![index]['favorite'],
                   professor:model.profile![0]['professor'],
                   influencer: model.profile![0]['influencer'],
                   profileImg: model.profile![0]['img'],
