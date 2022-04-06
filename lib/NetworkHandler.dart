@@ -8,8 +8,13 @@ import 'package:logger/logger.dart';
 class NetworkHandler {
 
   // String baseurl = "https://asia-southeast1-florxy.cloudfunctions.net/app";
+
   String baseurl = "http://192.168.2.36:8080";
   
+
+  // String baseurl = "http://192.168.90.207:8080";
+  // String baseurl = "http://192.168.1.5:8080";
+
   var log = Logger();
 
   FlutterSecureStorage storage = FlutterSecureStorage();
@@ -24,12 +29,12 @@ class NetworkHandler {
       },
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
-      log.i(response.body);
+      // log.i(response.body);
 
       return json.decode(response.body);
     }
-    log.i(response.body);
-    log.i(response.statusCode);
+    // log.i(response.body);
+    // log.i(response.statusCode);
   }
 
   Future<http.Response> post(String url, Map<String, String> body) async {
@@ -78,7 +83,7 @@ class NetworkHandler {
   }
 
   String formater(String url) {
-    print(baseurl+url);
+    // print(baseurl+url);
     return baseurl + url;
   }
   NetworkImage getImage(String email){
