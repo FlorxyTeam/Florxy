@@ -2,6 +2,7 @@ import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/NetworkHandler.dart';
 import 'package:Florxy/pages/allFollowerinFollower.dart';
 import 'package:Florxy/pages/allFollowinginFollowing.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:Florxy/NetworkHandler.dart';
@@ -207,11 +208,17 @@ class _FollowProfileState extends State<FollowProfile> {
               // mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                CircleAvatar(
-                  radius: 44,
-                  backgroundColor: Colors.orange,
-                  backgroundImage:
-                  NetworkHandler().getImage(profileModel.img),
+                Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0xFFE5E5E5)
+                    ),
+                    width: 88,
+                    height: 88,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: CachedNetworkImage(imageUrl: profileModel.img,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
+                    )
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

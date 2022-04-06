@@ -69,6 +69,23 @@ class _MentionPostState extends State<MentionPost> {
     listfollowing: [],
   );
 
+  ProfileModel myprofileModel = ProfileModel(
+    id: '',
+    username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],
+  );
+
   @override
   void initState() {
     // TODO: implement initState
@@ -80,9 +97,12 @@ class _MentionPostState extends State<MentionPost> {
     var response = await networkHandler.get("/profile/getOtherData/" + widget.username!);
     var response2 = await networkHandler.get("/home/getIDPost/" + widget.id!);
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
+
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
+
       postModel = PostModel.fromJson(response2["getPost"]);
+
       fullname = profileModel.fullname;
       influencer = profileModel.influencer;
       professor = profileModel.professor;
@@ -90,7 +110,13 @@ class _MentionPostState extends State<MentionPost> {
       countFav = favorite.length;
       product = postModel.product!;
 
-      myfav = profileModel.favorite;
+
+      // print(myprofileModel.favorite);
+      // print(myfav);
+      // print(pro)
+      // if(myfav == myprofileModel.username){
+      //   print('same fuck fuck');
+      // }
       // print(myfav);
       widget.comment = response3["countComment"];
 
@@ -98,9 +124,23 @@ class _MentionPostState extends State<MentionPost> {
   }
 
   fetchComment () async {
+    var response4 = await networkHandler.get("/profile/getData/");
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
     setState(() {
       widget.comment = response3["countComment"];
+      myprofileModel = ProfileModel.fromJson(response4["data"]);
+      myfav = myprofileModel.favorite;
+      var i=0;
+      for(i;i<myfav.length;i++){
+          if(widget.id == myfav[i]){
+            // print(widget.id);
+            // print(myfav[i]);
+            // print('same naja'+i.toString());
+            setState(() {
+              isFav = true;
+            });
+          }
+      }
     });
   }
 
@@ -727,6 +767,7 @@ class _ReviewPostState extends State<ReviewPost> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   bool isFav = false;
+
   String? fullname='',influencer='',professor='';
   List? favorite=[];
   List product=[];
@@ -738,6 +779,23 @@ class _ReviewPostState extends State<ReviewPost> {
   );
 
   ProfileModel profileModel = ProfileModel(
+    id: '',
+    username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],
+  );
+  List myfav = [];
+  ProfileModel myprofileModel = ProfileModel(
     id: '',
     username: '',
     fullname: '',
@@ -783,9 +841,23 @@ class _ReviewPostState extends State<ReviewPost> {
   }
 
   fetchComment () async {
+    var response4 = await networkHandler.get("/profile/getData/");
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
     setState(() {
       widget.comment = response3["countComment"];
+      myprofileModel = ProfileModel.fromJson(response4["data"]);
+      myfav = myprofileModel.favorite;
+      var i=0;
+      for(i;i<myfav.length;i++){
+        if(widget.id == myfav[i]){
+          // print(widget.id);
+          // print(myfav[i]);
+          // print('same naja'+i.toString());
+          setState(() {
+            isFav = true;
+          });
+        }
+      }
     });
   }
 
@@ -1435,7 +1507,23 @@ class _PostState extends State<Post> {
     listfollower: [],
     listfollowing: [],
   );
-
+  List myfav = [];
+  ProfileModel myprofileModel = ProfileModel(
+    id: '',
+    username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],
+  );
   @override
   void initState() {
     fetchData();
@@ -1462,9 +1550,24 @@ class _PostState extends State<Post> {
   }
 
   fetchComment () async {
+    var response4 = await networkHandler.get("/profile/getData/");
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
     setState(() {
+
       widget.comment = response3["countComment"];
+      myprofileModel = ProfileModel.fromJson(response4["data"]);
+      myfav = myprofileModel.favorite;
+      var i=0;
+      for(i;i<myfav.length;i++){
+        if(widget.id == myfav[i]){
+          // print(widget.id);
+          // print(myfav[i]);
+          // print('same naja'+i.toString());
+          setState(() {
+            isFav = true;
+          });
+        }
+      }
     });
   }
 
@@ -1990,7 +2093,23 @@ class _MentionPost2State extends State<MentionPost2> {
       favorite: [],
       product: []
   );
-
+  List myfav = [];
+  ProfileModel myprofileModel = ProfileModel(
+    id: '',
+    username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],
+  );
   @override
   void initState() {
     // TODO: implement initState
@@ -2015,9 +2134,23 @@ class _MentionPost2State extends State<MentionPost2> {
   }
 
   fetchComment () async {
+    var response4 = await networkHandler.get("/profile/getData/");
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
     setState(() {
       widget.comment = response3["countComment"];
+      myprofileModel = ProfileModel.fromJson(response4["data"]);
+      myfav = myprofileModel.favorite;
+      var i=0;
+      for(i;i<myfav.length;i++){
+        if(widget.id == myfav[i]){
+          // print(widget.id);
+          // print(myfav[i]);
+          // print('same naja'+i.toString());
+          setState(() {
+            isFav = true;
+          });
+        }
+      }
     });
   }
 
@@ -2652,7 +2785,23 @@ class _ReviewPost2State extends State<ReviewPost2> {
       favorite: [],
       product: []
   );
-
+  List myfav = [];
+  ProfileModel myprofileModel = ProfileModel(
+    id: '',
+    username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],
+  );
   @override
   void initState() {
     // TODO: implement initState
@@ -2678,9 +2827,23 @@ class _ReviewPost2State extends State<ReviewPost2> {
   }
 
   fetchComment () async {
+    var response4 = await networkHandler.get("/profile/getData/");
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
     setState(() {
       widget.comment = response3["countComment"];
+      myprofileModel = ProfileModel.fromJson(response4["data"]);
+      myfav = myprofileModel.favorite;
+      var i=0;
+      for(i;i<myfav.length;i++){
+        if(widget.id == myfav[i]){
+          // print(widget.id);
+          // print(myfav[i]);
+          // print('same naja'+i.toString());
+          setState(() {
+            isFav = true;
+          });
+        }
+      }
     });
   }
 
@@ -3297,7 +3460,23 @@ class _Post2State extends State<Post2> {
   PostModel postModel = PostModel(
       favorite: []
   );
-
+  List myfav = [];
+  ProfileModel myprofileModel = ProfileModel(
+    id: '',
+    username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],
+  );
   @override
   void initState() {
     // TODO: implement initState
@@ -3319,9 +3498,25 @@ class _Post2State extends State<Post2> {
   }
 
   fetchComment () async {
+    var response4 = await networkHandler.get("/profile/getData/");
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
     setState(() {
+
       widget.comment = response3["countComment"];
+
+      myprofileModel = ProfileModel.fromJson(response4["data"]);
+      myfav = myprofileModel.favorite;
+      var i=0;
+      for(i;i<myfav.length;i++){
+        if(widget.id == myfav[i]){
+          // print(widget.id);
+          // print(myfav[i]);
+          // print('same naja'+i.toString());
+          setState(() {
+            isFav = true;
+          });
+        }
+      }
     });
   }
 
