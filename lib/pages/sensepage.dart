@@ -70,6 +70,8 @@ class _SensePageState extends State<SensePage> {
   void dispose() {
     controller.dispose();
     super.dispose();
+    Tflite.close();
+    
   }
 
   loadModel() async{

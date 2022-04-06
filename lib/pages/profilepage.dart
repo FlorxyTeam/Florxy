@@ -1,3 +1,4 @@
+
 import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/NetworkHandler.dart';
 import 'package:Florxy/pages/myfollower.dart';
@@ -5,6 +6,7 @@ import 'package:Florxy/pages/myfollowing.dart';
 import 'package:Florxy/widgets/Modalsetting.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:boxicons/boxicons.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +14,7 @@ import 'package:Florxy/pages/FavPost.dart';
 import 'package:Florxy/pages/PostReply.dart';
 import 'package:Florxy/pages/savedPro.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
 
 class ProfilePage extends StatefulWidget {
@@ -24,6 +27,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   bool circular = true;
   NetworkHandler networkHandler = NetworkHandler();
+  late Stream<FileResponse> profileimg;
 
   ProfileModel profileModel = ProfileModel(
     id: '',
@@ -58,6 +62,24 @@ class _ProfilePageState extends State<ProfilePage> {
       circular = false;
     });
   }
+  proFileCache(String url) {
+      profileimg = DefaultCacheManager().getFileStream(url);
+      return profileimg;
+    // return file;
+  }
+  
+//   pictureDelayed(){
+//     Future.delayed(const Duration(milliseconds: 500), () {
+//
+// // Here you can write your code
+//
+//       return
+//
+//     });
+//   }
+  // Future<Null> downloadFile(String httpPath){
+
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -151,12 +173,57 @@ class _ProfilePageState extends State<ProfilePage> {
               // mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                CircleAvatar(
-                  radius: 44,
-                  backgroundColor: Colors.orange,
-                  backgroundImage:
-                  NetworkImage(profileModel.img),
+                // FutureBuilder(
+                //     future: proFileCache(profileModel.img),
+                //     builder: (context, snapshot) {
+                //       if (snapshot.hasData){
+                //         print(snapshot);
+                //       }
+                //       return  CircleAvatar(
+                //         radius: 44,
+                //         backgroundColor: Colors.orange,
+                //         backgroundImage:
+                //         NetworkImage(profileModel.img),
+                //       );
+                //     }
+                //
+                // ),
+
+                // StreamBuilder(
+                //     stream: proFileCache(profileModel.img),
+                //     builder: (context, snapshot){
+                //       // Fil
+                //       var x = snapshot.data as FileInfo;
+                //       if (snapshot.hasError) {
+                //         return ListTile(
+                //           title: const Text('Error'),
+                //           subtitle: Text(snapshot.error.toString()),
+                //         );
+                //       }
+                //       else return Text(x.originalUrl);
+                //
+                //
+                //     }
+                // ),
+                Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0xFFE5E5E5)
+                    ),
+                    width: 90,
+                    height: 90,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: CachedNetworkImage(imageUrl: profileModel.img,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
+                    )
                 ),
+
+                // CircleAvatar(
+                //   radius: 44,
+                //   backgroundColor: Colors.orange,
+                //   backgroundImage:
+                //   NetworkImage(profileModel.img),
+                // ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
