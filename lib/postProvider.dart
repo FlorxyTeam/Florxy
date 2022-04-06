@@ -25,6 +25,9 @@ class PostProvider extends ChangeNotifier {
   List<dynamic>? pro1;
   List<dynamic>? com3;
   List<dynamic>? interestingreview;
+  List<dynamic>? searchPost;
+  List<dynamic>? searchUser;
+  List<dynamic>? searchProduct;
 
 
 
@@ -268,6 +271,63 @@ class PostProvider extends ChangeNotifier {
     print(interestingreview);
 
 
+  }
+
+  /*Future fetchSearchBody(String query) async{
+    print('SearchBody');
+    print(query);
+    String? token = await storage.read(key:"token");
+    final Uri resAPIURL = Uri.parse( baseurl + "/home/getSearchBody/"+query);
+    searchPost = parsedProduct["getBody"];
+  }*/
+
+  Future fetchSearchProductPost(String query) async{
+    print('SearchProductPost');
+    print(query);
+    String? token = await storage.read(key:"token");
+    final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/home/getSearchProductPost/"+query);
+    print(networkHandler.baseurl + "/home/getSearchProductPost/"+query);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization": "Bearer $token"},
+    );
+    final Map parsedProduct = await json.decode(response.body.toString());
+
+    searchPost = parsedProduct["getPost"];
+    print("getPost");
+    print(searchPost);
+  }
+
+  Future fetchSearchUser(String query) async{
+    print('SearchUser');
+    print(query);
+    String? token = await storage.read(key:"token");
+    final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/profile/getSearchUser/"+query);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization": "Bearer $token"},
+    );
+    final Map parsedProduct = await json.decode(response.body.toString());
+
+    searchUser = parsedProduct["getUser"];
+    print("getUser");
+    print(searchUser);
+  }
+
+  Future fetchSearchProduct(String query) async{
+    print('SearchProduct');
+    print(query);
+    String? token = await storage.read(key:"token");
+    final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/product/getSearchProduct/"+query);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization": "Bearer $token"},
+    );
+    final Map parsedProduct = await json.decode(response.body.toString());
+
+    searchProduct = parsedProduct["getProduct"];
+    print("getProduct");
+    print(searchProduct);
   }
 
   String formater(String url) {
