@@ -60,6 +60,7 @@ class _PostReplyState extends State<PostReply> {
                 postTime: model.myPost![index]['updatedAt'].toString().substring(0, 10),
                 post: model.myPost![index]['body'],
                 rating: model.myPost![index]['rating'],
+                urlImage: model.myPost![index]['coverImage'],
                 comment: 0,
                 id: model.myPost![index]['_id'],
               ):model.myPost![index]['type']=='post' ? Post(

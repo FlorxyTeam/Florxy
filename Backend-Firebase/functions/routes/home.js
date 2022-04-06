@@ -230,7 +230,7 @@ router.route("/getPost/viewPost/:id/:product")
           if(err){
             return res.json(err);
           } else {
-            return res.send({ comment: findComment });
+            return res.send({ comment: findComment , countComment: findComment.length });
           }
       });
     });

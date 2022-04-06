@@ -4,6 +4,7 @@ import 'package:Florxy/Model/postModel.dart';
 import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/pages/ViewPostPage.dart';
 import 'package:Florxy/pages/navbar.dart';
+import 'package:Florxy/widgets/ModalViewProduct.dart';
 import 'package:Florxy/widgets/modelreportpost.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,6 +19,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../pages/anotherProfile.dart';
+import '../pages/comparepage.dart';
 import 'ViewPhotoWidget.dart';
 
 class MentionPost extends StatefulWidget {
@@ -75,6 +77,7 @@ class _MentionPostState extends State<MentionPost> {
   void fetchData() async{
     var response = await networkHandler.get("/profile/getOtherData/" + widget.username!);
     var response2 = await networkHandler.get("/home/getIDPost/" + widget.id!);
+    var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
       postModel = PostModel.fromJson(response2["getPost"]);
@@ -86,8 +89,8 @@ class _MentionPostState extends State<MentionPost> {
       countFav = favorite.length;
 
       product = postModel.product!;
-      print('product');
-      print(product);
+
+      widget.comment = response3["countComment"];
 
     });
   }
@@ -489,32 +492,42 @@ class _MentionPostState extends State<MentionPost> {
                     Container(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 9, right: 4, top: 3, bottom: 3),
-                        child: product.length == 1?Row(
-                          children: [
-                            Container(
-                              constraints: BoxConstraints(maxWidth: 160),
-                              child: Inter_Crop(
-                                  text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
+                        child: product.length == 1?GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage(id: '${data?['_id']}', currentState: 0)));
+                          },
+                          child: Row(
+                            children: [
+                              Container(
+                                constraints: BoxConstraints(maxWidth: 160),
+                                child: Inter_Crop(
+                                    text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
+                                    size: 10,
+                                    color: c.tag,
+                                    fontWeight: f.semiBold
+                                ),
+                              ),
+                              SizedBox(width: 4),
+                              Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
+                            ],
+                          ),
+                        ):(product.length == 2 || product.length == 3 || product.length == 4)?
+                        GestureDetector(
+                          onTap: () {
+                            ModalViewProduct.Dialog_Settings(context ,product);
+                          },
+                          child: Row(
+                            children: [
+                              Inter_Crop(
+                                  text: product.length.toString() + " products",
                                   size: 10,
                                   color: c.tag,
                                   fontWeight: f.semiBold
                               ),
-                            ),
-                            SizedBox(width: 4),
-                            Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
-                          ],
-                        ):(product.length == 2 || product.length == 3 || product.length == 4)?
-                        Row(
-                          children: [
-                            Inter_Crop(
-                                text: 'mention ' + product.length.toString() + " products",
-                                size: 10,
-                                color: c.tag,
-                                fontWeight: f.semiBold
-                            ),
-                            SizedBox(width: 4),
-                            Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
-                          ],
+                              SizedBox(width: 4),
+                              Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
+                            ],
+                          ),
                         ):Container()
                       ),
                       decoration: BoxDecoration(
@@ -559,26 +572,42 @@ class _MentionPostState extends State<MentionPost> {
                     Container(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 9, right: 4, top: 3, bottom: 3),
-                        child: product.length == 1?Row(
-                          children: [
-                            Container(
-                              constraints: BoxConstraints(maxWidth: 160),
-                              child: Inter_Crop(
-                                  text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
+                        child: product.length == 1?GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage(id: '${data?['_id']}', currentState: 0)));
+                          },
+                          child: Row(
+                            children: [
+                              Container(
+                                constraints: BoxConstraints(maxWidth: 160),
+                                child: Inter_Crop(
+                                    text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
+                                    size: 10,
+                                    color: c.tag,
+                                    fontWeight: f.semiBold
+                                ),
+                              ),
+                              SizedBox(width: 4),
+                              Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
+                            ],
+                          ),
+                        ):product.length == 2 && product.length == 3 && product.length == 4?
+                        GestureDetector(
+                          onTap: () {
+                            ModalViewProduct.Dialog_Settings(context ,product);
+                          },
+                          child: Row(
+                            children: [
+                              Inter_Crop(
+                                  text: product.length.toString() + " products",
                                   size: 10,
                                   color: c.tag,
                                   fontWeight: f.semiBold
                               ),
-                            ),
-                            SizedBox(width: 4),
-                            Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
-                          ],
-                        ):product.length == 2 && product.length == 3 && product.length == 4?
-                        Inter_Crop(
-                            text: 'mention ' + product.length.toString() + " products",
-                            size: 10,
-                            color: c.tag,
-                            fontWeight: f.semiBold
+                              SizedBox(width: 4),
+                              Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
+                            ],
+                          ),
                         ):Container()
                       ),
                       decoration: BoxDecoration(
@@ -717,6 +746,7 @@ class _ReviewPostState extends State<ReviewPost> {
   void fetchData() async{
     var response = await networkHandler.get("/profile/getOtherData/"+ widget.username!);
     var response2 = await networkHandler.get("/home/getIDPost/" + widget.id!);
+    var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
       fullname = profileModel.fullname;
@@ -728,6 +758,8 @@ class _ReviewPostState extends State<ReviewPost> {
       countFav = favorite!.length;
 
       product = postModel.product!;
+
+      widget.comment = response3["countComment"];
     });
   }
 
@@ -1130,45 +1162,34 @@ class _ReviewPostState extends State<ReviewPost> {
                     Container(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 9, right: 4,top: 2.5,bottom: 2.5),
-                        child: Row(
-                          children: [
-                            // Inter(
-                            //     text: brand!,
-                            //     size: 10,
-                            //     color: Colors.white,
-                            //     fontWeight: f.semiBold
-                            // ),
-                            // SizedBox(
-                            //     height: 20,
-                            //     child: VerticalDivider(
-                            //       color: Colors.white,
-                            //       thickness: 1.5,
-                            //       indent: 3.3,
-                            //       endIndent: 3.3,
-                            //       width: 13,
-                            //     )
-                            // ),
-                            Container(
-                              constraints: BoxConstraints(maxWidth: 125),
-                              child: Inter_Crop(
-                                  text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage(id: '${data?['_id']}', currentState: 0)));
+                          },
+                          child: Row(
+                            children: [
+                              Container(
+                                constraints: BoxConstraints(maxWidth: 125),
+                                child: Inter_Crop(
+                                    text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
+                                    size: 10,
+                                    color: c.tag,
+                                    fontWeight: f.semiBold
+                                ),
+                              ),
+                              SizedBox(width: 7),
+                              Inter(
+                                  text: widget.rating.toString(),
                                   size: 10,
                                   color: c.tag,
                                   fontWeight: f.semiBold
                               ),
-                            ),
-                            SizedBox(width: 7),
-                            Inter(
-                                text: widget.rating.toString(),
-                                size: 10,
-                                color: c.tag,
-                                fontWeight: f.semiBold
-                            ),
-                            SizedBox(width: 2),
-                            Icon(Boxicons.bxs_star, size: 13, color: c.tag),
-                            SizedBox(width: 4),
-                            Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
-                          ],
+                              SizedBox(width: 2),
+                              Icon(Boxicons.bxs_star, size: 13, color: c.tag),
+                              SizedBox(width: 4),
+                              Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
+                            ],
+                          ),
                         ),
                       ),
                       decoration: BoxDecoration(
@@ -1213,45 +1234,50 @@ class _ReviewPostState extends State<ReviewPost> {
                     Container(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 9, right: 4,top: 2.5,bottom: 2.5),
-                        child: Row(
-                          children: [
-                            // Inter(
-                            //     text: brand!,
-                            //     size: 10,
-                            //     color: Colors.white,
-                            //     fontWeight: f.semiBold
-                            // ),
-                            // SizedBox(
-                            //     height: 20,
-                            //     child: VerticalDivider(
-                            //       color: Colors.white,
-                            //       thickness: 1.5,
-                            //       indent: 3.3,
-                            //       endIndent: 3.3,
-                            //       width: 13,
-                            //     )
-                            // ),
-                            Container(
-                              constraints: BoxConstraints(maxWidth: 125),
-                              child: Inter_Crop(
-                                  text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage(id: '${data?['_id']}', currentState: 0)));
+                          },
+                          child: Row(
+                            children: [
+                              // Inter(
+                              //     text: brand!,
+                              //     size: 10,
+                              //     color: Colors.white,
+                              //     fontWeight: f.semiBold
+                              // ),
+                              // SizedBox(
+                              //     height: 20,
+                              //     child: VerticalDivider(
+                              //       color: Colors.white,
+                              //       thickness: 1.5,
+                              //       indent: 3.3,
+                              //       endIndent: 3.3,
+                              //       width: 13,
+                              //     )
+                              // ),
+                              Container(
+                                constraints: BoxConstraints(maxWidth: 125),
+                                child: Inter_Crop(
+                                    text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
+                                    size: 10,
+                                    color: c.tag,
+                                    fontWeight: f.semiBold
+                                ),
+                              ),
+                              SizedBox(width: 7),
+                              Inter(
+                                  text: widget.rating.toString(),
                                   size: 10,
                                   color: c.tag,
                                   fontWeight: f.semiBold
                               ),
-                            ),
-                            SizedBox(width: 7),
-                            Inter(
-                                text: widget.rating.toString(),
-                                size: 10,
-                                color: c.tag,
-                                fontWeight: f.semiBold
-                            ),
-                            SizedBox(width: 2),
-                            Icon(Boxicons.bxs_star, size: 13, color: c.tag),
-                            SizedBox(width: 4),
-                            Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
-                          ],
+                              SizedBox(width: 2),
+                              Icon(Boxicons.bxs_star, size: 13, color: c.tag),
+                              SizedBox(width: 4),
+                              Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
+                            ],
+                          ),
                         ),
                       ),
                       decoration: BoxDecoration(
@@ -1386,6 +1412,7 @@ class _PostState extends State<Post> {
   void fetchData() async{
     var response = await networkHandler.get("/profile/getOtherData/" + widget.username!);
     var response2 = await networkHandler.get("/home/getIDPost/" + widget.id!);
+    var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
       fullname = profileModel.fullname;
@@ -1395,6 +1422,8 @@ class _PostState extends State<Post> {
       postModel = PostModel.fromJson(response2["getPost"]);
       favorite = postModel.favorite!;
       countFav = favorite!.length;
+
+      widget.comment = response3["countComment"];
     });
   }
 
@@ -1922,6 +1951,7 @@ class _MentionPost2State extends State<MentionPost2> {
 
   void fetchData() async{
     var response2 = await networkHandler.get("/home/getIDPost/" + widget.id!);
+    var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
     setState(() {
       postModel = PostModel.fromJson(response2["getPost"]);
 
@@ -1931,6 +1961,7 @@ class _MentionPost2State extends State<MentionPost2> {
       product = postModel.product!;
       print('product');
       print(product);
+      widget.comment = response3["countComment"];
     });
   }
 
@@ -2331,32 +2362,42 @@ class _MentionPost2State extends State<MentionPost2> {
                     Container(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 9, right: 4, top: 3, bottom: 3),
-                        child: product.length==1?Row(
-                          children: [
-                            Container(
-                              constraints: BoxConstraints(maxWidth: 160),
-                              child: Inter_Crop(
-                                  text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
+                        child: product.length==1?GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage(id: '${data?['_id']}', currentState: 0)));
+                          },
+                          child: Row(
+                            children: [
+                              Container(
+                                constraints: BoxConstraints(maxWidth: 160),
+                                child: Inter_Crop(
+                                    text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
+                                    size: 10,
+                                    color: c.tag,
+                                    fontWeight: f.semiBold
+                                ),
+                              ),
+                              SizedBox(width: 4),
+                              Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
+                            ],
+                          ),
+                        ):(product.length == 2 || product.length == 3 || product.length == 4)?
+                        GestureDetector(
+                          onTap: () {
+                            ModalViewProduct.Dialog_Settings(context ,product);
+                          },
+                          child: Row(
+                            children: [
+                              Inter_Crop(
+                                  text: product.length.toString() + " products",
                                   size: 10,
                                   color: c.tag,
                                   fontWeight: f.semiBold
                               ),
-                            ),
-                            SizedBox(width: 4),
-                            Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
-                          ],
-                        ):(product.length == 2 || product.length == 3 || product.length == 4)?
-                        Row(
-                          children: [
-                            Inter_Crop(
-                                text: 'mention ' + product.length.toString() + " products",
-                                size: 10,
-                                color: c.tag,
-                                fontWeight: f.semiBold
-                            ),
-                            SizedBox(width: 4),
-                            Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
-                          ],
+                              SizedBox(width: 4),
+                              Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
+                            ],
+                          ),
                         ):Container()
                       ),
                       decoration: BoxDecoration(
@@ -2401,32 +2442,42 @@ class _MentionPost2State extends State<MentionPost2> {
                     Container(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 9, right: 4, top: 3, bottom: 3),
-                        child: product.length==1?Row(
-                          children: [
-                            Container(
-                              constraints: BoxConstraints(maxWidth: 160),
-                              child: Inter_Crop(
-                                  text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
+                        child: product.length==1?GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage(id: '${data?['_id']}', currentState: 0)));
+                          },
+                          child: Row(
+                            children: [
+                              Container(
+                                constraints: BoxConstraints(maxWidth: 160),
+                                child: Inter_Crop(
+                                    text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
+                                    size: 10,
+                                    color: c.tag,
+                                    fontWeight: f.semiBold
+                                ),
+                              ),
+                              SizedBox(width: 4),
+                              Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
+                            ],
+                          ),
+                        ):(product.length == 2 || product.length == 3 || product.length == 4)?
+                        GestureDetector(
+                          onTap: () {
+                            ModalViewProduct.Dialog_Settings(context ,product);
+                          },
+                          child: Row(
+                            children: [
+                              Inter_Crop(
+                                  text: product.length.toString() + " products",
                                   size: 10,
                                   color: c.tag,
                                   fontWeight: f.semiBold
                               ),
-                            ),
-                            SizedBox(width: 4),
-                            Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
-                          ],
-                        ):(product.length == 2 || product.length == 3 || product.length == 4)?
-                        Row(
-                          children: [
-                            Inter_Crop(
-                                text: 'mention ' + product.length.toString() + " products",
-                                size: 10,
-                                color: c.tag,
-                                fontWeight: f.semiBold
-                            ),
-                            SizedBox(width: 4),
-                            Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
-                          ],
+                              SizedBox(width: 4),
+                              Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
+                            ],
+                          ),
                         ):Container()
                       ),
                       decoration: BoxDecoration(
@@ -2546,6 +2597,7 @@ class _ReviewPost2State extends State<ReviewPost2> {
 
   void fetchData() async{
     var response2 = await networkHandler.get("/home/getIDPost/" + widget.id!);
+    var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
     setState(() {
       postModel = PostModel.fromJson(response2["getPost"]);
 
@@ -2555,6 +2607,8 @@ class _ReviewPost2State extends State<ReviewPost2> {
       product = postModel.product!;
       print('product');
       print(product);
+
+      widget.comment = response3["countComment"];
     });
   }
 
@@ -2957,29 +3011,34 @@ class _ReviewPost2State extends State<ReviewPost2> {
                     Container(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 9, right: 4,top: 2.5,bottom: 2.5),
-                        child: Row(
-                          children: [
-                            Container(
-                              constraints: BoxConstraints(maxWidth: 125),
-                              child: Inter_Crop(
-                                  text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage(id: '${data?['_id']}', currentState: 0)));
+                          },
+                          child: Row(
+                            children: [
+                              Container(
+                                constraints: BoxConstraints(maxWidth: 125),
+                                child: Inter_Crop(
+                                    text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
+                                    size: 10,
+                                    color: c.tag,
+                                    fontWeight: f.semiBold
+                                ),
+                              ),
+                              SizedBox(width: 7),
+                              Inter(
+                                  text: widget.rating.toString(),
                                   size: 10,
                                   color: c.tag,
                                   fontWeight: f.semiBold
                               ),
-                            ),
-                            SizedBox(width: 7),
-                            Inter(
-                                text: widget.rating.toString(),
-                                size: 10,
-                                color: c.tag,
-                                fontWeight: f.semiBold
-                            ),
-                            SizedBox(width: 2),
-                            Icon(Boxicons.bxs_star, size: 13, color: c.tag),
-                            SizedBox(width: 4),
-                            Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
-                          ],
+                              SizedBox(width: 2),
+                              Icon(Boxicons.bxs_star, size: 13, color: c.tag),
+                              SizedBox(width: 4),
+                              Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
+                            ],
+                          ),
                         )
                       ),
                       decoration: BoxDecoration(
@@ -3024,29 +3083,34 @@ class _ReviewPost2State extends State<ReviewPost2> {
                     Container(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 9, right: 4,top: 2.5,bottom: 2.5),
-                        child: Row(
-                          children: [
-                            Container(
-                              constraints: BoxConstraints(maxWidth: 125),
-                              child: Inter_Crop(
-                                  text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage(id: '${data?['_id']}', currentState: 0)));
+                          },
+                          child: Row(
+                            children: [
+                              Container(
+                                constraints: BoxConstraints(maxWidth: 125),
+                                child: Inter_Crop(
+                                    text: '${data?['p_brand']}' + " " + '${data?['p_name']}',
+                                    size: 10,
+                                    color: c.tag,
+                                    fontWeight: f.semiBold
+                                ),
+                              ),
+                              SizedBox(width: 7),
+                              Inter(
+                                  text: widget.rating.toString(),
                                   size: 10,
                                   color: c.tag,
                                   fontWeight: f.semiBold
                               ),
-                            ),
-                            SizedBox(width: 7),
-                            Inter(
-                                text: widget.rating.toString(),
-                                size: 10,
-                                color: c.tag,
-                                fontWeight: f.semiBold
-                            ),
-                            SizedBox(width: 2),
-                            Icon(Boxicons.bxs_star, size: 13, color: c.tag),
-                            SizedBox(width: 4),
-                            Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
-                          ],
+                              SizedBox(width: 2),
+                              Icon(Boxicons.bxs_star, size: 13, color: c.tag),
+                              SizedBox(width: 4),
+                              Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
+                            ],
+                          ),
                         ),
                       ),
                       decoration: BoxDecoration(
@@ -3163,11 +3227,14 @@ class _Post2State extends State<Post2> {
 
   void fetchData() async{
     var response = await networkHandler.get("/home/getIDPost/" + widget.id!);
+    var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
     setState(() {
       postModel = PostModel.fromJson(response["getPost"]);
 
       favorite = postModel.favorite!;
       countFav = favorite.length;
+
+      widget.comment = response3["countComment"];
     });
   }
 
