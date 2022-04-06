@@ -4,7 +4,7 @@ import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/cupertino.dart';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -65,10 +65,19 @@ class _NotificationReplyState extends State<NotificationReply> {
           SizedBox(width: 30,),
           Stack(
             children: [
-              CircleAvatar(
-                backgroundImage: profileModel.img.isNotEmpty? NetworkImage(profileModel.img): null,
-                radius: 28,
+              Container(
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xFFE5E5E5)
+                  ),
+                  width: 56,
+                  height: 56,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: CachedNetworkImage(imageUrl: profileModel.img,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
+                  )
               ),
+
               Positioned(child: CircleAvatar(
                 child: Icon(
 

@@ -41,6 +41,7 @@ class _MentionPostState extends State<MentionPost> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   bool isFav = false;
+  List myfav = [];
   String? fullname='',influencer='',professor='';
   List favorite=[];
   List product=[], staticData=[];
@@ -84,12 +85,12 @@ class _MentionPostState extends State<MentionPost> {
       fullname = profileModel.fullname;
       influencer = profileModel.influencer;
       professor = profileModel.professor;
-
       favorite = postModel.favorite!;
       countFav = favorite.length;
-
       product = postModel.product!;
 
+      myfav = profileModel.favorite;
+      print(myfav);
       widget.comment = response3["countComment"];
 
     });
