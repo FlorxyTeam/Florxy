@@ -401,15 +401,9 @@ class _ProductOverviewState extends State<ProductOverview> {
                             color: Color(0xFF32A060),
                             size: 14,
                           ),
-
                         ],
                       ),
                     ),
-
-
-
-
-
                   ],
                 ),
               ),
@@ -458,76 +452,4 @@ class _ProductOverviewState extends State<ProductOverview> {
 
     );
   }
-
-
-
-
-
-
-
-
-
-  //Search by category
-  // Widget buildCard({
-  //   required CardItem item,
-  // }) =>
-  //     Container(
-  //       width: MediaQuery.of(context).size.width * 0.28,
-  //       height: MediaQuery.of(context).size.height * 0.17,
-  //       child: Stack(
-  //         children: [
-  //           Center(
-  //             child: InkWell(
-  //               onTap: () {},
-  //               child: Container(
-  //                 width: MediaQuery.of(context).size.width * 0.28,
-  //                 height: MediaQuery.of(context).size.height * 0.17,
-  //                 decoration: BoxDecoration(
-  //                   borderRadius: BorderRadius.circular(15),
-  //                   color: Colors.white,
-  //                   boxShadow: [
-  //                     BoxShadow(
-  //                       color: c.shadow.withOpacity(0.32),
-  //                       spreadRadius: -17,
-  //                       blurRadius: 30,
-  //                       offset: Offset(0, 6), // changes position of shadow
-  //                     ),
-  //                   ],
-  //                 ),
-  //                 child: Column(
-  //                   crossAxisAlignment: CrossAxisAlignment.start,
-  //                   children: [
-  //                     Container(
-  //                       height: MediaQuery.of(context).size.height * 0.115,
-  //                       width: MediaQuery.of(context).size.width * 0.34,
-  //                       decoration: BoxDecoration(
-  //                         borderRadius: BorderRadius.only(
-  //                           topLeft: Radius.circular(15),
-  //                           topRight: Radius.circular(15),
-  //                         ),
-  //                         image: DecorationImage(
-  //                           image: AssetImage(item.urlImage),
-  //                           fit: BoxFit.cover,
-  //                         ),
-  //                       ),
-  //                     ),
-  //                     Padding(
-  //                       padding: const EdgeInsets.only(top: 5, left: 7),
-  //                       child: Poppins(
-  //                           text: item.title,
-  //                           size: 14,
-  //                           color: Color(0xFF254231),
-  //                           fontWeight: f.semiBold),
-  //                     ),
-  //                   ],
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     );
-
-  //Search by Brand
-
 }

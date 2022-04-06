@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 
@@ -47,6 +48,36 @@ class ModalMentionPost {
               ),
               SizedBox(height: 30),
               Expanded(child: Product(id1: x, id2: y, id3: z)),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: RichText(
+                    text: TextSpan(
+
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: "Compare between ",
+                          style: GoogleFonts.roboto(
+                              color: Color(0xFFBDBDBD).withOpacity(0.68), fontWeight: f.medium,fontSize: 15
+                          ),
+                        ),
+                        TextSpan(
+                          text: "3",
+                          style: GoogleFonts.roboto(
+                              color: Color(0xFF9D9D9D), fontWeight: f.regular,fontSize: 15
+                          ),
+                        ),
+                        TextSpan(
+                          text: " products",
+                          style: GoogleFonts.roboto(
+                              color: Color(0xFF053118).withOpacity(0.68), fontWeight: f.medium,fontSize: 15
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
               Padding(
                   padding: EdgeInsets.only(left: 50,right: 50,bottom: 50),
                   child: Column(
@@ -172,7 +203,7 @@ class _ProductState extends State<Product> {
                                   height: 7,
                                 ),
                                 PoppinsLeft(text:  model.com3![index]['p_name'], size: 15, color: Color(0xFF053118), fontWeight: f.semiBold),
-                                SizedBox(height: 10),
+                                SizedBox(height: 4),
                                 Roboto(text: model.com3![index]['p_desc'].toString().substring(0, 70) + "...", size: 12,  color: Color(0xFF9D9D9D), fontWeight: f.regular)
                               ],
                             ),
@@ -183,10 +214,7 @@ class _ProductState extends State<Product> {
                           child: InkWell(
                             onTap: () {
                               setState(() {
-                                
                               });
-
-
                             },
                             child:
                             Icon(Icons.close_rounded, color: c.redMain, size: 24),
