@@ -281,7 +281,7 @@ class _SearchPostState extends State<SearchPost> {
                             return model.searchPost![index]['type'] == 'mention'
                                 ? MentionPosts(
                               username: model.searchPost![index]['username'],
-                              postTime: model.searchPost![index]['updatedAt'],
+                              postTime: model.searchPost![index]['updatedAt'].toString().substring(0, 10),
                               post: model.searchPost![index]['body'],
                               comment: 0,
                               urlImage: model.searchPost![index]['coverImage'],
@@ -291,7 +291,9 @@ class _SearchPostState extends State<SearchPost> {
                                 : model.searchPost![index]['type'] == 'post'
                                 ? Posts(
                                 username: model.searchPost![index]['username'],
-                                postTime: model.searchPost![index]['updatedAt'],
+                                postTime: model.searchPost![index]['updatedAt']
+                                    .toString()
+                                    .substring(0, 10),
                                 post: model.searchPost![index]['body'],
                                 comment: 0,
                                 id: model.searchPost![index]['_id'],
@@ -308,7 +310,9 @@ class _SearchPostState extends State<SearchPost> {
                             return model.searchPost![index]['type'] == 'review'
                                 ? ReviewPosts(
                               username: model.searchPost![index]['username'],
-                              postTime: model.searchPost![index]['updatedAt'],
+                              postTime: model.searchPost![index]['updatedAt']
+                                  .toString()
+                                  .substring(0, 10),
                               urlImage: model.searchPost![index]['coverImage'],
                               post: model.searchPost![index]['body'],
                               rating: model.searchPost![index]['rating'],

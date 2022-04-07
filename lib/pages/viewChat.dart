@@ -2,7 +2,6 @@ import 'package:Florxy/Model/messageModel.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/messageWidget.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,8 +12,8 @@ import '../NetworkHandler.dart';
 import '../postProvider.dart';
 
 class ViewChatPage extends StatefulWidget {
-  String? fullname, username, influencer, professor, currentMessage, myUsername,img;
-  ViewChatPage({Key? key, this.fullname, this.username, this.professor, this.influencer, this.currentMessage, this.myUsername, this.img}) : super(key: key);
+  String? fullname, username, influencer, professor, currentMessage, myUsername;
+  ViewChatPage({Key? key, this.fullname, this.username, this.professor, this.influencer, this.currentMessage, this.myUsername}) : super(key: key);
 
   @override
   _ViewChatPageState createState() => _ViewChatPageState();
@@ -54,11 +53,11 @@ class _ViewChatPageState extends State<ViewChatPage> {
   //   });
   // }
 
-  void sendMessage(String message, String myUsername, String targetUsername) {
-    // socket.emit("message",
-    //     {"message": message, "myUsername": myUsername, "targetUsername": targetUsername});
-    setMessage("source", message, myUsername, targetUsername);
-  }
+  // void sendMessage(String message, String myUsername, String targetUsername) {
+  //   socket.emit("message",
+  //       {"message": message, "myUsername": myUsername, "targetUsername": targetUsername});
+  //   setMessage("source", message, myUsername, targetUsername);
+  // }
 
   void setMessage(String type, String message, String sender, String receiver) async {
     MessageModel messageModel = MessageModel(type: type, message: message, time: DateTime.now().toString().substring(0,16));
@@ -71,129 +70,125 @@ class _ViewChatPageState extends State<ViewChatPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-          children: [
-            Column(
-              children: [
-                SizedBox(height: Theme.of(context).platform==TargetPlatform.android?11:0),
-                Container(
-                  child: SafeArea(
-                    bottom: false,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 22, right: 6),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          IconButton(
-                            icon: Icon(FeatherIcons.chevronLeft),
-                            iconSize: 34,
-                            color: Colors.black,
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 11),
-                            child: Row(
-                              children: [
-                                Container(
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Color(0xFFE5E5E5)
-                                    ),
-                                    width: 60,
-                                    height: 60,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(50),
-                                      child: CachedNetworkImage(imageUrl: widget.img!,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
-                                    )
-                                ),
-                                SizedBox( width: 8 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Poppins(
-                                      text: widget.fullname!,
-                                      fontWeight: f.semiBold,
-                                      size: 14,
-                                      color: Colors.black,
-                                    ),
-                                    Inter(text: "@" + widget.username!, size: 12, color: c.textUsername, fontWeight: f.medium),
-                                    SizedBox( height: 7 ),
-                                    Row(
-                                      children: [
-                                        (widget.professor=="")?
-                                        Container():Container(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 7, left: 7, top: 4, bottom: 4),
-                                            child: Inter(
-                                                text: widget.professor!,
-                                                size: 8.5,
-                                                color: Colors.white,
-                                                fontWeight: f.semiBold),
-                                          ),
-                                          decoration: BoxDecoration(
-                                              color: c.greenMain,
-                                              borderRadius: BorderRadius.circular(10)),
+      body: Stack(
+        children: [
+          Column(
+            children: [
+              SizedBox(height: Theme.of(context).platform==TargetPlatform.android?11:0),
+              Container(
+                child: SafeArea(
+                  bottom: false,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 22, right: 6),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        IconButton(
+                          icon: Icon(FeatherIcons.chevronLeft),
+                          iconSize: 34,
+                          color: Colors.black,
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 11),
+                          child: Row(
+                            children: [
+                              CircleAvatar(
+                                radius: 30,
+                                backgroundColor: Colors.orange,
+                                // backgroundImage:
+                                // NetworkHandler().getImage(profileModel.email),
+                              ),
+                              SizedBox( width: 8 ),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Poppins(
+                                    text: widget.fullname!,
+                                    fontWeight: f.semiBold,
+                                    size: 14,
+                                    color: Colors.black,
+                                  ),
+                                  Inter(text: "@" + widget.username!, size: 12, color: c.textUsername, fontWeight: f.medium),
+                                  SizedBox( height: 7 ),
+                                  Row(
+                                    children: [
+                                      (widget.professor=="")?
+                                      Container():Container(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 7, left: 7, top: 4, bottom: 4),
+                                          child: Inter(
+                                              text: widget.professor!,
+                                              size: 8.5,
+                                              color: Colors.white,
+                                              fontWeight: f.semiBold),
                                         ),
-                                        SizedBox( width: 5 ),
-                                        (widget.influencer=="")?
-                                        Container():Container(
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                right: 5, left: 5, top: 2, bottom: 2),
-                                            child: Inter(
-                                                text: widget.influencer!,
-                                                size: 8.5,
-                                                color: c.blueMain,
-                                                fontWeight: f.bold),
-                                          ),
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: c.blueMain,
-                                                width: 2,
-                                              ),
-                                              borderRadius: BorderRadius.circular(10)),
+                                        decoration: BoxDecoration(
+                                            color: c.greenMain,
+                                            borderRadius: BorderRadius.circular(10)),
+                                      ),
+                                      SizedBox( width: 5 ),
+                                      (widget.influencer=="")?
+                                      Container():Container(
+                                        child: Padding(
+                                          padding: const EdgeInsets.only(
+                                              right: 5, left: 5, top: 2, bottom: 2),
+                                          child: Inter(
+                                              text: widget.influencer!,
+                                              size: 8.5,
+                                              color: c.blueMain,
+                                              fontWeight: f.bold),
                                         ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
+                                        decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: c.blueMain,
+                                              width: 2,
+                                            ),
+                                            borderRadius: BorderRadius.circular(10)),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ],
                           ),
-                          Expanded(child: Container()),
-                          IconButton(
-                            icon: Icon(FeatherIcons.alertCircle),
-                            iconSize: 25,
-                            color: Colors.black,
-                            onPressed: () {},
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.vertical(
-                        bottom: Radius.circular(26),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: c.shadow.withOpacity(0.32),
-                          spreadRadius: 0,
-                          blurRadius: 29,
-                          offset: Offset(-1, -16), // changes position of shadow
+                        ),
+                        Expanded(child: Container()),
+                        IconButton(
+                          icon: Icon(FeatherIcons.alertCircle),
+                          iconSize: 25,
+                          color: Colors.black,
+                          onPressed: () {},
                         ),
                       ],
-                      color: Colors.white
+                    ),
                   ),
                 ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 18, right: 18),
-                    child: PageView(
-                      scrollDirection: Axis.vertical,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.vertical(
+                      bottom: Radius.circular(26),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: c.shadow.withOpacity(0.32),
+                        spreadRadius: 0,
+                        blurRadius: 29,
+                        offset: Offset(-1, -16), // changes position of shadow
+                      ),
+                    ],
+                    color: Colors.white
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 18, right: 18),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      // controller: _scrollController,
+                      // physics: NeverScrollableScrollPhysics(),
                       children: [
                         Consumer<PostProvider>(builder: (context,model,_) => FutureBuilder(
                           future: model.fetchChat(widget.myUsername!, widget.username!),
@@ -222,8 +217,13 @@ class _ViewChatPageState extends State<ViewChatPage> {
                           removeBottom: true,
                           child: ListView.builder(
                             shrinkWrap: true,
-                            itemCount: messages.length,
+                            itemCount: messages.length+1,
                             itemBuilder: (context,index) {
+                              if(index == messages.length) {
+                                return Container(
+                                  height: 70,
+                                );
+                              }
                               if(messages[index].type=="source") {
                                 return MyMessage(
                                   message: messages[index].message,
@@ -242,100 +242,99 @@ class _ViewChatPageState extends State<ViewChatPage> {
                     ),
                   ),
                 ),
-                Container(
-                  height: 75
-                )
-              ],
-            ),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                color: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 23, vertical: 12),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          IconButton(
-                              padding: EdgeInsets.zero,
-                              constraints: BoxConstraints(),
-                              onPressed: () {},
-                              icon: Icon(FeatherIcons.image, size: 25)
-                          ),
-                          SizedBox(width: 15),
-                          Icon(FeatherIcons.camera, size:25, color: Colors.black),
-                          SizedBox(width: 15),
-                          Expanded(
-                            child: Container(
-                              height: 35,
-                              child: TextFormField(
-                                controller: _messageController,
-                                onTap: () {
-                                  FocusScopeNode currentFocus = FocusScope.of(context);
-                                  if (!currentFocus.hasPrimaryFocus) {
-                                    currentFocus.unfocus();
-                                  }
-                                },
-                                keyboardType: TextInputType.multiline,
-                                maxLines: 5,
-                                minLines: 1,
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: c.searchbar,
-                                  contentPadding: EdgeInsets.fromLTRB(18, 0, 0, 0),
-                                  hintText: 'Message...',
-                                  hintStyle: TextStyle(
-                                      fontSize: 13.5,
-                                      color: c.greyMain,
-                                      fontWeight: f.medium),
-                                  border: InputBorder.none,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(40.0)),
-                                    borderSide: BorderSide(
-                                        color: c.graySub2.withOpacity(0), width: 2),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(Radius.circular(40.0)),
-                                    borderSide: BorderSide(
-                                        color: c.graySub2.withOpacity(0), width: 2),
-                                  ),
+              ),
+              Container(
+                height: 85
+              )
+            ],
+          ),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              color: Colors.white,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 23, vertical: 12),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        IconButton(
+                            padding: EdgeInsets.zero,
+                            constraints: BoxConstraints(),
+                            onPressed: () {},
+                            icon: Icon(FeatherIcons.image, size: 25)
+                        ),
+                        SizedBox(width: 15),
+                        Icon(FeatherIcons.camera, size:25, color: Colors.black),
+                        SizedBox(width: 15),
+                        Expanded(
+                          child: Container(
+                            height: 35,
+                            child: TextFormField(
+                              controller: _messageController,
+                              onTap: () {
+                                FocusScopeNode currentFocus = FocusScope.of(context);
+                                if (!currentFocus.hasPrimaryFocus) {
+                                  currentFocus.unfocus();
+                                }
+                              },
+                              keyboardType: TextInputType.multiline,
+                              maxLines: 5,
+                              minLines: 1,
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: c.searchbar,
+                                contentPadding: EdgeInsets.fromLTRB(18, 0, 0, 0),
+                                hintText: 'Message...',
+                                hintStyle: TextStyle(
+                                    fontSize: 13.5,
+                                    color: c.greyMain,
+                                    fontWeight: f.medium),
+                                border: InputBorder.none,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                                  borderSide: BorderSide(
+                                      color: c.graySub2.withOpacity(0), width: 2),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                                  borderSide: BorderSide(
+                                      color: c.graySub2.withOpacity(0), width: 2),
                                 ),
                               ),
                             ),
                           ),
-                          SizedBox(width: 10),
-                          IconButton(
-                              padding: EdgeInsets.zero,
-                              constraints: BoxConstraints(),
-                              onPressed: () async {
-                                sendMessage(_messageController.text, widget.myUsername!, widget.username!);
-                                Map<String, String> data = {
-                                  "sender": widget.myUsername!,
-                                  "receiver": widget.username!,
-                                  "message": _messageController.text,
-                                  "time": DateTime.now().toString().substring(0,16)
-                                };
-                                // await networkHandler.post("/profile/chatWith/"+widget.myUsername!+"/"+widget.username!, data);
-                                await networkHandler.post("/profile/chat", data);
-                                Provider.of<PostProvider>(context,listen: false).fetchChat(widget.myUsername!, widget.username!);
-
-                                // _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
-                                _messageController.clear();
-                              },
-                              icon: Icon(FeatherIcons.send, size: 25)
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                        SizedBox(width: 10),
+                        IconButton(
+                            padding: EdgeInsets.zero,
+                            constraints: BoxConstraints(),
+                            onPressed: () async {
+                              // sendMessage(_messageController.text, widget.myUsername!, widget.username!);
+                              Map<String, String> data = {
+                                "sender": widget.myUsername!,
+                                "receiver": widget.username!,
+                                "message": _messageController.text,
+                                "time": DateTime.now().toString().substring(0,16)
+                              };
+                              // await networkHandler.post("/profile/chatWith/"+widget.myUsername!+"/"+widget.username!, data);
+                              await networkHandler.post("/profile/chat", data);
+                              // _scrollController.animateTo(_scrollController.position.maxScrollExtent, duration: Duration(milliseconds: 300), curve: Curves.easeOut);
+                              _messageController.clear();
+                            },
+                            icon: Icon(FeatherIcons.send, size: 25)
+                        )
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
     );
   }
 }

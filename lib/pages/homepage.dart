@@ -132,39 +132,49 @@ class _HomePageState extends State<HomePage> {
             Consumer<PostProvider>(
                 builder: (context, model, _) => FutureBuilder(
                   future: model.fetchData(),
-                  builder: (context, snapshot) => ListView.builder(
-                    scrollDirection: Axis.vertical,
-                    itemCount: model.postData?.length ?? 0,
-                    itemBuilder: (context, int index) {
-                      return model.postData![index]['type'] == 'mention'
-                          ? MentionPost(
-                              username: model.postData![index]['username'],
-                              postTime: model.postData![index]['updatedAt'],
-                              post: model.postData![index]['body'],
-                              comment: 0,
-                              urlImage: model.postData![index]['coverImage'],
-                              id: model.postData![index]['_id'],
-                            )
-                          : model.postData![index]['type'] == 'review'
-                              ? ReviewPost(
-                                  username: model.postData![index]['username'],
-                                  postTime: model.postData![index]['updatedAt'],
-                                  urlImage: model.postData![index]['coverImage'],
-                                  post: model.postData![index]['body'],
-                                  rating: model.postData![index]['rating'],
-                                  comment: 0,
-                                  id: model.postData![index]['_id'],
-                                )
-                              : model.postData![index]['type'] == 'post'
-                                  ? Post(
-                                      username: model.postData![index]['username'],
-                                      postTime: model.postData![index]['updatedAt'],
-                                      post: model.postData![index]['body'],
-                                      comment: 0,
-                                      id: model.postData![index]['_id'],
-                                      urlImage: model.postData![index]['coverImage'])
-                                  : Container();
-                    },
+                  builder: (context, snapshot) => MediaQuery.removePadding(
+                    context: context,
+                    removeTop: true,
+                    removeBottom: true,
+                    child: ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: model.postData?.length ?? 0,
+                      itemBuilder: (context, int index) {
+                        return model.postData![index]['type'] == 'mention'
+                            ? MentionPost(
+                          username: model.postData![index]['username'],
+                          postTime: model.postData![index]['updatedAt'].toString().substring(0, 10),
+                          post: model.postData![index]['body'],
+                          comment: 0,
+                          urlImage: model.postData![index]['coverImage'],
+                          id: model.postData![index]['_id'],
+                        )
+                            : model.postData![index]['type'] == 'review'
+                            ? ReviewPost(
+                          username: model.postData![index]['username'],
+                          postTime: model.postData![index]['updatedAt']
+                              .toString()
+                              .substring(0, 10),
+                          urlImage: model.postData![index]['coverImage'],
+                          post: model.postData![index]['body'],
+                          rating: model.postData![index]['rating'],
+                          comment: 0,
+                          id: model.postData![index]['_id'],
+                        )
+                            : model.postData![index]['type'] == 'post'
+                            ? Post(
+                            username: model.postData![index]['username'],
+                            postTime: model.postData![index]['updatedAt']
+                                .toString()
+                                .substring(0, 10),
+                            post: model.postData![index]['body'],
+                            comment: 0,
+                            id: model.postData![index]['_id'],
+                            urlImage: model.postData![index]['coverImage'])
+                            : Container();
+                      },
+                    ),
                   ),
                 )),
 

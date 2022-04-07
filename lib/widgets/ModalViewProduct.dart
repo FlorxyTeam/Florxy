@@ -111,22 +111,24 @@ class _ProductViewState extends State<ProductView> {
                 // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(width: 15),
-                  Center(
-                    child: Container(
-                      height: 100,
-                      width: 90,
-                      decoration: BoxDecoration(
-                          color: Colors.transparent,
-                          image: DecorationImage(
-                              image: NetworkImage(widget.productImg!),
-                              fit: BoxFit.contain
-                          )
+                  Expanded(
+                    child: Center(
+                      child: Container(
+                        height: 100,
+                        decoration: BoxDecoration(
+                            color: Colors.transparent,
+                            image: DecorationImage(
+                                image: NetworkImage(widget.productImg!),
+                                fit: BoxFit.contain
+                            )
+                        ),
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 8),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15, right: 8),
+                    child: Container(
+                      width: 290,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

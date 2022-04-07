@@ -213,7 +213,7 @@ class _MentionPostState extends State<MentionPost> {
                             },
                           ),
                           SizedBox( width: 5 ),
-                          Inter(text: widget.postTime!.toString().substring(5, 7)+"/"+widget.postTime!.toString().substring(8, 10)+"/"+widget.postTime!.toString().substring(0, 4), size: 11, color: c.graySub2, fontWeight: f.medium)
+                          Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                         ],
                       ),
                       Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
@@ -944,7 +944,7 @@ class _ReviewPostState extends State<ReviewPost> {
                             },
                           ),
                           SizedBox( width: 5 ),
-                          Inter(text: widget.postTime!.toString().substring(5, 7)+"/"+widget.postTime!.toString().substring(8, 10)+"/"+widget.postTime!.toString().substring(0, 4), size: 11, color: c.graySub2, fontWeight: f.medium)
+                          Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                         ],
                       ),
                       Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
@@ -1662,7 +1662,7 @@ class _PostState extends State<Post> {
                             },
                           ),
                           SizedBox( width: 5 ),
-                          Inter(text: widget.postTime!.toString().substring(5, 7)+"/"+widget.postTime!.toString().substring(8, 10)+"/"+widget.postTime!.toString().substring(0, 4), size: 11, color: c.graySub2, fontWeight: f.medium)
+                          Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                         ],
                       ),
                       Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
@@ -2261,7 +2261,7 @@ class _MentionPost2State extends State<MentionPost2> {
                             },
                           ),
                           SizedBox( width: 5 ),
-                          Inter(text: widget.postTime!.toString().substring(5, 7)+"/"+widget.postTime!.toString().substring(8, 10)+"/"+widget.postTime!.toString().substring(0, 4), size: 11, color: c.graySub2, fontWeight: f.medium)
+                          Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                         ],
                       ),
                       Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
@@ -2967,7 +2967,7 @@ class _ReviewPost2State extends State<ReviewPost2> {
                             },
                           ),
                           SizedBox( width: 5 ),
-                          Inter(text: widget.postTime!.toString().substring(5, 7)+"/"+widget.postTime!.toString().substring(8, 10)+"/"+widget.postTime!.toString().substring(0, 4), size: 11, color: c.graySub2, fontWeight: f.medium)
+                          Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                         ],
                       ),
                       Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
@@ -3647,7 +3647,7 @@ class _Post2State extends State<Post2> {
                             },
                           ),
                           SizedBox( width: 5 ),
-                          Inter(text: widget.postTime!.toString().substring(5, 7)+"/"+widget.postTime!.toString().substring(8, 10)+"/"+widget.postTime!.toString().substring(0, 4), size: 11, color: c.graySub2, fontWeight: f.medium)
+                          Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                         ],
                       ),
                       Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
