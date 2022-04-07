@@ -70,7 +70,7 @@ class _FavPostState extends State<FavPost> {
               Map data = staticData[index];
               return "${data['type']}"=='mention'?MentionPost(
                 username: "${data['username']}",
-                postTime: "${data['updatedAt']}".toString().substring(0, 10),
+                postTime: "${data['updatedAt']}",
                 post: "${data['body']}",
                 comment: 0,
                 urlImage: data['coverImage'],
@@ -79,7 +79,7 @@ class _FavPostState extends State<FavPost> {
               ):
               "${data['type']}"=='review'?ReviewPost(
                 username: "${data['username']}",
-                postTime: "${data['updatedAt']}".toString().substring(0, 10),
+                postTime: "${data['updatedAt']}",
                 post: "${data['body']}",
                 comment: 0,
                 urlImage: data['coverImage'],
@@ -88,7 +88,7 @@ class _FavPostState extends State<FavPost> {
                 fetchdata: fetchData(),
               ):"${data['type']}"=='post'?Post(
                 username: "${data['username']}",
-                postTime: "${data['updatedAt']}".toString().substring(0, 10),
+                postTime: "${data['updatedAt']}",
                 post: "${data['body']}",
                 comment: 0,
                 urlImage: data['coverImage'],

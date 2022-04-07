@@ -49,7 +49,7 @@ class _PostReplyState extends State<PostReply> {
             itemBuilder: (context,int index){
               return model.myPost![index]['type']=='mention'?MentionPost(
                 username: model.myPost![index]['username'],
-                postTime: model.myPost![index]['updatedAt'].toString().substring(0, 10),
+                postTime: model.myPost![index]['updatedAt'],
                 post: model.myPost![index]['body'],
                 comment: 0,
                 urlImage: model.myPost![index]['coverImage'],
@@ -57,7 +57,7 @@ class _PostReplyState extends State<PostReply> {
               ):
               model.myPost![index]['type']=='review'?ReviewPost(
                 username: model.myPost![index]['username'],
-                postTime: model.myPost![index]['updatedAt'].toString().substring(0, 10),
+                postTime: model.myPost![index]['updatedAt'],
                 post: model.myPost![index]['body'],
                 rating: model.myPost![index]['rating'],
                 urlImage: model.myPost![index]['coverImage'],
@@ -65,7 +65,7 @@ class _PostReplyState extends State<PostReply> {
                 id: model.myPost![index]['_id'],
               ):model.myPost![index]['type']=='post' ? Post(
                   username: model.myPost![0]['username'],
-                  postTime: model.myPost![index]['updatedAt'].toString().substring(0, 10),
+                  postTime: model.myPost![index]['updatedAt'],
                   post: model.myPost![index]['body'],
                   comment: 0,
                   id: model.myPost![index]['_id'],
@@ -116,64 +116,53 @@ class _AnotherPostReplyState extends State<AnotherPostReply> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Consumer<PostProvider>(
-                builder: (context, model, _) => FutureBuilder(
-                  future: model.fetchAnotherPostAndReply(widget.username!),
-                  builder: (context, snapshot) => MediaQuery.removePadding(
-                    context: context,
-                    removeTop: true,
-                    removeBottom: true,
-                    child: ListView.builder(
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemCount: model.anotherPost?.length??0,
-                      itemBuilder: (context, int index) {
-                        return model.anotherPost![index]['type']=='mention'?MentionPost2(
-                          name: model.profile![0]['fullname'],
-                          username: model.profile![0]['username'],
-                          postTime: model.anotherPost![index]['updatedAt'].toString().substring(0, 10),
-                          post: model.anotherPost![index]['body'],
-                          comment: 0,
-                          urlImage: model.anotherPost![index]['coverImage'],
-                          professor:model.profile![0]['professor'],
-                          influencer: model.profile![0]['influencer'],
-                          profileImg: model.profile![0]['img'],
-                          id: model.anotherPost![index]['_id'],
-                        ):
-                        model.anotherPost![index]['type']=='review'?ReviewPost2(
-                          name: model.profile![0]['fullname'],
-                          username: model.profile![0]['username'],
-                          postTime: model.anotherPost![index]['updatedAt'].toString().substring(0, 10),
-                          post: model.anotherPost![index]['body'],
-                          rating: model.anotherPost![index]['rating'],
-                          urlImage: model.anotherPost![index]['coverImage'],
-                          comment: 0,
-                          professor:model.profile![0]['professor'],
-                          influencer: model.profile![0]['influencer'],
-                          profileImg: model.profile![0]['img'],
-                          id: model.anotherPost![index]['_id'],
-                        ):model.anotherPost![index]['type']=='post' ? Post2(
-                            name: model.profile![0]['fullname'],
-                            username: model.profile![0]['username'],
-                            postTime: model.anotherPost![index]['updatedAt'].toString().substring(0, 10),
-                            post: model.anotherPost![index]['body'],
-                            comment: 0,
-                            professor:model.profile![0]['professor'],
-                            influencer: model.profile![0]['influencer'],
-                            profileImg: model.profile![0]['img'],
-                            id: model.anotherPost![index]['_id'],
-                            urlImage: model.anotherPost![index]['coverImage']
-                        ):Container();
-                      },
-                    ),
-                  ),
-                )),
-
-          ],
-        ),
+      body: Container(
+        height: MediaQuery.of(context).size.height-200,
+        child: Consumer<PostProvider>(builder: (context,model,_) => FutureBuilder(
+          future: model.fetchAnotherPostAndReply(widget.username!),
+          builder: (context,snapshot) => ListView.builder(
+            scrollDirection: Axis.vertical,
+            itemCount: model.anotherPost?.length??0,
+            itemBuilder: (context,int index){
+              return model.anotherPost![index]['type']=='mention'?MentionPost2(
+                name: model.profile![0]['fullname'],
+                username: model.profile![0]['username'],
+                postTime: model.anotherPost![index]['updatedAt'],
+                post: model.anotherPost![index]['body'],
+                comment: 0,
+                urlImage: model.anotherPost![index]['coverImage'],
+                professor:model.profile![0]['professor'],
+                influencer: model.profile![0]['influencer'],
+                profileImg: model.profile![0]['img'],
+                id: model.anotherPost![index]['_id'],
+              ):
+              model.anotherPost![index]['type']=='review'?ReviewPost2(
+                name: model.profile![0]['fullname'],
+                username: model.profile![0]['username'],
+                postTime: model.anotherPost![index]['updatedAt'],
+                post: model.anotherPost![index]['body'],
+                rating: model.anotherPost![index]['rating'],
+                urlImage: model.anotherPost![index]['coverImage'],
+                comment: 0,
+                professor:model.profile![0]['professor'],
+                influencer: model.profile![0]['influencer'],
+                profileImg: model.profile![0]['img'],
+                id: model.anotherPost![index]['_id'],
+              ):model.anotherPost![index]['type']=='post' ? Post2(
+                  name: model.profile![0]['fullname'],
+                  username: model.profile![0]['username'],
+                  postTime: model.anotherPost![index]['updatedAt'],
+                  post: model.anotherPost![index]['body'],
+                  comment: 0,
+                  professor:model.profile![0]['professor'],
+                  influencer: model.profile![0]['influencer'],
+                  profileImg: model.profile![0]['img'],
+                  id: model.anotherPost![index]['_id'],
+                  urlImage: model.anotherPost![index]['coverImage']
+              ):Container();
+            },
+          ),
+        )),
       ),
     );
   }
