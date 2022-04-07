@@ -62,7 +62,8 @@ Widget _buildScanProductMenu(context, String idProduct) {
         child: Poppins(text: "Florxy Scan Result", size: 20, color: c.textBlack, fontWeight: f.semiBold),
       ),
       SizedBox(height: 8),
-      ProductView2( id: idProduct)
+      idProduct.isEmpty?Center(child: Poppins(text: "Something wrong :-( Please Try again.", size: 15, color: c.graySub2, fontWeight: f.medium))
+          :ProductView2( id: idProduct)
     ],
   );
 

@@ -23,13 +23,13 @@ class _ProductInMentionPostState extends State<ProductInMentionPost> {
           },
           child: Column(
             children: [
-              Row(
-                children: [
-                  Inter(text: 0.toString(), size: 13.5, color: c.textBlack, fontWeight: f.bold),
-                  SizedBox(width: 3),
-                  Inter(text: 'Mention to', size: 12.5, color: c.textBlack, fontWeight: f.regular),
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     Inter(text: 0.toString(), size: 13.5, color: c.textBlack, fontWeight: f.bold),
+              //     SizedBox(width: 3),
+              //     Inter(text: 'Mention to', size: 12.5, color: c.textBlack, fontWeight: f.regular),
+              //   ],
+              // ),
               SizedBox(height: 8),
               Container(
                 child: Padding(
