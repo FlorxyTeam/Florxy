@@ -393,9 +393,9 @@ class _EditPageState extends State<EditPage> {
             borderRadius: BorderRadius.all(Radius.circular(13.0)),
           ),
           child: TextFormField(
-            controller: _fullname,
+            controller: _fullname..text='${profileModel.fullname}',
               decoration: InputDecoration(
-            hintText: profileModel.fullname,
+                hintText: profileModel.fullname,
             hintStyle: TextStyle(
                 fontSize: 14, color: c.graySub2, fontWeight: f.medium),
             enabledBorder: OutlineInputBorder(
@@ -473,7 +473,7 @@ class _EditPageState extends State<EditPage> {
             borderRadius: BorderRadius.all(Radius.circular(13.0)),
           ),
           child: TextFormField(
-            controller: _bio,
+            controller: _bio..text='${profileModel.bio}',
               maxLines: 4,
               decoration: InputDecoration(
                 hintText:
