@@ -227,7 +227,7 @@ class ProductView2 extends StatefulWidget {
   ProductView2({Key? key, this.id}) : super(key: key);
 
   @override
-  _ProductViewState createState() => _ProductViewState();
+  _ProductView2State createState() => _ProductView2State();
 }
 
 class _ProductView2State extends State<ProductView2> {
