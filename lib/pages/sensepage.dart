@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:Florxy/pages/scanpage.dart';
 import 'package:Florxy/pages/navbar.dart';
+import 'package:Florxy/pages/searchpost.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,9 @@ import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tflite/tflite.dart';
+import 'dart:convert';
+import '../widgets/ModalScanProduct.dart';
+import '../widgets/ModalViewProduct.dart';
 
 class SensePage extends StatefulWidget {
   final List<CameraDescription>? cameras;
@@ -85,26 +89,52 @@ class _SensePageState extends State<SensePage> {
   applyModelOnImage(XFile file) async {
     var res = await Tflite.runModelOnImage(
       path: file.path,
-      numResults: 5,
-      threshold: 0.05,
+      numResults: 1,
+      threshold: 0.5,
       imageMean: 127.5,
       imageStd: 127.5
     );
-    print(res);
+    // print(res);
     setState(() {
-      _result = res!;
+      var _result = res!;
+      // print(_result);
+      String str = _result[0]["label"];
 
-      // String str = _result[0]["label"];
-      //
-      // _name = str.substring(2);
+      _name = str.substring(2);
+      print(_name);
       // _confident = _result != null ? (_result[0]['confidence'] * 100.0).toString().substring(0,2) + "%" : "";
+      // findProduct();
     });
+    ModalScanProduct.Dialog_Settings(context, _name);
+    // int i = 0;
+    // List listresult = [];
+    // for(i; i<res!.length; i++){
+    //   print(res[i]["label"].toString().substring(2));
+    //
+    //   print(i);
+    //   listresult.add(await networkHandler.get("/product/" + res[i]["label"].toString().substring(2)));
+    //   print(listresult);
+    //
+    // }
+    // var x = await networkHandler.get("/product/" + res![i]["label"].toString().substring(2));
+    // ModalViewProduct.Dialog_Settings(context, json.decode(x));
+    // print(x);
+    // String y = x.toString();
+    // listresult.add(y);
+    // print(json.decode(y));
+    // print(listresult.add(x));
+    // Future.delayed(Duration(seconds: 1),(){
+      // print(listresult);
+      // ModalViewProduct.Dialog_Settings(context ,listresult);
+    // });
+
     // print(_name+" with "+_confident);
-    print(_result.length);
+    // print(_result.length);
     // print(_result[1]);
 
 
   }
+
 
 
   @override
