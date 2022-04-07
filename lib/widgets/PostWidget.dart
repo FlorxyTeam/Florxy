@@ -4145,7 +4145,7 @@ class NewCardSkeleton extends StatelessWidget {
             opa: 0.00,
           ),
           SizedBox(width: 10,),
-          Skeleton(height: 250, width: 300,),
+          Expanded(child: Skeleton(height: 250)),
         ],
         ),
         Row(children: [
