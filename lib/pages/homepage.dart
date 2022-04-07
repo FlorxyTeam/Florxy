@@ -126,10 +126,11 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-      body: Container(
-        height: MediaQuery.of(context).size.height - 200,
-        child: Consumer<PostProvider>(
-            builder: (context, model, _) => FutureBuilder(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Consumer<PostProvider>(
+                builder: (context, model, _) => FutureBuilder(
                   future: model.fetchData(),
                   builder: (context, snapshot) => ListView.builder(
                     scrollDirection: Axis.vertical,
@@ -166,6 +167,14 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                 )),
+
+
+
+            SizedBox(
+              height:MediaQuery.of(context).size.height/7.5,
+            )
+          ],
+        ),
       ),
     );
   }

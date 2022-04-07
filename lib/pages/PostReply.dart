@@ -40,7 +40,7 @@ class _PostReplyState extends State<PostReply> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        height: MediaQuery.of(context).size.height-200,
+        height: MediaQuery.of(context).size.height-170,
         child: Consumer<PostProvider>(builder: (context,model,_) => FutureBuilder(
           future: model.fetchMyPostAndReply(),
           builder: (context,snapshot) => ListView.builder(
