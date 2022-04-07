@@ -58,7 +58,7 @@ router.route("/:_id").get(middleware.checkToken, (req, res) => {
     products.findOne({_id: req.params._id}, (err, result) => {
         console.log("ProductOverview");
         if(err) res.status(500).json({msg: err});
-        res.json({
+        else return res.json({
             data: result,
             p_id: req.params._id,
         })

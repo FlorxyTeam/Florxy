@@ -89,55 +89,6 @@ Widget _buildSelectProductMenu(context, List product) {
 
 }
 
-class ModalScanProduct {
-  static Dialog_Settings(context, String idProduct) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (context) => Container(
-        height: MediaQuery.of(context).size.height * 0.82,
-        decoration: new BoxDecoration(
-          color: Colors.white,
-          borderRadius: new BorderRadius.only(
-            topLeft: const Radius.circular(33.0),
-            topRight: const Radius.circular(33.0),
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.only(top: 15),
-          child: _buildScanProductMenu(context, idProduct),
-        ),
-      ),
-    );
-  }
-}
-
-Widget _buildScanProductMenu(context, String idProduct) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Center(
-        child: Container(
-          width: 78,
-          child: Divider(
-            height: 0,
-            color: c.greyMain,
-            thickness: 3.5,
-          ),
-        ),
-      ),
-      SizedBox(height: 25),
-      Padding(
-        padding: const EdgeInsets.only(left: 23),
-        child: Poppins(text: 'Mention ' + ' Product in this Post', size: 20, color: c.textBlack, fontWeight: f.semiBold),
-      ),
-      SizedBox(height: 8),
-      ProductView2( id: idProduct)
-    ],
-  );
-
-}
 
 class ProductView extends StatefulWidget {
   String? productImg, brand, product, desc, id;
@@ -221,6 +172,62 @@ class _ProductViewState extends State<ProductView> {
     );
   }
 }
+
+
+
+
+
+
+class ModalScanProduct {
+  static Dialog_Settings(context, String idProduct) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height * 0.82,
+        decoration: new BoxDecoration(
+          color: Colors.white,
+          borderRadius: new BorderRadius.only(
+            topLeft: const Radius.circular(33.0),
+            topRight: const Radius.circular(33.0),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 15),
+          child: _buildScanProductMenu(context, idProduct),
+        ),
+      ),
+    );
+  }
+}
+
+Widget _buildScanProductMenu(context, String idProduct) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Center(
+        child: Container(
+          width: 78,
+          child: Divider(
+            height: 0,
+            color: c.greyMain,
+            thickness: 3.5,
+          ),
+        ),
+      ),
+      SizedBox(height: 25),
+      Padding(
+        padding: const EdgeInsets.only(left: 23),
+        child: Poppins(text: 'Mention ' + ' Product in this Post', size: 20, color: c.textBlack, fontWeight: f.semiBold),
+      ),
+      SizedBox(height: 8),
+      ProductView2( id: idProduct)
+    ],
+  );
+
+}
+
 
 class ProductView2 extends StatefulWidget {
   String? id;
