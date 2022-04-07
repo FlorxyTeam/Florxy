@@ -84,7 +84,7 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData(),
           home: page,
           routes: {
-            "noti": (_) => NotificationPage(),
+            "noti": (_) => Navbar(currentState: 3),
             },
           ),
       providers: [
