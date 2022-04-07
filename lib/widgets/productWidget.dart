@@ -38,24 +38,22 @@ class _ProductInMentionPostState extends State<ProductInMentionPost> {
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(width: 12),
-                      Expanded(
-                        child: Center(
-                          child: Container(
-                            height: 100,
-                            decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                image: DecorationImage(
-                                    image: NetworkImage(widget.productImg!),
-                                    fit: BoxFit.contain
-                                )
-                            ),
+                      Center(
+                        child: Container(
+                          height: 100,
+                          width: 85,
+                          decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              image: DecorationImage(
+                                  image: NetworkImage(widget.productImg!),
+                                  fit: BoxFit.contain
+                              )
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 18, right: 8),
-                        child: Container(
-                          width: 245,
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 18, right: 8),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

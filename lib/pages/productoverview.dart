@@ -431,9 +431,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                         itemBuilder: (context, int index) {
                           return model.interestingreview![index]['type'] == 'review'?ReviewPost(
                             username: model.interestingreview![index]['username'],
-                            postTime: model.interestingreview![index]['updatedAt']
-                                .toString()
-                                .substring(0, 10),
+                            postTime: model.interestingreview![index]['updatedAt'],
                             urlImage: model.interestingreview![index]['coverImage'],
                             post: model.interestingreview![index]['body'],
                             rating: model.interestingreview![index]['rating'],

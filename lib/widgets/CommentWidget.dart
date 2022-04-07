@@ -106,7 +106,11 @@ class _CommentState extends State<Comment> {
                           SizedBox(width: 5),
                           Inter(text: '@'+profileModel.username, size: 12, color: c.textUsername, fontWeight: f.medium),
                           SizedBox(width: 5),
-                          Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
+                          Row(
+                            children: [
+                              Inter(text: widget.postTime!.toString().substring(5, 7)+"/"+widget.postTime!.toString().substring(8, 10)+"/"+widget.postTime!.toString().substring(0, 4), size: 11, color: c.graySub2, fontWeight: f.medium),
+                            ],
+                          )
                         ],
                       ),
                       SizedBox(height: 2),

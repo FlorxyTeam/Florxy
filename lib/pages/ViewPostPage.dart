@@ -614,7 +614,7 @@ class _ViewPostState extends State<ViewPost> {
                                   return Comment(
                                     idComment: model.comment![index]['_id'],
                                     username: model.comment![index]['username'],
-                                    postTime: model.comment![index]['updatedAt'].toString().substring(0, 10),
+                                    postTime: model.comment![index]['updatedAt'],
                                     body: model.comment![index]['body'],
                                     owner: widget.username
                                   );

@@ -1,5 +1,6 @@
 import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/pages/viewChat.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -66,6 +67,7 @@ class _ChatState extends State<Chat> {
             influencer: influencer,
             professor: professor,
             currentMessage: widget.currentMessage,
+            img: profileModel.img,
             myUsername: myUsername )));
       },
       child: Padding(
@@ -73,11 +75,17 @@ class _ChatState extends State<Chat> {
         child: Column(
           children: [
             ListTile(
-              leading: CircleAvatar(
-                radius: 25,
-                backgroundColor: Colors.orange,
-                // backgroundImage:
-                // NetworkHandler().getImage(profileModel.email),
+              leading: Container(
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xFFE5E5E5)
+                  ),
+                  width: 50,
+                  height: 50,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: CachedNetworkImage(imageUrl: profileModel.img,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
+                  )
               ),
               title: Row(
                 children: [
