@@ -145,18 +145,18 @@ class _SearchPageState extends State<SearchPage> {
                 padding: EdgeInsets.only(
                   top: Theme.of(context).platform == TargetPlatform.android
                       ? 22
-                      : 0,
+                      : 10,
                   right: 22,
                   bottom: Theme.of(context).platform == TargetPlatform.android
                       ? 2
-                      : 0,),
+                      : 8,),
                 child: GestureDetector(
                   onTap: () {
                     Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchPost()));
                   },
                   child: Container(
-                    height: Theme.of(context).platform == TargetPlatform.android ? 50 : 0,
-                    width: Theme.of(context).platform == TargetPlatform.android ? 275 : 0,
+                    // height: Theme.of(context).platform == TargetPlatform.android ? 50 : 0,
+                    width: Theme.of(context).platform == TargetPlatform.android ? 275 : 325,
                     decoration: BoxDecoration(
                       color: c.greyLight,
                       borderRadius: BorderRadius.all(Radius.circular(50.0)),

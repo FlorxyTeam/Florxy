@@ -3,6 +3,7 @@ import 'package:Florxy/pages/Loadingscreen.dart';
 import 'package:Florxy/pages/florxyScreen.dart';
 import 'package:Florxy/pages/lastthingspage.dart';
 import 'package:Florxy/pages/navbar.dart';
+import 'package:Florxy/pages/notificationpage.dart';
 import 'package:Florxy/pages/registerpage.dart';
 import 'package:Florxy/pages/welcomepage.dart';
 import 'package:Florxy/provider/google_sign_in.dart';
@@ -83,8 +84,7 @@ class _MyAppState extends State<MyApp> {
           theme: ThemeData(),
           home: page,
           routes: {
-            "red": (_) => RedPage(),
-            "green": (_) => GreenPage(),
+            "noti": (_) => NotificationPage(),
             },
           ),
       providers: [
