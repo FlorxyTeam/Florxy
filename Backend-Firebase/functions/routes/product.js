@@ -5,6 +5,16 @@ const products = require("../models/product.model");
 const middleware = require("../middleware");
 const Post = require("../models/post.model");
 
+
+router.route("/getProductData/:id").get(middleware.checkToken, (req, res) => {
+  console.log(req.decoded.username)
+  products.findOne({ _id: req.params.id }, (err, result) => {
+    if (err) return res.json({ err: err });
+    if (result == null) return res.json({ data: [] });
+    else return res.json({ data: result });
+  });
+});
+
 router.route("/add").post((req, res)=> {
   // eslint-disable-next-line new-cap
   const product = products({
