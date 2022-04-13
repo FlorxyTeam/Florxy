@@ -1,8 +1,10 @@
 import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/NetworkHandler.dart';
 import 'package:Florxy/widgets/ModalMentionPost.dart';
+import 'package:Florxy/widgets/ModalReviewPost.dart';
 import 'package:Florxy/widgets/button.dart';
 import 'package:boxicons/boxicons.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/font.dart';
@@ -232,11 +234,17 @@ class _CreatePostState extends State<CreatePost> {
                   children: [
                     Row(
                       children: [
-                        CircleAvatar(
-                          radius: 28,
-                          backgroundColor: Colors.orange,
-                          backgroundImage:
-                          NetworkHandler().getImage(profileModel.img),
+                        Container(
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xFFE5E5E5)
+                            ),
+                            width: 56,
+                            height: 56,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(50),
+                              child: CachedNetworkImage(imageUrl: profileModel.img,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
+                            )
                         ),
                         SizedBox( width: 8 ),
                         Column(
@@ -314,7 +322,9 @@ class _CreatePostState extends State<CreatePost> {
                       ),
                       SizedBox(width: 25),
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            ModalReviewPost.Dialog_Settings(context);
+                          },
                           padding: EdgeInsets.zero,
                           constraints: BoxConstraints(),
                           icon: Icon(MdiIcons.starCircleOutline, color: c.greenMain, size: 24)

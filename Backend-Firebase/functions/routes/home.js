@@ -61,15 +61,16 @@ router.route("/add/postImage/:id")
       );
     });
 
-router.route("/Add").post(middleware.checkToken, (req, res)=>{
+router.route("/CreatePost").post(middleware.checkToken, (req, res)=>{
   // eslint-disable-next-line new-cap
   const createpost = Post({
     username: req.decoded.username,
-    fullname: req.body.fullname,
-    type: req.body.type,
-    rating: req.body.rating,
+    archive: false,
     body: req.body.body,
-    forwho: req.body.forwho,
+    coverImage: req.body.coverImage,
+    product: req.body.product,
+    rating: req.body.rating,
+    type: req.body.type,
   });
   createpost
       .save()
@@ -80,6 +81,8 @@ router.route("/Add").post(middleware.checkToken, (req, res)=>{
         });
       });
 });
+
+
 
 router.route("/getOwnPost").get(middleware.checkToken, (req, res)=>{
   Post.find({username: req.decoded.username}, (err, result)=>{
