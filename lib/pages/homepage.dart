@@ -13,6 +13,7 @@ import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/PostWidget.dart';
 import "package:flutter_feather_icons/flutter_feather_icons.dart";
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import '../NetworkHandler.dart';
 
@@ -32,7 +33,7 @@ class _HomePageState extends State<HomePage> {
 
     // fetchData();
   }
-
+  final storage = new FlutterSecureStorage();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,6 +103,8 @@ class _HomePageState extends State<HomePage> {
                     final google_user = FirebaseAuth.instance.currentUser;
 
                     print(google_user);
+                    storage.delete(key: "review-product");
+                    storage.delete(key: "rating");
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => CreatePost()));
                   },
