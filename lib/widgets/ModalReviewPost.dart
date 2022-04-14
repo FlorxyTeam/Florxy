@@ -12,6 +12,7 @@ import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/scrapper/incidecoder.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:provider/provider.dart';
 
 import '../postProvider.dart';
@@ -140,31 +141,28 @@ class _ProductState extends State<Product> {
             SizedBox(height: 16,child: Text('Sizebox16'),),
             isadd
             ?Container(
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    IconButton(
-                      padding: EdgeInsets.zero,
-                      constraints: BoxConstraints(),
-                      icon: Icon(FeatherIcons.chevronLeft),
-                      iconSize: 34,
-                      color: Colors.black,
-                      onPressed: () {
-                        setState(() {
-                          isadd = false;
-                        });
-                      },
-                    ),
-                    Expanded(child: Container()),
-                    Poppins(text: 'Add review', color: c.blackMain,fontWeight: f.semiBold,size: 16),
-                    Expanded(child: Container()),
-                    Icon(FeatherIcons.chevronLeft,size: 34,color: Colors.white,),
-                  ],
-            ),
-                ],
-              ),):Container(
+              width: MediaQuery.of(context).size.width,
+              child: Stack(
+                alignment: Alignment.center,
+              children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: IconButton(
+                    padding: EdgeInsets.zero,
+                    constraints: BoxConstraints(),
+                    icon: Icon(FeatherIcons.chevronLeft),
+                    iconSize: 34,
+                    color: Colors.black,
+                    onPressed: () {
+                      setState(() {
+                        isadd = false;
+                      });
+                    },
+                  ),
+                ),
+                Poppins(text: 'Add review', color: c.blackMain,fontWeight: f.semiBold,size: 16),
+              ],
+            ),):Container(
               color: Colors.red,
               child: Padding(
                 padding: const EdgeInsets.only(left: 23, right: 23),
@@ -232,7 +230,24 @@ class _ProductState extends State<Product> {
                     SizedBox(height: 15),
                     Inter(text: 'your overall rating of this product', size: 13, color: Color(0xFF828282), fontWeight: f.semiBold),
                     SizedBox(height: 15),
-                    //ดาว
+                    RatingBar.builder(
+                      unratedColor: c.greySub,
+                      glow: false,
+                      initialRating: 0,
+                      minRating: 1,
+                      direction: Axis.horizontal,
+                      allowHalfRating: true,
+                      itemCount: 5,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                      itemBuilder: (context, _) => Icon(
+                        Icons.star,
+                        color:Color(0xFFFFC107)
+                      ),
+                      onRatingUpdate: (rating) {
+                        print(rating);
+                      },
+                    ),
+
                     SizedBox(height: 15),
 
                     Divider(
@@ -242,7 +257,7 @@ class _ProductState extends State<Product> {
                     ),
                     SizedBox(height: 15),
                     // Expanded(child: Container()),
-                    SizedBox(height: MediaQuery.of(context).size.height-470,),
+                    // SizedBox(height: MediaQuery.of(context).size.height-470,),
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
@@ -328,6 +343,9 @@ class _ProductState extends State<Product> {
                               child: GestureDetector(
                                 onTap: () async {
                                   var response = await networkHandler.get("/product/getProductData/${model.productData![index]['_id']}");
+                                  print('heresss');
+                                  print(response);
+
                                   // ModalMentionPost.Dialog_Settings(context);
                                   setState(() {
                                     productModel = ProductModel.fromJson(response["data"]);
