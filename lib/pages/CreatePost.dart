@@ -102,19 +102,25 @@ class _CreatePostState extends State<CreatePost> {
   void fetchData() async{
     String? myproduct = await storage.read(key: "review-product");
     print(myproduct);
-    var response2 = await networkHandler.get("/product/getProductData/${myproduct}");
-    String? rating = await storage.read(key: "rating");
-    print(rating);
-    if(rating != null){
-      setState(() {
-        myrating = rating.toString();
-        isadd=true;
-      });
+    if(myproduct == null){
+      print('its null');
+    }else{
+      var response2 = await networkHandler.get("/product/getProductData/${myproduct}");
+      String? rating = await storage.read(key: "rating");
+      print(rating);
+      if(rating != null){
+        setState(() {
+          myrating = rating.toString();
+          isadd=true;
+        });
+        setState(() {
+          productModel = ProductModel.fromJson(response2["data"]);
+        });
+    }
     }
     var response = await networkHandler.get("/profile/getData");
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
-      productModel = ProductModel.fromJson(response2["data"]);
       circular = false;
     });
   }
