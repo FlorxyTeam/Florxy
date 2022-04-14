@@ -1,5 +1,9 @@
+import 'dart:async';
+
+import 'package:Florxy/Model/productModel.dart';
 import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/NetworkHandler.dart';
+import 'package:Florxy/pages/comparepage.dart';
 import 'package:Florxy/widgets/ModalMentionPost.dart';
 import 'package:Florxy/widgets/ModalReviewPost.dart';
 import 'package:Florxy/widgets/button.dart';
@@ -10,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:Florxy/widgets/font.dart';
@@ -21,6 +26,7 @@ class CreatePost extends StatefulWidget {
 
   @override
   _CreatePostState createState() => _CreatePostState();
+
 }
 
 class _CreatePostState extends State<CreatePost> {
@@ -51,6 +57,8 @@ class _CreatePostState extends State<CreatePost> {
   TextEditingController _body = TextEditingController();
   TextEditingController _forwho = TextEditingController();
   TextEditingController _type = TextEditingController();
+  final storage = new FlutterSecureStorage();
+
   ProfileModel profileModel = ProfileModel(
     id: '',
     username: '',
@@ -68,6 +76,20 @@ class _CreatePostState extends State<CreatePost> {
     listfollowing: [],
   );
 
+  ProductModel productModel = ProductModel(
+    id: '',
+    p_brand: '',
+    p_desc: '',
+    p_img: '',
+    p_name: '',
+    ing_irr: [],
+    ing_met: [],
+    ing_name: [],
+    ing_rate: [],
+    mention: 0,
+    review: 0,
+  );
+
   @override
   void initState() {
     // TODO: implement initState
@@ -76,13 +98,34 @@ class _CreatePostState extends State<CreatePost> {
     fetchData();
   }
   void fetchData() async{
+    String? myproduct = await storage.read(key: "review-product");
+    print(myproduct);
+    var response2 = await networkHandler.get("/product/getProductData/${myproduct}");
+    String? rating = await storage.read(key: "review-product");
+    print(rating);
     var response = await networkHandler.get("/profile/getData");
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
+      productModel = ProductModel.fromJson(response2["data"]);
       circular = false;
     });
   }
+  void refreshData() async{
+    String? myproduct = await storage.read(key: "review-product");
+    print(myproduct);
+    var response2 = await networkHandler.get("/product/getProductData/${myproduct}");
+    String? rating = await storage.read(key: "review-product");
+    print(rating);
+    setState(() {
+      productModel = ProductModel.fromJson(response2["data"]);
+    });
+  }
 
+  FutureOr onGoBack() {
+    print('OnGoBack fine');
+    refreshData();
+    setState(() {});
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -277,6 +320,88 @@ class _CreatePostState extends State<CreatePost> {
                 ),
               ),
             ),
+
+
+            Positioned(
+              bottom: 50,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: 50,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 28, right: 28),
+                  child: Row(
+                    children: [
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 1,bottom: 2,left: 4,right: 6),
+                          child: Row(
+                            children: [
+                              Inter(
+                                text: 'review to',
+                                fontWeight: f.semiBold,
+                                size: 14,
+                                color: c.blackMain,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Expanded(child: Container()),
+                      Container(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 9, right: 4,top: 2.5,bottom: 2.5),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage(id: '${productModel.id}', currentState: 0)));
+                            },
+                            child: Row(
+                              children: [
+                                Container(
+                                  constraints: BoxConstraints(maxWidth: 125),
+                                  child: Inter_Crop(
+                                      text: '${productModel.p_brand}' + " " + '${productModel.p_name}',
+                                      size: 10,
+                                      color: c.tag,
+                                      fontWeight: f.semiBold
+                                  ),
+                                ),
+                                SizedBox(width: 7),
+
+                                // Inter(
+                                //     text: widget.,
+                                //     size: 10,
+                                //     color: c.tag,
+                                //     fontWeight: f.semiBold
+                                // ),
+                                SizedBox(width: 2),
+                                Icon(Boxicons.bxs_star, size: 13, color: c.tag),
+                                SizedBox(width: 4),
+                                Icon(FeatherIcons.chevronRight, size: 14, color: c.tag),
+                              ],
+                            ),
+                          ),
+                        ),
+                        decoration: BoxDecoration(
+                            color: c.greenLight2,
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
+                    ],
+                  ),
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: c.shadow.withOpacity(0.09),
+                      spreadRadius: -27,
+                      blurRadius: 43,
+                      offset: Offset(1, 1), // changes position of shadow
+                    ),
+                  ],
+                ),
+              ),
+            ),
             Positioned(
               bottom: 0,
               left: 0,
@@ -323,7 +448,7 @@ class _CreatePostState extends State<CreatePost> {
                       SizedBox(width: 25),
                       IconButton(
                           onPressed: () {
-                            ModalReviewPost.Dialog_Settings(context);
+                            ModalReviewPost.Dialog_Settings(context).then(onGoBack());
                           },
                           padding: EdgeInsets.zero,
                           constraints: BoxConstraints(),
@@ -358,8 +483,19 @@ class _CreatePostState extends State<CreatePost> {
                   ],
                 ),
               ),
-            )
+            ),
+            Positioned(
+              bottom: 50,
+              left: 0,
+              right: 0,
+              child: Divider(
+                color: c.greyMain,
+                thickness: 0.5,
+                height: 0,
+              ),
+            ),
           ],
+
         ),
       ),
     );

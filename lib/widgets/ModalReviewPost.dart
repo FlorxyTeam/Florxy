@@ -1,6 +1,8 @@
 import 'package:Florxy/Model/productModel.dart';
 import 'package:Florxy/NetworkHandler.dart';
+import 'package:Florxy/pages/CreatePost.dart';
 import 'package:Florxy/pages/LoginPage.dart';
+import 'package:Florxy/pages/navbar.dart';
 import 'package:Florxy/pages/searchpage.dart';
 import 'package:Florxy/widgets/SearchMentionPostWidget.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
@@ -13,8 +15,9 @@ import 'package:Florxy/scrapper/incidecoder.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
-
+import 'package:Florxy/pages/CreatePost.dart';
 import '../postProvider.dart';
 import 'ModalMentionPost.dart';
 import 'button.dart';
@@ -98,8 +101,11 @@ class Product extends StatefulWidget {
 
 class _ProductState extends State<Product> {
 
+  final storage = new FlutterSecureStorage();
   bool isadd = false;
   final networkHandler = NetworkHandler();
+
+
   @override
   void initState() {
     // TODO: implement initState
@@ -108,6 +114,7 @@ class _ProductState extends State<Product> {
   }
 
   ProductModel productModel = ProductModel(
+    id: '',
     p_brand: '',
     p_desc: '',
     p_img: '',
@@ -243,8 +250,11 @@ class _ProductState extends State<Product> {
                         Icons.star,
                         color:Color(0xFFFFC107)
                       ),
-                      onRatingUpdate: (rating) {
-                        print(rating);
+                      onRatingUpdate: (rating) async{
+                        print('Rating: '+rating.toString());
+                        await storage.write(key: "rating", value: rating.toString());
+                        String? myrating = await storage.read(key: "rating");
+                        print('myRating: '+myrating.toString());
                       },
                     ),
 
@@ -257,7 +267,7 @@ class _ProductState extends State<Product> {
                     ),
                     SizedBox(height: 15),
                     // Expanded(child: Container()),
-                    // SizedBox(height: MediaQuery.of(context).size.height-470,),
+                    SizedBox(height: MediaQuery.of(context).size.height-510,),
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
@@ -265,7 +275,18 @@ class _ProductState extends State<Product> {
                         child: Padding(
                           padding: EdgeInsets.only(left: 45,right: 45),
                           child: GestureDetector(
-                            onTap: () {
+                            onTap: () async{
+                              String? myrating = await storage.read(key: "rating");
+                              print('myRating: '+myrating.toString());
+                              if(myrating == null){
+                                print('hi');
+                              }else{
+                                await storage.write(key: "review-product", value: productModel.id);
+                                String? mypro = await storage.read(key: "review-product");
+                                print(mypro);
+                                Navigator.of(context).pop();
+                                // Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreatePost()));
+                              }
                               // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Navbar(currentState: 0)), (route) => false);
                             },
                             child: GreenButton(
@@ -349,11 +370,9 @@ class _ProductState extends State<Product> {
                                   // ModalMentionPost.Dialog_Settings(context);
                                   setState(() {
                                     productModel = ProductModel.fromJson(response["data"]);
+                                    storage.delete(key: "rating");
                                     isadd = true;
                                     print('Product: '+model.productData![index]['_id']);
-
-
-
                                   });
 
                                 },
