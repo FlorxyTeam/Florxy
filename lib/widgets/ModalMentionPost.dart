@@ -18,7 +18,7 @@ import 'button.dart';
 
 class ModalMentionPost {
   static Dialog_Settings(context) {
-    showModalBottomSheet(
+    showModalBottomSheet<bool>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,

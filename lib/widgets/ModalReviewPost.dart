@@ -16,6 +16,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:Florxy/pages/CreatePost.dart';
 import '../postProvider.dart';
@@ -45,6 +46,7 @@ class ModalReviewPost {
         ),
       ),
     );
+
   }
 }
 
@@ -285,7 +287,9 @@ class _ProductState extends State<Product> {
                                 String? mypro = await storage.read(key: "review-product");
                                 print(mypro);
                                 Navigator.of(context).pop();
-                                // Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreatePost()));
+                                  Navigator.of(context).pushReplacement(
+                                      PageTransition(type: PageTransitionType.fade, child: CreatePost(), duration: Duration(milliseconds: 600)));
+                                // Navigator.pushNamedAndRemoveUntil(context, ('/createpost'), ModalRoute.withName('/navber'));
                               }
                               // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => Navbar(currentState: 0)), (route) => false);
                             },

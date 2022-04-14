@@ -99,6 +99,13 @@ class _CreatePostState extends State<CreatePost> {
 
     fetchData();
   }
+  // @override
+  // void dispose(){
+  //   super.dispose();
+  //   storage.delete(key: "review-product");
+  //   storage.delete(key: "rating");
+  //   isadd=false;
+  // }
   void fetchData() async{
     String? myproduct = await storage.read(key: "review-product");
     print(myproduct);
@@ -477,7 +484,11 @@ class _CreatePostState extends State<CreatePost> {
                       SizedBox(width: 25),
                       IconButton(
                           onPressed: () {
-                            ModalReviewPost.Dialog_Settings(context).then(onGoBack());
+                            bool shouldRefresh = ModalReviewPost.Dialog_Settings(context);
+                            print(shouldRefresh);
+                            if(shouldRefresh != null && shouldRefresh){
+                              print('it should refresh' + shouldRefresh.toString());
+                            }
                           },
                           padding: EdgeInsets.zero,
                           constraints: BoxConstraints(),

@@ -19,7 +19,7 @@ class _FlorxyScreenState extends State<FlorxyScreen> {
   void initState() {
     super.initState();
     // print(isLoaded);
-    Future.delayed(Duration(seconds: 2),(){
+    Future.delayed(Duration(seconds: 1),(){
       Navigator.of(context).pushReplacement(
           PageTransition(type: PageTransitionType.fade, child: LoadingScreen(), duration: Duration(milliseconds: 200)));
     });
