@@ -31,6 +31,7 @@ class CreatePost extends StatefulWidget {
 
 class _CreatePostState extends State<CreatePost> {
   bool checking =true;
+  bool isadd = false;
   bool check() {
 
     if(_body.text == ""){
@@ -90,6 +91,7 @@ class _CreatePostState extends State<CreatePost> {
     review: 0,
   );
 
+  String myrating = '';
   @override
   void initState() {
     // TODO: implement initState
@@ -101,8 +103,14 @@ class _CreatePostState extends State<CreatePost> {
     String? myproduct = await storage.read(key: "review-product");
     print(myproduct);
     var response2 = await networkHandler.get("/product/getProductData/${myproduct}");
-    String? rating = await storage.read(key: "review-product");
+    String? rating = await storage.read(key: "rating");
     print(rating);
+    if(rating != null){
+      setState(() {
+        myrating = rating.toString();
+        isadd=true;
+      });
+    }
     var response = await networkHandler.get("/profile/getData");
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
@@ -321,7 +329,7 @@ class _CreatePostState extends State<CreatePost> {
               ),
             ),
 
-
+            isadd?
             Positioned(
               bottom: 50,
               left: 0,
@@ -347,7 +355,7 @@ class _CreatePostState extends State<CreatePost> {
                           ),
                         ),
                       ),
-                      Expanded(child: Container()),
+                      SizedBox(width: 25),
                       Container(
                         child: Padding(
                           padding: const EdgeInsets.only(left: 9, right: 4,top: 2.5,bottom: 2.5),
@@ -368,12 +376,12 @@ class _CreatePostState extends State<CreatePost> {
                                 ),
                                 SizedBox(width: 7),
 
-                                // Inter(
-                                //     text: widget.,
-                                //     size: 10,
-                                //     color: c.tag,
-                                //     fontWeight: f.semiBold
-                                // ),
+                                Inter(
+                                    text: myrating,
+                                    size: 10,
+                                    color: c.tag,
+                                    fontWeight: f.semiBold
+                                ),
                                 SizedBox(width: 2),
                                 Icon(Boxicons.bxs_star, size: 13, color: c.tag),
                                 SizedBox(width: 4),
@@ -385,6 +393,21 @@ class _CreatePostState extends State<CreatePost> {
                         decoration: BoxDecoration(
                             color: c.greenLight2,
                             borderRadius: BorderRadius.circular(10)),
+                      ),
+
+
+                      Expanded(child: Container()),
+                      IconButton(
+                          onPressed: () {
+                            setState(()  {
+                               storage.delete(key: "review-product");
+                               storage.delete(key: "rating");
+                              isadd=false;
+                            });
+                          },
+                          padding: EdgeInsets.zero,
+                          constraints: BoxConstraints(),
+                          icon: Icon(FeatherIcons.x, color: c.blackMain, size: 24)
                       ),
                     ],
                   ),
@@ -401,7 +424,7 @@ class _CreatePostState extends State<CreatePost> {
                   ],
                 ),
               ),
-            ),
+            ):Container(),
             Positioned(
               bottom: 0,
               left: 0,
@@ -484,6 +507,7 @@ class _CreatePostState extends State<CreatePost> {
                 ),
               ),
             ),
+            isadd?
             Positioned(
               bottom: 50,
               left: 0,
@@ -493,7 +517,7 @@ class _CreatePostState extends State<CreatePost> {
                 thickness: 0.5,
                 height: 0,
               ),
-            ),
+            ):Container(),
           ],
 
         ),
