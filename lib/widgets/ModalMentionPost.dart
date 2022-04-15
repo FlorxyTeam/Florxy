@@ -228,6 +228,44 @@ class _SearchProductState extends State<SearchProduct> {
     });
   }
 
+  void showAlertDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Container(
+              height: MediaQuery.of(context).size.height/6,
+              width: MediaQuery.of(context).size.width/2,
+              child: Expanded(
+                child: Column(
+                  children: [
+                    // SizedBox(height: 8),
+                    Stack(
+                      alignment: Alignment.topRight,
+                      // mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(child: Icon(FeatherIcons.alertTriangle, size: 74, color: c.yellowMain)),
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: Icon(FeatherIcons.x, size: 26, color: c.blackMain)
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 18),
+                    Inter(text: "Maximum 4 mention products", size: 13, color: c.blackMain, fontWeight: f.semiBold),
+                    SizedBox(height: 2),
+                    Inter(text: "in one post", size: 13, color: c.blackMain, fontWeight: f.semiBold),
+                  ],
+                ),
+              ),
+            ),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0))),
+          );
+        }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -384,6 +422,14 @@ class _SearchProductState extends State<SearchProduct> {
     });
   });
 
+  bool check(String id) {
+    var contain = mention.where((element) => element.id == id);
+    if (contain.isEmpty){
+      return false;
+    }
+    else return true;
+  }
+
   Widget buildProoduct(ProductModel product) => Column(
     children: [
       SizedBox(height: 20),
@@ -420,16 +466,23 @@ class _SearchProductState extends State<SearchProduct> {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 20),
-            child: GestureDetector(
+            child: check(product.id!)==false?GestureDetector(
               child: WhiteGreenButton(
                 text: 'add',
                 size: 11,
               ),
               onTap: () {
-                setMentionProduct(product.id!, product.p_brand, product.p_name);
+                if(mention.length==4) {
+                  showAlertDialog(context);
+                } else setMentionProduct(product.id!, product.p_brand, product.p_name);
                 // print(product.id!);
               },
-            ),
+            ):GestureDetector(
+                child: Icon(Boxicons.bxs_check_circle, size: 27, color: c.greenMain),
+                onTap: () {
+                  clearMentionProduct(product.id!);
+                },
+            )
           )
         ],
       ),
