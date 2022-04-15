@@ -148,6 +148,8 @@ class _CreatePostState extends State<CreatePost> {
   //   isadd=false;
   // }
   String? posttype = '';
+  bool isreview = false;
+  bool ismention = false;
   void fetchData() async{
     String? myproduct = await storage.read(key: "review-product");
     print(myproduct);
@@ -162,11 +164,22 @@ class _CreatePostState extends State<CreatePost> {
           setState(() {
             myrating = rating.toString();
             isadd = true;
+            isreview= true;
             posttype= 'review';
             productModel = ProductModel.fromJson(response2["data"]);
           });
         }
     }
+      String? mentionproduct = await storage.read(key: "mentionproduct");
+      print(mentionproduct);
+      if(mentionproduct!= null){
+        if(mounted){
+          setState(() {
+            isadd = true;
+            ismention= true;
+          });
+        }
+      }
     }
     var response = await networkHandler.get("/profile/getData");
     if (mounted) {
@@ -262,28 +275,81 @@ class _CreatePostState extends State<CreatePost> {
                               // var rating = double.parse(myrating);
                               // print('\n myrating\n');
                               // print(rating.runtimeType);
-                              Map<String, dynamic> data = {
-                                "username":profileModel.username,
-                                "body": _body.text,
-                                "type": posttype.toString(),
-                                "coverImage": allimage,
-                                "rating": myrating,
-                                "product":productModel.id!,
-                              };
-                              if(allimage.length == imageFileList!.length){
-                                var response = await networkHandler.post2("/home/CreatePost", data);
-                                if (response.statusCode == 200 ||
-                                    response.statusCode == 201) {
-                                  setState(() {
-                                    circular = false;
-                                  });
-                                  Navigator.of(context).pop();
-                                }else{
-                                  setState(() {
-                                    circular = false;
-                                  });
+
+                              if(isreview){
+                                Map<String, dynamic> data = {
+                                  "username":profileModel.username,
+                                  "body": _body.text,
+                                  "type": posttype.toString(),
+                                  "coverImage": allimage,
+                                  "rating": myrating,
+                                  "product":productModel.id!,
+                                };
+                                if(allimage.length == imageFileList!.length){
+                                  var response = await networkHandler.post2("/home/CreatePost", data);
+                                  if (response.statusCode == 200 ||
+                                      response.statusCode == 201) {
+                                    setState(() {
+                                      circular = false;
+                                    });
+                                    Navigator.of(context).pop();
+                                  }else{
+                                    setState(() {
+                                      circular = false;
+                                    });
+                                  }
                                 }
                               }
+
+
+                              else if(ismention){
+                                Map<String, dynamic> data = {
+                                  "username":profileModel.username,
+                                  "body": _body.text,
+                                  "type": posttype.toString(),
+                                  "coverImage": allimage,
+                                  "product":'',
+                                };
+                                if(allimage.length == imageFileList!.length){
+                                  var response = await networkHandler.post2("/home/CreatePost", data);
+                                  if (response.statusCode == 200 ||
+                                      response.statusCode == 201) {
+                                    setState(() {
+                                      circular = false;
+                                    });
+                                    Navigator.of(context).pop();
+                                  } else{
+                                    setState(() {
+                                      circular = false;
+                                    });
+                                  }
+                                }
+                              }
+
+
+                              else{
+                                Map<String, dynamic> data = {
+                                  "username":profileModel.username,
+                                  "body": _body.text,
+                                  "type": posttype.toString(),
+                                  "coverImage": allimage,
+                                };
+                                if(allimage.length == imageFileList!.length){
+                                  var response = await networkHandler.post2("/home/CreatePost", data);
+                                  if (response.statusCode == 200 ||
+                                      response.statusCode == 201) {
+                                    setState(() {
+                                      circular = false;
+                                    });
+                                    Navigator.of(context).pop();
+                                  }else{
+                                    setState(() {
+                                      circular = false;
+                                    });
+                                  }
+                                }
+                              }
+
 
                             }
                             );
@@ -448,7 +514,9 @@ class _CreatePostState extends State<CreatePost> {
                 height: 50,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 28, right: 28),
-                  child: Row(
+                  child:
+                  isreview?
+                  Row(
                     children: [
                       Container(
                         child: Padding(
@@ -520,7 +588,8 @@ class _CreatePostState extends State<CreatePost> {
                           icon: Icon(FeatherIcons.x, color: c.blackMain, size: 24)
                       ),
                     ],
-                  ),
+                  ):
+                  Container(),                                                         //mentionPost here ei duean
                 ),
                 decoration: BoxDecoration(
                   color: Colors.white,
