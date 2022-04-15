@@ -63,6 +63,7 @@ class _EditPageState extends State<EditPage> {
       circular = false;
     });
   }
+
   Future takePhoto(ImageSource source) async {
     try {
       final image = await ImagePicker().pickImage(source: source);

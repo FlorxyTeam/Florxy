@@ -1,8 +1,10 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:Florxy/Model/productModel.dart';
 import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/NetworkHandler.dart';
+import 'package:Florxy/pages/ReviewPost.dart';
 import 'package:Florxy/pages/comparepage.dart';
 import 'package:Florxy/widgets/ModalMentionPost.dart';
 import 'package:Florxy/widgets/ModalReviewPost.dart';
@@ -13,10 +15,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:multi_image_picker/multi_image_picker.dart';
+
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 
@@ -99,6 +105,36 @@ class _CreatePostState extends State<CreatePost> {
 
     fetchData();
   }
+
+  File? image;
+  Future takePhoto(ImageSource source) async {
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
+
+      final imageTemporary = File(image.path);
+      setState(() {
+        this.image = imageTemporary;
+      });
+    } on PlatformException catch (e) {
+      print('Failed to pick image $e');
+    }
+  }
+
+  final ImagePicker imagePicker = ImagePicker();
+  List<XFile>? imageFileList = [];
+  void selectImages() async {
+    final List<XFile>? selectedImages = await
+    imagePicker.pickMultiImage();
+    if (selectedImages!.isNotEmpty) {
+      imageFileList!.addAll(selectedImages);
+    }
+    print("Image List Length:" + imageFileList!.length.toString());
+    setState((){});
+  }
+
+
+
   // @override
   // void dispose(){
   //   super.dispose();
@@ -116,20 +152,22 @@ class _CreatePostState extends State<CreatePost> {
       String? rating = await storage.read(key: "rating");
       print(rating);
       if(rating != null){
-        setState(() {
-          myrating = rating.toString();
-          isadd=true;
-        });
-        setState(() {
-          productModel = ProductModel.fromJson(response2["data"]);
-        });
+        if (mounted) {
+          setState(() {
+            myrating = rating.toString();
+            isadd = true;
+            productModel = ProductModel.fromJson(response2["data"]);
+          });
+        }
     }
     }
     var response = await networkHandler.get("/profile/getData");
-    setState(() {
-      profileModel = ProfileModel.fromJson(response["data"]);
-      circular = false;
-    });
+    if (mounted) {
+      setState(() {
+        profileModel = ProfileModel.fromJson(response["data"]);
+        circular = false;
+      });
+    }
   }
   void refreshData() async{
     String? myproduct = await storage.read(key: "review-product");
@@ -140,12 +178,6 @@ class _CreatePostState extends State<CreatePost> {
     setState(() {
       productModel = ProductModel.fromJson(response2["data"]);
     });
-  }
-
-  FutureOr onGoBack() {
-    print('OnGoBack fine');
-    refreshData();
-    setState(() {});
   }
   @override
   Widget build(BuildContext context) {
@@ -337,6 +369,21 @@ class _CreatePostState extends State<CreatePost> {
                         )
                       ),
                     ),
+
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: GridView.builder(
+                            itemCount: imageFileList!.length,
+                            gridDelegate:
+                            SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3),
+                            itemBuilder: (BuildContext context, int index) {
+                              return Image.file(File(imageFileList![index].path),
+                                fit: BoxFit.cover,);
+                            }),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -473,29 +520,47 @@ class _CreatePostState extends State<CreatePost> {
                         ),
                       ),
                       Expanded(child: Container()),
+                      isadd?
+                      IconButton(
+                          onPressed: () {
+
+                          },
+                          padding: EdgeInsets.zero,
+                          constraints: BoxConstraints(),
+                        icon: Icon(MdiIcons.bullhornVariantOutline, color: c.greySub, size: 22)
+                      ):
                       IconButton(
                           onPressed: () {
                             ModalMentionPost.Dialog_Settings(context);
                           },
                           padding: EdgeInsets.zero,
                           constraints: BoxConstraints(),
-                        icon: Icon(MdiIcons.bullhornVariantOutline, color: c.greenMain, size: 22)
+                          icon: Icon(MdiIcons.bullhornVariantOutline, color: c.greenMain, size: 22)
                       ),
                       SizedBox(width: 25),
+                      isadd?
                       IconButton(
+                      onPressed: () {},
+                      padding: EdgeInsets.zero,
+                      constraints: BoxConstraints(),
+                      icon: Icon(MdiIcons.starCircleOutline, color: c.greySub, size: 24)
+                      ):IconButton(
                           onPressed: () {
-                            bool shouldRefresh = ModalReviewPost.Dialog_Settings(context);
-                            print(shouldRefresh);
-                            if(shouldRefresh != null && shouldRefresh){
-                              print('it should refresh' + shouldRefresh.toString());
-                            }
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReviewPost())).then((value) => fetchData());
                           },
                           padding: EdgeInsets.zero,
                           constraints: BoxConstraints(),
                           icon: Icon(MdiIcons.starCircleOutline, color: c.greenMain, size: 24)
                       ),
                       SizedBox(width: 25),
+
+                      isadd?
                       IconButton(
+                          onPressed: () {},
+                          padding: EdgeInsets.zero,
+                          constraints: BoxConstraints(),
+                          icon: Icon(Boxicons.bx_poll, color: c.greySub, size: 26)
+                      ):IconButton(
                           onPressed: () {},
                           padding: EdgeInsets.zero,
                           constraints: BoxConstraints(),
@@ -503,7 +568,10 @@ class _CreatePostState extends State<CreatePost> {
                       ),
                       SizedBox(width: 25),
                       IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            selectImages();
+                            print('hi image');
+                          },
                           padding: EdgeInsets.zero,
                           constraints: BoxConstraints(),
                           icon: Icon(FeatherIcons.image, color: c.greenMain, size: 22)
