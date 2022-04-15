@@ -35,6 +35,16 @@ router.route("/getPost").get( (req, res) => {
   });
 });
 
+router.route("/getProduct").get( (req, res) => {
+  Product.find({}).exec(function(err, result){
+    if(err) {
+      return console.log(err);
+    } else {
+      return res.json({ product: result });
+    }
+  });
+});
+
 router.route("/getIDPost/:id").get(middleware.checkToken, (req,res)=>{
   Post.findOne({ _id: req.params.id }).populate("product").exec(function(err, result){
     if(err) {
