@@ -22,7 +22,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
-import 'package:multi_image_picker/multi_image_picker.dart';
 
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
