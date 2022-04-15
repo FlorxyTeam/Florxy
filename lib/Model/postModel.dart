@@ -12,7 +12,7 @@ class PostModel {
   List? product;
   bool? archive;
   String? username;
-  double? rating;
+  String? rating;
   String? createdAt;
   String? updatedAt;
   PostModel({this.body,

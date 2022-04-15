@@ -766,7 +766,7 @@ class _MentionPostState extends State<MentionPost> {
 class ReviewPost extends StatefulWidget {
   String? postTime, username, post, id;
   int comment;
-  double rating;
+  String? rating;
   List? urlImage;
   Future? fetchdata;
 
@@ -2813,7 +2813,7 @@ class _MentionPost2State extends State<MentionPost2> {
 class ReviewPost2 extends StatefulWidget {
   String? name, postTime, username, post, id,professor,influencer, profileImg;
   int comment;
-  double rating;
+  String? rating;
   List? urlImage;
   Future? fetchdata;
 

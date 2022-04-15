@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const schema = mongoose.Schema;
+require('mongoose-double')(mongoose);
 
 const Post = schema(
     {
@@ -34,11 +35,14 @@ const Post = schema(
           ref: "Product",
         },
       ],
-      archive: Boolean,
+      archive: {
+      type: Boolean,
+      default: false,
+      },
       username: String,
       rating: {
-        type: Number,
-        default: "",
+        type: String,
+        default: '',
       },
     },
     {

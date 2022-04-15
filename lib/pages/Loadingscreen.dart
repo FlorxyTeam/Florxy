@@ -21,7 +21,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     super.initState();
     // print(isLoaded);
     Provider.of<PostProvider>(context, listen: false).fetchData().then((value) =>
-        Future.delayed(Duration(seconds: 2),(){
+        Future.delayed(Duration(seconds: 1),(){
           Navigator.of(context).pushReplacement(
               PageTransition(type: PageTransitionType.fade, child: Navbar(currentState: 0,), duration: Duration(milliseconds: 600)));
         })

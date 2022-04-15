@@ -27,7 +27,7 @@ const upload = multer({
 });
 
 router.route("/getPost").get( (req, res) => {
-  Post.find({}).sort({createdAt: -1}, function(err, result) {
+  Post.find({}).sort({createdAt: -1}).exec(function(err, result) {
     // console.log('result: '+ result);
     if (err) return res.json({err: err});
     if (result == null) return res.json({data: []});
@@ -61,15 +61,16 @@ router.route("/add/postImage/:id")
       );
     });
 
-router.route("/Add").post(middleware.checkToken, (req, res)=>{
+router.route("/CreatePost").post(middleware.checkToken, (req, res)=>{
   // eslint-disable-next-line new-cap
   const createpost = Post({
     username: req.decoded.username,
-    fullname: req.body.fullname,
-    type: req.body.type,
-    rating: req.body.rating,
+    archive: false,
     body: req.body.body,
-    forwho: req.body.forwho,
+    coverImage: req.body.coverImage,
+    product: req.body.product,
+    rating: req.body.rating,
+    type: req.body.type,
   });
   createpost
       .save()
@@ -80,6 +81,8 @@ router.route("/Add").post(middleware.checkToken, (req, res)=>{
         });
       });
 });
+
+
 
 router.route("/getOwnPost").get(middleware.checkToken, (req, res)=>{
   Post.find({username: req.decoded.username}, (err, result)=>{
@@ -244,7 +247,7 @@ router.route("/getPost/viewPost/:id/:product")
     router.route("/getSearchProductPost/:id").get(middleware.checkToken, (req,res)=>{
           var query = req.params.id.toLowerCase()
           //console.log(typeof Post)
-          Post.find({product : {$ne : null}},).populate({
+          Post.find({product : {$ne : null} },).populate({
               path: 'product',
             }).exec(function(err, result){
                  if(err) {

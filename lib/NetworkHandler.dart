@@ -9,12 +9,10 @@ class NetworkHandler {
 
   // String baseurl = "https://asia-southeast1-florxy.cloudfunctions.net/app";
   // String baseurl = "http://192.168.101.79:8080"; //nicha
-  String baseurl = "http://192.168.2.36:8080"; //deuan
+  // String baseurl = "http://192.168.2.36:8080"; //deuan
   // String baseurl = "http://192.168.2.38:8080"; //Leo
-  //String baseurl = "http://192.168.1.5:8080"; //Frank
-  //String baseurl = "http://192.168.1.130:8080"; //Frank
-
-  // String baseurl = "http://192.168.1.5:8080"; //Frank
+  String baseurl = "http://192.168.1.11:8080"; //Frank
+  //String baseurl = "http://192.168.1.130:8080"; //Aek
 
   var log = Logger();
 
@@ -39,6 +37,21 @@ class NetworkHandler {
   }
 
   Future<http.Response> post(String url, Map<String, String> body) async {
+    String? token = await storage.read(key:"token");
+    url = formater(url);
+    var response = await http.post(
+      Uri.parse(url),
+      headers: {
+        "Content-type": "application/json",
+        "Authorization":"Bearer $token",
+        "Access-Control-Allow-Origin": "*"
+      },
+      body: json.encode(body),
+    );
+    return response;
+  }
+
+  Future<http.Response> post2(String url, Map<String, dynamic> body) async {
     String? token = await storage.read(key:"token");
     url = formater(url);
     var response = await http.post(

@@ -20,6 +20,7 @@
     "firebase-functions": "^3.18.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.7",
+    "mongoose-double": "0.0.1",
     "multer": "^1.4.4",
     "nodemon": "^2.0.15",
     "socket.io": "^2.3.0"
