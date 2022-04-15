@@ -182,6 +182,7 @@ class _SearchProductState extends State<SearchProduct> {
   final networkHandler = NetworkHandler();
   String query = '';
   List products = [];
+  List<ProductModel> product2 = [];
   List<MentionProductModel> mention = [];
   Timer? debouncer;
 
@@ -189,6 +190,7 @@ class _SearchProductState extends State<SearchProduct> {
   void initState() {
     // TODO: implement initState
     init();
+    // fetchdata();
     super.initState();
   }
 
@@ -197,6 +199,16 @@ class _SearchProductState extends State<SearchProduct> {
     debouncer?.cancel();
     super.dispose();
   }
+
+  // void fetchdata() async {
+  //   var response = await networkHandler.get("/home/getProduct");
+  //   print(ProductModel.fromJson(response["product"]).runtimeType);
+  //   // print(response.runtimeType);
+  //   setState(() {
+  //     // product2 = ProductModel.fromJson(response["product"]);
+  //     // print(ProductModel.fromJson(response["product"]).runtimeType);
+  //   });
+  // }
 
   void debounce(
       VoidCallback callback, {
@@ -372,11 +384,16 @@ class _SearchProductState extends State<SearchProduct> {
                     SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.only(left: 45, right: 45),
-                      child: GreenButton(
-                        text: 'ADD PRODUCT',
-                        size: 14,
-                        color: c.textWhite,
-                        height: 50,
+                      child: GestureDetector(
+                        child: GreenButton(
+                          text: 'ADD PRODUCT',
+                          size: 14,
+                          color: c.textWhite,
+                          height: 50,
+                        ),
+                        onTap: () {
+                          print(mention);
+                        },
                       ),
                     ),
                     SizedBox(height: 30)
