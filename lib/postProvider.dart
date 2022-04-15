@@ -35,7 +35,7 @@ class PostProvider extends ChangeNotifier {
 
   Future fetchData() async{
     String? token = await storage.read(key:"token");
-    final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/home/getAllPost");
+    final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/home/getPost");
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization": "Bearer $token"},

@@ -159,21 +159,6 @@ class _EditPageState extends State<EditPage> {
                                       Navigator.of(context).pop();
                                   }
                                 });
-
-                              // var imageResponse = await networkHandler.patchImage(
-                              //     "/profile/add/image", image!.path);
-                              // if (imageResponse.statusCode == 200 ||
-                              //     imageResponse.statusCode == 201) {
-                              //   setState(() {
-                              //     circular = false;
-                              //   });
-                              //   Navigator.of(context).pop();
-                              // }else {
-                              //   setState(() {
-                              //     circular = false;
-                              //   });
-                              // }
-
                             } else {
                               setState(() {
                                 circular = false;

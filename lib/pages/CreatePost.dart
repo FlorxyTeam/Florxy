@@ -6,6 +6,7 @@ import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/NetworkHandler.dart';
 import 'package:Florxy/pages/ReviewPost.dart';
 import 'package:Florxy/pages/comparepage.dart';
+import 'package:Florxy/provider/storage_service.dart';
 import 'package:Florxy/widgets/ModalMentionPost.dart';
 import 'package:Florxy/widgets/ModalReviewPost.dart';
 import 'package:Florxy/widgets/button.dart';
@@ -36,6 +37,7 @@ class CreatePost extends StatefulWidget {
 }
 
 class _CreatePostState extends State<CreatePost> {
+  final Storage firebase_storage = Storage();
   bool checking =true;
   bool isadd = false;
   bool check() {
@@ -65,7 +67,7 @@ class _CreatePostState extends State<CreatePost> {
   TextEditingController _forwho = TextEditingController();
   TextEditingController _type = TextEditingController();
   final storage = new FlutterSecureStorage();
-
+  double reciprocal(double d) => 1 / d;
   ProfileModel profileModel = ProfileModel(
     id: '',
     username: '',
@@ -106,18 +108,16 @@ class _CreatePostState extends State<CreatePost> {
     fetchData();
   }
 
-  File? image;
-  Future takePhoto(ImageSource source) async {
-    try {
-      final image = await ImagePicker().pickImage(source: source);
-      if (image == null) return;
 
-      final imageTemporary = File(image.path);
-      setState(() {
-        this.image = imageTemporary;
-      });
-    } on PlatformException catch (e) {
-      print('Failed to pick image $e');
+
+  int count = 0;
+  List<XFile>? displayimage = [];
+  void countimage() {
+    if(imageFileList!.length>4){
+      count=4;
+    }
+    else{
+      count = imageFileList!.length;
     }
   }
 
@@ -129,10 +129,16 @@ class _CreatePostState extends State<CreatePost> {
     if (selectedImages!.isNotEmpty) {
       imageFileList!.addAll(selectedImages);
     }
-    print("Image List Length:" + imageFileList!.length.toString());
+    print("before Image List Length:" + imageFileList!.length.toString());
+    int i = imageFileList!.length-1;
+    for(imageFileList!.length;imageFileList!.length>4;i--){
+      imageFileList!.removeWhere((element) => element.path==imageFileList![i].path);
+      print('I: '+i.toString());
+    }
+
+    print("after Image List Length:" + imageFileList!.length.toString());
     setState((){});
   }
-
 
 
   // @override
@@ -142,6 +148,7 @@ class _CreatePostState extends State<CreatePost> {
   //   storage.delete(key: "rating");
   //   isadd=false;
   // }
+  String? posttype = '';
   void fetchData() async{
     String? myproduct = await storage.read(key: "review-product");
     print(myproduct);
@@ -156,6 +163,7 @@ class _CreatePostState extends State<CreatePost> {
           setState(() {
             myrating = rating.toString();
             isadd = true;
+            posttype= 'review';
             productModel = ProductModel.fromJson(response2["data"]);
           });
         }
@@ -168,16 +176,6 @@ class _CreatePostState extends State<CreatePost> {
         circular = false;
       });
     }
-  }
-  void refreshData() async{
-    String? myproduct = await storage.read(key: "review-product");
-    print(myproduct);
-    var response2 = await networkHandler.get("/product/getProductData/${myproduct}");
-    String? rating = await storage.read(key: "review-product");
-    print(rating);
-    setState(() {
-      productModel = ProductModel.fromJson(response2["data"]);
-    });
   }
   @override
   Widget build(BuildContext context) {
@@ -236,74 +234,79 @@ class _CreatePostState extends State<CreatePost> {
                   padding: EdgeInsets.only(top: Theme.of(context).platform==TargetPlatform.android?27:12, right: 30, bottom: Theme.of(context).platform==TargetPlatform.android?0:12),
                   child: InkWell(
                     onTap: () async {
+                      List allimage = [];
+
+                      print('\nALL IMAGE lenght : \n');
+                      print(allimage.length);
+                      print('\nALL ImageFile lenght : \n');
+                      print(imageFileList!.length);
                       setState(() {
                         circular = true;
                       });
                       print(profileModel.username);
-                      print(profileModel.fullname);
-
                       if(_body.text!=""){
                       if (_globalkey.currentState!.validate()) {
-                        Map<String, String> data = {
-                          "username":profileModel.username,
-                          "fullname":profileModel.fullname,
-                          "type": "post",
-                          "body": _body.text,
-                          "forwho":"Everyone"
-                        };
-                        var response =
-                        await networkHandler.post("/home/Add", data);
-                        if (response.statusCode == 200 ||
-                            response.statusCode == 201) {
-                          setState(() {
-                            circular = false;
-                          });
-                          Navigator.of(context).pop();
-                        }else{
-                          setState(() {
-                            circular = false;
-                          });
+                        if (imageFileList != null) {
+                          int i =1;
+                          for(var image in imageFileList!){
+                            print(image.path);
+
+                            final path = image.path;
+                            final fileName = DateTime.now().toString()+'_'+profileModel.username+'_'+i.toString()+ '.jpg';
+                            firebase_storage.uploadPostImage(path, fileName).then((value) async {
+                              print('\nvalue : \n');
+                              print(value);
+                              allimage.add(value);
+                              print('\nALL IMAGE : \n');
+                              print(allimage);
+
+                              // var rating = double.parse(myrating);
+                              // print('\n myrating\n');
+                              // print(rating.runtimeType);
+                              Map<String, dynamic> data = {
+                                "username":profileModel.username,
+                                "body": _body.text,
+                                "type": posttype.toString(),
+                                "coverImage": allimage,
+                                "rating": myrating,
+                                "product":productModel.id!,
+                              };
+                              if(allimage.length == imageFileList!.length){
+                                var response = await networkHandler.post2("/home/CreatePost", data);
+                                if (response.statusCode == 200 ||
+                                    response.statusCode == 201) {
+                                  setState(() {
+                                    circular = false;
+                                  });
+                                  Navigator.of(context).pop();
+                                }else{
+                                  setState(() {
+                                    circular = false;
+                                  });
+                                }
+                              }
+
+                            }
+                            );
+                            i=i+1;
+                          }
+
                         }
-                        // if (response.statusCode == 200 ||
-                        //     response.statusCode == 201) {
-                        //   if (image != null) {
-                        //     var imageResponse = await networkHandler.patchImage(
-                        //         "/blogPost/add/postImage/:id", image!.path);
-                        //     if (imageResponse.statusCode == 200 ||
-                        //         imageResponse.statusCode == 201) {
-                        //       setState(() {
-                        //         circular = false;
-                        //       });
-                        //       Navigator.of(context).pop();
-                        //     }else {
-                        //       setState(() {
-                        //         circular = false;
-                        //       });
-                        //     }
-                        //
-                        //   } else {
-                        //     setState(() {
-                        //       circular = false;
-                        //     });
-                        //     Navigator.of(context).pop();
-                        //   }
-                        // }else {
-                        //   setState(() {
-                        //     circular = false;
-                        //   });
-                        // }
+
+
+
                       }
-                      else {
-                        setState(() {
-                          circular = false;
-                        });
+                      // else {
+                      //   setState(() {
+                      //     circular = false;
+                      //   });
+                      // }
                       }
-                      }
-                      else{
-                        setState(() {
-                          circular = false;
-                        });
-                      }
+                      // else{
+                      //   setState(() {
+                      //     circular = false;
+                      //   });
+                      // }
 
                     },
                     child: circular?
@@ -369,21 +372,69 @@ class _CreatePostState extends State<CreatePost> {
                         )
                       ),
                     ),
+                    SizedBox(height: 25,),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: 150.0,
+                            width: 150.0,
+                            child: ListView.builder(
+                                itemCount: imageFileList!.length,
+                                scrollDirection: Axis.horizontal,
+                                // shrinkWrap: true,
+                                itemBuilder: (context,int index) {
+                                  return Row(
+                                    children: [
+                                      Stack(
+                                        children: [
+                                          Container(
+                                            height: 150,
+                                            width: 150,
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(12.0),
+                                              child: Image.file(File(imageFileList![index].path),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
 
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: GridView.builder(
-                            itemCount: imageFileList!.length,
-                            gridDelegate:
-                            SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3),
-                            itemBuilder: (BuildContext context, int index) {
-                              return Image.file(File(imageFileList![index].path),
-                                fit: BoxFit.cover,);
-                            }),
-                      ),
+                                          Positioned(
+                                              top: 12,
+                                              right: 12,
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(18),
+                                                  color: Colors.white,
+                                                ),
+                                                width: 15,
+                                                height: 15,
+                                              )
+                                          ),
+                                          Positioned(
+                                            top: 8,
+                                            right: 8,
+                                            child: IconButton(
+                                                onPressed: () {
+                                                  setState(()  {
+                                                    imageFileList!.removeWhere((element) => element.path==imageFileList![index].path);
+                                                  });
+                                                },
+                                                padding: EdgeInsets.zero,
+                                                constraints: BoxConstraints(),
+                                                icon: Icon(Boxicons.bxs_x_circle, color: c.blackMain, size: 24)
+                                            ),)
+                                        ],
+                                      ),
+                                      SizedBox(width: 15,)
+                                    ],
+                                  );
+                                }),
+                          ),
+                        ),
+                      ],
                     ),
+
                   ],
                 ),
               ),

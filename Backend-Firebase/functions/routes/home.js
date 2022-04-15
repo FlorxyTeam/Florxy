@@ -27,7 +27,7 @@ const upload = multer({
 });
 
 router.route("/getPost").get( (req, res) => {
-  Post.find({}).sort({createdAt: -1}, function(err, result) {
+  Post.find({}).sort({createdAt: -1}).exec(function(err, result) {
     // console.log('result: '+ result);
     if (err) return res.json({err: err});
     if (result == null) return res.json({data: []});
@@ -247,7 +247,7 @@ router.route("/getPost/viewPost/:id/:product")
     router.route("/getSearchProductPost/:id").get(middleware.checkToken, (req,res)=>{
           var query = req.params.id.toLowerCase()
           //console.log(typeof Post)
-          Post.find({product : {$ne : null}},).populate({
+          Post.find({product : {$ne : null} },).populate({
               path: 'product',
             }).exec(function(err, result){
                  if(err) {

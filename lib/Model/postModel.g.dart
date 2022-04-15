@@ -11,7 +11,7 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) {
     body: json['body'] as String?,
     comment: json['comment'] as List<dynamic>?,
     favorite: json['favorite'] as List<dynamic>?,
-    rating: (json['rating'] as num?)?.toDouble(),
+    rating: json['rating'] as String?,
     username: json['username'] as String?,
     pinnedcomment: json['pinnedcomment'] as String?,
     product: json['product'] as List<dynamic>?,
