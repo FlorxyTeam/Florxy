@@ -38,42 +38,43 @@ class _ProductInMentionPostState extends State<ProductInMentionPost> {
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(width: 12),
-                      Expanded(
-                        child: Center(
-                          child: Container(
-                            height: 100,
-                            decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                image: DecorationImage(
-                                    image: NetworkImage(widget.productImg!),
-                                    fit: BoxFit.contain
-                                )
-                            ),
+                      Center(
+                        child: Container(
+                          height: 100,
+                          width: 75,
+                          decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              image: DecorationImage(
+                                  image: NetworkImage(widget.productImg!),
+                                  fit: BoxFit.contain
+                              )
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 18, right: 8),
-                        child: Container(
-                          width: 245,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 2,horizontal: 8),
-                                  child: PoppinsLeft(text: widget.brand!, size: 10.5, color: Colors.white, fontWeight: f.semiBold),
+                      SizedBox(width: 20),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: Container(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 2,horizontal: 8),
+                                    child: PoppinsLeft(text: widget.brand!, size: 10.5, color: Colors.white, fontWeight: f.semiBold),
+                                  ),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(50),
+                                      color: c.greySub
+                                  ),
                                 ),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(50),
-                                    color: c.greySub
-                                ),
-                              ),
-                              SizedBox(height: 2),
-                              PoppinsLeft(text: widget.product!, size: 13.5, color: c.textBlack, fontWeight: f.semiBold),
-                              SizedBox(height: 10),
-                              Roboto_Crop(text: widget.desc!, size: 12, color: c.greyMain, fontWeight: f.regular)
-                            ],
+                                SizedBox(height: 2),
+                                PoppinsLeft(text: widget.product!, size: 13.5, color: c.textBlack, fontWeight: f.semiBold),
+                                SizedBox(height: 10),
+                                Roboto_Crop(text: widget.desc!, size: 12, color: c.greyMain, fontWeight: f.regular)
+                              ],
+                            ),
                           ),
                         ),
                       ),

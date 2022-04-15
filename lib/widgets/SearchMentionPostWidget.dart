@@ -19,8 +19,7 @@ class _SearchMentionPostState extends State<SearchMentionPost> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: Theme.of(context).platform == TargetPlatform.android ? 30 : 0,
-      width: Theme.of(context).platform == TargetPlatform.android ? 245 : 0,
+      height: 35,
       child: TextField(
         controller: controller,
         decoration: InputDecoration(

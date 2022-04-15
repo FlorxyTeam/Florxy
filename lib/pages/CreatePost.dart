@@ -581,7 +581,7 @@ class _CreatePostState extends State<CreatePost> {
                       ):
                       IconButton(
                           onPressed: () {
-                            ModalMentionPost.Dialog_Settings(context);
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchProduct()));
                           },
                           padding: EdgeInsets.zero,
                           constraints: BoxConstraints(),

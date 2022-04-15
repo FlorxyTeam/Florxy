@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:Florxy/Model/productModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
@@ -118,6 +119,29 @@ class NetworkHandler {
       body: json.encode(body),
     );
     return response;
+  }
+
+  Future<List<ProductModel>> getProducts(String query) async {
+    final url = Uri.parse(formater("/home/getProduct"));
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = json.decode(response.body);
+      List products = data["product"];
+      print(products);
+      return products.map((json) => ProductModel.fromJson(json)).where((product) {
+        final brandLower = product.p_brand.toLowerCase();
+        final productLower = product.p_name.toLowerCase();
+        final mixlower = product.p_brand.toLowerCase() + " " + product.p_name.toLowerCase();
+        final searchLower = query.toLowerCase();
+
+        return brandLower.contains(searchLower) ||
+            productLower.contains(searchLower) ||
+            mixlower.contains(searchLower);
+      }).toList();
+    } else {
+      throw Exception();
+    }
   }
 
 }
