@@ -53,16 +53,18 @@ class Scraper {
 
     var body = response.body;
     var ing_name = '';
-    var ing_met = [];
-    var ing_irr = [];
-    var ing_rate = '';
+    var ing_link = '';
+    // var ing_met = [];
+    // var ing_irr = [];
+    // var ing_rate = '';
     var alling_name = [];
-    var alling_met = [];
-    var alling_irr = [];
-    var alling_rate = [];
+    var alling_link = [];
+    // var alling_met = [];
+    // var alling_irr = [];
+    // var alling_rate = [];
     String? img = "";
     final parse_body = parse(body);
-    final name = parse_body.querySelectorAll('#product-title')[0].innerHtml.trim();
+    final name = parse_body.querySelectorAll('#product-title')[0].innerHtml.trim().replaceAll("&amp", "&");
     final brand = parse_body.querySelectorAll('#product-brand-title > a')[0].innerHtml.trim();
     if (parse_body.querySelectorAll('#product-main-image').length>0&&parse_body.querySelectorAll('#product-main-image')[0].querySelectorAll('img').length>0){
       img = parse_body.querySelectorAll('#product-main-image')[0].querySelectorAll('img')[0].attributes['src'];
@@ -70,12 +72,19 @@ class Scraper {
     else{
        img = "";
     }
-    final detail = parse_body.querySelectorAll('#product-details')[0].innerHtml.trim();
+    var detail = "";
+    if(parse_body.querySelectorAll('#product-details')[0].innerHtml.trim().contains("span")){
+      detail = parse_body.querySelectorAll('#product-details > span')[0].innerHtml.trim().replaceAll("\n        ", "");
+      detail = detail + parse_body.querySelectorAll('#product-details > span')[0].innerHtml.trim().replaceAll("\n       ", "");
+    }
+    else{
+      detail = parse_body.querySelectorAll('#product-details')[0].innerHtml.trim();
+    }
 
 
 
     Real res = new Real();
-    Ingredient res_ing = new Ingredient();
+    // Ingredient res_ing = new Ingredient();
     res.p_name = name;
     res.p_brand = brand;
     res.p_desc = detail;
@@ -91,30 +100,34 @@ class Scraper {
       var x = ing.querySelectorAll('td > a');
       for (var y in x){
         // y = y.querySelectorAll('a');
-        // print(y.classes);
         if(y.classes.contains('black')){
           ing_name = y.innerHtml.trim();
-        }else if(y.classes.contains('lilac')){
-          ing_met.add(y.innerHtml.trim());
+          ing_link = y.attributes['href'].toString();
+          // print(y.attributes['href']);
         }
+        // else if(y.classes.contains('lilac')){
+        //   ing_met.add(y.innerHtml.trim());
+        // }
 
       }
-      var j = ing.querySelectorAll('td > span > span');
-      for (var k in j){
-        ing_irr.add(k.attributes['title'].toString());
-      }
-      if(ing.querySelectorAll('.our-take').isNotEmpty){
-        ing_rate = ing.querySelectorAll('.our-take')[0].innerHtml.trim();
-      }
+      // var j = ing.querySelectorAll('td > span > span');
+      // for (var k in j){
+      //   ing_irr.add(k.attributes['title'].toString());
+      // }
+      // if(ing.querySelectorAll('.our-take').isNotEmpty){
+      //   ing_rate = ing.querySelectorAll('.our-take')[0].innerHtml.trim();
+      // }
       // res_ing.ing_name = ing_name;
       // res_ing.ing_met = ing_met.toString();
       // res_ing.ing_irr = ing_irr.toString();
       // res_ing.ing_rate = ing_rate;
 
       alling_name.add(ing_name);
-      alling_met.add(ing_met);
-      alling_irr.add(ing_irr);
-      alling_rate.add(ing_rate);
+      alling_link.add(ing_link);
+
+      // alling_met.add(ing_met);
+      // alling_irr.add(ing_irr);
+      // alling_rate.add(ing_rate);
 
       // print(alling_name);
       // print(alling_met);
@@ -138,15 +151,16 @@ class Scraper {
       //   print(s.ing_met);
       //
       // }
-      ing_met = [];
-      ing_irr = [];
-      ing_rate = '';
+      // ing_met = [];
+      // ing_irr = [];
+      // ing_rate = '';
 
     }
     ram.add(alling_name);
-    ram.add(alling_met);
-    ram.add(alling_irr);
-    ram.add(alling_rate);
+    ram.add(alling_link);
+    // ram.add(alling_met);
+    // ram.add(alling_irr);
+    // ram.add(alling_rate);
 
     // print(all_Ing);
     // print(ram[0].ing_name);
@@ -301,7 +315,79 @@ class Scraper {
   //
   //   }
   // }
-}
+  static Future<List> getIng(List allPath) async{
+
+      String path = URL2;
+      for(var link in allPath){
+          print(link);
+          var response = await http.get(Uri.parse(path+link));
+          var body = response.body;
+          var parse_body = parse(body);
+        // ing name
+          var name = parse_body.querySelector('.ingredinfobox .klavikab')?.innerHtml.trim();
+          print(name);
+        // ing rate
+          var rate = parse_body.querySelector('.ingredinfobox .ourtake')?.innerHtml.trim();
+          // print(rate);
+          var funcs = parse_body.querySelectorAll('.itemprop .value');
+          for (var func in funcs){
+           // func = func.querySelector('.value')?.innerHtml.trim();
+            var check = func.previousElementSibling?.innerHtml;
+            // print(func.previousElementSibling?.innerHtml);
+            if(check=="Also-called-like-this:"){
+              var ingano = func.querySelector('.value')?.innerHtml.trim();
+           }else if (check == "What-it-does: "){
+              var ingfunc = func.querySelector('.value')?.innerHtml.trim();
+           }else if (check == "Irritancy: "){
+             var ingirr = func.querySelector('.value')?.innerHtml.trim();
+           }else if (check == "Comedogenicity: "){
+             var ingcom = func.querySelector('.value')?.innerHtml.trim();
+           }
+         }
+          var cosings = parse_body.querySelectorAll('#cosing-data > div > div');
+          for (var cosing in cosings){
+            if(cosing.innerHtml.trim().replaceAll("<b>","").replaceAll("</b>", "").trim() == ""){
+
+            }
+            else{
+              // print(cosing.innerHtml.trim().replaceAll("<b>","").replaceAll("</b>", "").replaceAll("\n", "").replaceAll("                    ", "").trim());
+            }
+          }
+          var quick = parse_body.querySelectorAll('.starlist > li');
+          if(quick.length > 0){
+            for (var each in quick){
+              // print(each.innerHtml.trim());
+            }
+          }
+
+          var details = parse_body.querySelectorAll('.content > p');
+          if(details.length  > 0){
+            var count = 1;
+            for (var detail in details){
+              if(count <= 2 && !detail.innerHtml.trim().contains("href")){
+                // print(detail.innerHtml.trim());
+              }
+              else{
+                break;
+              }
+              count++;
+            }
+          }
+          var proofs = parse_body.querySelectorAll('#proof >div >ul> li');
+          if(proofs.length>0){
+            for(var proof in proofs){
+              print(proof.innerHtml.trim());
+            }
+          }
+
+
+      }
+      // var body = response.body;
+      // print(body);
+      return (['kj','ko']);
+    }
+  }
+
 
 
 // void initChaptersTitleScrap() async {
@@ -362,24 +448,26 @@ Future<void> main() async{
  //   print('${results[i].name} , ${results[i].link}');
  //  }
  //  print(stopwatch.elapsed);
-  List results = [];
-  results = await Scraper.getData2('innisfree');
-  for (var result in results) {
-    print(result.link);
-  }
+ //  List results = [];
+ //  results = await Scraper.getData2('innisfree');
+  // for (var result in results) {
+    // print(result.link);
+  // }
     // Real x = await Scraper.getBrand(result.link);
     //
-  Real x = await Scraper.getBrand('/products/innisfree-innisfree-bija-trouble-lotion');
+  Real x = await Scraper.getBrand('/products/evershine-moringa-refresh-toner-essence');
   //
-  int i =1;
-  for(var y in x.p_ing){
-    for(var z in y){
-      print(z);
-    }
-      // print(i);
-      // print(y.runtimeType);
-      // i = i + 1 ;
-    }
+  // print(x.p_ing[1]);
+  Scraper.getIng(x.p_ing[1]);
+  // for(var y in x.p_ing){
+  //   print(y);
+  //   for(var z in y){
+  //     print(z);
+  //   }
+  //     // print(i);
+  //     // print(y.runtimeType);
+  //     // i = i + 1 ;
+  //   }
     // Map<String, String> data = {
     //   "p_name":x.p_name,
     //   "p_brand":x.p_brand,
