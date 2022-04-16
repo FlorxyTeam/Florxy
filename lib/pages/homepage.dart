@@ -104,6 +104,7 @@ class _HomePageState extends State<HomePage> {
 
                     print(google_user);
                     storage.delete(key: "review-product");
+                    storage.delete(key: "mention-product");
                     storage.delete(key: "rating");
                     Navigator.of(context).push(
                         MaterialPageRoute(builder: (context) => CreatePost()));

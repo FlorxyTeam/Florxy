@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:Florxy/Model/mentionProductModel.dart';
 import 'package:Florxy/Model/productModel.dart';
 import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/NetworkHandler.dart';
@@ -38,6 +39,7 @@ class CreatePost extends StatefulWidget {
 class _CreatePostState extends State<CreatePost> {
   final Storage firebase_storage = Storage();
   bool checking =true;
+  List<MentionProductModel> listMention = [];
   bool isadd = false;
   bool check() {
 
@@ -150,14 +152,22 @@ class _CreatePostState extends State<CreatePost> {
   String? posttype = '';
   bool isreview = false;
   bool ismention = false;
+  List idMentionProduct = [];
+
   void fetchData() async{
     String? myproduct = await storage.read(key: "review-product");
     print(myproduct);
+    print("mention list");
+    print(listMention);
     if(myproduct == null){
       print('its null');
     }else{
       var response2 = await networkHandler.get("/product/getProductData/${myproduct}");
       String? rating = await storage.read(key: "rating");
+
+      String? mentionproduct = await storage.read(key: "mention-product");
+
+      print(mentionproduct);
       print(rating);
       if(rating != null){
         if (mounted) {
@@ -165,18 +175,25 @@ class _CreatePostState extends State<CreatePost> {
             myrating = rating.toString();
             isadd = true;
             isreview= true;
+            ismention= false;
             posttype= 'review';
             productModel = ProductModel.fromJson(response2["data"]);
           });
         }
-    }
-      String? mentionproduct = await storage.read(key: "mentionproduct");
-      print(mentionproduct);
-      if(mentionproduct!= null){
+    }else if(mentionproduct != null){
         if(mounted){
           setState(() {
             isadd = true;
             ismention= true;
+            isreview= false;
+            posttype = 'mention';
+
+            int i = 0;
+            for(i;i<=listMention.length-1;i++){
+              idMentionProduct.add(listMention[i].id);
+            }
+            print(idMentionProduct);
+
           });
         }
       }
@@ -189,6 +206,16 @@ class _CreatePostState extends State<CreatePost> {
       });
     }
   }
+
+  void moveToMentionPage() {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchProduct())).then((value) {
+      fetchData();
+      setState(() {
+        listMention = value;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -308,7 +335,7 @@ class _CreatePostState extends State<CreatePost> {
                                   "body": _body.text,
                                   "type": posttype.toString(),
                                   "coverImage": allimage,
-                                  "product":'',
+                                  "product":idMentionProduct,
                                 };
                                 if(allimage.length == imageFileList!.length){
                                   var response = await networkHandler.post2("/home/CreatePost", data);
@@ -510,12 +537,11 @@ class _CreatePostState extends State<CreatePost> {
               bottom: 50,
               left: 0,
               right: 0,
-              child: Container(
+              child: isreview?Container(
                 height: 50,
                 child: Padding(
                   padding: const EdgeInsets.only(left: 28, right: 28),
                   child:
-                  isreview?
                   Row(
                     children: [
                       Container(
@@ -525,7 +551,7 @@ class _CreatePostState extends State<CreatePost> {
                             children: [
                               Inter(
                                 text: 'review to',
-                                fontWeight: f.semiBold,
+                                fontWeight: f.medium,
                                 size: 14,
                                 color: c.blackMain,
                               ),
@@ -533,7 +559,7 @@ class _CreatePostState extends State<CreatePost> {
                           ),
                         ),
                       ),
-                      SizedBox(width: 25),
+                      SizedBox(width: 8),
                       Container(
                         child: Padding(
                           padding: const EdgeInsets.only(left: 9, right: 4,top: 2.5,bottom: 2.5),
@@ -547,7 +573,7 @@ class _CreatePostState extends State<CreatePost> {
                                   constraints: BoxConstraints(maxWidth: 125),
                                   child: Inter_Crop(
                                       text: '${productModel.p_brand}' + " " + '${productModel.p_name}',
-                                      size: 10,
+                                      size: 12,
                                       color: c.tag,
                                       fontWeight: f.semiBold
                                   ),
@@ -588,8 +614,7 @@ class _CreatePostState extends State<CreatePost> {
                           icon: Icon(FeatherIcons.x, color: c.blackMain, size: 24)
                       ),
                     ],
-                  ):
-                  Container(),                                                         //mentionPost here ei duean
+                  )                                                         //mentionPost here ei duean
                 ),
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -602,7 +627,119 @@ class _CreatePostState extends State<CreatePost> {
                     ),
                   ],
                 ),
+              ):
+              Container(
+                height: 50,
+                child: Padding(
+                    padding: const EdgeInsets.only(left: 28, right: 28),
+                    child:
+                    Row(
+                children: [
+                Container(
+                child: Padding(
+                    padding: const EdgeInsets.only(top: 1,bottom: 2,left: 4,right: 6),
+                child: Row(
+                  children: [
+                    Inter(
+                      text: 'mention to',
+                      fontWeight: f.medium,
+                      size: 14,
+                      color: c.blackMain,
+                    ),
+                  ],
+                ),
               ),
+            ),
+            SizedBox(width: 8),
+            Expanded(
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemCount: listMention.length,
+                itemBuilder: (context, index) {
+                                        return Row(
+                                          children: [
+                                            Container(
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(
+                                                    left: 9,
+                                                    right: 4,
+                                                    top: 2.5,
+                                                    bottom: 2.5),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    Navigator.of(context).push(
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                comparepage(
+                                                                    id: listMention[
+                                                                            index]
+                                                                        .id,
+                                                                    currentState:
+                                                                        0)));
+                                                  },
+                                                  child: Row(
+                                                    children: [
+                                                      Container(
+                                                        constraints: BoxConstraints(
+                                                            maxWidth: 125),
+                                                        child: Inter_Crop(
+                                                            text: listMention[index]
+                                                                    .brand! +
+                                                                " " +
+                                                                listMention[index]
+                                                                    .product!,
+                                                            size: 12,
+                                                            color: c.tag,
+                                                            fontWeight: f.semiBold),
+                                                      ),
+                                                      SizedBox(width: 8),
+                                                      Icon(FeatherIcons.chevronRight,
+                                                          size: 14, color: c.tag),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              decoration: BoxDecoration(
+                                                  color: c.greenLight2,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10)),
+                                            ),
+                                            SizedBox(width: 8)
+                                          ],
+                                        );
+                                      },
+              ),
+            ),
+            SizedBox(width: 8),
+            // Expanded(child: Container()),
+            IconButton(
+                onPressed: () {
+                  setState(()  {
+                    storage.delete(key: "mention-product");
+                    storage.delete(key: "review-product");
+                    isadd=false;
+                  });
+                },
+                padding: EdgeInsets.zero,
+                constraints: BoxConstraints(),
+                icon: Icon(FeatherIcons.x, color: c.blackMain, size: 24)
+            ),
+          ],
+        ),                                                         //mentionPost here ei duean
+      ),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: c.shadow.withOpacity(0.09),
+            spreadRadius: -27,
+            blurRadius: 43,
+            offset: Offset(1, 1), // changes position of shadow
+          ),
+        ],
+      ),
+    )
             ):Container(),
             Positioned(
               bottom: 0,
@@ -650,7 +787,7 @@ class _CreatePostState extends State<CreatePost> {
                       ):
                       IconButton(
                           onPressed: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchProduct()));
+                            moveToMentionPage();
                           },
                           padding: EdgeInsets.zero,
                           constraints: BoxConstraints(),
@@ -718,7 +855,7 @@ class _CreatePostState extends State<CreatePost> {
               right: 0,
               child: Divider(
                 color: c.greyMain,
-                thickness: 0.5,
+                thickness: 0.3,
                 height: 0,
               ),
             ):Container(),

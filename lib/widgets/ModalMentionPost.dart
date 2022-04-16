@@ -14,6 +14,7 @@ import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/scrapper/incidecoder.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
 import '../NetworkHandler.dart';
@@ -180,6 +181,7 @@ class SearchProduct extends StatefulWidget {
 
 class _SearchProductState extends State<SearchProduct> {
   final networkHandler = NetworkHandler();
+  final storage = new FlutterSecureStorage();
   String query = '';
   List products = [];
   List<ProductModel> product2 = [];
@@ -391,8 +393,11 @@ class _SearchProductState extends State<SearchProduct> {
                           color: c.textWhite,
                           height: 50,
                         ),
-                        onTap: () {
-                          print(mention);
+                        onTap: () async {
+                          // print(mention);
+                          await storage.write(key: "mention-product", value: 'check');
+                          await storage.write(key: "review-product", value: 'check');
+                          Navigator.pop(context, mention);
                         },
                       ),
                     ),
