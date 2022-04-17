@@ -12,14 +12,14 @@ class Product{
 
 }
 
-class Ingredient{
-  String ing_name = '';
-  String ing_met = '';
-  String ing_irr = '';
-  String ing_rate = '';
-  // Ingredient(this.ing_name,this.ing_met,this.ing_irr,this.ing_rate);
-
-}
+// class Ingredient{
+//   String ing_name = '';
+//   String ing_met = '';
+//   String ing_irr = '';
+//   String ing_rate = '';
+//   // Ingredient(this.ing_name,this.ing_met,this.ing_irr,this.ing_rate);
+//
+// }
 
 class Real{
   String p_name = "";
@@ -315,33 +315,50 @@ class Scraper {
   //
   //   }
   // }
-  static Future<List> getIng(List allPath) async{
+  static Future<List> getIng(String link) async{
 
       String path = URL2;
-      for(var link in allPath){
+      List Ing = [];
+      List ingReturn = [];
           print(link);
           var response = await http.get(Uri.parse(path+link));
           var body = response.body;
           var parse_body = parse(body);
         // ing name
-          var name = parse_body.querySelector('.ingredinfobox .klavikab')?.innerHtml.trim();
-          print(name);
+          var ingname = parse_body.querySelector('.ingredinfobox .klavikab')?.innerHtml.trim();
         // ing rate
-          var rate = parse_body.querySelector('.ingredinfobox .ourtake')?.innerHtml.trim();
+          String? ingrate = "";
+
+          if(parse_body.querySelector('.ingredinfobox .ourtake')?.innerHtml.trim() == null){
+            ingrate = "";
+          }
+          else{
+            ingrate = parse_body.querySelector('.ingredinfobox .ourtake')?.innerHtml.trim();
+          }
           // print(rate);
           var funcs = parse_body.querySelectorAll('.itemprop .value');
+          String ingcall= '';
+          List ingfunc= [];
+          String ingirr= '';
+          String ingcome= '';
+          String ingcos= '';
+
           for (var func in funcs){
            // func = func.querySelector('.value')?.innerHtml.trim();
             var check = func.previousElementSibling?.innerHtml;
+            // print(func.innerHtml);
             // print(func.previousElementSibling?.innerHtml);
             if(check=="Also-called-like-this:"){
-              var ingano = func.querySelector('.value')?.innerHtml.trim();
+              ingcall = func.innerHtml.trim();
            }else if (check == "What-it-does: "){
-              var ingfunc = func.querySelector('.value')?.innerHtml.trim();
-           }else if (check == "Irritancy: "){
-             var ingirr = func.querySelector('.value')?.innerHtml.trim();
-           }else if (check == "Comedogenicity: "){
-             var ingcom = func.querySelector('.value')?.innerHtml.trim();
+              var ram = func.querySelectorAll('.value > a');
+              for (var efunc in ram){
+                ingfunc.add(efunc.innerHtml.trim());
+              }
+           }else if (check=="Irritancy: "){
+             ingirr = func.innerHtml.trim();
+            }else if (check=="Comedogenicity: "){
+             ingcome = func.innerHtml.trim();
            }
          }
           var cosings = parse_body.querySelectorAll('#cosing-data > div > div');
@@ -350,22 +367,29 @@ class Scraper {
 
             }
             else{
+              ingcos = ingcos + cosing.text.trim().replaceAll("<b>","").replaceAll("</b>", "").replaceAll("\n", "").replaceAll("                    ", "").replaceAll("      ", "");
+              // ingcos = cosing.innerHtml.trim().replaceAll("<b>","").replaceAll("</b>", "").replaceAll("\n", "").replaceAll("                    ", "").trim();
+              // print(ingcos);
               // print(cosing.innerHtml.trim().replaceAll("<b>","").replaceAll("</b>", "").replaceAll("\n", "").replaceAll("                    ", "").trim());
             }
           }
+          var ingquick = [];
           var quick = parse_body.querySelectorAll('.starlist > li');
           if(quick.length > 0){
             for (var each in quick){
               // print(each.innerHtml.trim());
+              ingquick.add(each.innerHtml.trim().replaceAll("<strong>","").replaceAll("</strong>", "").replaceAll("&nbsp", "").replaceAll(";", ""));
             }
           }
 
-          var details = parse_body.querySelectorAll('.content > p');
+          var ingdetail = "";
+          var details = parse_body.querySelectorAll('.content > p:not(a)');
           if(details.length  > 0){
             var count = 1;
             for (var detail in details){
-              if(count <= 2 && !detail.innerHtml.trim().contains("href")){
-                // print(detail.innerHtml.trim());
+              if(count <= 4){
+                // print(detail.text);
+                ingdetail = ingdetail + detail.text.replaceAll("<strong>","").replaceAll("</strong>", "").replaceAll("&nbsp", "").replaceAll(";", "");
               }
               else{
                 break;
@@ -373,18 +397,29 @@ class Scraper {
               count++;
             }
           }
+          var ingproofs = [];
           var proofs = parse_body.querySelectorAll('#proof >div >ul> li');
           if(proofs.length>0){
             for(var proof in proofs){
-              print(proof.innerHtml.trim());
+              // print(proof.innerHtml.trim());
+              ingproofs.add(proof.innerHtml.trim());
             }
           }
+          Ing.add(ingname);
+          Ing.add(ingrate);
+          Ing.add(ingcall);
+          Ing.add(ingfunc);
+          Ing.add(ingirr);
+          Ing.add(ingcome);
+          Ing.add(ingcos);
+          Ing.add(ingquick);
+          Ing.add(ingdetail);
+          Ing.add(ingproofs);
 
-
-      }
+          ingReturn.add(Ing);
       // var body = response.body;
       // print(body);
-      return (['kj','ko']);
+      return (ingReturn);
     }
   }
 
@@ -448,17 +483,36 @@ Future<void> main() async{
  //   print('${results[i].name} , ${results[i].link}');
  //  }
  //  print(stopwatch.elapsed);
- //  List results = [];
- //  results = await Scraper.getData2('innisfree');
-  // for (var result in results) {
-    // print(result.link);
-  // }
-    // Real x = await Scraper.getBrand(result.link);
+  List results = [];
+  results = await Scraper.getData2('anua');
+  for (var result in results) {
+    print(result.link);
+    Real x = await Scraper.getBrand(result.link);
+    // print(x.p_ing[1]);
+    for (var ing in x.p_ing[1]){
+      // print(ing);
+      List y = await Scraper.getIng(ing);
+      // print(y[0].length);
+      int i = 1;
+      for (var all in y[0]){
+        print(i);
+        print(all);
+        i++;
+      }
+    }
+    // List y = await Scraper.getIng(x.p_ing[1]);
+    // print(x.p_name+y.length.toString());
+    // var i = 0;
+    // for ( i; i<y.length; i++){
+    //   print(y[i]);
+    //   print('-------------------------------------------');
+    // }
+  }
     //
-  Real x = await Scraper.getBrand('/products/evershine-moringa-refresh-toner-essence');
+  // Real x = await Scraper.getBrand('/products/evershine-moringa-refresh-toner-essence');
   //
-  // print(x.p_ing[1]);
-  Scraper.getIng(x.p_ing[1]);
+  // print(x.p_ing[0]);
+  // print(y.length);
   // for(var y in x.p_ing){
   //   print(y);
   //   for(var z in y){

@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const schema = mongoose.Schema;
-require('mongoose-double')(mongoose);
 
 const Post = schema(
     {

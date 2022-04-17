@@ -3,6 +3,7 @@ import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/material.dart';
+import 'dart:convert';
 
 import '../NetworkHandler.dart';
 import '../scrapper/incidecoder.dart';
@@ -25,28 +26,51 @@ class _ScrapState extends State<Scrap> {
     WidgetsBinding.instance?.addPostFrameCallback((_) {
       print("WidgetsBinding");
       product().then((value) async {
-        // print(value);
+
+        print('product have'+value.length.toString());
         for (var result in value) {
           // print(result.link);
           Real x = await Scraper.getBrand(result.link);
+          print(x.p_name);
+          List ingList = [];
+          for (var ing in x.p_ing[1]){
+            // print(ing);
+            List y = await Scraper.getIng(ing);
 
+
+            Map<String, dynamic> data = {
+              "name": y[0][0],
+              "rate": y[0][1],
+              "calling": y[0][2],
+              "func": y[0][3],
+              "irr": y[0][4],
+              "come": y[0][5],
+              "cosing": y[0][6],
+              "quick": y[0][7],
+              "detail": y[0][8],
+              "proof": y[0][9],
+              "link": ing
+            };
+
+            var response = await networkHandler.postO("/product/add/ing",data);
+            Map<String, dynamic> output = json.decode(response.body);
+            ingList.add(output['result']);
+
+        }
           Map<String, dynamic> data = {
             "p_name": x.p_name,
             "p_brand": x.p_brand,
             "p_desc": x.p_desc,
             "p_img": x.p_img,
-            "ing_name" : x.p_ing[0],
-            "ing_met" : x.p_ing[1],
-            "ing_irr" : x.p_ing[2],
-            "ing_rate" : x.p_ing[3]
+            "ing_id" : ingList,
           };
-          print ("data $data");
+          // print ("data $data");
           var response = await networkHandler.postO("/product/add",data);
-          print(response);
-
+          // print(response);
+        // Navigator.pop(context);
         }
         print("finish");
-        // Navigator.pop(context);
+
       });
 
       // print(results);
@@ -59,7 +83,13 @@ class _ScrapState extends State<Scrap> {
   }
 
   Future<List> product() async{
-    results = await Scraper.getData2('anua');
+    results = await Scraper.getData2('biore');
+    Map<String, dynamic> data = {
+      "name": 'Biore',
+    };
+
+    var response = await networkHandler.postO("/product/add/brand",data);
+    print(response);
     return results;
   }
   @override

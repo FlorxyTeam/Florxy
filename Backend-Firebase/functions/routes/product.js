@@ -4,6 +4,8 @@ const router = express.Router();
 const products = require("../models/product.model");
 const middleware = require("../middleware");
 const Post = require("../models/post.model");
+const Ingredient = require("../models/ingredient.model");
+const Brand = require("../models/brand.model");
 
 
 router.route("/getProductData/:id").get(middleware.checkToken, (req, res) => {
@@ -14,6 +16,28 @@ router.route("/getProductData/:id").get(middleware.checkToken, (req, res) => {
     else return res.json({ data: result });
   });
 });
+router.route("/add/brand").post((req, res)=> {
+  // eslint-disable-next-line new-cap
+  Brand.find({name:req.body.name},(err, result) =>{
+    if(err) res.status(500).json({msg: err});
+    if(result.length == 0){
+      const brand = Brand({
+        name: req.body.name,
+      });
+      brand.save()
+            .then(() => {
+              return res.json({msg: "brand successfully stored"});
+            })
+            .catch((err) => {
+              return res.status(400).json({err: err});
+            });
+  }
+  else{
+    return res.json({msg: "brand already had"});
+  }
+  });
+});
+
 
 router.route("/add").post((req, res)=> {
   // eslint-disable-next-line new-cap
@@ -22,11 +46,7 @@ router.route("/add").post((req, res)=> {
     p_brand: req.body.p_brand,
     p_desc: req.body.p_desc,
     p_img: req.body.p_img,
-    ing_name: req.body.ing_name,
-    ing_met: req.body.ing_met,
-    ing_irr: req.body.ing_irr,
-    ing_rate: req.body.ing_rate,
-
+    ing_id: req.body.ing_id,
   });
   console.log("hi");
   product
@@ -38,6 +58,56 @@ router.route("/add").post((req, res)=> {
         return res.status(400).json({err: err});
       });
 });
+router.route("/add/ing").post((req, res)=> {
+  Ingredient.find({name:req.body.name}, (err, result) =>{
+  console.log(result.length == 0);
+    if(err) res.status(500).json({msg: err});
+    if(result.length == 0){
+      const ingredient = Ingredient({
+        name: req.body.name,
+        rate: req.body.rate,
+        calling: req.body.calling,
+        func: req.body.func,
+        irr: req.body.irr,
+        come: req.body.come,
+        cosing: req.body.cosing,
+        quick: req.body.quick,
+        detail: req.body.detail,
+        proof: req.body.proof,
+        link: req.body.link,
+      });
+      ingredient.save().then((value) => {
+                        return res.json({result: value._id});
+                      })
+                      .catch((err) => {
+                        return res.status(400).json({err: err});
+                      });
+      }
+    else{
+        res.json({
+        result: result[0]._id
+       })
+    }
+  })
+});
+
+router.route("/add/ing/check").post((req, res)=> {
+  Ingredient.find({name:req.body.name}, (err, result) =>{
+  console.log(result.length == 0);
+    if(err) res.status(500).json({msg: err});
+    if(result.length == 0){
+      res.json({
+      result: false
+      })
+    }
+    else{
+        res.json({
+        result: true
+       })
+    }
+  })
+});
+
 // list of brand
 router.route("/brand").get(middleware.checkToken, (req, res) => {
     products.find({}).distinct("p_brand", (err, result) => {

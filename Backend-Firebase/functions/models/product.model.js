@@ -24,10 +24,12 @@ const Product = schema(
       },
       p_desc: String,
       p_img: String,
-      ing_name: Array,
-      ing_met: Array,
-      ing_irr: Array,
-      ing_rate: Array,
+      ing_id :[
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Ingredient",
+        }
+      ],
     },
     {
       timestamps: true,
