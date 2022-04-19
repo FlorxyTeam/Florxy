@@ -166,9 +166,9 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height/45,
-            ),
+            // SizedBox(
+            //   height: MediaQuery.of(context).size.height/45,
+            // ),
             Row(
               // mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -382,7 +382,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ],
             ),
-            Padding(
+            profileModel.bio.isNotEmpty?Padding(
               padding: const EdgeInsets.only(top: 12, bottom: 12),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -397,7 +397,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               ),
-            ),
+            ):SizedBox(height: 15),
             Row(children: [
               Icon(
                 Icons.cake_outlined,

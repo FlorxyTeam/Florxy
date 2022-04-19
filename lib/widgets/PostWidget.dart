@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:Florxy/Model/postModel.dart';
 import 'package:Florxy/Model/profileModel.dart';
-import 'package:Florxy/pages/FavPost.dart';
 import 'package:Florxy/pages/ViewPostPage.dart';
 import 'package:Florxy/pages/navbar.dart';
 import 'package:Florxy/widgets/ModalViewProduct.dart';
@@ -45,7 +44,7 @@ class _MentionPostState extends State<MentionPost> {
   final storage = new FlutterSecureStorage();
   bool isFav = false;
   List myfav = [];
-  String? fullname='',influencer='',professor='';
+  String? fullname='',influencer='',professor='', postTime='';
   List favorite=[];
   List product=[], staticData=[];
   int? comment;
@@ -97,7 +96,14 @@ class _MentionPostState extends State<MentionPost> {
     _isLoading = true;
 
     fetchData();
+    setDate();
     super.initState();
+  }
+
+  void setDate() {
+    setState(() {
+      postTime = widget.postTime!.substring(8,10) + "/" + widget.postTime!.substring(5,7) + "/" + widget.postTime!.substring(0,4);
+    });
   }
 
   fetchData() async{
@@ -205,7 +211,7 @@ class _MentionPostState extends State<MentionPost> {
                               if(x != widget.username){
                                 await storage.write(
                                     key: "anotherprofile", value: widget.username);
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile( another_username: widget.username )));
                               }
                               else{
                                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
@@ -213,7 +219,7 @@ class _MentionPostState extends State<MentionPost> {
                             },
                           ),
                           SizedBox( width: 5 ),
-                          Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
+                          Inter(text: postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                         ],
                       ),
                       Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
@@ -784,7 +790,7 @@ class _ReviewPostState extends State<ReviewPost> {
   final storage = new FlutterSecureStorage();
   bool isFav = false;
 
-  String? fullname='',influencer='',professor='';
+  String? fullname='',influencer='',professor='',postTime='';
   List? favorite=[];
   List product=[];
   Map? data;
@@ -836,7 +842,14 @@ class _ReviewPostState extends State<ReviewPost> {
 
     _isLoading = true;
     fetchData();
+    setDate();
     super.initState();
+  }
+
+  void setDate() {
+    setState(() {
+      postTime = widget.postTime!.substring(8,10) + "/" + widget.postTime!.substring(5,7) + "/" + widget.postTime!.substring(0,4);
+    });
   }
 
   fetchData() async{
@@ -935,7 +948,7 @@ class _ReviewPostState extends State<ReviewPost> {
                               if(x != widget.username){
                                 await storage.write(
                                     key: "anotherprofile", value: widget.username);
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile( another_username: widget.username )));
                               }
                               else{
                                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
@@ -944,7 +957,7 @@ class _ReviewPostState extends State<ReviewPost> {
                             },
                           ),
                           SizedBox( width: 5 ),
-                          Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
+                          Inter(text: postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                         ],
                       ),
                       Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
@@ -1512,7 +1525,7 @@ class _PostState extends State<Post> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   bool isFav = false;
-  String? fullname='',influencer='',professor='';
+  String? fullname='',influencer='',professor='', postTime='';
   List? favorite=[];
   int countFav = 0;
   int? comment;
@@ -1560,7 +1573,14 @@ class _PostState extends State<Post> {
     // TODO: implement initState
     _isLoading = true;
     fetchData();
+    setDate();
     super.initState();
+  }
+
+  void setDate() {
+    setState(() {
+      postTime = widget.postTime!.substring(8,10) + "/" + widget.postTime!.substring(5,7) + "/" + widget.postTime!.substring(0,4);
+    });
   }
 
   fetchData() async{
@@ -1654,7 +1674,7 @@ class _PostState extends State<Post> {
                               if(x != widget.username){
                                 await storage.write(
                                     key: "anotherprofile", value: widget.username);
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile( another_username: widget.username )));
                               }
                               else{
                                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
@@ -1662,7 +1682,7 @@ class _PostState extends State<Post> {
                             },
                           ),
                           SizedBox( width: 5 ),
-                          Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
+                          Inter(text: postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                         ],
                       ),
                       Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
@@ -2126,6 +2146,7 @@ class _MentionPost2State extends State<MentionPost2> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   bool isFav = false;
+  String? postTime='';
   List favorite=[];
   List product=[], staticData=[];
   int countFav = 0;
@@ -2158,7 +2179,14 @@ class _MentionPost2State extends State<MentionPost2> {
     // TODO: implement initState
     _isLoading = true;
     fetchData();
+    setDate();
     super.initState();
+  }
+
+  void setDate() {
+    setState(() {
+      postTime = widget.postTime!.substring(8,10) + "/" + widget.postTime!.substring(5,7) + "/" + widget.postTime!.substring(0,4);
+    });
   }
 
   fetchData() async{
@@ -2253,7 +2281,7 @@ class _MentionPost2State extends State<MentionPost2> {
                               if(x != widget.username){
                                 await storage.write(
                                     key: "anotherprofile", value: widget.username);
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile( another_username: widget.username )));
                               }
                               else{
                                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
@@ -2261,7 +2289,7 @@ class _MentionPost2State extends State<MentionPost2> {
                             },
                           ),
                           SizedBox( width: 5 ),
-                          Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
+                          Inter(text: postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                         ],
                       ),
                       Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
@@ -2830,6 +2858,7 @@ class _ReviewPost2State extends State<ReviewPost2> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   bool isFav = false;
+  String? postTime='';
   List favorite=[];
   List product=[], staticData=[];
   int countFav = 0;
@@ -2862,7 +2891,14 @@ class _ReviewPost2State extends State<ReviewPost2> {
     // TODO: implement initState
     _isLoading = true;
     fetchData();
+    setDate();
     super.initState();
+  }
+
+  void setDate() {
+    setState(() {
+      postTime = widget.postTime!.substring(8,10) + "/" + widget.postTime!.substring(5,7) + "/" + widget.postTime!.substring(0,4);
+    });
   }
 
   fetchData() async{
@@ -2958,7 +2994,7 @@ class _ReviewPost2State extends State<ReviewPost2> {
                               if(x != widget.username){
                                 await storage.write(
                                     key: "anotherprofile", value: widget.username);
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile( another_username: widget.username )));
                               }
                               else{
                                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
@@ -2967,7 +3003,7 @@ class _ReviewPost2State extends State<ReviewPost2> {
                             },
                           ),
                           SizedBox( width: 5 ),
-                          Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
+                          Inter(text: postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                         ],
                       ),
                       Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
@@ -3520,6 +3556,7 @@ class _Post2State extends State<Post2> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   bool isFav = false;
+  String? postTime='';
   List favorite=[];
   int countFav = 0;
   PostModel postModel = PostModel(
@@ -3549,7 +3586,14 @@ class _Post2State extends State<Post2> {
     // TODO: implement initState
     _isLoading = true;
     fetchData();
+    setDate();
     super.initState();
+  }
+
+  void setDate() {
+    setState(() {
+      postTime = widget.postTime!.substring(8,10) + "/" + widget.postTime!.substring(5,7) + "/" + widget.postTime!.substring(0,4);
+    });
   }
 
   fetchData() async{
@@ -3639,7 +3683,7 @@ class _Post2State extends State<Post2> {
                               if(x != widget.username){
                                 await storage.write(
                                     key: "anotherprofile", value: widget.username);
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile( another_username: widget.username )));
                               }
                               else{
                                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
@@ -3647,7 +3691,7 @@ class _Post2State extends State<Post2> {
                             },
                           ),
                           SizedBox( width: 5 ),
-                          Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
+                          Inter(text: postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                         ],
                       ),
                       Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),

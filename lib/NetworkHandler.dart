@@ -128,7 +128,7 @@ class NetworkHandler {
     if (response.statusCode == 200) {
       Map<String, dynamic> data = json.decode(response.body);
       List products = data["product"];
-      print(products);
+      // print(products);
       return products.map((json) => ProductModel.fromJson(json)).where((product) {
         final brandLower = product.p_brand.toLowerCase();
         final productLower = product.p_name.toLowerCase();
