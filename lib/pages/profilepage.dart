@@ -248,58 +248,58 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: const EdgeInsets.only(left: 21, top: 5,bottom: 5),
                       child: Row(
 
-                        children: [
-                          GestureDetector(
-                            child: Column(
+                      children: [
+                        GestureDetector(
+                          child: Column(
 
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Poppins(
-                                    text: "${profileModel.listfollower.length}",
-                                    size: 18,
-                                    color: c.blackMain,
-                                    fontWeight: f.semiBold),
-                                Poppins(
-                                    text: "Followers",
-                                    size: 14,
-                                    color: c.greyMain,
-                                    fontWeight: f.semiBold),
-                              ],
-                            ),
-                            onTap: (){
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => myFollower()));
-                            },
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Poppins(
+                                  text: "${profileModel.listfollower.length}",
+                                  size: 18,
+                                  color: c.blackMain,
+                                  fontWeight: f.semiBold),
+                              Poppins(
+                                  text: "Followers",
+                                  size: 14,
+                                  color: c.greyMain,
+                                  fontWeight: f.semiBold),
+                            ],
                           ),
-                          SizedBox(
+                          onTap: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => myFollower()));
+                          },
+                        ),
+                        SizedBox(
                             width: MediaQuery.of(context).size.width/20
-                            // width: 30,
+                          // width: 30,
+                        ),
+                        GestureDetector(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Poppins(
+                                  text: "${profileModel.listfollowing.length}",
+                                  size: 18,
+                                  color: c.blackMain,
+                                  fontWeight: f.semiBold),
+                              Poppins(
+                                  text: "Following",
+                                  size: 14,
+                                  color: c.greyMain,
+                                  fontWeight: f.semiBold),
+                            ],
                           ),
-                          GestureDetector(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Poppins(
-                                    text: "${profileModel.listfollowing.length}",
-                                    size: 18,
-                                    color: c.blackMain,
-                                    fontWeight: f.semiBold),
-                                Poppins(
-                                    text: "Following",
-                                    size: 14,
-                                    color: c.greyMain,
-                                    fontWeight: f.semiBold),
-                              ],
-                            ),
-                            onTap: (){
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => myFollowing()));
-                            },
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width/10,
+                          onTap: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => myFollowing()));
+                          },
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width/10,
 
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
+                    ),
                     ),
                   ],
                 ),

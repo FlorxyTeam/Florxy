@@ -6,6 +6,7 @@ const middleware = require("../middleware");
 const Post = require("../models/post.model");
 const Ingredient = require("../models/ingredient.model");
 const Brand = require("../models/brand.model");
+const Requestproduct = require("../models/requestproduct.model");
 
 
 router.route("/getProductData/:id").get(middleware.checkToken, (req, res) => {
@@ -146,7 +147,7 @@ router.route("/:_id").get(middleware.checkToken, (req, res) => {
 });
 
 // Total brand
-router.route("/brand").get(middleware.checkToken, (req, res) => {
+router.route("/brand").get((req, res) => {
     products.find({}).distinct("p_brand", (err, result) => {
         console.log("list of brand");
         if(err) res.status(500).json({msg: err});
@@ -263,6 +264,36 @@ router.route("/getSearchProduct/:id").get(middleware.checkToken,(req,res)=>{
                     if(err)return res.json(err);
                     return res.json({getProduct : result})
                 });
-            });
+ });
+
+
+ router.route("/request").post(middleware.checkToken,(req, res)=> {
+   // eslint-disable-next-line new-cap
+   const requestproduct = new Requestproduct({
+     p_name: req.body.p_name,
+     p_brand: req.body.p_brand,
+     p_desc: req.body.p_desc,
+     p_img: req.body.p_img,
+     ing_name: req.ing_name,
+     ing_met: req.ing_met,
+     ing_irr: req.ing_irr,
+     ing_rate: req.ing_rate
+
+
+   });
+   console.log("Request");
+   requestproduct
+       .save()
+       .then(() => {
+         return res.json({msg: "Request successful!"});
+       })
+       .catch((err) => {
+         return res.status(400).json({err: err});
+       });
+ });
+
+
+
+
 
 module.exports = router;

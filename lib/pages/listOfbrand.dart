@@ -25,6 +25,7 @@ class _listOfbrandState extends State<listOfbrand> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.only(top: 30, bottom: 30),

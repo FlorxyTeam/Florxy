@@ -1,3 +1,4 @@
+import 'package:Florxy/pages/requestproduct.dart';
 import 'package:Florxy/pages/scrap.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
@@ -743,7 +744,10 @@ class _laboratoryState extends State<laboratory> {
           children: [
             Center(
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => requestproduct()));
+                },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.28,
                   height: MediaQuery.of(context).size.height * 0.17,
