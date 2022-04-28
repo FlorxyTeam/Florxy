@@ -16,6 +16,9 @@ import 'package:Florxy/pages/savedPro.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 
+import 'allfollower.dart';
+import 'allfollowing.dart';
+
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -249,7 +252,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Row(
 
                         children: [
-                          GestureDetector(
+                          profileModel.listfollower.length != 0 ? GestureDetector(
                             child: Column(
 
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -267,14 +270,29 @@ class _ProfilePageState extends State<ProfilePage> {
                               ],
                             ),
                             onTap: (){
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => myFollower()));
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => allFollower( another_username: profileModel.username )));
                             },
+                          ):
+                          Column( 
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Poppins(
+                                  text: "${profileModel.listfollower.length}",
+                                  size: 18,
+                                  color: c.blackSub2,
+                                  fontWeight: f.semiBold),
+                              Poppins(
+                                  text: "Followers",
+                                  size: 14,
+                                  color: c.greyMain,
+                                  fontWeight: f.semiBold),
+                            ],
                           ),
                           SizedBox(
                             width: MediaQuery.of(context).size.width/20
                             // width: 30,
                           ),
-                          GestureDetector(
+                          profileModel.listfollowing.length != 0 ? GestureDetector(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -291,8 +309,23 @@ class _ProfilePageState extends State<ProfilePage> {
                               ],
                             ),
                             onTap: (){
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => myFollowing()));
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => allFollowing( another_username: profileModel.username )));
                             },
+                          ):
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Poppins(
+                                  text: "${profileModel.listfollower.length}",
+                                  size: 18,
+                                  color: c.blackSub2,
+                                  fontWeight: f.semiBold),
+                              Poppins(
+                                  text: "Following",
+                                  size: 14,
+                                  color: c.greyMain,
+                                  fontWeight: f.semiBold),
+                            ],
                           ),
                           SizedBox(
                             width: MediaQuery.of(context).size.width/10,

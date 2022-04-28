@@ -280,7 +280,7 @@ class _anotherProfileState extends State<anotherProfile> {
                             const EdgeInsets.only(left: 21, top: 5, bottom: 5),
                         child: Row(
                           children: [
-                            GestureDetector(
+                            profileModel.listfollower.length != 0 ? GestureDetector(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -299,11 +299,26 @@ class _anotherProfileState extends State<anotherProfile> {
                               onTap: (){
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => allFollower( another_username: profileModel.username )));
                               },
+                            ):
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Poppins(
+                                    text: "${profileModel.listfollower.length}",
+                                    size: 18,
+                                    color: c.blackSub2,
+                                    fontWeight: f.semiBold),
+                                Poppins(
+                                    text: "Followers",
+                                    size: 14,
+                                    color: c.greyMain,
+                                    fontWeight: f.semiBold),
+                              ],
                             ),
                             SizedBox(
                               width: 30,
                             ),
-                            GestureDetector(
+                            profileModel.listfollowing.length != 0 ? GestureDetector(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -322,6 +337,21 @@ class _anotherProfileState extends State<anotherProfile> {
                               onTap: (){
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => allFollowing( another_username: profileModel.username )));
                               },
+                            ):
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Poppins(
+                                    text: "${profileModel.listfollowing.length}",
+                                    size: 18,
+                                    color: c.blackSub2,
+                                    fontWeight: f.semiBold),
+                                Poppins(
+                                    text: "Following",
+                                    size: 14,
+                                    color: c.greyMain,
+                                    fontWeight: f.semiBold),
+                              ],
                             ),
                             SizedBox(
                               width: 30,

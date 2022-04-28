@@ -49,8 +49,8 @@ class _allFollowerState extends State<allFollower> {
   }
 
   void fetchData() async {
-    String? profile = await storage.read(key: "anotherprofile");
-    print(profile);
+    // String? profile = await storage.read(key: "anotherprofile");
+    // print(profile);
     var response = await networkHandler.get("/profile/getOtherData/" + widget.another_username! );
 
     setState(() {
@@ -104,66 +104,7 @@ class _allFollowerState extends State<allFollower> {
               shrinkWrap: true,
               itemBuilder: (builder, index) {
                 Map data = staticData[index];
-                return InkWell(
-                  onTap: () {
-                    setState(() async{
-                      await storage.write(key: "anotherfollowprofile", value: data['username']);
-                      String? myuseranme = await storage.read(key: "username");
-                      print('${data['username']}');
-                      print('${myuseranme}');
-                      if(myuseranme == data['username']){
-                        print("same as fuck");
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
-                      }
-                      else{
-                        print("not same as fuck");
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile( another_username: '${data['username']}'))).then((value) => fetchData());
-                      }
-
-                    });
-                  },
-                  child: Column(
-                    children: [
-                      ListTile(
-                        title: Align(
-                          alignment: Alignment.centerLeft,
-                          child: Poppins(text: "${data['fullname']}", size: 14, color: c.blackMain, fontWeight: f.semiBold)
-                        ),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Inter(text: "@${data['username']}", size: 12, color: c.textUsername, fontWeight: f.medium,),
-                            SizedBox(height: 5),
-                            Alias(username: "${data['username']}")
-                          ],
-                        ),
-                        leading: Container(
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Color(0xFFE5E5E5)
-                            ),
-                            width: 55,
-                            height: 55,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(100),
-                              child: CachedNetworkImage(imageUrl: "${data['img']}",fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
-                            )
-                        ),
-                        trailing: ButtonFollow( username: "${data['username']}" )
-                      ),
-                      SizedBox(height: 14),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Divider(
-                          color: c.greyMain,
-                          thickness: 0.5,
-                          height: 0,
-                        ),
-                      ),
-                      SizedBox(height: 10)
-                    ],
-                  ),
-                );
+                return Alias( username: "${data['username']}" );
               },
               itemCount: profileModel.listfollower.length,
             ),
@@ -184,99 +125,9 @@ class Alias extends StatefulWidget {
 }
 
 class _AliasState extends State<Alias> {
-  final networkHandler = NetworkHandler();
-  ProfileModel profileModel = ProfileModel(
-    id: '',
-    username: '',
-    fullname: '',
-    DOB: '',
-    professor: '',
-    influencer: '',
-    bio: '',
-    img: '',
-    pinned: '',
-    notification: [],
-    saveproduct: [],
-    favorite: [],
-    listfollower: [],
-    listfollowing: [],
-  );
-
-
-  @override
-  void initState(){
-    // TODO: implement initState
-    super.initState();
-    fetchData();
-  }
-
-  void fetchData() async {
-    print(widget.username);
-    var response = await networkHandler.get("/profile/getOtherData/" + widget.username!);
-    setState(() {
-      profileModel = ProfileModel.fromJson(response["data"]);
-    });
-
-  }
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        (profileModel.professor=="")?
-        Container():Row(
-          children: [
-            Container(
-              child: Padding(
-                padding: const EdgeInsets.only(
-                    right: 7, left: 7, top: 4, bottom: 4),
-                child: Inter(
-                    text: profileModel.professor,
-                    size: 8,
-                    color: Colors.white,
-                    fontWeight: f.semiBold),
-              ),
-              decoration: BoxDecoration(
-                  color: c.greenMain,
-                  borderRadius: BorderRadius.circular(10)),
-            ),
-            SizedBox( width: 5 ),
-          ],
-        ),
-        (profileModel.influencer=="")?
-        Container():Container(
-          child: Padding(
-            padding: const EdgeInsets.only(
-                right: 5, left: 5, top: 2, bottom: 2),
-            child: Inter(
-                text: profileModel.influencer,
-                size: 8,
-                color: c.blueMain,
-                fontWeight: f.bold),
-          ),
-          decoration: BoxDecoration(
-              border: Border.all(
-                color: c.blueMain,
-                width: 2,
-              ),
-              borderRadius: BorderRadius.circular(10)),
-        ),
-      ],
-    );
-  }
-}
-
-class ButtonFollow extends StatefulWidget {
-  String? username;
-  ButtonFollow({Key? key, this.username}) : super(key: key);
-
-  @override
-  _ButtonFollowState createState() => _ButtonFollowState();
-}
-
-class _ButtonFollowState extends State<ButtonFollow> {
   final storage = new FlutterSecureStorage();
   final networkHandler = NetworkHandler();
-  String? yourfollow = "";
+  String my_username='',yourfollow='';
   ProfileModel profileModel = ProfileModel(
     id: '',
     username: '',
@@ -311,6 +162,7 @@ class _ButtonFollowState extends State<ButtonFollow> {
     listfollowing: [],
   );
 
+
   @override
   void initState(){
     // TODO: implement initState
@@ -319,15 +171,15 @@ class _ButtonFollowState extends State<ButtonFollow> {
   }
 
   void fetchData() async {
-    var response = await networkHandler.get("/profile/getOtherData/"+widget.username!);
+    String? username = await storage.read(key: "username");
+    var response = await networkHandler.get("/profile/getOtherData/" + widget.username!);
     var response2 = await networkHandler.get("/profile/getData");
+    var followercheck = await networkHandler.get("/profile/followercheck/" + widget.username! + "/" + username!);
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
       myprofileModel = ProfileModel.fromJson(response2["data"]);
+      my_username = username!;
     });
-
-    String? myusername = await storage.read(key: "username");
-    var followercheck = await networkHandler.get("/profile/followercheck/" + widget.username! + "/" + myusername!);
     if(followercheck['Status']){
       setState(() {
         yourfollow="Follow";
@@ -339,71 +191,171 @@ class _ButtonFollowState extends State<ButtonFollow> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
-    return (yourfollow == "Follow")?GestureDetector(
-      child: Container(
-        width: 90,
-        height: 35,
-        child: Center(
-          child: Inter(
-            text: "Follow",
-            color: c.greenMain,
-            size: 12.5,
-            fontWeight: f.semiBold,
-          ),
-        ),
-        decoration: BoxDecoration(
-            border: Border.all(
-              color: c.greenMain,
-              width: 3,
-            ),
-            borderRadius: BorderRadius.circular(9)),
-      ),
-      onTap: () async{
-        Map<String, String> data = {
-          "img":profileModel.img,
-          "fullname":profileModel.fullname.toString(),
-          "myimg":myprofileModel.img,
-          "myfullname":myprofileModel.fullname.toString(),
-        };
-        await networkHandler.patch("/profile/addfollower/${profileModel.username}/${myprofileModel.username}",data);
-        setState(() {
-          yourfollow="Following";
+    return InkWell(
+      onTap: () {
+        setState(() async{
+          await storage.write(key: "anotherfollowprofile", value: widget.username);
+          String? myuseranme = await storage.read(key: "username");
+          if(myuseranme == widget.username){
+            print("same as fuck");
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
+          }
+          else{
+            print("not same as fuck");
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile( another_username: widget.username))).then((value) => fetchData());
+          }
+
         });
       },
-    ):
-    GestureDetector(
-      child: Container(
-        width: 90,
-        height: 35,
-        child: Center(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Inter(
-                text: "Following",
-                color: Colors.white,
-                size: 12.5,
-                fontWeight: f.semiBold,
+      child: Column(
+        children: [
+          ListTile(
+              title: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Poppins(text: profileModel.fullname, size: 14, color: c.blackMain, fontWeight: f.semiBold)
               ),
-              SizedBox(width: 2),
-              Icon(FeatherIcons.check, size: 12, color: Colors.white)
-            ],
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Inter(text: widget.username!, size: 12, color: c.textUsername, fontWeight: f.medium,),
+                  SizedBox(height: 5),
+                  Row(
+                    children: [
+                      (profileModel.professor=="")?
+                      Container():Row(
+                        children: [
+                          Container(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                  right: 7, left: 7, top: 4, bottom: 4),
+                              child: Inter(
+                                  text: profileModel.professor,
+                                  size: 8,
+                                  color: Colors.white,
+                                  fontWeight: f.semiBold),
+                            ),
+                            decoration: BoxDecoration(
+                                color: c.greenMain,
+                                borderRadius: BorderRadius.circular(10)),
+                          ),
+                          SizedBox( width: 5 ),
+                        ],
+                      ),
+                      (profileModel.influencer=="")?
+                      Container():Container(
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              right: 5, left: 5, top: 2, bottom: 2),
+                          child: Inter(
+                              text: profileModel.influencer,
+                              size: 8,
+                              color: c.blueMain,
+                              fontWeight: f.bold),
+                        ),
+                        decoration: BoxDecoration(
+                            border: Border.all(
+                              color: c.blueMain,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.circular(10)),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              leading: Container(
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Color(0xFFE5E5E5)
+                  ),
+                  width: 55,
+                  height: 55,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: CachedNetworkImage(imageUrl: profileModel.img,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
+                  )
+              ),
+              trailing: my_username != widget.username ?
+              (yourfollow == "Follow")?GestureDetector(
+                child: Container(
+                  width: 90,
+                  height: 35,
+                  child: Center(
+                    child: Inter(
+                      text: "Follow",
+                      color: c.greenMain,
+                      size: 12.5,
+                      fontWeight: f.semiBold,
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                        color: c.greenMain,
+                        width: 3,
+                      ),
+                      borderRadius: BorderRadius.circular(9)),
+                ),
+                onTap: () async{
+                  Map<String, String> data = {
+                    "img":profileModel.img,
+                    "fullname":profileModel.fullname.toString(),
+                    "myimg":myprofileModel.img,
+                    "myfullname":myprofileModel.fullname.toString(),
+                  };
+                  await networkHandler.patch("/profile/addfollower/${profileModel.username}/${myprofileModel.username}",data);
+                  setState(() {
+                    yourfollow="Following";
+                  });
+                },
+              ):
+              GestureDetector(
+                child: Container(
+                  width: 90,
+                  height: 35,
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Inter(
+                          text: "Following",
+                          color: Colors.white,
+                          size: 12.5,
+                          fontWeight: f.semiBold,
+                        ),
+                        SizedBox(width: 2),
+                        Icon(FeatherIcons.check, size: 12, color: Colors.white)
+                      ],
+                    ),
+                  ),
+                  decoration: BoxDecoration(
+                      color: c.greenMain,
+                      borderRadius: BorderRadius.circular(9)),
+                ),
+                onTap: () async{
+                  Map<String, String> data = {
+                  };
+                  await networkHandler.patch("/profile/unfollower/${profileModel.username}/${myprofileModel.username}",data);
+                  setState(() {
+                    yourfollow="Follow";
+                  });
+                },
+              ):null
           ),
-        ),
-        decoration: BoxDecoration(
-            color: c.greenMain,
-            borderRadius: BorderRadius.circular(9)),
+          SizedBox(height: 14),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Divider(
+              color: c.greyMain,
+              thickness: 0.5,
+              height: 0,
+            ),
+          ),
+          SizedBox(height: 10)
+        ],
       ),
-      onTap: () async{
-        Map<String, String> data = {
-        };
-        await networkHandler.patch("/profile/unfollower/${profileModel.username}/${myprofileModel.username}",data);
-        setState(() {
-          yourfollow="Follow";
-        });
-      },
     );
   }
 }

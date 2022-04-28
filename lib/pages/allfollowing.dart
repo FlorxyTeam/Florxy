@@ -22,7 +22,6 @@ class allFollowing extends StatefulWidget {
 
 class _allFollowingState extends State<allFollowing> {
   List data = [];
-  String my_username='';
   final storage = new FlutterSecureStorage();
   final networkHandler = NetworkHandler();
   ProfileModel profileModel = ProfileModel(
@@ -51,7 +50,6 @@ class _allFollowingState extends State<allFollowing> {
   }
 
   void fetchData() async {
-    String? username = await storage.read(key: "username");
     // print(profile);
     var response = await networkHandler.get("/profile/getOtherData/" + widget.another_username!);
     // print("widget.another_username");
@@ -59,7 +57,6 @@ class _allFollowingState extends State<allFollowing> {
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
       data = profileModel.listfollowing;
-      my_username = username!;
       // print(data);
     });
 
@@ -108,66 +105,7 @@ class _allFollowingState extends State<allFollowing> {
               shrinkWrap: true,
               itemBuilder: (builder, index) {
                 Map data = staticData[index];
-                return InkWell(
-                  onTap: () {
-                    setState(() async{
-                      await storage.write(key: "anotherfollowprofile", value: data['username']);
-                      String? myuseranme = await storage.read(key: "username");
-                      print('${data['username']}');
-                      print('${myuseranme}');
-                      if(myuseranme == data['username']){
-                        print("same as fuck");
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
-                      }
-                      else{
-                        print("not same as fuck");
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile( another_username: '${data['username']}'))).then((value) => fetchData());
-                      }
-
-                    });
-                  },
-                  child: Column(
-                    children: [
-                      ListTile(
-                          title: Align(
-                              alignment: Alignment.centerLeft,
-                              child: Poppins(text: "${data['fullname']}", size: 14, color: c.blackMain, fontWeight: f.semiBold)
-                          ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Inter(text: "@${data['username']}", size: 12, color: c.textUsername, fontWeight: f.medium,),
-                              SizedBox(height: 5),
-                              Alias(username: "${data['username']}")
-                            ],
-                          ),
-                          leading: Container(
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Color(0xFFE5E5E5)
-                              ),
-                              width: 55,
-                              height: 55,
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(100),
-                                child: CachedNetworkImage(imageUrl: "${data['img']}",fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
-                              )
-                          ),
-                          trailing: my_username != "${data['username']}"?ButtonFollow( username: "${data['username']}" ):null
-                      ),
-                      SizedBox(height: 14),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Divider(
-                          color: c.greyMain,
-                          thickness: 0.5,
-                          height: 0,
-                        ),
-                      ),
-                      SizedBox(height: 10)
-                    ],
-                  ),
-                );
+                return Alias( username: "${data['username']}" );
               },
               itemCount: profileModel.listfollowing.length,
             ),
