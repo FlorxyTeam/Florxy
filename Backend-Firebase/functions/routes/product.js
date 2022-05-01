@@ -7,6 +7,7 @@ const Post = require("../models/post.model");
 const Ingredient = require("../models/ingredient.model");
 const Brand = require("../models/brand.model");
 const Requestproduct = require("../models/requestproduct.model");
+const Profile = require("../models/profile.model");
 
 
 router.route("/getProductData/:id").get(middleware.checkToken, (req, res) => {
@@ -120,6 +121,19 @@ router.route("/brand").get(middleware.checkToken, (req, res) => {
         })
     })
 });
+
+//brand and list
+//router.route("/brand").get((req, res) => {
+//  products.aggregate([
+//                {"$group" : {_id:"$p_brand", count:{$sum:1}}},
+//
+//     ]).sort({count: -1}).exec(function ( err,result ) {
+//          if(err)return res.json(err);
+//          return res.json({data : result})
+//       });
+//});
+
+
 // go to brandOverview
 router.route("/brand/:p_brand").get(middleware.checkToken, (req, res) => {
     products.find({p_brand: req.params.p_brand},(err, result) => {
@@ -146,28 +160,8 @@ router.route("/:_id").get(middleware.checkToken, (req, res) => {
     })
 });
 
-// Total brand
-router.route("/brand").get((req, res) => {
-    products.find({}).distinct("p_brand", (err, result) => {
-        console.log("list of brand");
-        if(err) res.status(500).json({msg: err});
-        res.json({
-            data: result,
-            p_brand: req.body.p_brand,
-        })
-    })
-});
 
-// brandOverview
-router.route("/brand/:p_brand").get(middleware.checkToken, (req, res) => {
-    products.find({p_brand: req.params.p_brand}, (err, result) => {
-        if(err) res.status(500).json({msg: err});
-                  res.json({
-                               data: result,
-                               p_brand: req.params.p_brand,
-                      })
-    });
-});
+
 
 
 // top 5 mentions
@@ -185,24 +179,13 @@ router.route("/topmention/brand/:p_brand").get(middleware.checkToken, (req, res 
 router.route("/topreview/brand/:p_brand").get(middleware.checkToken, (req, res ) =>{
      products.find({p_brand: req.params.p_brand}).sort({mention: -1}).limit(5).exec(function(err, review){
      if(err) res.status(500).json({msg: err});
-                       res.json({
-                                    data: review,
-                                    p_brand: req.params.p_brand,
-                           })
+       res.json({
+            data: review,
+            p_brand: req.params.p_brand,
+        })
      });
 });
 
-// product Detail
-router.route("/:_id").get(middleware.checkToken, (req, res) => {
-    products.findOne({_id: req.params._id}, (err, result) => {
-        console.log("ProductOverview");
-        if(err) res.status(500).json({msg: err});
-        res.json({
-            data: result,
-            p_id: req.params._id,
-        })
-    })
-});
 
 // Interesting review and mention
 router.route("/post/interestingreview/:_id").get(middleware.checkToken, (req, res ) =>{
@@ -292,8 +275,83 @@ router.route("/getSearchProduct/:id").get(middleware.checkToken,(req,res)=>{
        });
  });
 
+ router.route("/save/:id").post(middleware.checkToken, (req, res)=>{
+   // res.json(req.params.id);
+   Profile.findOneAndUpdate({_id: req.params.id},
+       {$push: {
+        saveproduct: req.body.saveproduct}}, function(err, SaveProduct) {
+         console.log(req.params.id);
+         if (err) {
+           return res.json(err);
+         } else {
+            return res.json("save succes!!");
+         }
+       });
+ });
+
+
+ router.route("/unsave/:id").post(middleware.checkToken, (req, res)=>{
+   // res.json(req.params.id);
+   Profile.findOneAndUpdate({_id: req.params.id},
+       {$pull: {
+        saveproduct: req.body.saveproduct}}, function(err, SaveProduct) {
+         console.log(req.params.id);
+         if (err) {
+           return res.json(err);
+         } else {
+            return res.json("unsave succes!!");
+         }
+       });
+ });
+
+router.route("/view/productoverview/:username").get(middleware.checkToken, (req, res) => {
+    Profile.findOne({username: req.params.username}, (err, result) => {
+        console.log("I'm here");
+        if(err) res.status(500).json({msg: err});
+        else return res.json({
+            data: result,
+        })
+    })
+});
+
+router.route("/unsave/:id").post(middleware.checkToken, (req, res)=>{
+   // res.json(req.params.id);
+   Profile.findOneAndUpdate({_id: req.params.id},
+       {$pull: {
+        saveproduct: req.body.saveproduct}}, function(err, SaveProduct) {
+         console.log(req.params.id);
+         if (err) {
+           return res.json(err);
+         } else {
+            return res.json("unsave succes!!");
+         }
+       });
+ });
+
+router.route("/rating/:id").post(middleware.checkToken, (req, res)=>{
+   // res.json(req.params.id);
+   product.findOneAndUpdate({_id: req.params.id},
+       {$push: {
+        review: req.body.rating}}, function(err, SaveProduct) {
+         console.log(req.params.id);
+         if (err) {
+           return res.json(err);
+         } else {
+            return res.json("unsave succes!!");
+         }
+       });
+ });
 
 
 
 
+
+
+//rating
+//db.products.aggregate([{$lookup:{from:"posts",localField:"_id",foreignField:"product",as:"review"}},{$unwind: "$review"},{$group:{_id:{_id:"$_id", type: "$review.type"}, ratingAvg: {$avg: "$review.rating"}}}])
+
+//db.products.aggregate([{$lookup:{from:"posts",localField:"_id",foreignField:"product",as:"review"}},{$unwind: "$review"},{$group:{_id:{_id:"$_id", type: "$review.type"}, ratingAvg: {$avg: "$review.rating"}}}]).sort({ratingAvg: -1})
+
+//complete
+//db.products.aggregate([{$lookup:{from:"posts",localField:"_id",foreignField:"product",as:"review"}},{$unwind: "$review"},{$group:{_id:{id:"$review._id", type: "$review.type" ,img: "$p_img", brand: "$p_brand", name: "$p_name", desc: "$p_desc"}, ratingAvg: {$avg: "$review.rating"}}}]).sort({ratingAvg: -1})
 module.exports = router;
