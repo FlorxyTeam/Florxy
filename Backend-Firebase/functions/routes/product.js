@@ -160,18 +160,14 @@ router.route("/:_id").get(middleware.checkToken, (req, res) => {
     })
 });
 
-
-
-
-
 // top 5 mentions
 router.route("/topmention/brand/:p_brand").get(middleware.checkToken, (req, res ) =>{
      products.find({p_brand: req.params.p_brand}).sort({mention: -1}).limit(5).exec(function(err, mention){
      if(err) res.status(500).json({msg: err});
-                       res.json({
-                                    data: mention,
-                                    p_brand: req.params.p_brand,
-                           })
+        res.json({
+            data: mention,
+            p_brand: req.params.p_brand,
+         })
      });
 });
 
@@ -188,9 +184,37 @@ router.route("/topreview/brand/:p_brand").get(middleware.checkToken, (req, res )
 
 
 // Interesting review and mention
+//router.route("/post/interestingreview/:_id").get(middleware.checkToken, (req, res ) =>{
+//    let post = {};
+//    let rate = 0;
+//     Post.find({product: req.params._id, type:"review" } ).sort({rating: -1}).exec(function(err, result){
+//        if(err) {
+//            res.status(500).json({msg: err});
+//        }else{
+//            post = result;
+//            console.log(post);
+//             for(i=0;i < post.length;i++){
+//                rate = rate + parseFloat(post[i].rating);
+////                console.log(post[0].rating);
+//             }
+//             rate = rate/post.length;
+//                console.log(rate);
+//
+//
+//
+//        }
+//
+//
+//     });
+//});
+
+
+
 router.route("/post/interestingreview/:_id").get(middleware.checkToken, (req, res ) =>{
+
      Post.find({product: req.params._id, type:"review" } ).sort({rating: -1}).exec(function(err, result){
         if(err) res.status(500).json({msg: err});
+
                 res.json({
                     interesting: result,
                     p_id: req.params._id,
@@ -198,6 +222,8 @@ router.route("/post/interestingreview/:_id").get(middleware.checkToken, (req, re
 
      });
 });
+
+
 
 
 // compare 2 products
@@ -257,12 +283,10 @@ router.route("/getSearchProduct/:id").get(middleware.checkToken,(req,res)=>{
      p_brand: req.body.p_brand,
      p_desc: req.body.p_desc,
      p_img: req.body.p_img,
-     ing_name: req.ing_name,
-     ing_met: req.ing_met,
-     ing_irr: req.ing_irr,
-     ing_rate: req.ing_rate
-
-
+     ing_name: req.body.ing_name,
+     ing_met: req.body.ing_met,
+     ing_irr: req.body.ing_irr,
+     ing_rate: req.body.ing_rate
    });
    console.log("Request");
    requestproduct
@@ -314,44 +338,15 @@ router.route("/view/productoverview/:username").get(middleware.checkToken, (req,
     })
 });
 
-router.route("/unsave/:id").post(middleware.checkToken, (req, res)=>{
-   // res.json(req.params.id);
-   Profile.findOneAndUpdate({_id: req.params.id},
-       {$pull: {
-        saveproduct: req.body.saveproduct}}, function(err, SaveProduct) {
-         console.log(req.params.id);
-         if (err) {
-           return res.json(err);
-         } else {
-            return res.json("unsave succes!!");
-         }
-       });
- });
 
-router.route("/rating/:id").post(middleware.checkToken, (req, res)=>{
-   // res.json(req.params.id);
-   product.findOneAndUpdate({_id: req.params.id},
-       {$push: {
-        review: req.body.rating}}, function(err, SaveProduct) {
-         console.log(req.params.id);
-         if (err) {
-           return res.json(err);
-         } else {
-            return res.json("unsave succes!!");
-         }
-       });
- });
+
+//router.route("/updaterating/:id").patch(middleware.checkToken, (req, res) => {
+//       Post.find({product: req.params.id, type:"review" } ).sort({rating: -1}).exec(function(err, result){
+//            if(err) res.status(500).json({msg: err});
+//
+//         });
+//});
 
 
 
-
-
-
-//rating
-//db.products.aggregate([{$lookup:{from:"posts",localField:"_id",foreignField:"product",as:"review"}},{$unwind: "$review"},{$group:{_id:{_id:"$_id", type: "$review.type"}, ratingAvg: {$avg: "$review.rating"}}}])
-
-//db.products.aggregate([{$lookup:{from:"posts",localField:"_id",foreignField:"product",as:"review"}},{$unwind: "$review"},{$group:{_id:{_id:"$_id", type: "$review.type"}, ratingAvg: {$avg: "$review.rating"}}}]).sort({ratingAvg: -1})
-
-//complete
-//db.products.aggregate([{$lookup:{from:"posts",localField:"_id",foreignField:"product",as:"review"}},{$unwind: "$review"},{$group:{_id:{id:"$review._id", type: "$review.type" ,img: "$p_img", brand: "$p_brand", name: "$p_name", desc: "$p_desc"}, ratingAvg: {$avg: "$review.rating"}}}]).sort({ratingAvg: -1})
 module.exports = router;

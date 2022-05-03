@@ -28,25 +28,9 @@ class _requestproductState extends State<requestproduct> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   final _globalkey = GlobalKey<FormState>();
-  TextEditingController _fullname = TextEditingController();
-  TextEditingController _username = TextEditingController();
-  TextEditingController _bio = TextEditingController();
-  ProfileModel profileModel = ProfileModel(
-    id: '',
-    username: '',
-    fullname: '',
-    DOB: '',
-    professor: '',
-    influencer: '',
-    bio: '',
-    img: '',
-    pinned: '',
-    notification: [],
-    saveproduct: [],
-    favorite: [],
-    listfollower: [],
-    listfollowing: [],
-  );
+  TextEditingController _productname = TextEditingController();
+  TextEditingController _productbrand = TextEditingController();
+  TextEditingController _productingredient = TextEditingController();
 
   File? image;
   @override
@@ -57,9 +41,7 @@ class _requestproductState extends State<requestproduct> {
     fetchData();
   }
   void fetchData() async{
-    var response = await networkHandler.get("/profile/getData");
     setState(() {
-      profileModel = ProfileModel.fromJson(response["data"]);
       circular = false;
     });
   }
@@ -109,84 +91,21 @@ class _requestproductState extends State<requestproduct> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                      icon: Icon(Icons.close_rounded),
+                      icon: Icon(Icons.arrow_back_ios_new_rounded),
                       color: c.blackMain,
-                      iconSize: 30,
+                      iconSize: 27,
                       onPressed: () => Navigator.of(context).pop()
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 5),
                     child: Inter(
-                        text: "Edit profile",
-                        size: 18,
+                        text: "Create New Product",
+                        size: 20,
                         color: c.blackMain,
                         fontWeight: f.semiBold),
                   ),
                   Expanded(child: Container()),
-                  TextButton(
-                      style: TextButton.styleFrom(
-                        primary: Colors.white,
-                      ),
-                      onPressed: () async {
 
-                        setState(() {
-                          circular = true;
-                        });
-                        if (_globalkey.currentState!.validate()) {
-                          Map<String, String> data = {
-                            "fullname": _fullname.text,
-                            "bio": _bio.text,
-                          };
-                          var response = await networkHandler.patch("/profile/update", data);
-
-                          if (response.statusCode == 200 ||
-                              response.statusCode == 201) {
-                            if (image != null) {
-                              print(image!.path);
-                              final path = image!.path;
-                              final fileName = profileModel.username + '.jpg';
-                              firebase_storage.uploadProfile(path, fileName).then((value) async {
-                                Map<String, String> data = {
-                                  "img": value,
-                                };
-                                print(data);
-                                var response = await networkHandler.patch("/profile/update/profile", data);
-                                if (response.statusCode == 200 ||
-                                    response.statusCode == 201){
-                                  setState(() {
-                                    circular = false;
-                                  });
-                                  Navigator.of(context).pop();
-                                }
-                              });
-                            } else {
-                              setState(() {
-                                circular = false;
-                              });
-                              Navigator.of(context).pop();
-                            }
-                          }else {
-                            setState(() {
-                              circular = false;
-                            });
-                          }
-                        }else {
-                          setState(() {
-                            circular = false;
-                          });
-                        }
-                      },
-                      child: circular
-                          ? Center(
-                          child: Image.asset("assets/img/2.gif",width: size.width/13,)
-                      )
-                          : Inter(
-                        text: "Save",
-                        fontWeight: f.bold,
-                        color: c.greenMain,
-                        size: 18,
-                      )
-                  ),
                 ],
               ),
             ),
@@ -202,28 +121,30 @@ class _requestproductState extends State<requestproduct> {
             child: ListView(
               padding: const EdgeInsets.all(30.0),
               children: <Widget>[
+
+                Inter(
+                  text: "Product Info",
+                  color: c.blackMain,
+                  size: 16,
+                  fontWeight: f.semiBold,
+                ),
+
+               SizedBox(
+                  height: 30,
+                ),
+                ProductnameTextField(),
+                SizedBox(
+                  height: 20,
+                ),
+                ProductbrandTextField(),
+                SizedBox(
+                  height: 30,
+                ),
                 imageProfile(),
                 SizedBox(
                   height: 20,
                 ),
-                Center(
-                  child: Inter(
-                    text:  '@'+profileModel.username,
-                    color: c.blackMain,
-                    fontWeight: f.semiBold,
-                    size: 20,
-                  ),
-                ),SizedBox(
-                  height: 20,
-                ),
-
-                nameTextField(),
-
-                // usernameTextField(),
-                SizedBox(
-                  height: 30,
-                ),
-                bioTextField(),
+                ProductIngredientTextField(),
                 SizedBox(
                   height: 50,
                 ),
@@ -234,17 +155,50 @@ class _requestproductState extends State<requestproduct> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(25.0),
                         ),
-                        color: c.greyMain,
-                        height: 55,
-                        onPressed: () async{
-                          await storage.write(key: "myusername", value: profileModel.username);
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => AliasPage()));
+                        color: c.greenMain,
+                        height: 50,
+                        onPressed: () async {
+                         setState(() {
+                           circular = true;
+                         });
+                         if(_globalkey.currentState!.validate()){
+                           final path = image?.path;
+                           final fileName = DateTime.now().toString()+'_'+_productname.text+'.jpg';
+                           firebase_storage.uploadRequestImage(path!, fileName).then((value) async{
+                             Map<String, String> data = {
+                               "p_name": _productname.text,
+                               "p_brand": _productbrand.text,
+                               "ing_name": _productingredient.text,
+                               "p_img": value,
+
+                             };
+                             if(image != null){
+                               var response = await networkHandler.post2("/product/request", data);
+                               if (response.statusCode == 200 ||
+                                   response.statusCode == 201) {
+                                 setState(() {
+                                   circular = false;
+                                 });
+                                 Navigator.of(context).pop();
+                               }else{
+                                 setState(() {
+                                   circular = false;
+                                 });
+                               }
+                             }
+                           });
+
+                         }
+
 
                         },
 
-                        child: Inter(
-                          text: "Switch to Professional Account",
-                          size: 13,
+                        child: circular
+                            ? Center(
+                            child: Image.asset("assets/img/2.gif",width: size.width/13,)
+                        ):Inter(
+                          text: "Add new product!",
+                          size: 15,
                           color: c.textWhite,
                           fontWeight: f.bold,
                         )),
@@ -268,12 +222,12 @@ class _requestproductState extends State<requestproduct> {
                 child:  CircleAvatar(
                     radius: 50,
                     backgroundColor: Colors.transparent,
-                    backgroundImage: NetworkImage(profileModel.img)
+                    backgroundImage: NetworkImage("profileModel.img")
                 ),
               ) : Container(
                 decoration: BoxDecoration(
                     color: Colors.red,
-                    borderRadius: BorderRadius.circular(50)
+                    borderRadius: BorderRadius.circular(0)
                 ),
                 child: ClipOval(
                   child: Image.file(
@@ -362,14 +316,14 @@ class _requestproductState extends State<requestproduct> {
     );
   }
 
-  //Name
-  Widget nameTextField() {
+  //Product Name
+  Widget ProductnameTextField() {
     return Column(
       children: [
         Align(
           alignment: Alignment.topLeft,
           child: Poppins(
-              text: 'Name', size: 14, color: c.blackSub, fontWeight: f.medium),
+              text: 'Product Name', size: 14, color: c.blackSub, fontWeight: f.medium),
         ),
         SizedBox(height: 5),
         Container(
@@ -379,9 +333,8 @@ class _requestproductState extends State<requestproduct> {
             borderRadius: BorderRadius.all(Radius.circular(13.0)),
           ),
           child: TextFormField(
-              controller: _fullname..text='${profileModel.fullname}',
+              controller: _productname,
               decoration: InputDecoration(
-                hintText: profileModel.fullname,
                 hintStyle: TextStyle(
                     fontSize: 14, color: c.graySub2, fontWeight: f.medium),
                 enabledBorder: OutlineInputBorder(
@@ -400,56 +353,49 @@ class _requestproductState extends State<requestproduct> {
       ],
     );
   }
-
-  // Widget usernameTextField() {
-  //   return Column(
-  //     children: [
-  //       Align(
-  //         alignment: Alignment.topLeft,
-  //         child: Poppins(
-  //             text: 'Username',
-  //             size: 14,
-  //             color: c.blackSub,
-  //             fontWeight: f.medium),
-  //       ),
-  //       SizedBox(height: 5),
-  //       Container(
-  //         height: 50,
-  //         decoration: BoxDecoration(
-  //           color: Colors.white,
-  //           borderRadius: BorderRadius.all(Radius.circular(13.0)),
-  //         ),
-  //         child: TextFormField(
-  //           enabled: false,
-  //           controller: _username,
-  //             decoration: InputDecoration(
-  //           hintText: '@'+profileModel.username,
-  //           hintStyle: TextStyle(
-  //               fontSize: 14, color: c.graySub2, fontWeight: f.medium),
-  //           enabledBorder: OutlineInputBorder(
-  //             borderRadius: BorderRadius.all(Radius.circular(13.0)),
-  //             borderSide:
-  //                 BorderSide(color: c.graySub2.withOpacity(0), width: 2),
-  //           ),
-  //           prefixText: '---',
-  //           prefixStyle: TextStyle(color: Colors.transparent),
-  //           focusedBorder: OutlineInputBorder(
-  //             borderRadius: BorderRadius.all(Radius.circular(13.0)),
-  //             borderSide: BorderSide(color: c.greenMain, width: 2),
-  //           ),
-  //         )),
-  //       ),
-  //     ],
-  //   );
-  // }
-
-  Widget bioTextField() {
+  Widget ProductbrandTextField() {
     return Column(
       children: [
         Align(
           alignment: Alignment.topLeft,
           child: Poppins(
-              text: 'BIO', size: 14, color: c.blackSub, fontWeight: f.medium),
+              text: 'Product Brand', size: 14, color: c.blackSub, fontWeight: f.medium),
+        ),
+        SizedBox(height: 5),
+        Container(
+          height: 50,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(13.0)),
+          ),
+          child: TextFormField(
+              controller: _productbrand ,
+              decoration: InputDecoration(
+                hintStyle: TextStyle(
+                    fontSize: 14, color: c.graySub2, fontWeight: f.medium),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                  borderSide:
+                  BorderSide(color: c.graySub2.withOpacity(0), width: 2),
+                ),
+                prefixText: '---',
+                prefixStyle: TextStyle(color: Colors.transparent),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(13.0)),
+                  borderSide: BorderSide(color: c.greenMain, width: 2),
+                ),
+              )),
+        ),
+      ],
+    );
+  }
+  Widget ProductIngredientTextField() {
+    return Column(
+      children: [
+        Align(
+          alignment: Alignment.topLeft,
+          child: Poppins(
+              text: 'Product Ingredient', size: 14, color: c.blackSub, fontWeight: f.medium),
         ),
         SizedBox(height: 5),
         Container(
@@ -459,11 +405,9 @@ class _requestproductState extends State<requestproduct> {
             borderRadius: BorderRadius.all(Radius.circular(13.0)),
           ),
           child: TextFormField(
-              controller: _bio..text='${profileModel.bio}',
+              controller: _productingredient,
               maxLines: 4,
               decoration: InputDecoration(
-                hintText:
-                profileModel.bio,
                 hintStyle: TextStyle(
                     fontSize: 14, color: c.graySub2, fontWeight: f.medium),
                 enabledBorder: OutlineInputBorder(

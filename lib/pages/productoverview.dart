@@ -232,9 +232,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                               child: Icon(Icons.bookmark_outline_rounded,
                                 color:c.greyMain,
                                 size: 27,
-                              // child: Icon(Icons.bookmark_rounded,
-                              //   color:Color(0xFF32A060),
-                              //   size: 27,
+
                               ),
                             ),if(isSave == true)InkWell(
                               onTap: () async {

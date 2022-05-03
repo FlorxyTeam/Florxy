@@ -11,9 +11,15 @@ const Requestproduct = schema(
         type: String,
         required: true,
       },
-      p_desc: String,
+      ing_name: {
+        type: String,
+        default: ''
+      },
       p_img: String,
-      ing_name: String,
+      ing_name: {
+         type: String,
+         default: ''
+      },
       ing_met: {
         type: String,
         default: ''
@@ -26,8 +32,13 @@ const Requestproduct = schema(
          type: String,
          default: ''
       },
+       rating: {
+          type: String,
+          default: '0'
+       },
 
     },
+
     {
       timestamps: true,
     }
