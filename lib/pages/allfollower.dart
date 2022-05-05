@@ -66,7 +66,48 @@ class _allFollowerState extends State<allFollower> {
   Widget build(BuildContext context) {
     print(data);
     List staticData = data;
-    return Scaffold(
+    return profileModel.listfollower.length == 0 ? Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(26),
+            )),
+        leading: Padding(
+          padding: EdgeInsets.only(top: Theme.of(context).platform==TargetPlatform.android?17.5:0, left: 13),
+          child: IconButton(
+            padding: EdgeInsets.zero,
+            constraints: BoxConstraints(),
+            icon: Icon(FeatherIcons.chevronLeft),
+            iconSize: 34,
+            color: Colors.black,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        title: Poppins(
+          text: profileModel.fullname,
+          size: 18,
+          color: c.blackMain,
+          fontWeight: f.semiBold,
+        ),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(FeatherIcons.userPlus, size:66, color: c.blackSub),
+            SizedBox(height: 8),
+            Inter(text: "Followers", size: 20, color: c.blackSub, fontWeight: f.bold),
+            SizedBox(height: 10),
+            Inter(text: "You'll see all the people who follow you here.", size: 13, color: c.greySub, fontWeight: f.semiBold)
+          ],
+        ),
+      ),
+    ): Scaffold(
       body: SafeArea(
         child: Column(
           children: [
@@ -178,7 +219,7 @@ class _AliasState extends State<Alias> {
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
       myprofileModel = ProfileModel.fromJson(response2["data"]);
-      my_username = username!;
+      my_username = username;
     });
     if(followercheck['Status']){
       setState(() {
