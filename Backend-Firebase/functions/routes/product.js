@@ -111,7 +111,7 @@ router.route("/add/ing/check").post((req, res)=> {
 });
 
 // list of brand
-//router.route("/brand").get(middleware.checkToken, (req, res) => {
+//router.route("/list/brand").get(middleware.checkToken, (req, res) => {
 //    products.find({}).distinct("p_brand", (err, result) => {
 //        console.log("list of brand");
 //        if(err) res.status(500).json({msg: err});

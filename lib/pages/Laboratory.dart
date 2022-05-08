@@ -1,6 +1,7 @@
 import 'package:Florxy/pages/requestproduct.dart';
 import 'package:Florxy/pages/scrap.dart';
 import 'package:Florxy/postProvider.dart';
+import 'package:Florxy/widgets/ModalViewProduct.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/rendering.dart';
@@ -476,7 +477,7 @@ class _laboratoryState extends State<laboratory> {
                         Navigator.of(context).push(
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    listOfbrand()));
+                                Allbrands()));
                       },
                       child: Inter(
                         text: "more",
