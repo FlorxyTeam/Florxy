@@ -144,4 +144,25 @@ class NetworkHandler {
     }
   }
 
+  Future<List<ProductModel>> getBrands(String query) async {
+    final url = Uri.parse(formater("/product/brand"));
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = json.decode(response.body);
+      List products = data["data"];
+      print(products);
+      return products.map((json) => ProductModel.fromJson(json)).where((product) {
+        final brandLower = product.p_brand.toLowerCase();
+        final mixlower = product.p_brand.toLowerCase() ;
+        final searchLower = query.toLowerCase();
+
+        return brandLower.contains(searchLower) ||
+            mixlower.contains(searchLower);
+      }).toList();
+    } else {
+      throw Exception();
+    }
+  }
+
 }

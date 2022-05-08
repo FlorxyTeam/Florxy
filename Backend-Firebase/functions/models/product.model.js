@@ -31,9 +31,14 @@ const Product = schema(
         }
       ],
       rating: {
-         type: String,
-         default: 'No review'
+         type: Number,
+         default: 0
      },
+     numReview: {
+         type: Number,
+         default: 0
+     },
+
     },
     {
       timestamps: true,

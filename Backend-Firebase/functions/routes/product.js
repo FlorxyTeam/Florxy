@@ -111,27 +111,27 @@ router.route("/add/ing/check").post((req, res)=> {
 });
 
 // list of brand
-router.route("/brand").get(middleware.checkToken, (req, res) => {
-    products.find({}).distinct("p_brand", (err, result) => {
-        console.log("list of brand");
-        if(err) res.status(500).json({msg: err});
-        res.json({
-            data: result,
-            p_brand: req.body.p_brand,
-        })
-    })
-});
+//router.route("/brand").get(middleware.checkToken, (req, res) => {
+//    products.find({}).distinct("p_brand", (err, result) => {
+//        console.log("list of brand");
+//        if(err) res.status(500).json({msg: err});
+//        res.json({
+//            data: result,
+//            p_brand: req.body.p_brand,
+//        })
+//    })
+//});
 
 //brand and list
-//router.route("/brand").get((req, res) => {
-//  products.aggregate([
-//                {"$group" : {_id:"$p_brand", count:{$sum:1}}},
-//
-//     ]).sort({count: -1}).exec(function ( err,result ) {
-//          if(err)return res.json(err);
-//          return res.json({data : result})
-//       });
-//});
+router.route("/brand").get((req, res) => {
+  products.aggregate([
+                {"$group" : {_id:"$p_brand", count:{$sum:1}}},
+
+     ]).sort({count: -1}).exec(function ( err,result ) {
+          if(err)return res.json(err);
+          return res.json({data : result})
+       });
+});
 
 
 // go to brandOverview
@@ -279,14 +279,14 @@ router.route("/getSearchProduct/:id").get(middleware.checkToken,(req,res)=>{
  router.route("/request").post(middleware.checkToken,(req, res)=> {
    // eslint-disable-next-line new-cap
    const requestproduct = new Requestproduct({
+    productview: req.body.productview,
      p_name: req.body.p_name,
      p_brand: req.body.p_brand,
      p_desc: req.body.p_desc,
      p_img: req.body.p_img,
-     ing_name: req.body.ing_name,
-     ing_met: req.body.ing_met,
-     ing_irr: req.body.ing_irr,
-     ing_rate: req.body.ing_rate
+     ing_id: req.body.ing_id,
+     rating: req.body.rating,
+     numReview: req.body.numReview
    });
    console.log("Request");
    requestproduct
