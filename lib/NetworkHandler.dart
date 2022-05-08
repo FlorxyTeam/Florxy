@@ -1,10 +1,11 @@
 import 'dart:convert';
-
 import 'package:Florxy/Model/productModel.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
+import 'package:Florxy/Model/allbrand.dart';
 
 class NetworkHandler {
 
@@ -144,25 +145,22 @@ class NetworkHandler {
     }
   }
 
-  Future<List<ProductModel>> getBrands(String query) async {
-    final url = Uri.parse(formater("/product/brand"));
-    final response = await http.get(url);
+  List<AllBrands> parseAllBrands(String respondeBody){
+    var list = json.decode(respondeBody) as List<dynamic>;
+    var data = list.map((model) => AllBrands.fromJson(model)).toList();
+    return data;
+  }
 
-    if (response.statusCode == 200) {
-      Map<String, dynamic> data = json.decode(response.body);
-      List products = data["data"];
-      print(products);
-      return products.map((json) => ProductModel.fromJson(json)).where((product) {
-        final brandLower = product.p_brand.toLowerCase();
-        final mixlower = product.p_brand.toLowerCase() ;
-        final searchLower = query.toLowerCase();
-
-        return brandLower.contains(searchLower) ||
-            mixlower.contains(searchLower);
-      }).toList();
-    } else {
-      throw Exception();
+  Future<List<AllBrands>> fetchAllbrand() async{
+    final response = await http.get(Uri.parse(baseurl + "/product/Allbrand/search"));
+    if(response.statusCode == 200){
+      return compute(parseAllBrands, response.body);
+    } else{
+      throw Exception("Request API Error");
     }
   }
+
+
+
 
 }

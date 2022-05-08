@@ -1,4 +1,4 @@
-import 'package:Florxy/pages/requestproduct.dart';
+
 import 'package:Florxy/pages/scrap.dart';
 import 'package:Florxy/postProvider.dart';
 import 'package:Florxy/widgets/ModalViewProduct.dart';
@@ -13,6 +13,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:Florxy/pages/brandoverview.dart';
 import 'package:Florxy/pages/listOfbrand.dart';
 import 'package:provider/provider.dart';
+import 'package:Florxy/pages/requestproduct.dart';
 
 class CardItem {
   final String urlImage;
@@ -477,7 +478,7 @@ class _laboratoryState extends State<laboratory> {
                         Navigator.of(context).push(
                             MaterialPageRoute(
                                 builder: (context) =>
-                                Allbrands()));
+                                listofbrand()));
                       },
                       child: Inter(
                         text: "more",

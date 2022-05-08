@@ -1,520 +1,222 @@
-import 'dart:async';
-
-import 'package:Florxy/Model/mentionProductModel.dart';
-import 'package:Florxy/Model/productModel.dart';
-import 'package:Florxy/pages/LoginPage.dart';
-import 'package:Florxy/pages/searchpage.dart';
-import 'package:Florxy/widgets/SearchMentionPostWidget.dart';
-import 'package:Florxy/widgets/button.dart';
+import 'package:Florxy/Model/allbrand.dart';
+import 'package:Florxy/NetworkHandler.dart';
+import 'package:Florxy/pages/scrap.dart';
+import 'package:Florxy/postProvider.dart';
+import 'package:Florxy/widgets/ModalViewProduct.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
-import 'package:flappy_search_bar_ns/flappy_search_bar_ns.dart';
-import 'package:boxicons/boxicons.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/font.dart';
-import 'package:Florxy/scrapper/incidecoder.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'dart:async';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:Florxy/pages/brandoverview.dart';
+import 'package:Florxy/pages/listOfbrand.dart';
 import 'package:provider/provider.dart';
-
-import '../NetworkHandler.dart';
-import '../postProvider.dart';
+import 'package:Florxy/pages/requestproduct.dart';
 
 
-
-
-class Allbrands extends StatefulWidget {
-  const Allbrands({Key? key}) : super(key: key);
+class listofbrand extends StatefulWidget {
+  const listofbrand({Key? key}) : super(key: key);
 
   @override
-  State<Allbrands> createState() => _AllbrandsState();
+  State<listofbrand> createState() => _listofbrandState();
 }
 
-class _AllbrandsState extends State<Allbrands> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          height: MediaQuery.of(context).size.height ,
-          decoration: new BoxDecoration(
-            color: Colors.white,
-            borderRadius: new BorderRadius.only(
-              topLeft: const Radius.circular(33.0),
-              topRight: const Radius.circular(33.0),
-            ),
-          ),
-          child: _buildSelectProductMenu(context),
-        ),
-      ),
-    );
-  }
-}
-
-
-Widget _buildSelectProductMenu(context) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      SizedBox(height: MediaQuery.of(context).size.height/16.8),
-      Container(
-        color: Colors.red,
-        width: MediaQuery.of(context).size.width,
-        child: Poppins(
-          text: "All Brands",
-          color: c.blackMain,
-          fontWeight: f.semiBold,
-          size:20,
-        ),
-      ),
-
-      Expanded(child: SearchProduct()),
-    ],
-  );
-
-}
-
-
-// ################### Top Mention #################################
-
-class Product extends StatefulWidget {
-  Product({Key? key}) : super(key: key);
-
-  @override
-  _ProductState createState() => _ProductState();
-}
-
-class _ProductState extends State<Product> {
+class _listofbrandState extends State<listofbrand> {
+  final networkHandler = NetworkHandler();
+  List<AllBrands> _allbrand =  <AllBrands>[];
+  List<AllBrands> _allbrandDisplay =  <AllBrands>[];
+  List<FocusNode> _focusNodes = [
+    FocusNode(),
+    FocusNode(),
+    FocusNode(),
+  ];
 
   @override
   void initState() {
-    // TODO: implement initState
-    Provider.of<PostProvider>(context,listen: false).fetchMentionProduct();
+    networkHandler.fetchAllbrand().then((value){
+      setState(() {
+        _allbrand.addAll(value);
+        _allbrandDisplay = _allbrand;
+      });
+
+    });
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        color: Colors.white,
-        child: Consumer<PostProvider>(builder: (context,model,_) => FutureBuilder(
-          future: model.fetchMentionProduct(),
-          builder: (context,snapshot) => ListView.builder(
-            // scrollDirection: Axis.vertical,
-            itemCount: model.productData?.length??0,
-            itemBuilder: (context,int index){
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 23),
-                child: Column(
-                  children: [
-                    SizedBox(height: 15),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(width: 14),
-                        Center(
-                          child: Container(
-                            height: 100,
-                            width: 65,
-                            decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                image: DecorationImage(
-                                    image: NetworkImage(model.productData![index]['p_img']),
-                                    fit: BoxFit.contain
-                                )
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 20,),
-                        Expanded(
-                          child: Container(
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(75.0),
+        child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: c.shadow.withOpacity(0.32),
+                spreadRadius: -17,
+                blurRadius: 30,
+                offset: Offset(0, 6), // changes position of shadow
+              ),
+            ],
+          ),
+          child: AppBar(
+            automaticallyImplyLeading: false,
+            backgroundColor: Colors.white,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(26),
+                )),
+            title: Padding(
+              padding: const EdgeInsets.only(top: 18.5, left: 0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                      icon: Icon(Icons.arrow_back_ios_new_rounded),
+                      color: c.blackMain,
+                      iconSize: 25,
+                      onPressed: () => Navigator.of(context).pop()
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: Poppins(
+                        text: "All Brands",
+                        size: 22,
+                        color: c.blackMain,
+                        fontWeight: f.semiBold),
+                  ),
+                  Expanded(child: Container()),
+
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _searchBar(),
+               ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: _allbrandDisplay.length ,
+                      itemBuilder: (context, int index) {
+                        if(_allbrandDisplay.length > 0){
+                          return _listItem(index);
+
+                        } else {
+                          return Center(
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                PoppinsLeft(text: model.productData![index]['p_brand'], size: 13, color: c.textBlack, fontWeight: f.semiBold),
-                                PoppinsLeft(text: model.productData![index]['p_name'], size: 13, color: c.textBlack, fontWeight: f.semiBold),
-                                SizedBox(height: 15),
-                                Roboto_Crop(text: model.productData![index]['p_desc'], size: 12, color: c.greySub, fontWeight: f.regular)
+                                SizedBox(height: 60),
+                                Icon(FeatherIcons.frown, size: 70, color: c.greySub),
+                                SizedBox(height: 8),
+                                Inter(text: "Sorry, we couldn't find any product.", size: 13, color: c.greySub, fontWeight: f.semiBold),
+                                SizedBox(height: 2),
+                                Inter(text: "Please find another product.", size: 13, color: c.greySub, fontWeight: f.semiBold)
                               ],
                             ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20),
-                          child: WhiteGreenButton(
-                            text: 'add',
-                            size: 11,
-                          ),
-                        )
-                      ],
-                    ),
-                    SizedBox(height: 15),
-                    Divider(
-                      color: c.greyMain,
-                      thickness: 0.5,
-                      height: 0,
-                    ),
-                  ],
-                ),
-              );
-            },
+                          );
+                        }
+                      }),
+
+            ],
           ),
-        )),
-      ),
-    );
-  }
-}
-
-// ################### Search #################################
-
-class SearchProduct extends StatefulWidget {
-  const SearchProduct({Key? key}) : super(key: key);
-
-  @override
-  _SearchProductState createState() => _SearchProductState();
-}
-
-class _SearchProductState extends State<SearchProduct> {
-  final networkHandler = NetworkHandler();
-  final storage = new FlutterSecureStorage();
-  String query = '';
-  List products = [];
-  List<ProductModel> product2 = [];
-  List<MentionProductModel> mention = [];
-  Timer? debouncer;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    init();
-    // fetchdata();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    debouncer?.cancel();
-    super.dispose();
-  }
-
-  // void fetchdata() async {
-  //   var response = await networkHandler.get("/home/getProduct");
-  //   print(ProductModel.fromJson(response["product"]).runtimeType);
-  //   // print(response.runtimeType);
-  //   setState(() {
-  //     // product2 = ProductModel.fromJson(response["product"]);
-  //     // print(ProductModel.fromJson(response["product"]).runtimeType);
-  //   });
-  // }
-
-  void debounce(
-      VoidCallback callback, {
-        Duration duration = const Duration(milliseconds: 1000),
-      }) {
-    if (debouncer != null) {
-      debouncer!.cancel();
-    }
-
-    debouncer = Timer(duration, callback);
-  }
-
-  Future init() async {
-    final products = await networkHandler.getProducts(query);
-
-    setState(() => this.products = products);
-  }
-
-  void setMentionProduct(String id, String brand, String product) {
-    MentionProductModel mentionProductModel = MentionProductModel(id: id, brand: brand, product: product);
-    setState(() {
-      mention.add(mentionProductModel);
-    });
-  }
-
-  Future clearMentionProduct(String id) async {
-    setState(() {
-      mention.removeWhere((element) => element.id == id);
-    });
-  }
-
-  void showAlertDialog(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Container(
-              height: MediaQuery.of(context).size.height/6,
-              width: MediaQuery.of(context).size.width/2,
-              child: Expanded(
-                child: Column(
-                  children: [
-                    // SizedBox(height: 8),
-                    Stack(
-                      alignment: Alignment.topRight,
-                      // mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(child: Icon(FeatherIcons.alertTriangle, size: 74, color: c.yellowMain)),
-                        Align(
-                            alignment: Alignment.topRight,
-                            child: Icon(FeatherIcons.x, size: 26, color: c.blackMain)
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 18),
-                    Inter(text: "Maximum 4 mention products", size: 13, color: c.blackMain, fontWeight: f.semiBold),
-                    SizedBox(height: 2),
-                    Inter(text: "in one post", size: 13, color: c.blackMain, fontWeight: f.semiBold),
-                  ],
-                ),
-              ),
-            ),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15.0))),
-          );
-        }
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.only(top: 60),
-        child: Stack(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 23),
-              child:  Column(
-                children: <Widget>[
-                  buildSearch(),
-                  SizedBox(height: 15),
-                  products.isEmpty?Center(
-                    child: Column(
-                      children: [
-                        SizedBox(height: 60),
-                        Icon(FeatherIcons.frown, size: 70, color: c.greySub),
-                        SizedBox(height: 8),
-                        Inter(text: "Sorry, we couldn't find any product.", size: 13, color: c.greySub, fontWeight: f.semiBold),
-                        SizedBox(height: 2),
-                        Inter(text: "Please find another product.", size: 13, color: c.greySub, fontWeight: f.semiBold)
-                      ],
-                    ),
-                  ):Expanded(
-                    child: MediaQuery.removePadding(
-                      context: context,
-                      removeTop: true,
-                      removeBottom: true,
-                      child: ListView.builder(
-                        itemCount: products.length,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          final product = products[index];
-                          return buildProoduct(product);
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            mention.isNotEmpty?Positioned(
-              bottom: 0,
-              left: 0,
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  children: [
-                    MediaQuery.removePadding(
-                      context: context,
-                      removeTop: true,
-                      removeBottom: true,
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: mention.length,
-                          physics: const AlwaysScrollableScrollPhysics(),
-                          itemBuilder: (context,index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(left: 25, right: 25),
-                              child: Column(
-                                children: [
-                                  SizedBox(height: 15),
-                                  Row(
-                                    children: [
-                                      Container(
-                                        width: MediaQuery.of(context).size.width-90,
-                                        child: Inter_Crop(
-                                            text: mention[index].brand! + " : " + mention[index].product!,
-                                            size: 13,
-                                            color: c.blackMain,
-                                            fontWeight: f.medium),
-                                      ),
-                                      Expanded(child: Container()),
-                                      GestureDetector(
-                                        child: Icon(FeatherIcons.x, size: 22, color: Colors.red),
-                                        onTap: () {
-                                          clearMentionProduct(mention[index].id!);
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 13),
-                                  Divider(
-                                    color: c.greyMain,
-                                    thickness: 0.6,
-                                    height: 0,
-                                  ),
-                                ],
-                              ),
-                            );}
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Roboto(text: "add  ", size: 12.5, color: c.graySub2, fontWeight: f.medium),
-                        Roboto(text: mention.length.toString(), size: 12.5, color: c.greenMain, fontWeight: f.black),
-                        Roboto(text: "  products to mention in post", size: 12.5, color: c.graySub2, fontWeight: f.medium),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 45, right: 45),
-                      child: GestureDetector(
-                        child: GreenButton(
-                          text: 'ADD PRODUCT',
-                          size: 14,
-                          color: c.textWhite,
-                          height: 50,
-                        ),
-                        onTap: () async {
-                          // print(mention);
-                          await storage.write(key: "mention-product", value: 'check');
-                          await storage.write(key: "review-product", value: 'check');
-                          Navigator.pop(context, mention);
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 30)
-                  ],
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: new BorderRadius.only(
-                    topLeft: const Radius.circular(20.0),
-                    topRight: const Radius.circular(20.0),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: c.shadow.withOpacity(0.50),
-                      spreadRadius: 2,
-                      blurRadius: 45,
-                      offset: Offset(0, 18), // changes position of shadow
-                    ),
-                  ],
-                ),
-              ),
-            ):Container()
-          ],
         ),
       ),
     );
   }
 
-  Widget buildSearch() => SearchMentionPost(
-    text: query,
-    hintText: "Search product to mention",
-    onChanged: searchProduct,
-  );
-
-  Future searchProduct(String query) async => debounce(() async {
-    final products = await networkHandler.getProducts(query);
-
-    if (!mounted) return;
-
-    setState(() {
-      this.query = query;
-      this.products = products;
-    });
-  });
-
-  bool check(String id) {
-    var contain = mention.where((element) => element.id == id);
-    if (contain.isEmpty){
-      return false;
-    }
-    else return true;
+  _searchBar(){
+    return Padding(padding: EdgeInsets.only(top: 20, right: 25, left: 25),
+    child: TextField(
+      focusNode: _focusNodes[0],
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: c.greyLight,
+        contentPadding: EdgeInsets.fromLTRB(10.0, 5.0, 5.0, 10.0),
+        hintText: 'Search Brand',
+        hintStyle: TextStyle(
+            fontSize: 16, color: c.greyMain, fontWeight: f.medium),
+        prefixIcon: Padding(
+          padding: EdgeInsets.only(right: 13, left: 20),
+          child: Icon(Icons.search_rounded,
+              size: 25,
+              color: _focusNodes[0].hasFocus ? c.greenMain : c.greyMain),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+          borderSide:
+          BorderSide(color: c.graySub2.withOpacity(0), width: 2),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+          borderSide: BorderSide(color: c.greenMain, width: 2),
+        ),
+      ),
+      onChanged: (text){
+        text = text.toLowerCase();
+        setState(() {
+          _allbrandDisplay = _allbrand.where((brand){
+            var p_brand = brand.sId?.toLowerCase();
+            return p_brand!.contains(text);
+          }).toList();
+        });
+      },
+    ),
+    );
   }
 
-  Widget buildProoduct(ProductModel product) => Column(
-    children: [
-      SizedBox(height: 20),
-      Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(width: 14),
-          Center(
-            child: Container(
-              height: 100,
-              width: 68,
-              decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  image: DecorationImage(
-                      image: NetworkImage(product.p_img),
-                      fit: BoxFit.contain
-                  )
-              ),
-            ),
-          ),
-          SizedBox(width: 20,),
-          Expanded(
-            child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  PoppinsLeft(text: product.p_brand, size: 13, color: c.textBlack, fontWeight: f.semiBold),
-                  PoppinsLeft(text: product.p_name, size: 13, color: c.textBlack, fontWeight: f.semiBold),
-                  SizedBox(height: 15),
-                  Roboto_Crop(text: product.p_desc, size: 12, color: c.greySub, fontWeight: f.regular)
-                ],
-              ),
-            ),
-          ),
-          Padding(
-              padding: const EdgeInsets.only(left: 20),
-              child: check(product.id!)==false?GestureDetector(
-                child: WhiteGreenButton(
-                  text: 'add',
-                  size: 11,
+  _listItem(index){
+    return GestureDetector(
+      onTap: (){
+        Navigator.of(context).push(
+            MaterialPageRoute(
+                builder: (context) =>
+                    Brandoverview(
+                        p_brand:
+                        _allbrandDisplay[index].sId)));
+      },
+      child: Container(child: Padding(
+        padding: EdgeInsets.only(top: 25, left: 28, right: 28),
+        child: Row(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Poppins(
+                  text: _allbrandDisplay[index].sId.toString(),
+                  fontWeight: f.semiBold,
+                  color: c.blackMain,
+                  size: 17,
                 ),
-                onTap: () {
-                  if(mention.length==4) {
-                    showAlertDialog(context);
-                  } else setMentionProduct(product.id!, product.p_brand, product.p_name);
-                  // print(product.id!);
-                },
-              ):GestureDetector(
-                child: Icon(Boxicons.bxs_check_circle, size: 27, color: c.greenMain),
-                onTap: () {
-                  clearMentionProduct(product.id!);
-                },
-              )
-          )
-        ],
-      ),
-      SizedBox(height: 15),
-      Divider(
-        color: c.greyMain,
-        thickness: 0.5,
-        height: 0,
-      ),
-    ],
-  );
-
+                Poppins(
+                  text: _allbrandDisplay[index].count.toString() + " products",
+                  fontWeight: f.semiBold,
+                  color: Color(0xFF848484),
+                  size: 13,
+                )
+              ],
+            ),
+            Expanded(child: Container()),
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Icon(Icons.arrow_forward_ios_outlined,
+                  size: 18, color: c.blackMain),
+            )
+          ],
+        ),
+      )),
+    );
+  }
 }
-
-
-

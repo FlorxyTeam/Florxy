@@ -111,16 +111,16 @@ router.route("/add/ing/check").post((req, res)=> {
 });
 
 // list of brand
-//router.route("/list/brand").get(middleware.checkToken, (req, res) => {
-//    products.find({}).distinct("p_brand", (err, result) => {
-//        console.log("list of brand");
-//        if(err) res.status(500).json({msg: err});
-//        res.json({
-//            data: result,
-//            p_brand: req.body.p_brand,
-//        })
-//    })
-//});
+router.route("/Allbrand/search").get((req, res) => {
+  products.aggregate([
+                {"$group" : {_id:"$p_brand", count:{$sum:1}}},
+
+     ]).exec(function ( err,result ) {
+          if(err)return res.json(err);
+          return res.json(result)
+       });
+});
+
 
 //brand and list
 router.route("/brand").get((req, res) => {

@@ -97,6 +97,7 @@ class _SettingState extends State<Setting> {
                 children: <Widget>[
                   SearchTextField(),
 
+
                 ],
               ),
             ),

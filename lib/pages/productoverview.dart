@@ -212,7 +212,6 @@ class _ProductOverviewState extends State<ProductOverview> {
                                 SizedBox(width: 2,),
                                 Roboto(
                                     text: "2500 Views this product",
-
                                     size: 11,
                                     color: Color(0xFF97AFA2),
                                     fontWeight: f.medium),
