@@ -9,7 +9,9 @@ import 'package:boxicons/boxicons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/material.dart';
-import 'package:Florxy/widgets/PostWidget.dart';
+import 'package:Florxy/scrapper/incidecoder.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
+import 'package:get/get_rx/src/rx_workers/rx_workers.dart';
 import 'package:provider/provider.dart';
 
 
