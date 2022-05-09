@@ -6,38 +6,34 @@ part of 'postModel.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-PostModel _$PostModelFromJson(Map<String, dynamic> json) => PostModel(
-      username: json['username'] as String,
-      fullname: json['fullname'] as String,
-      influencer: json['influence'] as String,
-      professor: json['professor'] as String,
-      coverImage: json['coverImage'] as List,
-      refbrand: json['refbrand'] as String,
-      refproduct: json['refproduct'] as String,
-      type: json['type'] as String,
-      rating: json['rating'] as double,
-      forwho: json['forwho'] as String,
-      body: json['body'] as String,
-      comment: json['comment'] as int,
-      favorite: json['favorite'] as int,
-      createdAt: json['createdAt'] as DateTime,
-      updatedAt: json['updatedAt'] as DateTime
-    );
+PostModel _$PostModelFromJson(Map<String, dynamic> json) {
+  return PostModel(
+    body: json['body'] as String?,
+    comment: json['comment'] as List<dynamic>?,
+    favorite: json['favorite'] as List<dynamic>?,
+    rating: json['rating'] as String?,
+    username: json['username'] as String?,
+    pinnedcomment: json['pinnedcomment'] as String?,
+    product: json['product'] as List<dynamic>?,
+    archive: json['archive'] as bool?,
+    coverImage: json['coverImage'] as List<dynamic>?,
+    type: json['type'] as String?,
+    createdAt: json['createdAt'] as String?,
+    updatedAt: json['updatedAt'] as String?,
+  );
+}
 
 Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
-      'username': instance.username,
-      'fullname': instance.fullname,
-      'influencer': instance.influencer,
-      'professor': instance.professor,
-      'coverImage': instance.coverImage,
-      'refbrand': instance.refbrand,
-      'refproduct': instance.refproduct,
-      'type': instance.type,
-      'rating': instance.rating,
-      'forwho': instance.forwho,
-      'body': instance.body,
-      'createdAt': instance.createdAt,
-      'updatedAt': instance.updatedAt,
+      'pinnedcomment': instance.pinnedcomment,
       'comment': instance.comment,
       'favorite': instance.favorite,
+      'type': instance.type,
+      'coverImage': instance.coverImage,
+      'body': instance.body,
+      'product': instance.product,
+      'archive': instance.archive,
+      'username': instance.username,
+      'rating': instance.rating,
+      'createdAt': instance.createdAt,
+      'updatedAt': instance.updatedAt,
     };

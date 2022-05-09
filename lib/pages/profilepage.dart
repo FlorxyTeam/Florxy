@@ -1,3 +1,5 @@
+
+import 'package:Florxy/Model/aliasColorModel.dart';
 import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/NetworkHandler.dart';
 import 'package:Florxy/pages/myfollower.dart';
@@ -5,6 +7,7 @@ import 'package:Florxy/pages/myfollowing.dart';
 import 'package:Florxy/widgets/Modalsetting.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:boxicons/boxicons.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +15,10 @@ import 'package:Florxy/pages/FavPost.dart';
 import 'package:Florxy/pages/PostReply.dart';
 import 'package:Florxy/pages/savedPro.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+
+import 'allfollower.dart';
+import 'allfollowing.dart';
 
 
 class ProfilePage extends StatefulWidget {
@@ -24,21 +31,27 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   bool circular = true;
   NetworkHandler networkHandler = NetworkHandler();
+  late Stream<FileResponse> profileimg;
+  Professor professor = Professor();
+  Creator creator = Creator();
+
   ProfileModel profileModel = ProfileModel(
-      id: '',
-      DOB: '',
-      img: '',
-      influencer: '',
-      fullname: '',
-      follower: 0,
-      following: 0,
-      bio: '',
-      email: '',
-      professor: '',
-      username: '',
+    id: '',
+    username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
     favorite: [],
     listfollower: [],
-    listfollowing: [],);
+    listfollowing: [],
+  );
+  Color? professor_color, creator_color;
 
   @override
   void initState() {
@@ -50,11 +63,48 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void fetchData() async {
     var response = await networkHandler.get("/profile/getData");
+    
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
       circular = false;
     });
+
+    int i=0, j=0;
+    for(i;i<=professor.alias_professor.length-1;i++) {
+      if(profileModel.professor==professor.alias_professor[i].alias){
+        setState(() {
+          professor_color = professor.alias_professor[i].color;
+        });
+      }
+    }
+
+    for(j;j<=creator.alias_creator.length-1;j++) {
+      if(profileModel.influencer==creator.alias_creator[j].alias){
+        setState(() {
+          creator_color = creator.alias_creator[j].color;
+        });
+      }
+    }
+
   }
+  proFileCache(String url) {
+      profileimg = DefaultCacheManager().getFileStream(url);
+      return profileimg;
+    // return file;
+  }
+  
+//   pictureDelayed(){
+//     Future.delayed(const Duration(milliseconds: 500), () {
+//
+// // Here you can write your code
+//
+//       return
+//
+//     });
+//   }
+  // Future<Null> downloadFile(String httpPath){
+
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -141,19 +191,64 @@ class _ProfilePageState extends State<ProfilePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
-              height: MediaQuery.of(context).size.height/45,
-            ),
+            // SizedBox(
+            //   height: MediaQuery.of(context).size.height/45,
+            // ),
             Row(
               // mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                CircleAvatar(
-                  radius: 44,
-                  backgroundColor: Colors.orange,
-                  backgroundImage:
-                  NetworkImage(profileModel.img),
+                // FutureBuilder(
+                //     future: proFileCache(profileModel.img),
+                //     builder: (context, snapshot) {
+                //       if (snapshot.hasData){
+                //         print(snapshot);
+                //       }
+                //       return  CircleAvatar(
+                //         radius: 44,
+                //         backgroundColor: Colors.orange,
+                //         backgroundImage:
+                //         NetworkImage(profileModel.img),
+                //       );
+                //     }
+                //
+                // ),
+
+                // StreamBuilder(
+                //     stream: proFileCache(profileModel.img),
+                //     builder: (context, snapshot){
+                //       // Fil
+                //       var x = snapshot.data as FileInfo;
+                //       if (snapshot.hasError) {
+                //         return ListTile(
+                //           title: const Text('Error'),
+                //           subtitle: Text(snapshot.error.toString()),
+                //         );
+                //       }
+                //       else return Text(x.originalUrl);
+                //
+                //
+                //     }
+                // ),
+                Container(
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Color(0xFFE5E5E5)
+                    ),
+                    width: 90,
+                    height: 90,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(50),
+                      child: CachedNetworkImage(imageUrl: profileModel.img,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
+                    )
                 ),
+
+                // CircleAvatar(
+                //   radius: 44,
+                //   backgroundColor: Colors.orange,
+                //   backgroundImage:
+                //   NetworkImage(profileModel.img),
+                // ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -197,12 +292,13 @@ class _ProfilePageState extends State<ProfilePage> {
                               ],
                             ),
                             onTap: (){
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => myFollower()));
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => allFollower( another_username: profileModel.username )));
                             },
                           ),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width/20
-                            // width: 30,
+
+                              width: MediaQuery.of(context).size.width/20
+
                           ),
                           GestureDetector(
                             child: Column(
@@ -221,12 +317,11 @@ class _ProfilePageState extends State<ProfilePage> {
                               ],
                             ),
                             onTap: (){
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => myFollowing()));
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => allFollowing( another_username: profileModel.username )));
                             },
                           ),
                           SizedBox(
                             width: MediaQuery.of(context).size.width/10,
-
                           ),
                         ],
                       ),
@@ -284,7 +379,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             fontWeight: f.semiBold),
                       ),
                       decoration: BoxDecoration(
-                          color: c.greenMain,
+                          color: professor_color,
                           borderRadius: BorderRadius.circular(10)),
                     ),
                     SizedBox(
@@ -298,12 +393,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: Inter(
                             text: profileModel.influencer,
                             size: 11,
-                            color: c.blueMain,
+                            color: creator_color!,
                             fontWeight: f.bold),
                       ),
                       decoration: BoxDecoration(
                           border: Border.all(
-                            color: c.blueMain,
+                            color: creator_color!,
                             width: 2,
                           ),
                           borderRadius: BorderRadius.circular(10)),
@@ -312,7 +407,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ],
             ),
-            Padding(
+            profileModel.bio.isNotEmpty?Padding(
               padding: const EdgeInsets.only(top: 12, bottom: 12),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -327,7 +422,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ],
               ),
-            ),
+            ):SizedBox(height: 15),
             Row(children: [
               Icon(
                 Icons.cake_outlined,

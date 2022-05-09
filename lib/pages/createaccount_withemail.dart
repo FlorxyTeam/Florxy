@@ -378,9 +378,12 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                           circular = true;
                         });
                         await checkEmail();
+                        String? username =
+                        await storage.read(key: "username");
                         if (_globalkey.currentState!.validate() && validate) {
                           Map<String, String> data = {
                             "email": _emailController.text,
+                            "username": "$username",
                             "password": _passwordController.text,
                           };
 
@@ -391,12 +394,14 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
 
                             if (responseRegister.statusCode == 200 ||
                                 responseRegister.statusCode == 201) {
+
                               Map<String, String> data = {
                                 "email": _emailController.text,
+                                "username": "$username",
                                 "password": _passwordController.text,
                               };
                               var response = await networkHandler.post(
-                                  "/user/login", data);
+                                  "/user/login-email", data);
 
                               if (response.statusCode == 200 ||
                                   response.statusCode == 201) {
@@ -405,21 +410,20 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                                 print(output["msg"]);
                                 await storage.write(
                                     key: "token", value: output["token"]);
-                                String? username =
-                                await storage.read(key: "username");
+
+
                                 String? fullname =
                                 await storage.read(key: "fullname");
                                 String? date =
                                 await storage.read(key: "date");
 
                                 Map<String, String> data = {
-                                  "username": "$username",
                                   "fullname": "$fullname",
                                   "DOB": "$date",
-                                  "follower": "0",
-                                  "following": "0",
                                 };
-
+                                print(username);
+                                print(fullname);
+                                print(date);
                                 var response2 = await networkHandler.post(
                                     "/profile/add", data);
                                 print(response2);

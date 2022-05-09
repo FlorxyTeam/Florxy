@@ -3,34 +3,28 @@ part 'postModel.g.dart';
 
 @JsonSerializable()
 class PostModel {
-  String? username;
-  String? fullname;
-  String? professor;
-  String? influencer;
-  String? refproduct;
-  String? refbrand;
+  String? pinnedcomment;
+  List? comment;
+  List? favorite;
   String? type;
-  String? body;
-  double? rating;
-  int? comment;
-  int? favorite;
-  String? forwho;
-  DateTime? createdAt;
-  DateTime? updatedAt;
   List? coverImage;
+  String? body;
+  List? product;
+  bool? archive;
+  String? username;
+  String? rating;
+  String? createdAt;
+  String? updatedAt;
   PostModel({this.body,
              this.comment,
              this.favorite,
              this.rating,
-             this.fullname,
              this.username,
-             this.influencer,
-             this.professor,
+             this.pinnedcomment,
+             this.product,
+             this.archive,
              this.coverImage,
-             this.refbrand,
-             this.refproduct,
              this.type,
-             this.forwho,
              this.createdAt,
              this.updatedAt});
 

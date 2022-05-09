@@ -5,54 +5,102 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:boxicons/boxicons.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
 
+import '../Model/profileModel.dart';
+import '../NetworkHandler.dart';
+import 'package:Florxy/Model/productModel.dart';
+import 'package:Florxy/pages/comparepage.dart';
 
-class CardItem {
-  final String urlImage;
-  final String title;
+import '../postProvider.dart';
+import '../widgets/PostWidget.dart';
 
-  const CardItem({
-    required this.urlImage,
-    required this.title,
-  });
-}
 
 
 class ProductOverview extends StatefulWidget {
-  const ProductOverview({Key? key}) : super(key: key);
+  String? id;
+  ProductOverview({Key? key, this.id}) : super(key: key);
+
 
   @override
   _ProductOverviewState createState() => _ProductOverviewState();
 }
 
 class _ProductOverviewState extends State<ProductOverview> {
+  String? id_product;
+  bool isSave = false;
+  List saveproduct = [];
+  List save = [];
+  Map? data;
+ final networkHandler = NetworkHandler();
+ final storage = new FlutterSecureStorage();
+  ProductModel productModel = ProductModel(
+    id:'',
+    p_name:'',
+    p_brand: '',
+    p_desc: '',
+    p_img: '',
+    ing_name: [],
+    ing_met: [],
+    ing_irr: [],
+    ing_rate: [],
+    mention: 0,
+    review: 0,
+  );
 
-  List<CardItem> items = [
-    CardItem(
-      urlImage: "assets/img/bioderma.jpg",
-      title: "Make up",
-    ),
-    CardItem(
-      urlImage: "assets/img/pixi.jpg",
-      title: "Skincare",
-    ),
-    CardItem(
-      urlImage: "assets/img/bioderma.jpg",
-      title: "Body",
-    ),
-    CardItem(
-      urlImage: "assets/img/pixi.jpg",
-      title: "Hair",
-    ),
-    CardItem(
-      urlImage: "assets/img/bioderma.jpg",
-      title: "Fragrance",
-    ),
-    CardItem(
-      urlImage: "assets/img/pixi.jpg",
-      title: "Oral Care",
-    ),
-  ];
+  ProfileModel myprofileModel = ProfileModel(
+    id: '',
+    username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],
+  );
+
+
+
+  void fetchData() async {
+    var id = await storage.read(key: "p_id");
+    var username = await storage.read(key: "username");
+    var response = await networkHandler.get("/product/" + id!);
+    var response2 = await networkHandler.get("/product/view/productoverview/" + username!);
+
+    setState(() {
+      productModel = ProductModel.fromJson(response["data"]);
+      myprofileModel = ProfileModel.fromJson(response2["data"]);
+
+    });
+    save = myprofileModel.saveproduct;
+    var i = 0;
+    for(i; i < save.length; i++){
+      print(save[i]);
+      if(productModel.id == save[i]){
+        setState(() {
+          isSave = true;
+        });
+      }
+    }
+
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Provider.of<PostProvider>(context, listen: false).fetchInteresting();
+    fetchData();
+
+  }
+
 
 
 
@@ -90,8 +138,8 @@ class _ProductOverviewState extends State<ProductOverview> {
                       width: MediaQuery.of(context).size.width/2,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage("assets/img/pixi-glow.png"),
-                          fit: BoxFit.fill,
+                          image:  NetworkImage(productModel.p_img),
+                          fit: BoxFit.contain,
                         ),
                       ),
                     ),
@@ -101,7 +149,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                     child: Container(
                       child: InkWell(
                         onTap: (){
-
+                          Provider.of<PostProvider>(context, listen: false).fetchCompare3();
                         },
                         child: Icon(Boxicons
                             .bx_dots_vertical_rounded,
@@ -144,7 +192,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                                 padding: const EdgeInsets.only(
                                     right: 10, left: 10, top: 5, bottom: 5),
                                 child: Inter(
-                                    text: "Pixi Skintreast",
+                                    text: productModel.p_brand,
                                     size: 13,
                                     color: Colors.white,
                                     fontWeight: f.semiBold),
@@ -164,15 +212,37 @@ class _ProductOverviewState extends State<ProductOverview> {
                                 SizedBox(width: 2,),
                                 Roboto(
                                     text: "2500 Views this product",
-
                                     size: 11,
                                     color: Color(0xFF97AFA2),
                                     fontWeight: f.medium),
                               ],
                             ),
-                            InkWell(
-                              onTap: (){
+                            if(isSave == false)InkWell(
+                              onTap: () async {
+                               Map<String, String> data = {
+                                  "saveproduct": productModel.id!
+                              };
+                               var idStorage = await storage.read(key: 'id');
+                               await networkHandler.post("/product/save/" + idStorage!, data);
+                               setState(() {
+                                 isSave = true;
+                               });
+                              },
+                              child: Icon(Icons.bookmark_outline_rounded,
+                                color:c.greyMain,
+                                size: 27,
 
+                              ),
+                            ),if(isSave == true)InkWell(
+                              onTap: () async {
+                                Map<String, String> data = {
+                                  "saveproduct": productModel.id!
+                                };
+                                var idStorage = await storage.read(key: 'id');
+                                await networkHandler.post("/product/unsave/" + idStorage!, data);
+                                setState(() {
+                                  isSave = false;
+                                });
                               },
                               child: Icon(Icons.bookmark_rounded,
                                 color:Color(0xFF32A060),
@@ -184,14 +254,14 @@ class _ProductOverviewState extends State<ProductOverview> {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 11, left: 25, right:8),
-                        child: Text("Glow Tonic Facial Toner ",textAlign: TextAlign.left, style: GoogleFonts.poppins(
+                        child: Text(productModel.p_name,textAlign: TextAlign.left, style: GoogleFonts.poppins(
                             color: Color(0xFF053118), fontWeight: f.semiBold,fontSize: 19
                         ),),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 25, right: 8,top: 5),
                         child: Inter(
-                            text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been   the industry's standard dummy text ever since the 1500s.",
+                            text: productModel.p_desc,
 
                             size: 14,
                             color: Color(0xFF053118).withOpacity(0.68),
@@ -389,14 +459,9 @@ class _ProductOverviewState extends State<ProductOverview> {
                             color: Color(0xFF32A060),
                             size: 14,
                           ),
-
                         ],
                       ),
                     ),
-
-
-
-
                   ],
                 ),
               ),
@@ -405,33 +470,38 @@ class _ProductOverviewState extends State<ProductOverview> {
                 padding: const EdgeInsets.only(top: 20, left: 25, right: 25),
                 child: Poppins(text: "Interesting Review", size: 22,  color: Color(0xFF053118), fontWeight: f.semiBold),
               ),
+              Consumer<PostProvider>(
+                  builder: (context, model, _) => FutureBuilder(
+                    future: model.fetchInteresting(),
+                    builder: (context, snapshot) => MediaQuery.removePadding(
+                      context: context,
+                      removeTop: true,
+                      removeBottom: true,
+                      child: ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: model.interestingreview?.length ?? 0,
+                        itemBuilder: (context, int index) {
+                          return model.interestingreview![index]['type'] == 'review'?ReviewPost(
+                            username: model.interestingreview![index]['username'],
+                            postTime: model.interestingreview![index]['updatedAt']
+                                .toString()
+                                .substring(0, 10),
+                            urlImage: model.interestingreview![index]['coverImage'],
+                            post: model.interestingreview![index]['body'],
+                            rating: model.interestingreview![index]['rating'],
+                            comment: 0,
+                            id: model.interestingreview![index]['_id'],
+                          ):Container();
+                        },
+                      ),
+                    ),
+                  )),
 
 
 
-
-              // Padding(
-              //   padding:
-              //   const EdgeInsets.only(left: 28, top: 22, bottom: 6),
-              //   child: Poppins(
-              //     text: "Search By Category",
-              //     color: c.blackMain,
-              //     fontWeight: f.semiBold,
-              //     size: 18,
-              //   ),
-              // ),
-              // Container(
-              //   height: MediaQuery.of(context).size.height * 0.2,
-              //   child: ListView.separated(
-              //     padding: EdgeInsets.only(left: 28, right: 2),
-              //     itemCount: 5,
-              //     separatorBuilder: (context, _) => SizedBox(width: 10),
-              //     scrollDirection: Axis.horizontal,
-              //     itemBuilder: (context, index) =>
-              //         buildCard(item: items[index]),
-              //   ),
-              // ),
               SizedBox(
-                height:MediaQuery.of(context).size.height/5,
+                height:MediaQuery.of(context).size.height/6.5,
               )
             ],
           ),
@@ -441,76 +511,4 @@ class _ProductOverviewState extends State<ProductOverview> {
 
     );
   }
-
-
-
-
-
-
-
-
-
-  //Search by category
-  // Widget buildCard({
-  //   required CardItem item,
-  // }) =>
-  //     Container(
-  //       width: MediaQuery.of(context).size.width * 0.28,
-  //       height: MediaQuery.of(context).size.height * 0.17,
-  //       child: Stack(
-  //         children: [
-  //           Center(
-  //             child: InkWell(
-  //               onTap: () {},
-  //               child: Container(
-  //                 width: MediaQuery.of(context).size.width * 0.28,
-  //                 height: MediaQuery.of(context).size.height * 0.17,
-  //                 decoration: BoxDecoration(
-  //                   borderRadius: BorderRadius.circular(15),
-  //                   color: Colors.white,
-  //                   boxShadow: [
-  //                     BoxShadow(
-  //                       color: c.shadow.withOpacity(0.32),
-  //                       spreadRadius: -17,
-  //                       blurRadius: 30,
-  //                       offset: Offset(0, 6), // changes position of shadow
-  //                     ),
-  //                   ],
-  //                 ),
-  //                 child: Column(
-  //                   crossAxisAlignment: CrossAxisAlignment.start,
-  //                   children: [
-  //                     Container(
-  //                       height: MediaQuery.of(context).size.height * 0.115,
-  //                       width: MediaQuery.of(context).size.width * 0.34,
-  //                       decoration: BoxDecoration(
-  //                         borderRadius: BorderRadius.only(
-  //                           topLeft: Radius.circular(15),
-  //                           topRight: Radius.circular(15),
-  //                         ),
-  //                         image: DecorationImage(
-  //                           image: AssetImage(item.urlImage),
-  //                           fit: BoxFit.cover,
-  //                         ),
-  //                       ),
-  //                     ),
-  //                     Padding(
-  //                       padding: const EdgeInsets.only(top: 5, left: 7),
-  //                       child: Poppins(
-  //                           text: item.title,
-  //                           size: 14,
-  //                           color: Color(0xFF254231),
-  //                           fontWeight: f.semiBold),
-  //                     ),
-  //                   ],
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //         ],
-  //       ),
-  //     );
-
-  //Search by Brand
-
 }

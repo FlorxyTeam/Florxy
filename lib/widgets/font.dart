@@ -62,6 +62,38 @@ class PoppinsLeft extends StatelessWidget {
   }
 }
 
+class PoppinsLeft_Crop extends StatelessWidget {
+  final double size;
+  final double? letterSpacing;
+  final String text;
+  final Color color;
+  final FontWeight fontWeight;
+  final FontStyle? fontStyle;
+
+  PoppinsLeft_Crop(
+      {Key? key,
+        required this.text,
+        required this.size,
+        required this.color,
+        required this.fontWeight,
+        this.fontStyle = FontStyle.normal,
+        this.letterSpacing})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+        text,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 2,
+        textAlign: TextAlign.left,
+        style: GoogleFonts.poppins(
+            textStyle: TextStyle(color: color,fontSize: size,fontWeight: fontWeight, fontStyle: fontStyle, letterSpacing: letterSpacing )
+        )
+    );
+  }
+}
+
 
 class Inter extends StatelessWidget {
   final double size;
@@ -160,6 +192,38 @@ class Roboto extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Text(text,
+        style: GoogleFonts.roboto(
+            textStyle: TextStyle(
+                color: color,
+                fontSize: size,
+                fontWeight: fontWeight,
+                letterSpacing: letterSpacing)));
+  }
+}
+
+class Roboto_Crop extends StatelessWidget {
+  final double size;
+  final double? letterSpacing;
+  final String text;
+  final Color color;
+  final FontWeight fontWeight;
+  final FontStyle? fontStyle;
+
+  Roboto_Crop(
+      {Key? key,
+        required this.text,
+        required this.size,
+        required this.color,
+        this.fontStyle = FontStyle.normal,
+        required this.fontWeight,
+        this.letterSpacing})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(text,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 2,
         style: GoogleFonts.roboto(
             textStyle: TextStyle(
                 color: color,

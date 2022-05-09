@@ -37,6 +37,8 @@ router.route("/getPost").get( (req, res) => {
     });
  });
 
+ 
+
 router.route("/add/postImage/:id").patch(middleware.checkToken,upload.single("img"),(req,res)=>{
     Post.findOneAndUpdate({_id:req.params.id},
     {

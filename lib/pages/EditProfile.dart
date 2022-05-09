@@ -32,19 +32,21 @@ class _EditPageState extends State<EditPage> {
   TextEditingController _username = TextEditingController();
   TextEditingController _bio = TextEditingController();
   ProfileModel profileModel = ProfileModel(
-      DOB: '',
-      img: '',
-      influencer: '',
-      fullname: '',
-      follower: 0,
-      following: 0,
-      bio: '',
-      email: '',
-      professor: '',
-      username: '',
+    id: '',
+    username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
     favorite: [],
     listfollower: [],
-    listfollowing: [],);
+    listfollowing: [],
+  );
 
   File? image;
   @override
@@ -61,6 +63,7 @@ class _EditPageState extends State<EditPage> {
       circular = false;
     });
   }
+
   Future takePhoto(ImageSource source) async {
     try {
       final image = await ImagePicker().pickImage(source: source);
@@ -156,21 +159,6 @@ class _EditPageState extends State<EditPage> {
                                       Navigator.of(context).pop();
                                   }
                                 });
-
-                              // var imageResponse = await networkHandler.patchImage(
-                              //     "/profile/add/image", image!.path);
-                              // if (imageResponse.statusCode == 200 ||
-                              //     imageResponse.statusCode == 201) {
-                              //   setState(() {
-                              //     circular = false;
-                              //   });
-                              //   Navigator.of(context).pop();
-                              // }else {
-                              //   setState(() {
-                              //     circular = false;
-                              //   });
-                              // }
-
                             } else {
                               setState(() {
                                 circular = false;
@@ -270,23 +258,6 @@ class _EditPageState extends State<EditPage> {
     );
   }
 
-  // Widget PickImage(){
-  //   return Center(
-  //     child: Stack(
-  //       children: <Widget>[
-  //         image != null
-  //             ? Image.file(
-  //           image!,
-  //           width: 200,
-  //           height: 200,
-  //         )
-  //             : FlutterLogo(
-  //           size: 120,
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   Widget imageProfile() {
     return Center(
@@ -408,9 +379,9 @@ class _EditPageState extends State<EditPage> {
             borderRadius: BorderRadius.all(Radius.circular(13.0)),
           ),
           child: TextFormField(
-            controller: _fullname,
+            controller: _fullname..text='${profileModel.fullname}',
               decoration: InputDecoration(
-            hintText: profileModel.fullname,
+                hintText: profileModel.fullname,
             hintStyle: TextStyle(
                 fontSize: 14, color: c.graySub2, fontWeight: f.medium),
             enabledBorder: OutlineInputBorder(
@@ -488,7 +459,7 @@ class _EditPageState extends State<EditPage> {
             borderRadius: BorderRadius.all(Radius.circular(13.0)),
           ),
           child: TextFormField(
-            controller: _bio,
+            controller: _bio..text='${profileModel.bio}',
               maxLines: 4,
               decoration: InputDecoration(
                 hintText:

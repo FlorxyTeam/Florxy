@@ -4,6 +4,16 @@ const schema = mongoose.Schema;
 
 const Product = schema(
     {
+      productview: [
+        {
+          username: {
+            type: String,
+          },
+          date: {
+            type: Date,
+          },
+        },
+      ],
       p_name: {
         type: String,
         required: true,
@@ -14,18 +24,21 @@ const Product = schema(
       },
       p_desc: String,
       p_img: String,
-      ing_name: Array,
-      ing_met: Array,
-      ing_irr: Array,
-      ing_rate: Array,
-      mention: {
-        type: Number,
-        default: 0,
-      },
-      review: {
-        type: Number,
-        default: 0,
-      },
+      ing_id :[
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Ingredient",
+        }
+      ],
+      rating: {
+         type: Number,
+         default: 0
+     },
+     numReview: {
+         type: Number,
+         default: 0
+     },
+
     },
     {
       timestamps: true,
