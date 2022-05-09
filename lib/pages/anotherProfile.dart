@@ -20,6 +20,8 @@ import 'package:Florxy/pages/PostReply.dart';
 import 'package:Florxy/pages/savedPro.dart';
 import 'package:flutter/services.dart';
 
+import '../Model/aliasColorModel.dart';
+
 class anotherProfile extends StatefulWidget {
   String? another_username;
   anotherProfile({Key? key, this.another_username}) : super(key: key);
@@ -69,6 +71,9 @@ class _anotherProfileState extends State<anotherProfile> {
     listfollower: [],
     listfollowing: [],
   );
+  Color professor_color=Colors.white, creator_color=Colors.white;
+  Professor list_professor_color = Professor();
+  Creator list_creator_color = Creator();
 
   @override
   void initState(){
@@ -112,6 +117,23 @@ class _anotherProfileState extends State<anotherProfile> {
       setState(() {
         yourfollow="Following";
       });
+    }
+
+    int i=0, j=0;
+    for(i;i<=list_professor_color.alias_professor.length-1;i++) {
+      if(profileModel.professor==list_professor_color.alias_professor[i].alias){
+        setState(() {
+          professor_color = list_professor_color.alias_professor[i].color!;
+        });
+      }
+    }
+
+    for(j;j<=list_creator_color.alias_creator.length-1;j++) {
+      if(profileModel.influencer==list_creator_color.alias_creator[j].alias){
+        setState(() {
+          creator_color = list_creator_color.alias_creator[j].color!;
+        });
+      }
     }
   }
 
@@ -415,7 +437,7 @@ class _anotherProfileState extends State<anotherProfile> {
                               fontWeight: f.semiBold),
                         ),
                         decoration: BoxDecoration(
-                            color: c.greenMain,
+                            color: professor_color,
                             borderRadius: BorderRadius.circular(10)),
                       ),
                       SizedBox(
@@ -429,12 +451,12 @@ class _anotherProfileState extends State<anotherProfile> {
                           child: Inter(
                               text: profileModel.influencer,
                               size: 11,
-                              color: c.blueMain,
+                              color: creator_color,
                               fontWeight: f.bold),
                         ),
                         decoration: BoxDecoration(
                             border: Border.all(
-                              color: c.blueMain,
+                              color: creator_color,
                               width: 2,
                             ),
                             borderRadius: BorderRadius.circular(10)),

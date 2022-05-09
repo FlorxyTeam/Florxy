@@ -1,3 +1,4 @@
+import 'package:Florxy/CompareProduct/searchProduct.dart';
 import 'package:Florxy/pages/scrap.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
@@ -263,7 +264,9 @@ class _laboratoryState extends State<laboratory> {
                       padding: const EdgeInsets.only(
                           left: 28, right: 28, bottom: 27),
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchToCompare()));
+                        },
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height * 0.12,

@@ -1,4 +1,5 @@
 
+import 'package:Florxy/Model/aliasColorModel.dart';
 import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/NetworkHandler.dart';
 import 'package:Florxy/pages/myfollower.dart';
@@ -31,6 +32,8 @@ class _ProfilePageState extends State<ProfilePage> {
   bool circular = true;
   NetworkHandler networkHandler = NetworkHandler();
   late Stream<FileResponse> profileimg;
+  Professor professor = Professor();
+  Creator creator = Creator();
 
   ProfileModel profileModel = ProfileModel(
     id: '',
@@ -48,6 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
     listfollower: [],
     listfollowing: [],
   );
+  Color? professor_color, creator_color;
 
   @override
   void initState() {
@@ -64,6 +68,24 @@ class _ProfilePageState extends State<ProfilePage> {
       profileModel = ProfileModel.fromJson(response["data"]);
       circular = false;
     });
+
+    int i=0, j=0;
+    for(i;i<=professor.alias_professor.length-1;i++) {
+      if(profileModel.professor==professor.alias_professor[i].alias){
+        setState(() {
+          professor_color = professor.alias_professor[i].color;
+        });
+      }
+    }
+
+    for(j;j<=creator.alias_creator.length-1;j++) {
+      if(profileModel.influencer==creator.alias_creator[j].alias){
+        setState(() {
+          creator_color = creator.alias_creator[j].color;
+        });
+      }
+    }
+
   }
   proFileCache(String url) {
       profileimg = DefaultCacheManager().getFileStream(url);
@@ -356,7 +378,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             fontWeight: f.semiBold),
                       ),
                       decoration: BoxDecoration(
-                          color: c.greenMain,
+                          color: professor_color,
                           borderRadius: BorderRadius.circular(10)),
                     ),
                     SizedBox(
@@ -370,12 +392,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         child: Inter(
                             text: profileModel.influencer,
                             size: 11,
-                            color: c.blueMain,
+                            color: creator_color!,
                             fontWeight: f.bold),
                       ),
                       decoration: BoxDecoration(
                           border: Border.all(
-                            color: c.blueMain,
+                            color: creator_color!,
                             width: 2,
                           ),
                           borderRadius: BorderRadius.circular(10)),
