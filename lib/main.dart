@@ -7,6 +7,8 @@ import 'package:Florxy/pages/notificationpage.dart';
 import 'package:Florxy/pages/registerpage.dart';
 import 'package:Florxy/pages/welcomepage.dart';
 import 'package:Florxy/provider/google_sign_in.dart';
+import 'package:Florxy/web/Loadingscreen-web.dart';
+import 'package:Florxy/web/welcomepage-web.dart';
 import 'package:Florxy/red_page.dart';
 import 'package:Florxy/services/local_notification_service.dart';
 import 'package:Florxy/widgets/font.dart';
@@ -20,6 +22,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'postProvider.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 Future<void> backgroundHandler(RemoteMessage message) async{
   print(message.data.toString());
@@ -29,15 +32,17 @@ Future<void> backgroundHandler(RemoteMessage message) async{
 Future main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  // await FirebaseAppCheck.instance.activate(
+  //   webRecaptchaSiteKey: '6LcaODIfAAAAAMXSDY3Eo9pDPOqXJJHNXnSErkZt',
+  // );
   FirebaseMessaging.onBackgroundMessage(backgroundHandler);
   await FirebaseAppCheck.instance.activate(
     webRecaptchaSiteKey: '6LcaODIfAAAAAMXSDY3Eo9pDPOqXJJHNXnSErkZt',
   );
   // print('test');
-  String? token = await FirebaseAppCheck.instance.getToken();
-  print(token);
-  // await FirebaseAppCheck.instance.activate();
-  await FirebaseAppCheck.instance.setTokenAutoRefreshEnabled(true);
+  // String? token = await FirebaseAppCheck.instance.getToken();
+  // print(token);
+  // await FirebaseAppCheck.instance.setTokenAutoRefreshEnabled(true);
   runApp(const MyApp());
 }
 
@@ -49,6 +54,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  
+  Widget webpage = WelcomePageWeb();
   Widget page = FlorxyScreen();
   final storage = new FlutterSecureStorage();
   // This widget is the root of your application.
@@ -64,11 +71,13 @@ class _MyAppState extends State<MyApp> {
     print(token);
     if(token != null){
       setState(() {
-        page= FlorxyScreen();
+        page= LoadingScreen();
+        webpage = LoadingScreenWeb();
       });
     }else{
       setState(() {
         page= WelcomePage();
+        webpage = WelcomePageWeb();
       });
     }
   }
@@ -76,8 +85,19 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-
-    return MultiProvider(
+    return (kIsWeb)?MultiProvider(
+        child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Florxy',
+            theme: ThemeData(),
+            home: webpage
+        ),
+        providers: [
+          ChangeNotifierProvider( create: (_) => PostProvider()),
+          ChangeNotifierProvider(create: (context) => GoogleSignInProvider())
+        ]
+    )
+        :MultiProvider(
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Florxy',
