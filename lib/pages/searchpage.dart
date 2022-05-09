@@ -463,8 +463,7 @@ class _SearchPageState extends State<SearchPage> {
             Center(
               child: InkWell(
                 onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => listOfbrand()));
+
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.28,

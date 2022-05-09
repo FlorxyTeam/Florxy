@@ -331,6 +331,8 @@ class PostProvider extends ChangeNotifier {
     print(searchProduct);
   }
 
+
+
   String formater(String url) {
     print(networkHandler.baseurl + url);
     return networkHandler.baseurl + url;

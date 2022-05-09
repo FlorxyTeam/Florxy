@@ -30,6 +30,15 @@ const Product = schema(
           ref: "Ingredient",
         }
       ],
+      rating: {
+         type: Number,
+         default: 0
+     },
+     numReview: {
+         type: Number,
+         default: 0
+     },
+
     },
     {
       timestamps: true,

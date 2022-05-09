@@ -273,9 +273,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: const EdgeInsets.only(left: 21, top: 5,bottom: 5),
                       child: Row(
 
-                        children: [
-                          GestureDetector(
-                            child: Column(
+                      children: [
+                        GestureDetector(
+                          child: Column(
+
 
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -294,10 +295,17 @@ class _ProfilePageState extends State<ProfilePage> {
                             onTap: (){
                               Navigator.of(context).push(MaterialPageRoute(builder: (context) => allFollower( another_username: profileModel.username )));
                             },
+
                           ),
-                          SizedBox(
+                          onTap: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => myFollower()));
+                          },
+                        ),
+                        SizedBox(
                             width: MediaQuery.of(context).size.width/20
-                            // width: 30,
+
+                          // width: 30,
+                  
                           ),
                           GestureDetector(
                             child: Column(
@@ -324,6 +332,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ],
                       ),
+
                     ),
                   ],
                 ),
