@@ -1,4 +1,8 @@
+
+import 'package:Florxy/CompareProduct/searchProduct.dart';
 import 'package:Florxy/pages/scrap.dart';
+import 'package:Florxy/postProvider.dart';
+import 'package:Florxy/widgets/ModalViewProduct.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/rendering.dart';
@@ -9,6 +13,8 @@ import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:Florxy/pages/brandoverview.dart';
 import 'package:Florxy/pages/listOfbrand.dart';
+import 'package:provider/provider.dart';
+import 'package:Florxy/pages/requestproduct.dart';
 
 class CardItem {
   final String urlImage;
@@ -41,14 +47,9 @@ class laboratory extends StatefulWidget {
 
 class _laboratoryState extends State<laboratory> {
   final storage = new FlutterSecureStorage();
+
   Future<void> _refreshPage() async {
     // refreshKey.currentState?.show(atTop: false);
-
-      await storage.delete(key: "p_id1");
-      await storage.delete(key: "p_id2");
-      await storage.delete(key: "p_id3");
-      storage.write(key: "num", value: '0');
-
     await Future.delayed(Duration(seconds: 1));
   }
 
@@ -79,32 +80,12 @@ class _laboratoryState extends State<laboratory> {
     ),
   ];
 
-  List<BrandsItem> brands = [
-    BrandsItem(
-      urlImage: "assets/img/pixi_logo.png",
-      title: "Pixi",
-    ),
-    BrandsItem(
-      urlImage: "assets/img/laroache_logo.jpg",
-      title: "Bioderma",
-    ),
-    BrandsItem(
-      urlImage: "assets/img/bioderma_logo.png",
-      title: "La Roche posay",
-    ),
-    BrandsItem(
-      urlImage: "assets/img/laroache_logo.jpg",
-      title: "innisfree",
-    ),
-    BrandsItem(
-      urlImage: "assets/img/bioderma_logo.png",
-      title: "Make up",
-    ),
-    BrandsItem(
-      urlImage: "assets/img/laroache_logo.jpg",
-      title: "Skincare",
-    ),
-  ];
+  @override
+  void initState() {
+    Provider.of<PostProvider>(context, listen: false).fetchBrand();
+    super.initState();
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -145,15 +126,6 @@ class _laboratoryState extends State<laboratory> {
                     ),
                   ),
                   Expanded(child: Container()),
-                  IconButton(
-                      icon: Icon(Icons.search_rounded),
-                      color: c.blackMain,
-                      iconSize: 30,
-                      onPressed: () {
-                        // Scrap
-                        // Navigator.of(context).push(
-                        //     MaterialPageRoute(builder: (context) => Scrap()));
-                      }),
                 ],
               ),
             ),
@@ -262,9 +234,12 @@ class _laboratoryState extends State<laboratory> {
                     child: Padding(
                       padding: const EdgeInsets.only(
                           left: 28, right: 28, bottom: 27),
+
                       child: InkWell(
-                        onTap: () {},
-                        child: Container(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchToCompare()));
+                        },
+     child: Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height * 0.12,
                           decoration: BoxDecoration(
@@ -337,7 +312,7 @@ class _laboratoryState extends State<laboratory> {
                     child: Padding(
                       padding: const EdgeInsets.only(
                           left: 28, right: 28, bottom: 27),
-                      child: InkWell(
+                      child: GestureDetector(
                         onTap: () {},
                         child: Container(
                           width: MediaQuery.of(context).size.width,
@@ -406,6 +381,201 @@ class _laboratoryState extends State<laboratory> {
                   ),
                 ],
               ),
+              Stack(
+                children: [
+                  Center(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          left: 28, right: 28, bottom: 27),
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      requestproduct()));
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.12,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(17),
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                color: c.shadow.withOpacity(0.32),
+                                spreadRadius: -17,
+                                blurRadius: 30,
+                                offset:
+                                Offset(0, 6), // changes position of shadow
+                              ),
+                            ],
+                          ),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding:
+                                const EdgeInsets.only(left: 22, right: 22),
+                                child: Container(
+                                  height: 58,
+                                  width: 58,
+                                  decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                      image:
+                                      AssetImage("assets/img/opacity.png"),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 9, bottom: 8),
+                                      child: Poppins(
+                                          text: "Introduce new product",
+                                          size: 15,
+                                          color: Color(0xFF053118),
+                                          fontWeight: f.semiBold),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(right: 8),
+                                      child: Inter(
+                                          text:
+                                          "Lorem Ipsum is simply dummy text of the printing and typesetting",
+                                          size: 13,
+                                          color: Color(0xFF053118)
+                                              .withOpacity(0.51),
+                                          fontWeight: f.regular),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 28, top: 22, bottom: 6),
+                    child: Poppins(
+                      text: "Brand",
+                      color: c.blackMain,
+                      fontWeight: f.semiBold,
+                      size: 18,
+                    ),
+                  ),
+                  Expanded(child: Container()),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 22, bottom: 6, right: 28),
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                listofbrand()));
+                      },
+                      child: Inter(
+                        text: "more",
+                        color: Color(0xFF525252),
+                        fontWeight: f.semiBold,
+                        size: 14,
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Consumer<PostProvider>(
+                builder: (context, model, _) => FutureBuilder(
+                  future: model.fetchBrand(),
+                  builder: (context, snapshot) => ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: (model.listOfbrand!.length <= 5) ? model.listOfbrand?.length  : 5,
+                    itemBuilder: (context, int index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(right: 28, left: 28, bottom: 25),
+                        child: GestureDetector(
+                          onTap: (){
+                            Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        Brandoverview(
+                                            p_brand:
+                                            model.listOfbrand![index]['_id'])));
+                          },
+                          child: Row(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Poppins(
+                                      text: model.listOfbrand![index]['_id'],
+                                      size: 15,
+                                      color: c.blackMain,
+                                      fontWeight: f.semiBold),
+                                  Poppins(
+                                      text: model.listOfbrand![index]['count'].toString() + " products",
+                                      size: 12,
+                                      color: Color(0xFF848484),
+                                      fontWeight: f.semiBold),
+
+                                ],
+                              ),
+                              Expanded(child: Container()),
+                              Icon(Icons.arrow_forward_ios_outlined,
+                                  size: 15, color: c.blackMain)
+
+                            ],
+                          ),
+                        ),
+                      );
+                    }),),
+              ),
+              SizedBox(
+                height: 7,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(left: 28, top: 22, bottom: 6),
+                    child: Poppins(
+                      text: "Search By Category",
+                      color: c.blackMain,
+                      fontWeight: f.semiBold,
+                      size: 18,
+                    ),
+                  ),
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    child: ListView.separated(
+                      padding: EdgeInsets.only(left: 28, right: 2),
+                      itemCount: 5,
+                      separatorBuilder: (context, _) => SizedBox(width: 10),
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) =>
+                          buildCard(item: items[index]),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 7,
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 28, top: 22, bottom: 16),
                 child: Poppins(
@@ -422,9 +592,7 @@ class _laboratoryState extends State<laboratory> {
                       padding: const EdgeInsets.only(
                           left: 28, right: 28, bottom: 27),
                       child: InkWell(
-                        onTap: () {
-
-                        },
+                        onTap: () {},
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height * 0.11,
@@ -478,14 +646,6 @@ class _laboratoryState extends State<laboratory> {
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 8),
-                                      child: Poppins(
-                                          text: "3 rank updown",
-                                          size: 12,
-                                          color: c.greenMain,
-                                          fontWeight: f.medium),
                                     ),
                                     Expanded(child: Container()),
                                     Poppins(
@@ -568,22 +728,6 @@ class _laboratoryState extends State<laboratory> {
                                         maxLines: 1,
                                       ),
                                     ),
-
-                                    //  Text(
-                                    //   'Bioderma | Sensibio Defensive',
-                                    //    style: TextStyle(fontFamily: 'google_fonts/Poppins'),
-                                    //     overflow: TextOverflow.ellipsis,
-                                    //     maxLines: 1,
-                                    // ),
-
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 8),
-                                      child: Poppins(
-                                          text: "1 rank downvote",
-                                          size: 12,
-                                          color: c.redMain,
-                                          fontWeight: f.medium),
-                                    ),
                                     Expanded(child: Container()),
                                     Poppins(
                                       text: "2,315 mentions",
@@ -598,62 +742,6 @@ class _laboratoryState extends State<laboratory> {
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 28, top: 22, bottom: 6),
-                    child: Poppins(
-                      text: "Search By Category",
-                      color: c.blackMain,
-                      fontWeight: f.semiBold,
-                      size: 18,
-                    ),
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.2,
-                    child: ListView.separated(
-                      padding: EdgeInsets.only(left: 28, right: 2),
-                      itemCount: 5,
-                      separatorBuilder: (context, _) => SizedBox(width: 10),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) =>
-                          buildCard(item: items[index]),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 9,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.only(left: 28, top: 22, bottom: 6),
-                    child: Poppins(
-                      text: "Search By Brand",
-                      color: c.blackMain,
-                      fontWeight: f.semiBold,
-                      size: 18,
-                    ),
-                  ),
-                  Container(
-                    height: MediaQuery.of(context).size.height * 0.2,
-                    width: MediaQuery.of(context).size.height,
-                    child: ListView.separated(
-                      padding: EdgeInsets.only(left: 28, right: 2),
-                      itemCount: 6,
-                      separatorBuilder: (context, _) => SizedBox(width: 10),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) =>
-                          buildCard_brand(brandsItem: brands[index]),
                     ),
                   ),
                 ],
@@ -680,8 +768,7 @@ class _laboratoryState extends State<laboratory> {
             Center(
               child: InkWell(
                 onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => listOfbrand()));
+
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.28,
@@ -722,74 +809,6 @@ class _laboratoryState extends State<laboratory> {
                             size: 14,
                             color: Color(0xFF254231),
                             fontWeight: f.semiBold),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      );
-
-  //Search by Brand
-  Widget buildCard_brand({
-    required BrandsItem brandsItem,
-  }) =>
-      Container(
-        width: MediaQuery.of(context).size.width * 0.28,
-        height: MediaQuery.of(context).size.height * 0.17,
-        child: Stack(
-          children: [
-            Center(
-              child: InkWell(
-                onTap: () {},
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 0.28,
-                  height: MediaQuery.of(context).size.height * 0.17,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: c.shadow.withOpacity(0.32),
-                        spreadRadius: -17,
-                        blurRadius: 30,
-                        offset: Offset(0, 6), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.115,
-                        width: MediaQuery.of(context).size.width * 0.34,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15),
-                          ),
-                          image: DecorationImage(
-                            image: AssetImage(brandsItem.urlImage),
-                            fit: BoxFit.fill,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.only(top: 5, left: 7),
-                          width: MediaQuery.of(context).size.width * 0.34,
-                          child: Text(
-                            brandsItem.title,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                fontWeight: f.semiBold,
-                                color: Color(0xFF254231)),
-                          ),
-                        ),
                       ),
                     ],
                   ),

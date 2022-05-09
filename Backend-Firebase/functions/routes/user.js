@@ -57,6 +57,25 @@ router.route("/login-email").post((req, res) => {
   });
 });
 
+router.route("/login-google").post((req, res) => {
+  User.findOne({google: req.body.google}, (err, result) => {
+    if (err) return res.status(500).json({msg: err});
+    if (result === null) {
+      return res.status(403).json("Email or password is incorrect");
+    }
+    console.log(result.username);
+      // implement the JWT
+      const token = jwt.sign({username: result.username}, config.key, {
+        // expiresIn: "24h",
+      });
+      res.json({
+        token: token,
+        username: result.username,
+        msg: "success",
+      });
+  });
+});
+
 router.route("/getUsername/:email").get((req, res) => {
   console.log(req.params.email)
   User.findOne({ email: req.params.email }, (err, result) => {
@@ -72,6 +91,25 @@ router.route("/register").post((req, res) => {
     email: req.body.email,
     password: req.body.password,
     username: req.body.username,
+  });
+  user
+      .save()
+      .then(() => {
+        console.log("user registered");
+        res.status(200).json({msg: "User Successfully Registered"});
+      })
+      .catch((err) => {
+        res.status(403).json({msg: err});
+      });
+});
+
+router.route("/register/google").post((req, res) => {
+  console.log("inside the register");
+  const user = new User({
+    google: req.body.google,
+    username: req.body.username,
+    email: "",
+    password: ""
   });
   user
       .save()

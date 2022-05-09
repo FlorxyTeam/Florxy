@@ -1,8 +1,8 @@
 import 'dart:io';
 
+import 'package:Florxy/Model/aliasColorModel.dart';
 import 'package:Florxy/Model/postModel.dart';
 import 'package:Florxy/Model/profileModel.dart';
-import 'package:Florxy/pages/FavPost.dart';
 import 'package:Florxy/pages/ViewPostPage.dart';
 import 'package:Florxy/pages/navbar.dart';
 import 'package:Florxy/widgets/ModalViewProduct.dart';
@@ -23,6 +23,7 @@ import 'package:path_provider/path_provider.dart';
 import '../pages/anotherProfile.dart';
 import '../pages/comparepage.dart';
 import 'ViewPhotoWidget.dart';
+
 
 class MentionPost extends StatefulWidget {
   String? postTime, username, post, id;
@@ -45,7 +46,7 @@ class _MentionPostState extends State<MentionPost> {
   final storage = new FlutterSecureStorage();
   bool isFav = false;
   List myfav = [];
-  String? fullname='',influencer='',professor='';
+  String? fullname='',influencer='',professor='', postTime='', myusername='';
   List favorite=[];
   List product=[], staticData=[];
   int? comment;
@@ -89,6 +90,9 @@ class _MentionPostState extends State<MentionPost> {
     listfollowing: [],
   );
 
+  Color? professor_color, creator_color;
+  Professor list_professor_color = Professor();
+  Creator list_creator_color = Creator();
 
   late bool _isLoading;
   @override
@@ -97,18 +101,28 @@ class _MentionPostState extends State<MentionPost> {
     _isLoading = true;
 
     fetchData();
+    setDate();
     super.initState();
+  }
+
+  void setDate() {
+    setState(() {
+      postTime = widget.postTime!.substring(8,10) + "/" + widget.postTime!.substring(5,7) + "/" + widget.postTime!.substring(0,4);
+    });
   }
 
   fetchData() async{
     var response = await networkHandler.get("/profile/getOtherData/" + widget.username!);
     var response2 = await networkHandler.get("/home/getIDPost/" + widget.id!);
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
+    var username = await storage.read(key: "username");
 
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
 
       postModel = PostModel.fromJson(response2["getPost"]);
+
+      myusername = username;
 
       fullname = profileModel.fullname;
       influencer = profileModel.influencer;
@@ -117,16 +131,26 @@ class _MentionPostState extends State<MentionPost> {
       countFav = favorite.length;
       product = postModel.product!;
 
-
-      // print(myprofileModel.favorite);
-      // print(myfav);
-      // print(pro)
-      // if(myfav == myprofileModel.username){
-      //   print('same fuck fuck');
-      // }
-      // print(myfav);
       comment = response3["countComment"];
       _isLoading =false;
+
+      int i=0, j=0;
+      for(i;i<=list_professor_color.alias_professor.length-1;i++) {
+        if(professor==list_professor_color.alias_professor[i].alias){
+          setState(() {
+            professor_color = list_professor_color.alias_professor[i].color;
+          });
+        }
+      }
+
+      for(j;j<=list_creator_color.alias_creator.length-1;j++) {
+        if(influencer==list_creator_color.alias_creator[j].alias){
+          setState(() {
+            creator_color = list_creator_color.alias_creator[j].color;
+          });
+        }
+      }
+
     });
   }
 
@@ -205,7 +229,7 @@ class _MentionPostState extends State<MentionPost> {
                               if(x != widget.username){
                                 await storage.write(
                                     key: "anotherprofile", value: widget.username);
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile( another_username: widget.username )));
                               }
                               else{
                                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
@@ -213,7 +237,7 @@ class _MentionPostState extends State<MentionPost> {
                             },
                           ),
                           SizedBox( width: 5 ),
-                          Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
+                          Inter(text: postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                         ],
                       ),
                       Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
@@ -232,7 +256,7 @@ class _MentionPostState extends State<MentionPost> {
                                   fontWeight: f.semiBold),
                             ),
                             decoration: BoxDecoration(
-                                color: c.greenMain,
+                                color: professor_color!,
                                 borderRadius: BorderRadius.circular(10)),
                           ),
                           SizedBox( width: 5 ),
@@ -244,12 +268,12 @@ class _MentionPostState extends State<MentionPost> {
                               child: Inter(
                                   text: influencer!,
                                   size: 8,
-                                  color: c.blueMain,
+                                  color: creator_color!,
                                   fontWeight: f.bold),
                             ),
                             decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: c.blueMain,
+                                  color: creator_color!,
                                   width: 2,
                                 ),
                                 borderRadius: BorderRadius.circular(10)),
@@ -264,7 +288,7 @@ class _MentionPostState extends State<MentionPost> {
                     alignment: Alignment.topRight,
                     child: IconButton(
                       onPressed: () {
-                        ModalBottomSheetPost.Dialog_Settings(context);
+                        ModalBottomSheetPost.Dialog_Settings(context, widget.username!, myusername!);
                       },
                       alignment: Alignment.topRight,
                       icon: Icon(Boxicons.bx_dots_vertical_rounded, size: 30, color: c.greyMain),
@@ -408,6 +432,7 @@ class _MentionPostState extends State<MentionPost> {
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
                                   urlImage: widget.urlImage,
+                                  index: 1,
                                 )));
                               },
                             ),
@@ -489,7 +514,7 @@ class _MentionPostState extends State<MentionPost> {
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
                                     urlImage: widget.urlImage,
-                                    index: 2
+                                    index: 1
                                 )));
                               },
                             ),
@@ -519,6 +544,7 @@ class _MentionPostState extends State<MentionPost> {
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
                                   urlImage: widget.urlImage,
+                                  index: 2,
                                 )));
                               },
                             ),
@@ -543,7 +569,7 @@ class _MentionPostState extends State<MentionPost> {
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(builder: (_) => ViewPhotoWidget(
                                     urlImage: widget.urlImage,
-                                    index: 2
+                                    index: 3
                                 )));
                               },
                             ),
@@ -784,7 +810,7 @@ class _ReviewPostState extends State<ReviewPost> {
   final storage = new FlutterSecureStorage();
   bool isFav = false;
 
-  String? fullname='',influencer='',professor='';
+  String? fullname='',influencer='',professor='',postTime='', myusername='';
   List? favorite=[];
   List product=[];
   Map? data;
@@ -829,6 +855,10 @@ class _ReviewPostState extends State<ReviewPost> {
     listfollowing: [],
   );
 
+  Color? professor_color, creator_color;
+  Professor list_professor_color = Professor();
+  Creator list_creator_color = Creator();
+
   late bool _isLoading;
   @override
   void initState() {
@@ -836,14 +866,23 @@ class _ReviewPostState extends State<ReviewPost> {
 
     _isLoading = true;
     fetchData();
+    setDate();
     super.initState();
+  }
+
+  void setDate() {
+    setState(() {
+      postTime = widget.postTime!.substring(8,10) + "/" + widget.postTime!.substring(5,7) + "/" + widget.postTime!.substring(0,4);
+    });
   }
 
   fetchData() async{
     var response = await networkHandler.get("/profile/getOtherData/"+ widget.username!);
     var response2 = await networkHandler.get("/home/getIDPost/" + widget.id!);
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
+    var username = await storage.read(key: "username");
     setState(() {
+      myusername = username;
       profileModel = ProfileModel.fromJson(response["data"]);
       fullname = profileModel.fullname;
       influencer = profileModel.influencer;
@@ -857,6 +896,24 @@ class _ReviewPostState extends State<ReviewPost> {
 
       comment = response3["countComment"];
       _isLoading =false;
+
+      int i=0, j=0;
+      for(i;i<=list_professor_color.alias_professor.length-1;i++) {
+        if(professor==list_professor_color.alias_professor[i].alias){
+          setState(() {
+            professor_color = list_professor_color.alias_professor[i].color;
+          });
+        }
+      }
+
+      for(j;j<=list_creator_color.alias_creator.length-1;j++) {
+        if(influencer==list_creator_color.alias_creator[j].alias){
+          setState(() {
+            creator_color = list_creator_color.alias_creator[j].color;
+          });
+        }
+      }
+
     });
   }
 
@@ -935,7 +992,7 @@ class _ReviewPostState extends State<ReviewPost> {
                               if(x != widget.username){
                                 await storage.write(
                                     key: "anotherprofile", value: widget.username);
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile( another_username: widget.username )));
                               }
                               else{
                                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
@@ -944,7 +1001,7 @@ class _ReviewPostState extends State<ReviewPost> {
                             },
                           ),
                           SizedBox( width: 5 ),
-                          Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
+                          Inter(text: postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                         ],
                       ),
                       Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
@@ -963,7 +1020,7 @@ class _ReviewPostState extends State<ReviewPost> {
                                   fontWeight: f.semiBold),
                             ),
                             decoration: BoxDecoration(
-                                color: c.greenMain,
+                                color: professor_color!,
                                 borderRadius: BorderRadius.circular(10)),
                           ),
                           SizedBox( width: 5 ),
@@ -975,12 +1032,12 @@ class _ReviewPostState extends State<ReviewPost> {
                               child: Inter(
                                   text: influencer!,
                                   size: 8,
-                                  color: c.blueMain,
+                                  color: creator_color!,
                                   fontWeight: f.bold),
                             ),
                             decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: c.blueMain,
+                                  color: creator_color!,
                                   width: 2,
                                 ),
                                 borderRadius: BorderRadius.circular(10)),
@@ -995,7 +1052,7 @@ class _ReviewPostState extends State<ReviewPost> {
                     alignment: Alignment.topRight,
                     child: IconButton(
                       onPressed: () {
-                        ModalBottomSheetPost.Dialog_Settings(context);
+                        ModalBottomSheetPost.Dialog_Settings(context, widget.username!, myusername!);
                       },
                       alignment: Alignment.topRight,
                       icon: Icon(Boxicons.bx_dots_vertical_rounded, size: 30, color: c.greyMain),
@@ -1512,7 +1569,7 @@ class _PostState extends State<Post> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   bool isFav = false;
-  String? fullname='',influencer='',professor='';
+  String? fullname='',influencer='',professor='', postTime='', myusername='';
   List? favorite=[];
   int countFav = 0;
   int? comment;
@@ -1554,20 +1611,33 @@ class _PostState extends State<Post> {
     listfollowing: [],
   );
 
+  Color? professor_color, creator_color;
+  Professor list_professor_color = Professor();
+  Creator list_creator_color = Creator();
+
   late bool _isLoading;
   @override
   void initState() {
     // TODO: implement initState
     _isLoading = true;
     fetchData();
+    setDate();
     super.initState();
+  }
+
+  void setDate() {
+    setState(() {
+      postTime = widget.postTime!.substring(8,10) + "/" + widget.postTime!.substring(5,7) + "/" + widget.postTime!.substring(0,4);
+    });
   }
 
   fetchData() async{
     var response = await networkHandler.get("/profile/getOtherData/" + widget.username!);
     var response2 = await networkHandler.get("/home/getIDPost/" + widget.id!);
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
+    var username = await storage.read(key: "username");
     setState(() {
+      myusername = username;
       profileModel = ProfileModel.fromJson(response["data"]);
       fullname = profileModel.fullname;
       influencer = profileModel.influencer;
@@ -1579,6 +1649,24 @@ class _PostState extends State<Post> {
 
       comment = response3["countComment"];
       _isLoading =false;
+
+      int i=0, j=0;
+      for(i;i<=list_professor_color.alias_professor.length-1;i++) {
+        if(professor==list_professor_color.alias_professor[i].alias){
+          setState(() {
+            professor_color = list_professor_color.alias_professor[i].color;
+          });
+        }
+      }
+
+      for(j;j<=list_creator_color.alias_creator.length-1;j++) {
+        if(influencer==list_creator_color.alias_creator[j].alias){
+          setState(() {
+            creator_color = list_creator_color.alias_creator[j].color;
+          });
+        }
+      }
+
     });
   }
 
@@ -1654,7 +1742,7 @@ class _PostState extends State<Post> {
                               if(x != widget.username){
                                 await storage.write(
                                     key: "anotherprofile", value: widget.username);
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile( another_username: widget.username )));
                               }
                               else{
                                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
@@ -1662,7 +1750,7 @@ class _PostState extends State<Post> {
                             },
                           ),
                           SizedBox( width: 5 ),
-                          Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
+                          Inter(text: postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                         ],
                       ),
                       Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
@@ -1681,7 +1769,7 @@ class _PostState extends State<Post> {
                                   fontWeight: f.semiBold),
                             ),
                             decoration: BoxDecoration(
-                                color: c.greenMain,
+                                color: professor_color!,
                                 borderRadius: BorderRadius.circular(10)),
                           ),
                           SizedBox( width: 5 ),
@@ -1693,12 +1781,12 @@ class _PostState extends State<Post> {
                               child: Inter(
                                   text: influencer!,
                                   size: 8,
-                                  color: c.blueMain,
+                                  color: creator_color!,
                                   fontWeight: f.bold),
                             ),
                             decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: c.blueMain,
+                                  color: creator_color!,
                                   width: 2,
                                 ),
                                 borderRadius: BorderRadius.circular(10)),
@@ -1713,7 +1801,7 @@ class _PostState extends State<Post> {
                     alignment: Alignment.topRight,
                     child: IconButton(
                       onPressed: () {
-                        ModalBottomSheetPost.Dialog_Settings(context);
+                        ModalBottomSheetPost.Dialog_Settings(context, widget.username!, myusername!);
                       },
                       alignment: Alignment.topRight,
                       icon: Icon(Boxicons.bx_dots_vertical_rounded, size: 30, color: c.greyMain),
@@ -2126,6 +2214,7 @@ class _MentionPost2State extends State<MentionPost2> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   bool isFav = false;
+  String? postTime='', myusername='';
   List favorite=[];
   List product=[], staticData=[];
   int countFav = 0;
@@ -2152,19 +2241,32 @@ class _MentionPost2State extends State<MentionPost2> {
     listfollowing: [],
   );
 
+  Color? professor_color, creator_color;
+  Professor list_professor_color = Professor();
+  Creator list_creator_color = Creator();
+
   late bool _isLoading;
   @override
   void initState() {
     // TODO: implement initState
     _isLoading = true;
     fetchData();
+    setDate();
     super.initState();
+  }
+
+  void setDate() {
+    setState(() {
+      postTime = widget.postTime!.substring(8,10) + "/" + widget.postTime!.substring(5,7) + "/" + widget.postTime!.substring(0,4);
+    });
   }
 
   fetchData() async{
     var response2 = await networkHandler.get("/home/getIDPost/" + widget.id!);
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
+    var username = await storage.read(key: "username");
     setState(() {
+      myusername = username;
       postModel = PostModel.fromJson(response2["getPost"]);
 
       favorite = postModel.favorite!;
@@ -2175,6 +2277,24 @@ class _MentionPost2State extends State<MentionPost2> {
       print(product);
       widget.comment = response3["countComment"];
       _isLoading =false;
+
+      int i=0, j=0;
+      for(i;i<=list_professor_color.alias_professor.length-1;i++) {
+        if(widget.professor==list_professor_color.alias_professor[i].alias){
+          setState(() {
+            professor_color = list_professor_color.alias_professor[i].color;
+          });
+        }
+      }
+
+      for(j;j<=list_creator_color.alias_creator.length-1;j++) {
+        if(widget.influencer==list_creator_color.alias_creator[j].alias){
+          setState(() {
+            creator_color = list_creator_color.alias_creator[j].color;
+          });
+        }
+      }
+
     });
   }
 
@@ -2253,7 +2373,7 @@ class _MentionPost2State extends State<MentionPost2> {
                               if(x != widget.username){
                                 await storage.write(
                                     key: "anotherprofile", value: widget.username);
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile( another_username: widget.username )));
                               }
                               else{
                                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
@@ -2261,7 +2381,7 @@ class _MentionPost2State extends State<MentionPost2> {
                             },
                           ),
                           SizedBox( width: 5 ),
-                          Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
+                          Inter(text: postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                         ],
                       ),
                       Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
@@ -2280,7 +2400,7 @@ class _MentionPost2State extends State<MentionPost2> {
                                   fontWeight: f.semiBold),
                             ),
                             decoration: BoxDecoration(
-                                color: c.greenMain,
+                                color: professor_color!,
                                 borderRadius: BorderRadius.circular(10)),
                           ),
                           SizedBox( width: 5 ),
@@ -2292,12 +2412,12 @@ class _MentionPost2State extends State<MentionPost2> {
                               child: Inter(
                                   text: widget.influencer!,
                                   size: 8,
-                                  color: c.blueMain,
+                                  color: creator_color!,
                                   fontWeight: f.bold),
                             ),
                             decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: c.blueMain,
+                                  color: creator_color!,
                                   width: 2,
                                 ),
                                 borderRadius: BorderRadius.circular(10)),
@@ -2312,7 +2432,7 @@ class _MentionPost2State extends State<MentionPost2> {
                     alignment: Alignment.topRight,
                     child: IconButton(
                       onPressed: () {
-                        ModalBottomSheetPost.Dialog_Settings(context);
+                        ModalBottomSheetPost.Dialog_Settings(context, widget.username!, myusername!);
                       },
                       alignment: Alignment.topRight,
                       icon: Icon(Boxicons.bx_dots_vertical_rounded, size: 30, color: c.greyMain),
@@ -2830,6 +2950,7 @@ class _ReviewPost2State extends State<ReviewPost2> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   bool isFav = false;
+  String? postTime='', myusername='';
   List favorite=[];
   List product=[], staticData=[];
   int countFav = 0;
@@ -2856,19 +2977,32 @@ class _ReviewPost2State extends State<ReviewPost2> {
     listfollowing: [],
   );
 
+  Color? professor_color, creator_color;
+  Professor list_professor_color = Professor();
+  Creator list_creator_color = Creator();
+
   late bool _isLoading;
   @override
   void initState() {
     // TODO: implement initState
     _isLoading = true;
     fetchData();
+    setDate();
     super.initState();
+  }
+
+  void setDate() {
+    setState(() {
+      postTime = widget.postTime!.substring(8,10) + "/" + widget.postTime!.substring(5,7) + "/" + widget.postTime!.substring(0,4);
+    });
   }
 
   fetchData() async{
     var response2 = await networkHandler.get("/home/getIDPost/" + widget.id!);
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
+    var username = await storage.read(key: "username");
     setState(() {
+      myusername = username;
       postModel = PostModel.fromJson(response2["getPost"]);
 
       favorite = postModel.favorite!;
@@ -2880,6 +3014,24 @@ class _ReviewPost2State extends State<ReviewPost2> {
 
       widget.comment = response3["countComment"];
       _isLoading =false;
+
+      int i=0, j=0;
+      for(i;i<=list_professor_color.alias_professor.length-1;i++) {
+        if(widget.professor==list_professor_color.alias_professor[i].alias){
+          setState(() {
+            professor_color = list_professor_color.alias_professor[i].color;
+          });
+        }
+      }
+
+      for(j;j<=list_creator_color.alias_creator.length-1;j++) {
+        if(widget.influencer==list_creator_color.alias_creator[j].alias){
+          setState(() {
+            creator_color = list_creator_color.alias_creator[j].color;
+          });
+        }
+      }
+
     });
   }
 
@@ -2958,7 +3110,7 @@ class _ReviewPost2State extends State<ReviewPost2> {
                               if(x != widget.username){
                                 await storage.write(
                                     key: "anotherprofile", value: widget.username);
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile( another_username: widget.username )));
                               }
                               else{
                                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
@@ -2967,7 +3119,7 @@ class _ReviewPost2State extends State<ReviewPost2> {
                             },
                           ),
                           SizedBox( width: 5 ),
-                          Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
+                          Inter(text: postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                         ],
                       ),
                       Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
@@ -2986,7 +3138,7 @@ class _ReviewPost2State extends State<ReviewPost2> {
                                   fontWeight: f.semiBold),
                             ),
                             decoration: BoxDecoration(
-                                color: c.greenMain,
+                                color: professor_color!,
                                 borderRadius: BorderRadius.circular(10)),
                           ),
                           SizedBox( width: 5 ),
@@ -2998,12 +3150,12 @@ class _ReviewPost2State extends State<ReviewPost2> {
                               child: Inter(
                                   text: widget.influencer!,
                                   size: 8,
-                                  color: c.blueMain,
+                                  color: creator_color!,
                                   fontWeight: f.bold),
                             ),
                             decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: c.blueMain,
+                                  color: creator_color!,
                                   width: 2,
                                 ),
                                 borderRadius: BorderRadius.circular(10)),
@@ -3018,7 +3170,7 @@ class _ReviewPost2State extends State<ReviewPost2> {
                     alignment: Alignment.topRight,
                     child: IconButton(
                       onPressed: () {
-                        ModalBottomSheetPost.Dialog_Settings(context);
+                        ModalBottomSheetPost.Dialog_Settings(context, widget.username!, myusername!);
                       },
                       alignment: Alignment.topRight,
                       icon: Icon(Boxicons.bx_dots_vertical_rounded, size: 30, color: c.greyMain),
@@ -3520,6 +3672,7 @@ class _Post2State extends State<Post2> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   bool isFav = false;
+  String? postTime='', myusername='';
   List favorite=[];
   int countFav = 0;
   PostModel postModel = PostModel(
@@ -3543,19 +3696,32 @@ class _Post2State extends State<Post2> {
     listfollowing: [],
   );
 
+  Color? professor_color, creator_color;
+  Professor list_professor_color = Professor();
+  Creator list_creator_color = Creator();
+
   late bool _isLoading;
   @override
   void initState() {
     // TODO: implement initState
     _isLoading = true;
     fetchData();
+    setDate();
     super.initState();
+  }
+
+  void setDate() {
+    setState(() {
+      postTime = widget.postTime!.substring(8,10) + "/" + widget.postTime!.substring(5,7) + "/" + widget.postTime!.substring(0,4);
+    });
   }
 
   fetchData() async{
     var response = await networkHandler.get("/home/getIDPost/" + widget.id!);
     var response3 = await networkHandler.get("/home/getComment/" + widget.id!);
+    var username = await storage.read(key: "username");
     setState(() {
+      myusername = username;
       postModel = PostModel.fromJson(response["getPost"]);
 
       favorite = postModel.favorite!;
@@ -3563,6 +3729,24 @@ class _Post2State extends State<Post2> {
 
       widget.comment = response3["countComment"];
       _isLoading =false;
+
+      int i=0, j=0;
+      for(i;i<=list_professor_color.alias_professor.length-1;i++) {
+        if(widget.professor==list_professor_color.alias_professor[i].alias){
+          setState(() {
+            professor_color = list_professor_color.alias_professor[i].color;
+          });
+        }
+      }
+
+      for(j;j<=list_creator_color.alias_creator.length-1;j++) {
+        if(widget.influencer==list_creator_color.alias_creator[j].alias){
+          setState(() {
+            creator_color = list_creator_color.alias_creator[j].color;
+          });
+        }
+      }
+
     });
   }
 
@@ -3639,7 +3823,7 @@ class _Post2State extends State<Post2> {
                               if(x != widget.username){
                                 await storage.write(
                                     key: "anotherprofile", value: widget.username);
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile( another_username: widget.username )));
                               }
                               else{
                                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
@@ -3647,7 +3831,7 @@ class _Post2State extends State<Post2> {
                             },
                           ),
                           SizedBox( width: 5 ),
-                          Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
+                          Inter(text: postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                         ],
                       ),
                       Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
@@ -3666,7 +3850,7 @@ class _Post2State extends State<Post2> {
                                   fontWeight: f.semiBold),
                             ),
                             decoration: BoxDecoration(
-                                color: c.greenMain,
+                                color: professor_color!,
                                 borderRadius: BorderRadius.circular(10)),
                           ),
                           SizedBox( width: 5 ),
@@ -3678,12 +3862,12 @@ class _Post2State extends State<Post2> {
                               child: Inter(
                                   text: widget.influencer!,
                                   size: 8,
-                                  color: c.blueMain,
+                                  color: creator_color!,
                                   fontWeight: f.bold),
                             ),
                             decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: c.blueMain,
+                                  color: creator_color!,
                                   width: 2,
                                 ),
                                 borderRadius: BorderRadius.circular(10)),
@@ -3698,7 +3882,7 @@ class _Post2State extends State<Post2> {
                     alignment: Alignment.topRight,
                     child: IconButton(
                       onPressed: () {
-                        ModalBottomSheetPost.Dialog_Settings(context);
+                        ModalBottomSheetPost.Dialog_Settings(context, widget.username!, myusername!);
                       },
                       alignment: Alignment.topRight,
                       icon: Icon(Boxicons.bx_dots_vertical_rounded, size: 30, color: c.greyMain),
