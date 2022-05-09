@@ -39,20 +39,12 @@ class _CommentState extends State<Comment> {
     vote: []
   );
   int? countVote;
-  String? postTime='';
 
   @override
   void initState() {
     fetchData();
-    setDate();
     // TODO: implement initState
     super.initState();
-  }
-
-  void setDate() {
-    setState(() {
-      postTime = widget.postTime!.substring(8,10) + "/" + widget.postTime!.substring(5,7) + "/" + widget.postTime!.substring(0,4);
-    });
   }
 
   fetchData() async{
@@ -113,7 +105,8 @@ class _CommentState extends State<Comment> {
                           ),
                           SizedBox(width: 5),
                           Inter(text: '@'+profileModel.username, size: 12, color: c.textUsername, fontWeight: f.medium),
-
+                          SizedBox(width: 5),
+                          Inter(text: widget.postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
                         ],
                       ),
                       SizedBox(height: 2),
@@ -121,13 +114,7 @@ class _CommentState extends State<Comment> {
                         children: [
                           Inter(text: 'Replying to', size: 11, color: c.blackSub2, fontWeight: f.regular),
                           SizedBox(width: 5),
-                          Container(
-                            constraints: BoxConstraints(
-                              maxWidth: 120
-                            ),
-                              child: Inter_Crop(text: '@'+widget.owner!, size: 12, color: c.greenMain, fontWeight: f.medium)),
-                          SizedBox(width: 5),
-                          Inter_Crop(text: postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
+                          Inter(text: '@'+widget.owner!, size: 12, color: c.greenMain, fontWeight: f.medium),
                         ],
                       ),
                       SizedBox(height: 15),

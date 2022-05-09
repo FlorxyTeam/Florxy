@@ -20,7 +20,6 @@ class c {
   static final Color greenSub2 = Color(0xFF6AC08F);
   static final Color greenLight1 = Color(0xFFAFE6A2);
   static final Color greenLight2 =  Color(0xFFB8E68C);
-  static final Color brand = Color(0xFF86CA89);
   static final Color greenFade= Color(0xFFAACEB0);
   static final Color blackMain = Color(0xFF000000);
   static final Color blackSub = Color(0xFF4B4B4B);
