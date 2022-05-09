@@ -8,7 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
-import '../Model/profileModel.dart';
 import '../NetworkHandler.dart';
 import 'package:Florxy/Model/productModel.dart';
 import 'package:Florxy/pages/comparepage.dart';
@@ -29,12 +28,8 @@ class ProductOverview extends StatefulWidget {
 
 class _ProductOverviewState extends State<ProductOverview> {
   String? id_product;
-  bool isSave = false;
-  List saveproduct = [];
-  List save = [];
-  Map? data;
- final networkHandler = NetworkHandler();
- final storage = new FlutterSecureStorage();
+  NetworkHandler networkHandler = NetworkHandler();
+  final storage = new FlutterSecureStorage();
   ProductModel productModel = ProductModel(
     id:'',
     p_name:'',
@@ -49,47 +44,15 @@ class _ProductOverviewState extends State<ProductOverview> {
     review: 0,
   );
 
-  ProfileModel myprofileModel = ProfileModel(
-    id: '',
-    username: '',
-    fullname: '',
-    DOB: '',
-    professor: '',
-    influencer: '',
-    bio: '',
-    img: '',
-    pinned: '',
-    notification: [],
-    saveproduct: [],
-    favorite: [],
-    listfollower: [],
-    listfollowing: [],
-  );
-
-
 
   void fetchData() async {
     var id = await storage.read(key: "p_id");
-    var username = await storage.read(key: "username");
-    var response = await networkHandler.get("/product/" + id!);
-    var response2 = await networkHandler.get("/product/view/productoverview/" + username!);
 
+    var response = await networkHandler.get("/product/" + id!);
     setState(() {
       productModel = ProductModel.fromJson(response["data"]);
-      myprofileModel = ProfileModel.fromJson(response2["data"]);
 
     });
-    save = myprofileModel.saveproduct;
-    var i = 0;
-    for(i; i < save.length; i++){
-      print(save[i]);
-      if(productModel.id == save[i]){
-        setState(() {
-          isSave = true;
-        });
-      }
-    }
-
   }
 
   @override
@@ -97,8 +60,8 @@ class _ProductOverviewState extends State<ProductOverview> {
     // TODO: implement initState
     super.initState();
     Provider.of<PostProvider>(context, listen: false).fetchInteresting();
-    fetchData();
 
+    fetchData();
   }
 
 
@@ -212,37 +175,15 @@ class _ProductOverviewState extends State<ProductOverview> {
                                 SizedBox(width: 2,),
                                 Roboto(
                                     text: "2500 Views this product",
+
                                     size: 11,
                                     color: Color(0xFF97AFA2),
                                     fontWeight: f.medium),
                               ],
                             ),
-                            if(isSave == false)InkWell(
-                              onTap: () async {
-                               Map<String, String> data = {
-                                  "saveproduct": productModel.id!
-                              };
-                               var idStorage = await storage.read(key: 'id');
-                               await networkHandler.post("/product/save/" + idStorage!, data);
-                               setState(() {
-                                 isSave = true;
-                               });
-                              },
-                              child: Icon(Icons.bookmark_outline_rounded,
-                                color:c.greyMain,
-                                size: 27,
+                            InkWell(
+                              onTap: (){
 
-                              ),
-                            ),if(isSave == true)InkWell(
-                              onTap: () async {
-                                Map<String, String> data = {
-                                  "saveproduct": productModel.id!
-                                };
-                                var idStorage = await storage.read(key: 'id');
-                                await networkHandler.post("/product/unsave/" + idStorage!, data);
-                                setState(() {
-                                  isSave = false;
-                                });
                               },
                               child: Icon(Icons.bookmark_rounded,
                                 color:Color(0xFF32A060),

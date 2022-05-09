@@ -86,7 +86,6 @@ dependencies:
   firebase_app_check:
   socket_io_client: ^0.9.12
   json_serializable:
-  flat_icons_flutter:
 #  tflite_flutter: ^0.9.0
   tflite: ^1.1.1
   meta:
