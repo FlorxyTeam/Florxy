@@ -97,7 +97,6 @@ class _SettingState extends State<Setting> {
                 children: <Widget>[
                   SearchTextField(),
 
-
                 ],
               ),
             ),
@@ -165,7 +164,7 @@ class _SettingState extends State<Setting> {
             ),
           ),
         ),
-        GestureDetector(
+        InkWell(
           onTap: (){},
           child: Padding(
             padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
