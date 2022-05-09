@@ -24,6 +24,7 @@ class _SearchToCompareState extends State<SearchToCompare> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   String query = '';
+  int num_products=0;
   List products = [];
   List<ProductModel> product2 = [];
   List<MentionProductModel> mention = [];
@@ -138,11 +139,17 @@ class _SearchToCompareState extends State<SearchToCompare> {
                 borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(26),
                 )),
-            title: Poppins(
-              text: "Compare Products",
-              size: 20,
-              color: c.blackMain,
-              fontWeight: f.semiBold,
+            title: Padding(
+              padding: EdgeInsets.only(
+                top: Theme.of(context).platform == TargetPlatform.android
+                    ? 18.5
+                    : 0),
+              child: Poppins(
+                text: "Compare Products",
+                size: 20,
+                color: c.blackMain,
+                fontWeight: f.semiBold,
+              ),
             ),
             leading: Padding(
               padding: EdgeInsets.only(top: Theme.of(context).platform==TargetPlatform.android?17.5:0, left: 13),
@@ -262,7 +269,7 @@ class _SearchToCompareState extends State<SearchToCompare> {
                     SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.only(left: 45, right: 45),
-                      child: GestureDetector(
+                      child: num_products != 1 ? GestureDetector(
                         child: GreenButton(
                           text: 'COMPARE',
                           size: 14,
@@ -274,6 +281,11 @@ class _SearchToCompareState extends State<SearchToCompare> {
                           // await storage.write(key: "review-product", value: 'check');
                           // Navigator.pop(context, mention);
                         },
+                      ): GreyButton(
+                        text: 'COMPARE',
+                        size: 14,
+                        color: c.textWhite,
+                        height: 50,
                       ),
                     ),
                     SizedBox(height: 30)
@@ -385,6 +397,9 @@ class _SearchToCompareState extends State<SearchToCompare> {
                           if(mention.length==3) {
                             showAlertDialog(context);
                           } else setMentionProduct(product.id!, product.p_brand, product.p_name);
+                          setState(() {
+                            num_products++;
+                          });
                           // print(product.id!);
                         },
                       ):GestureDetector(

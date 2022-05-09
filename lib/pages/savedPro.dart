@@ -51,31 +51,33 @@ class _SavedProState extends State<SavedPro> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 23, right: 23),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Poppins(
-              text: "All Product",
-              size: 15,
-              color: c.blackMain,
-              fontWeight: f.semiBold),
-          SizedBox(height: 10),
-          ListView.builder(
-            itemCount: save.length,
-            shrinkWrap: true,
-            itemBuilder: (context, index) {
-              Map saveProduct = save[index];
-              return buildProoduct(
-                  '${saveProduct['p_brand']}',
-                  '${saveProduct['p_name']}',
-                  '${saveProduct['p_desc']}',
-                  '${saveProduct['p_img']}'
-              );
-            }
-          )
-        ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 23, right: 23),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Poppins(
+                text: "All Product",
+                size: 15,
+                color: c.blackMain,
+                fontWeight: f.semiBold),
+            SizedBox(height: 10),
+            ListView.builder(
+              itemCount: save.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                Map saveProduct = save[index];
+                return buildProoduct(
+                    '${saveProduct['p_brand']}',
+                    '${saveProduct['p_name']}',
+                    '${saveProduct['p_desc']}',
+                    '${saveProduct['p_img']}'
+                );
+              }
+            )
+          ],
+        ),
       ),
     );
   }
