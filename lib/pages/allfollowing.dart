@@ -1,11 +1,20 @@
 import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/NetworkHandler.dart';
 import 'package:Florxy/pages/followprofile.dart';
+import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/pages/navbar.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import '../Model/aliasColorModel.dart';
+import '../widgets/font.dart';
+import 'allfollower.dart';
+import 'anotherProfile.dart';
 class allFollowing extends StatefulWidget {
-  const allFollowing({Key? key}) : super(key: key);
+  String? another_username;
+  allFollowing({Key? key, this.another_username}) : super(key: key);
 
   @override
   _allFollowingState createState() => _allFollowingState();
@@ -34,22 +43,23 @@ class _allFollowingState extends State<allFollowing> {
   );
 
 
+
   @override
   void initState(){
+    fetchData();
     // TODO: implement initState
     super.initState();
-    fetchData();
   }
 
   void fetchData() async {
-    String? profile = await storage.read(key: "anotherprofile");
-    print(profile);
-    var response = await networkHandler.get("/profile/getOtherData/$profile");
-
+    // print(profile);
+    var response = await networkHandler.get("/profile/getOtherData/" + widget.another_username!);
+    // print("widget.another_username");
+    // print(widget.another_username);
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
       data = profileModel.listfollowing;
-      print(data);
+      // print(data);
     });
 
   }
@@ -57,40 +67,93 @@ class _allFollowingState extends State<allFollowing> {
 
   @override
   Widget build(BuildContext context) {
-    print(data);
+    // print(data);
     List staticData = data;
-    return Scaffold(
-      body: ListView.builder(
-        itemBuilder: (builder, index) {
-          Map data = staticData[index];
-          return InkWell(
-            onTap: () {
-              setState(() async{
-                await storage.write(key: "anotherfollowprofile", value: data['username']);
-                String? myuseranme = await storage.read(key: "username");
-                print('${data['username']}');
-                print('${myuseranme}');
-                if(myuseranme == data['username']){
-                  print("same as fuck");
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
-                }
-                else{
-                  print("not same as fuck");
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => FollowProfile()));
-                }
-
-              });
-            },
-            child: ListTile(
-              title: Text("${data['fullname']}"),
-              subtitle: Text("@${data['username']}"),
-              leading: CircleAvatar(
-                child: Text('${data['img']}'),
+    return profileModel.listfollowing.length != 0 ? Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: IconButton(
+                      icon: Icon(FeatherIcons.chevronLeft),
+                      iconSize: 34,
+                      padding: EdgeInsets.zero,
+                      constraints: BoxConstraints(),
+                      color: Colors.black,
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ),
+                  Center(
+                    child: Poppins(
+                      text: "Following",
+                      size: 18,
+                      color: c.blackMain,
+                      fontWeight: f.semiBold,
+                    ),
+                  ),
+                ],
               ),
             ),
-          );
-        },
-        itemCount: profileModel.listfollowing.length,
+            SizedBox(height: 15),
+            ListView.builder(
+              shrinkWrap: true,
+              itemBuilder: (builder, index) {
+                Map data = staticData[index];
+                return Alias( username: "${data['username']}" );
+              },
+              itemCount: profileModel.listfollowing.length,
+            ),
+          ],
+        ),
+      ),
+    ):Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(26),
+            )),
+        leading: Padding(
+          padding: EdgeInsets.only(top: Theme.of(context).platform==TargetPlatform.android?17.5:0, left: 13),
+          child: IconButton(
+            padding: EdgeInsets.zero,
+            constraints: BoxConstraints(),
+            icon: Icon(FeatherIcons.chevronLeft),
+            iconSize: 34,
+            color: Colors.black,
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        title: Poppins(
+          text: profileModel.fullname,
+          size: 18,
+          color: c.blackMain,
+          fontWeight: f.semiBold,
+        ),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(FeatherIcons.userPlus, size:66, color: c.blackSub),
+            SizedBox(height: 8),
+            Inter(text: "People You Follow", size: 20, color: c.blackSub, fontWeight: f.bold),
+            SizedBox(height: 10),
+            Inter(text: "You'll see all the people you following here.", size: 13, color: c.greySub, fontWeight: f.semiBold)
+          ],
+        ),
       ),
     );
   }
