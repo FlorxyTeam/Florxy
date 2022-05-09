@@ -10,6 +10,7 @@ import 'package:Florxy/Model/allbrand.dart';
 class NetworkHandler {
 
   // String baseurl = "https://asia-southeast1-florxy.cloudfunctions.net/app";
+
   String baseurl = "http://192.168.101.79:8080"; //nicha
   // String baseurl = "http://192.168.2.36:8080"; //deuan
   // String baseurl = "http://192.168.2.38:8080"; //Leo
@@ -129,7 +130,7 @@ class NetworkHandler {
     if (response.statusCode == 200) {
       Map<String, dynamic> data = json.decode(response.body);
       List products = data["product"];
-      print(products);
+      // print(products);
       return products.map((json) => ProductModel.fromJson(json)).where((product) {
         final brandLower = product.p_brand.toLowerCase();
         final productLower = product.p_name.toLowerCase();
