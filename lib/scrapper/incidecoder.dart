@@ -12,14 +12,14 @@ class Product{
 
 }
 
-// class Ingredient{
-//   String ing_name = '';
-//   String ing_met = '';
-//   String ing_irr = '';
-//   String ing_rate = '';
-//   // Ingredient(this.ing_name,this.ing_met,this.ing_irr,this.ing_rate);
-//
-// }
+class Ingredient{
+  String ing_name = '';
+  String ing_met = '';
+  String ing_irr = '';
+  String ing_rate = '';
+  // Ingredient(this.ing_name,this.ing_met,this.ing_irr,this.ing_rate);
+
+}
 
 class Real{
   String p_name = "";
@@ -53,38 +53,23 @@ class Scraper {
 
     var body = response.body;
     var ing_name = '';
-    var ing_link = '';
-    // var ing_met = [];
-    // var ing_irr = [];
-    // var ing_rate = '';
+    var ing_met = [];
+    var ing_irr = [];
+    var ing_rate = '';
     var alling_name = [];
-    var alling_link = [];
-    // var alling_met = [];
-    // var alling_irr = [];
-    // var alling_rate = [];
-    String? img = "";
+    var alling_met = [];
+    var alling_irr = [];
+    var alling_rate = [];
     final parse_body = parse(body);
-    final name = parse_body.querySelectorAll('#product-title')[0].innerHtml.trim().replaceAll("&amp", "&");
+    final name = parse_body.querySelectorAll('#product-title')[0].innerHtml.trim();
     final brand = parse_body.querySelectorAll('#product-brand-title > a')[0].innerHtml.trim();
-    if (parse_body.querySelectorAll('#product-main-image').length>0&&parse_body.querySelectorAll('#product-main-image')[0].querySelectorAll('img').length>0){
-      img = parse_body.querySelectorAll('#product-main-image')[0].querySelectorAll('img')[0].attributes['src'];
-    }
-    else{
-       img = "";
-    }
-    var detail = "";
-    if(parse_body.querySelectorAll('#product-details')[0].innerHtml.trim().contains("span")){
-      detail = parse_body.querySelectorAll('#product-details > span')[0].innerHtml.trim().replaceAll("\n        ", "");
-      detail = detail + parse_body.querySelectorAll('#product-details > span')[0].innerHtml.trim().replaceAll("\n       ", "");
-    }
-    else{
-      detail = parse_body.querySelectorAll('#product-details')[0].innerHtml.trim();
-    }
+    final img = parse_body.querySelectorAll('#product-main-image')[0].querySelectorAll('img')[0].attributes['src'];
+    final detail = parse_body.querySelectorAll('#product-details')[0].innerHtml.trim();
 
 
 
     Real res = new Real();
-    // Ingredient res_ing = new Ingredient();
+    Ingredient res_ing = new Ingredient();
     res.p_name = name;
     res.p_brand = brand;
     res.p_desc = detail;
@@ -100,34 +85,30 @@ class Scraper {
       var x = ing.querySelectorAll('td > a');
       for (var y in x){
         // y = y.querySelectorAll('a');
+        // print(y.classes);
         if(y.classes.contains('black')){
           ing_name = y.innerHtml.trim();
-          ing_link = y.attributes['href'].toString();
-          // print(y.attributes['href']);
+        }else if(y.classes.contains('lilac')){
+          ing_met.add(y.innerHtml.trim());
         }
-        // else if(y.classes.contains('lilac')){
-        //   ing_met.add(y.innerHtml.trim());
-        // }
 
       }
-      // var j = ing.querySelectorAll('td > span > span');
-      // for (var k in j){
-      //   ing_irr.add(k.attributes['title'].toString());
-      // }
-      // if(ing.querySelectorAll('.our-take').isNotEmpty){
-      //   ing_rate = ing.querySelectorAll('.our-take')[0].innerHtml.trim();
-      // }
+      var j = ing.querySelectorAll('td > span > span');
+      for (var k in j){
+        ing_irr.add(k.attributes['title'].toString());
+      }
+      if(ing.querySelectorAll('.our-take').isNotEmpty){
+        ing_rate = ing.querySelectorAll('.our-take')[0].innerHtml.trim();
+      }
       // res_ing.ing_name = ing_name;
       // res_ing.ing_met = ing_met.toString();
       // res_ing.ing_irr = ing_irr.toString();
       // res_ing.ing_rate = ing_rate;
 
       alling_name.add(ing_name);
-      alling_link.add(ing_link);
-
-      // alling_met.add(ing_met);
-      // alling_irr.add(ing_irr);
-      // alling_rate.add(ing_rate);
+      alling_met.add(ing_met);
+      alling_irr.add(ing_irr);
+      alling_rate.add(ing_rate);
 
       // print(alling_name);
       // print(alling_met);
@@ -151,16 +132,15 @@ class Scraper {
       //   print(s.ing_met);
       //
       // }
-      // ing_met = [];
-      // ing_irr = [];
-      // ing_rate = '';
+      ing_met = [];
+      ing_irr = [];
+      ing_rate = '';
 
     }
     ram.add(alling_name);
-    ram.add(alling_link);
-    // ram.add(alling_met);
-    // ram.add(alling_irr);
-    // ram.add(alling_rate);
+    ram.add(alling_met);
+    ram.add(alling_irr);
+    ram.add(alling_rate);
 
     // print(all_Ing);
     // print(ram[0].ing_name);
@@ -315,114 +295,7 @@ class Scraper {
   //
   //   }
   // }
-  static Future<List> getIng(String link) async{
-
-      String path = URL2;
-      List Ing = [];
-      List ingReturn = [];
-          print(link);
-          var response = await http.get(Uri.parse(path+link));
-          var body = response.body;
-          var parse_body = parse(body);
-        // ing name
-          var ingname = parse_body.querySelector('.ingredinfobox .klavikab')?.innerHtml.trim();
-        // ing rate
-          String? ingrate = "";
-
-          if(parse_body.querySelector('.ingredinfobox .ourtake')?.innerHtml.trim() == null){
-            ingrate = "";
-          }
-          else{
-            ingrate = parse_body.querySelector('.ingredinfobox .ourtake')?.innerHtml.trim();
-          }
-          // print(rate);
-          var funcs = parse_body.querySelectorAll('.itemprop .value');
-          String ingcall= '';
-          List ingfunc= [];
-          String ingirr= '';
-          String ingcome= '';
-          String ingcos= '';
-
-          for (var func in funcs){
-           // func = func.querySelector('.value')?.innerHtml.trim();
-            var check = func.previousElementSibling?.innerHtml;
-            // print(func.innerHtml);
-            // print(func.previousElementSibling?.innerHtml);
-            if(check=="Also-called-like-this:"){
-              ingcall = func.innerHtml.trim();
-           }else if (check == "What-it-does: "){
-              var ram = func.querySelectorAll('.value > a');
-              for (var efunc in ram){
-                ingfunc.add(efunc.innerHtml.trim());
-              }
-           }else if (check=="Irritancy: "){
-             ingirr = func.innerHtml.trim();
-            }else if (check=="Comedogenicity: "){
-             ingcome = func.innerHtml.trim();
-           }
-         }
-          var cosings = parse_body.querySelectorAll('#cosing-data > div > div');
-          for (var cosing in cosings){
-            if(cosing.innerHtml.trim().replaceAll("<b>","").replaceAll("</b>", "").trim() == ""){
-
-            }
-            else{
-              ingcos = ingcos + cosing.text.trim().replaceAll("<b>","").replaceAll("</b>", "").replaceAll("\n", "").replaceAll("                    ", "").replaceAll("      ", "");
-              // ingcos = cosing.innerHtml.trim().replaceAll("<b>","").replaceAll("</b>", "").replaceAll("\n", "").replaceAll("                    ", "").trim();
-              // print(ingcos);
-              // print(cosing.innerHtml.trim().replaceAll("<b>","").replaceAll("</b>", "").replaceAll("\n", "").replaceAll("                    ", "").trim());
-            }
-          }
-          var ingquick = [];
-          var quick = parse_body.querySelectorAll('.starlist > li');
-          if(quick.length > 0){
-            for (var each in quick){
-              // print(each.innerHtml.trim());
-              ingquick.add(each.innerHtml.trim().replaceAll("<strong>","").replaceAll("</strong>", "").replaceAll("&nbsp", "").replaceAll(";", ""));
-            }
-          }
-
-          var ingdetail = "";
-          var details = parse_body.querySelectorAll('.content > p:not(a)');
-          if(details.length  > 0){
-            var count = 1;
-            for (var detail in details){
-              if(count <= 4){
-                // print(detail.text);
-                ingdetail = ingdetail + detail.text.replaceAll("<strong>","").replaceAll("</strong>", "").replaceAll("&nbsp", "").replaceAll(";", "");
-              }
-              else{
-                break;
-              }
-              count++;
-            }
-          }
-          var ingproofs = [];
-          var proofs = parse_body.querySelectorAll('#proof >div >ul> li');
-          if(proofs.length>0){
-            for(var proof in proofs){
-              // print(proof.innerHtml.trim());
-              ingproofs.add(proof.innerHtml.trim());
-            }
-          }
-          Ing.add(ingname);
-          Ing.add(ingrate);
-          Ing.add(ingcall);
-          Ing.add(ingfunc);
-          Ing.add(ingirr);
-          Ing.add(ingcome);
-          Ing.add(ingcos);
-          Ing.add(ingquick);
-          Ing.add(ingdetail);
-          Ing.add(ingproofs);
-
-          ingReturn.add(Ing);
-      // var body = response.body;
-      // print(body);
-      return (ingReturn);
-    }
-  }
-
+}
 
 
 // void initChaptersTitleScrap() async {
@@ -483,45 +356,24 @@ Future<void> main() async{
  //   print('${results[i].name} , ${results[i].link}');
  //  }
  //  print(stopwatch.elapsed);
-  List results = [];
-  results = await Scraper.getData2('anua');
-  for (var result in results) {
-    print(result.link);
-    Real x = await Scraper.getBrand(result.link);
-    // print(x.p_ing[1]);
-    for (var ing in x.p_ing[1]){
-      // print(ing);
-      List y = await Scraper.getIng(ing);
-      // print(y[0].length);
-      int i = 1;
-      for (var all in y[0]){
-        print(i);
-        print(all);
-        i++;
-      }
-    }
-    // List y = await Scraper.getIng(x.p_ing[1]);
-    // print(x.p_name+y.length.toString());
-    // var i = 0;
-    // for ( i; i<y.length; i++){
-    //   print(y[i]);
-    //   print('-------------------------------------------');
-    // }
-  }
+ //  List results = [];
+ //  results = await Scraper.getData2('innisfree');
+ //  for (var result in results){
+ //    // print(result.link);
+ //
+ //    Real x = await Scraper.getBrand(result.link);
     //
-  // Real x = await Scraper.getBrand('/products/evershine-moringa-refresh-toner-essence');
+  Real x = await Scraper.getBrand('/products/innisfree-innisfree-bija-trouble-lotion');
   //
-  // print(x.p_ing[0]);
-  // print(y.length);
-  // for(var y in x.p_ing){
-  //   print(y);
-  //   for(var z in y){
-  //     print(z);
-  //   }
-  //     // print(i);
-  //     // print(y.runtimeType);
-  //     // i = i + 1 ;
-  //   }
+  int i =1;
+  for(var y in x.p_ing){
+    for(var z in y){
+      print(z);
+    }
+      // print(i);
+      // print(y.runtimeType);
+      // i = i + 1 ;
+    }
     // Map<String, String> data = {
     //   "p_name":x.p_name,
     //   "p_brand":x.p_brand,

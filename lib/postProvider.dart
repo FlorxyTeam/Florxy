@@ -16,18 +16,10 @@ class PostProvider extends ChangeNotifier {
   List<dynamic>? SearchData;
   List<dynamic>? listOfbrand;
   List<dynamic>? brandOverview;
-  List<dynamic>? notification;
-  List<dynamic>? topmention;
-  List<dynamic>? topreview;
+  List<dynamic>? productOverview;
   List<dynamic>? comment;
   List<dynamic>? profile;
   List<dynamic>? chat;
-  List<dynamic>? pro1;
-  List<dynamic>? com3;
-  List<dynamic>? interestingreview;
-  List<dynamic>? searchPost;
-  List<dynamic>? searchUser;
-  List<dynamic>? searchProduct;
 
 
 
@@ -35,7 +27,7 @@ class PostProvider extends ChangeNotifier {
 
   Future fetchData() async{
     String? token = await storage.read(key:"token");
-    final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/home/getPost");
+    final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/home/getAllPost");
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization": "Bearer $token"},
@@ -72,24 +64,21 @@ class PostProvider extends ChangeNotifier {
     final Map parseBrand = await json.decode(response.body.toString());
 
     brandOverview = parseBrand["data"];
-
   }
 
-  Future fetchNotification() async {
-    print('Notification');
+  Future fetchProductOverview() async {
+    print('BrandOverview');
     String? token = await storage.read(key: "token");
-    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/profile/getNotificationData");
-    print(resAPIURL);
+    var id = await storage.read(key: 'id');
+    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/" + id!);
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization": "Bearer $token"},
     );
 
-    final Map parsedData = await json.decode(response.body.toString());
+    final Map parseBrand = await json.decode(response.body.toString());
 
-    notification = parsedData["data"];
-    print(notification);
-
+    productOverview = parseBrand["data"];
   }
 
   Future fetchMentionProduct() async {
@@ -135,20 +124,20 @@ class PostProvider extends ChangeNotifier {
     profile = parsedProduct["anotherProfile"];
   }
 
-  // Future fetchFavPost() async {
-  //   var id = await storage.read(key: 'idFavPost');
-  //   String? token = await storage.read(key:"token");
-  //   final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/profile/getFavPost/"+id!);
-  //   http.Response response = await httpClient.get(
-  //     resAPIURL,
-  //     headers: {"Authorization": "Bearer $token"},
-  //   );
-  //   final Map parsedProduct = await json.decode(response.body.toString());
-  //
-  //   favPost = parsedProduct["favPost"];
-  //   print("favPost");
-  //   print(favPost);
-  // }
+  Future fetchFavPost() async {
+    var id = await storage.read(key: 'idFavPost');
+    String? token = await storage.read(key:"token");
+    final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/profile/getFavPost/"+id!);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization": "Bearer $token"},
+    );
+    final Map parsedProduct = await json.decode(response.body.toString());
+
+    favPost = parsedProduct["favPost"];
+    print("favPost");
+    print(favPost);
+  }
 
   Future fetchComment(String idPost) async{
     // var id = await storage.read(key: 'idPost');
@@ -179,159 +168,6 @@ class PostProvider extends ChangeNotifier {
     // print('comment');
     // print(comment);
   }
-
-  Future fetchCompare2() async {
-    print('Compare2');
-    String? token = await storage.read(key: "token");
-    var p_id1 = await storage.read(key: 'p_id1');
-    var p_id2 = await storage.read(key: 'p_id2');
-    print('Compare2 '+ p_id1.toString());
-    print('Compare2 '+ p_id2.toString());
-    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/compare/" + p_id1!+"/"+p_id2!);
-    http.Response response = await httpClient.get(
-      resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
-    );
-
-    final Map parseBrand = await json.decode(response.body.toString());
-
-    pro1 = parseBrand["data"];
-
-  }
-
-  Future fetchCompare3() async {
-    print('Compare3');
-    String? token = await storage.read(key: "token");
-    var p_id1 = await storage.read(key: 'p_id1');
-    var p_id2 = await storage.read(key: 'p_id2');
-    var p_id3 = await storage.read(key: 'p_id3');
-    print('Compare3 '+ p_id1.toString());
-    print('Compare3 '+ p_id2.toString());
-    print('Compare3 '+ p_id3.toString());
-
-    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/compare/" + p_id1!+"/"+p_id2!+"/"+p_id3!);
-    http.Response response = await httpClient.get(
-      resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
-    );
-
-    final Map parseBrand = await json.decode(response.body.toString());
-
-    com3 = parseBrand["data"];
-    print(com3);
-
-
-  }
-
-  Future fetchTopmentionProduct() async {
-    print('Topmontion');
-    String? token = await storage.read(key: "token");
-    var p_brand = await storage.read(key: 'p_brand');
-    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/topmention/brand/" + p_brand!);
-    http.Response response = await httpClient.get(
-      resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
-    );
-
-    final Map parseBrand = await json.decode(response.body.toString());
-
-    topmention = parseBrand["data"];
-
-  }
-
-  Future fetchTopreviewProduct() async {
-    print('Topreview');
-    String? token = await storage.read(key: "token");
-    var p_brand = await storage.read(key: 'p_brand');
-    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/topreview/brand/" + p_brand!);
-    http.Response response = await httpClient.get(
-      resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
-    );
-
-    final Map parseBrand = await json.decode(response.body.toString());
-
-    topreview = parseBrand["data"];
-
-  }
-
-  Future fetchInteresting() async {
-    print('Interesting review');
-    String? token = await storage.read(key: "token");
-    var id = await storage.read(key: 'p_id');
-    print(id);
-    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/post/interestingreview/" + id!);
-    http.Response response = await httpClient.get(
-      resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
-    );
-
-    final Map parseBrand = await json.decode(response.body.toString());
-
-    interestingreview = parseBrand["interesting"];
-    print(interestingreview);
-
-
-  }
-
-  /*Future fetchSearchBody(String query) async{
-    print('SearchBody');
-    print(query);
-    String? token = await storage.read(key:"token");
-    final Uri resAPIURL = Uri.parse( baseurl + "/home/getSearchBody/"+query);
-    searchPost = parsedProduct["getBody"];
-  }*/
-
-  Future fetchSearchProductPost(String query) async{
-    print('SearchProductPost');
-    print(query);
-    String? token = await storage.read(key:"token");
-    final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/home/getSearchProductPost/"+query);
-    print(networkHandler.baseurl + "/home/getSearchProductPost/"+query);
-    http.Response response = await httpClient.get(
-      resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
-    );
-    final Map parsedProduct = await json.decode(response.body.toString());
-
-    searchPost = parsedProduct["getPost"];
-    print("getPost");
-    print(searchPost);
-  }
-
-  Future fetchSearchUser(String query) async{
-    print('SearchUser');
-    print(query);
-    String? token = await storage.read(key:"token");
-    final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/profile/getSearchUser/"+query);
-    http.Response response = await httpClient.get(
-      resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
-    );
-    final Map parsedProduct = await json.decode(response.body.toString());
-
-    searchUser = parsedProduct["getUser"];
-    print("getUser");
-    print(searchUser);
-  }
-
-  Future fetchSearchProduct(String query) async{
-    print('SearchProduct');
-    print(query);
-    String? token = await storage.read(key:"token");
-    final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/product/getSearchProduct/"+query);
-    http.Response response = await httpClient.get(
-      resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
-    );
-    final Map parsedProduct = await json.decode(response.body.toString());
-
-    searchProduct = parsedProduct["getProduct"];
-    print("getProduct");
-    print(searchProduct);
-  }
-
-
 
   String formater(String url) {
     print(networkHandler.baseurl + url);

@@ -4,6 +4,11 @@ const schema = mongoose.Schema;
 
 const Profile = schema(
     {
+      email: {
+        type: String,
+        required: true,
+        unique: true,
+      },
       username: {
         type: String,
         required: true,
@@ -14,6 +19,14 @@ const Profile = schema(
       professor: {
         type: String,
         default: "",
+      },
+      follower: {
+        type: Number,
+        default: 0,
+      },
+      following: {
+        type: Number,
+        default: 0,
       },
       influencer: {
         type: String,
@@ -33,6 +46,13 @@ const Profile = schema(
           ref: "Post",
         },
       ],
+      favProduct: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Product",
+          
+        }
+      ],
       listfollower: [
         {
           img: {
@@ -41,6 +61,7 @@ const Profile = schema(
           },
           fullname: {
             type: String,
+            unique: true,
           },
           username: {
             type: String,
@@ -56,28 +77,13 @@ const Profile = schema(
           },
           fullname: {
             type: String,
+            unique: true,
           },
           username: {
             type: String,
             unique: true,
           },
         },
-      ],
-      saveproduct: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Product",
-        }
-      ],
-      pinned: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Pinned",
-      },
-      notification: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "notification",
-        }
       ],
     },
 

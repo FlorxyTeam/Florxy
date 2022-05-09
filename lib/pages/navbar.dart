@@ -4,8 +4,6 @@ import 'package:Florxy/pages/homepage.dart';
 import 'package:Florxy/pages/notificationpage.dart';
 import 'package:Florxy/pages/profilepage.dart';
 import 'package:Florxy/pages/searchpage.dart';
-import 'package:Florxy/services/local_notification_service.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -38,39 +36,6 @@ class _NavbarState extends State<Navbar> {
     super.initState();
     fetchData();
     _currentIndex = widget.currentState;
-
-    LocalNotificationService.initialize(context);
-
-    ///gives you the message on which user taps
-    ///and it opened the app from terminated state
-    FirebaseMessaging.instance.getInitialMessage().then((message) {
-      if(message != null){
-        final routeFromMessage = message.data["route"];
-
-        Navigator.of(context).pushNamed(routeFromMessage);
-      }
-    });
-
-    ///foreground work
-    FirebaseMessaging.onMessage.listen((message) {
-      if(message.notification != null){
-        print(message.notification!.body);
-        print(message.notification!.title);
-      }
-
-      LocalNotificationService.display(message);
-    });
-
-    ///When the app is in background but opened and user taps
-    ///on the notification
-    FirebaseMessaging.onMessageOpenedApp.listen((message) {
-      final routeFromMessage = message.data["route"];
-
-      Navigator.of(context).pushNamed(routeFromMessage);
-    });
-
-
-
   }
   void fetchData() async{
     var response = await networkHandler.get("/profile/getData");
@@ -78,9 +43,6 @@ class _NavbarState extends State<Navbar> {
     await storage.write(key: "username", value: response['data']['username']);
     await storage.write(key: "myfullname", value: response['data']['fullname']);
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {

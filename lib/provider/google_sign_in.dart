@@ -30,8 +30,8 @@ class GoogleSignInProvider extends ChangeNotifier {
       );
 
       await FirebaseAuth.instance.signInWithCredential(credential);
-      return (googleUser.id);
-      print(googleUser.id);
+
+      print(googleUser);
     } catch (e){
       print(e.toString());
     }

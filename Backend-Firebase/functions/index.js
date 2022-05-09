@@ -1,4 +1,4 @@
-//const functions = require("firebase-functions");
+const functions = require("firebase-functions");
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -9,7 +9,7 @@
 // });
 const express = require("express");
 const mongoose = require("mongoose");
-const Port = process.env.PORT || 8080;
+// const Port = process.env.PORT || 8080;
 const app = express();
 
 const mongoURI =
@@ -42,9 +42,9 @@ app.use("/product", productRoute);
 
 app.route("/").get((req, res) => res.json("Hello world"));
 
- app.listen(Port, "0.0.0.0", () =>
-  console.log(`you server is running on port ${Port}`)
- );
+// app.listen(Port, "0.0.0.0", () =>
+//  console.log(`you server is running on port ${Port}`)
+// );
 
 // const server = app;
 
@@ -71,4 +71,4 @@ app.route("/").get((req, res) => res.json("Hello world"));
 
 // });
 
-//exports.app = functions.region("asia-southeast1").https.onRequest(app);
+exports.app = functions.region("asia-southeast1").https.onRequest(app);

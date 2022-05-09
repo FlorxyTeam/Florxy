@@ -47,23 +47,11 @@ router.route("/brand").get(middleware.checkToken, (req, res) => {
 router.route("/brand/:p_brand").get(middleware.checkToken, (req, res) => {
     Product.find({p_brand: req.params.p_brand},(err, result) => {
         if(err) res.status(500).json({msg: err});
-        
-        Product.find({p_brand: req.params.p_brand}).sort({mention: -1}).limit(5).exec(function(err, topmention){
-             if(err) res.status(500).json({msg: err});
-              
-             Product.find({p_brand: req.params.p_brand}).sort({review: -1}).limit(5).exec(function(err, topreview){
-                  if(err) res.status(500).json({msg: err});
-                      
-                  res.json({
-                               data: result,
-                               topmention: topmention,
-                               topreview:topreview,
-                               p_brand: req.params.p_brand,
-                      })
-              });
-        });
-
-    });
+        res.json({
+            data: result,
+            p_brand: req.params.p_brand,
+        })
+    })
 });
 
 

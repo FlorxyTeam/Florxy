@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:Florxy/pages/createaccount1.dart';
 import 'package:Florxy/pages/registerpage.dart';
-import 'package:Florxy/pages/searchpost.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
@@ -13,16 +10,12 @@ import 'package:Florxy/widgets/ModalLogin.dart';
 import 'package:Florxy/pages/LoginPage.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../NetworkHandler.dart';
 import '../pages/googlestream.dart';
 import '../provider/google_sign_in.dart';
 import 'navbar.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:Florxy/NetworkHandler.dart';
-
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -32,7 +25,6 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
-
 
 
   @override
@@ -120,7 +112,6 @@ class _WelcomePageState extends State<WelcomePage> {
 }
 
 class ModalLogin {
-
   static Dialog_Settings(context) {
     showModalBottomSheet(
         backgroundColor: Colors.transparent,
@@ -146,10 +137,6 @@ class ModalLogin {
 }
 
 Column _buildLoginMenu(context) {
-  final storage = new FlutterSecureStorage();
-  NetworkHandler networkHandler = NetworkHandler();
-
-
   return Column(
     children: [
       Container(
@@ -165,25 +152,14 @@ Column _buildLoginMenu(context) {
         child: GestureDetector(
           onTap: () async {
             final provider = Provider.of<GoogleSignInProvider>(context, listen:false);
-            var google = await provider.googleLogin();
-            // print(google + "thiasssdsksspdkspodkspd");
-            Map<String, String> data = {
-              "google": google,
-            };
-            var response = await networkHandler.post("/user/login-google", data);
-            Map<String, dynamic> output = json.decode(response.body);
-            print(output["token"]);
-
-            await storage.write(
-                key: "username", value: output["username"]);
-            if(response.statusCode==200|| response.statusCode==201){
-              await storage.write(key: "token", value: output["token"]);
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute
-                (builder: (context)=>GoogleStream()), (route) => false);
-            }else{
-              String output = json.decode(response.body);
-            }
+            await provider.googleLogin();
+            // print(user.email);
             // print(user.uid);
+
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute
+              (builder: (context)=>GoogleStream()), (route) => false);
+
+
 
           },
           child: Container(

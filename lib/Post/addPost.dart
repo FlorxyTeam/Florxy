@@ -30,21 +30,19 @@ class _AddPostState extends State<AddPost> {
 
 
   ProfileModel profileModel = ProfileModel(
-    id: '',
-    username: '',
-    fullname: '',
-    DOB: '',
-    professor: '',
-    influencer: '',
-    bio: '',
-    img: '',
-    pinned: '',
-    notification: [],
-    saveproduct: [],
+      DOB: '',
+      img: '',
+      influencer: '',
+      fullname: '',
+      bio: '',
+      follower: 0,
+      following: 0,
+      email: '',
+      professor: '',
+      username: '',
     favorite: [],
     listfollower: [],
-    listfollowing: [],
-  );
+    listfollowing: [],);
 
   @override
   void initState() {

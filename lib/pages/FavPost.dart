@@ -19,17 +19,16 @@ class FavPost extends StatefulWidget {
 class _FavPostState extends State<FavPost> {
   List data = [];
   ProfileModel profileModel = ProfileModel(
-    id: '',
-    username: '',
-    fullname: '',
     DOB: '',
-    professor: '',
-    influencer: '',
-    bio: '',
     img: '',
-    pinned: '',
-    notification: [],
-    saveproduct: [],
+    influencer: '',
+    fullname: '',
+    follower: 0,
+    following: 0,
+    bio: '',
+    email: '',
+    professor: '',
+    username: '',
     favorite: [],
     listfollower: [],
     listfollowing: [],
@@ -37,9 +36,9 @@ class _FavPostState extends State<FavPost> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
 
-  fetchData() async{
+  void fetchData() async{
     print(widget.idFavPost);
-    // await storage.write(key: "idFavPost", value: widget.idFavPost);
+    await storage.write(key: "idFavPost", value: widget.idFavPost);
     var response = await networkHandler.get("/profile/getFavPost/"+widget.idFavPost!);
 
     setState(() {
@@ -54,6 +53,7 @@ class _FavPostState extends State<FavPost> {
   void initState() {
     fetchData();
     // TODO: implement initState
+    Provider.of<PostProvider>(context,listen: false).fetchFavPost();
     super.initState();
   }
 
@@ -69,31 +69,44 @@ class _FavPostState extends State<FavPost> {
             itemBuilder: (context,int index){
               Map data = staticData[index];
               return "${data['type']}"=='mention'?MentionPost(
+                name: "${data['fullname']}",
                 username: "${data['username']}",
                 postTime: "${data['updatedAt']}".toString().substring(0, 10),
+                brand: "${data['refbrand']}",
+                product: "${data['refproduct']}",
                 post: "${data['body']}",
-                comment: 0,
+                comment: data['comment'],
+                favorite: data['favorite'],
                 urlImage: data['coverImage'],
+                professor: "${data['professor']}",
+                influencer: "${data['influencer']}",
                 id: "${data['_id']}",
-                fetchdata: fetchData(),
               ):
               "${data['type']}"=='review'?ReviewPost(
+                name: "${data['fullname']}",
                 username: "${data['username']}",
                 postTime: "${data['updatedAt']}".toString().substring(0, 10),
+                brand: "${data['refbrand']}",
+                product: "${data['refproduct']}",
                 post: "${data['body']}",
-                comment: 0,
+                comment: data['comment'],
+                favorite: data['favorite'],
                 urlImage: data['coverImage'],
+                professor: "${data['professor']}",
+                influencer: "${data['influencer']}",
                 id: "${data['_id']}",
                 rating: data['rating'],
-                fetchdata: fetchData(),
               ):"${data['type']}"=='post'?Post(
+                name: "${data['fullname']}",
                 username: "${data['username']}",
                 postTime: "${data['updatedAt']}".toString().substring(0, 10),
                 post: "${data['body']}",
-                comment: 0,
+                comment: data['comment'],
+                favorite: data['favorite'],
                 urlImage: data['coverImage'],
+                professor: "${data['professor']}",
+                influencer: "${data['influencer']}",
                 id: "${data['_id']}",
-                fetchdata: fetchData(),
               ):Container();
             },
           ),

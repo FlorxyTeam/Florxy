@@ -4,19 +4,20 @@ const schema = mongoose.Schema;
 
 const Comment = schema(
     {
-        username: String,
+        owner: String,
         mainpost: {
             type: mongoose.Schema.Types.ObjectId,
             ref: "Post"
         },
         body: String,
-        vote: [
-            {
-                username: {
-                    type: String,
-                },
-            }
-        ],
+        comment: {
+            type: Number,
+            default: "0"
+        },
+        favorite: {
+            type: Number,
+            default: "0"
+        },
     },
     {
         timestamps: true,

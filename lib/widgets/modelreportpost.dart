@@ -16,18 +16,18 @@ import 'package:slide_popup_dialog_null_safety/slide_popup_dialog.dart'
 as slideDialog;
 
 class ModalBottomSheetPost {
-  static Dialog_Settings(context, String post_username, String my_username) {
+  static Dialog_Settings(context) {
     showModalBottomSheet(
         backgroundColor: Colors.transparent,
         context: context,
         builder: (context) {
           return Container(
             color: Colors.transparent,
-            height: 250,
+            height: 280,
             child: Container(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-                child: _buildBottomNavigationMenu(context, post_username, my_username),
+                child: _buildBottomNavigationMenu(context),
               ),
               decoration: BoxDecoration(
                   color: Theme.of(context).canvasColor,
@@ -40,45 +40,59 @@ class ModalBottomSheetPost {
   }
 }
 
-Column _buildBottomNavigationMenu(context, String post_username, String my_username) {
+Column _buildBottomNavigationMenu(context) {
   return Column(
     children: [
       Container(
-        width: 78,
+        width: 88,
         child: Divider(
           height: 0,
           color: c.greyMain,
-          thickness: 3.5,
+          thickness: 4,
         ),
       ),
-      SizedBox(height: 15),
-      if(post_username == my_username)Column(
-        children: [
-          Container(
-            child: ListTile(
-              horizontalTitleGap: 0,
-              // shape: Border.,
-              leading: Icon(Boxicons.bx_pin),
-              iconColor: c.blackMain,
-              textColor: c.blackMain,
-              title: Inter(
-                  text: "Pin post to your profile",
-                  size: 15,
-                  color: c.blackMain,
-                  fontWeight: f.semiBold),
-              onTap: () {},
-            ),
-          ),
-          Divider(
-            height: 0,
-            color: c.greySub,
-            thickness: 1.5,
-          ),
-        ],
+      SizedBox(height: 10),
+      Container(
+        child: ListTile(
+          // shape: Border.,
+          leading: Icon(Icons.person_add_alt_outlined),
+          iconColor: c.blackMain,
+          textColor: c.blackMain,
+          title: Inter(
+              text: "Follow @opsst_",
+              size: 15,
+              color: c.blackMain,
+              fontWeight: f.semiBold),
+          onTap: () {},
+        ),
+        decoration: BoxDecoration(
+            color: c.textWhite,
+            border: Border(
+              bottom: BorderSide(width: 0.8, color: c.greyMain),
+            )),
       ),
       Container(
         child: ListTile(
-          horizontalTitleGap: 0,
+          leading: Icon(
+            Boxicons.bx_volume_mute,
+          ),
+          iconColor: c.blackMain,
+          textColor: c.blackMain,
+          title: Inter(
+              text: "Mute @opsst_",
+              size: 15,
+              color: c.blackMain,
+              fontWeight: f.semiBold),
+          onTap: () {},
+        ),
+        decoration: BoxDecoration(
+            color: c.textWhite,
+            border: Border(
+              bottom: BorderSide(width: 0.8, color: c.greyMain),
+            )),
+      ),
+      Container(
+        child: ListTile(
           leading: Icon(Icons.block),
           iconColor: c.blackMain,
           textColor: c.blackMain,
@@ -89,15 +103,15 @@ Column _buildBottomNavigationMenu(context, String post_username, String my_usern
               fontWeight: f.semiBold),
           onTap: () {},
         ),
-      ),
-      Divider(
-        height: 0,
-        color: c.greySub,
-        thickness: 1.5,
+        decoration: BoxDecoration(
+            color: c.textWhite,
+            border: Border(
+              bottom:
+              BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.4)),
+            )),
       ),
       Container(
         child: ListTile(
-          horizontalTitleGap: 0,
           leading: Icon(Boxicons.bx_error_circle),
           iconColor: c.blackMain,
           textColor: c.blackMain,
