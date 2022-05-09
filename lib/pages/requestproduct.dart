@@ -163,7 +163,7 @@ class _requestproductState extends State<requestproduct> {
                 ),
                 // ProductIngredientTextField(),
                 SizedBox(
-                  height: 50,
+                  height: 40,
                 ),
 
                _productbrand.text.isNotEmpty && _productname.text.isNotEmpty && image != null ? Row(
@@ -223,21 +223,23 @@ class _requestproductState extends State<requestproduct> {
                 ) : Row(
                  mainAxisAlignment: MainAxisAlignment.start,
                  children: [
-                   FlatButton(
-                       shape: RoundedRectangleBorder(
-                         borderRadius: BorderRadius.circular(25.0),
-                       ),
-                       color: c.greyMain,
-                       height: 50,
-                       onPressed: () {
-                       },
 
-                       child: Inter(
-                         text: "Add new product!",
-                         size: 15,
-                         color: c.textWhite,
-                         fontWeight: f.bold,
-                       )),
+                   Container(
+                      height: 50,
+                      width: 170 ,
+                     decoration: BoxDecoration(
+                       color: c.greyMain,
+                       borderRadius: BorderRadius.all(Radius.circular(25.0)),
+                     ),
+                       child: Center(
+                         child: Inter(
+                           text: "Add new product!",
+                           size: 15,
+                           color: c.textWhite,
+                           fontWeight: f.bold,
+                         ),
+                       )
+                   )
                  ],
                )
               ],
@@ -333,7 +335,7 @@ class _requestproductState extends State<requestproduct> {
             ),
           ),
            Padding(
-            padding: EdgeInsets.only(left: 25, right: 25, top: 70),
+            padding: EdgeInsets.only(left: 2, right: 2, top: 70),
             child:
             Container(
                 child: image == null ? Padding(
@@ -354,6 +356,7 @@ class _requestproductState extends State<requestproduct> {
                       fit: BoxFit.cover,
                     ),
                   ),
+
                 )
             ),
 
