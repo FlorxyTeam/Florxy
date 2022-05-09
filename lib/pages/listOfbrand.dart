@@ -1,21 +1,12 @@
 import 'package:Florxy/Model/allbrand.dart';
 import 'package:Florxy/NetworkHandler.dart';
-import 'package:Florxy/pages/scrap.dart';
-import 'package:Florxy/postProvider.dart';
-import 'package:Florxy/widgets/ModalViewProduct.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'dart:async';
-import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:Florxy/pages/brandoverview.dart';
-import 'package:Florxy/pages/listOfbrand.dart';
-import 'package:provider/provider.dart';
-import 'package:Florxy/pages/requestproduct.dart';
+
 
 
 class listofbrand extends StatefulWidget {
