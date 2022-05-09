@@ -377,17 +377,17 @@ class _SearchPostState extends State<SearchPost> {
                           itemCount: model.searchPost?.length ?? 0,
                           itemBuilder: (context, int index) {
                             return model.searchPost![index]['type'] == 'mention'
-                                ? MentionPosts(
+                                ? MentionPost(
                               username: model.searchPost![index]['username'],
                               postTime: model.searchPost![index]['updatedAt'].toString().substring(0, 10),
                               post: model.searchPost![index]['body'],
                               comment: 0,
                               urlImage: model.searchPost![index]['coverImage'],
                               id: model.searchPost![index]['_id'],
-                              query : query,
+                              // query : query,
                             )
                                 : model.searchPost![index]['type'] == 'post'
-                                ? Posts(
+                                ? Post(
                               username: model.searchPost![index]['username'],
                               postTime: model.searchPost![index]['updatedAt']
                                   .toString()
@@ -396,7 +396,7 @@ class _SearchPostState extends State<SearchPost> {
                               comment: 0,
                               id: model.searchPost![index]['_id'],
                               urlImage: model.searchPost![index]['coverImage'],
-                              query : query,
+                              // query : query,
                             )
                                 : Container();
                           },
@@ -420,7 +420,7 @@ class _SearchPostState extends State<SearchPost> {
                           itemCount: model.searchPost?.length ?? 0,
                           itemBuilder: (context, int index) {
                             return model.searchPost![index]['type'] == 'review'
-                                ? ReviewPosts(
+                                ? ReviewPost(
                               username: model.searchPost![index]['username'],
                               postTime: model.searchPost![index]['updatedAt']
                                   .toString()
@@ -430,7 +430,7 @@ class _SearchPostState extends State<SearchPost> {
                               rating: model.searchPost![index]['rating'],
                               comment: 0,
                               id: model.searchPost![index]['_id'],
-                              query : query,
+                              // query : query,
                             )
                                 : Container();
                           },
