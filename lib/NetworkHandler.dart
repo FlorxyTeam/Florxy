@@ -1,15 +1,15 @@
 import 'dart:convert';
-
 import 'package:Florxy/Model/productModel.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
+import 'package:Florxy/Model/allbrand.dart';
 
 class NetworkHandler {
 
   // String baseurl = "https://asia-southeast1-florxy.cloudfunctions.net/app";
-
   String baseurl = "http://192.168.101.79:8080"; //nicha
   // String baseurl = "http://192.168.2.36:8080"; //deuan
   // String baseurl = "http://192.168.2.38:8080"; //Leo
@@ -144,5 +144,23 @@ class NetworkHandler {
       throw Exception();
     }
   }
+
+  List<AllBrands> parseAllBrands(String respondeBody){
+    var list = json.decode(respondeBody) as List<dynamic>;
+    var data = list.map((model) => AllBrands.fromJson(model)).toList();
+    return data;
+  }
+
+  Future<List<AllBrands>> fetchAllbrand() async{
+    final response = await http.get(Uri.parse(baseurl + "/product/Allbrand/search"));
+    if(response.statusCode == 200){
+      return compute(parseAllBrands, response.body);
+    } else{
+      throw Exception("Request API Error");
+    }
+  }
+
+
+
 
 }
