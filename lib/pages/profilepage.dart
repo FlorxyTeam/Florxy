@@ -296,8 +296,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             },
                           ),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width/20
-                            // width: 30,
+
+                              width: MediaQuery.of(context).size.width/20
+
                           ),
                           GestureDetector(
                             child: Column(
