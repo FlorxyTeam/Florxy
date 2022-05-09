@@ -1,3 +1,4 @@
+
 import 'package:Florxy/Model/aliasColorModel.dart';
 import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/NetworkHandler.dart';
@@ -62,7 +63,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void fetchData() async {
     var response = await networkHandler.get("/profile/getData");
-
+    
     setState(() {
       profileModel = ProfileModel.fromJson(response["data"]);
       circular = false;
@@ -87,11 +88,11 @@ class _ProfilePageState extends State<ProfilePage> {
 
   }
   proFileCache(String url) {
-    profileimg = DefaultCacheManager().getFileStream(url);
-    return profileimg;
+      profileimg = DefaultCacheManager().getFileStream(url);
+      return profileimg;
     // return file;
   }
-
+  
 //   pictureDelayed(){
 //     Future.delayed(const Duration(milliseconds: 500), () {
 //
@@ -295,8 +296,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             },
                           ),
                           SizedBox(
+
                               width: MediaQuery.of(context).size.width/20
-                            // width: 30,
+
                           ),
                           GestureDetector(
                             child: Column(

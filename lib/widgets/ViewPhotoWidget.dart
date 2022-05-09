@@ -11,7 +11,7 @@ class ViewPhotoWidget extends StatefulWidget {
   final PageController pageController;
   final int index;
   List? urlImage;
-  ViewPhotoWidget({Key? key, this.urlImage, this.index = 0}) : pageController = PageController(initialPage: index);
+  ViewPhotoWidget({Key? key, this.urlImage, this.index=0}) : pageController = PageController(initialPage: index);
 
   @override
   _ViewPhotoState createState() => _ViewPhotoState();
@@ -65,7 +65,9 @@ class _ViewPhotoState extends State<ViewPhotoWidget> {
               builder: (context,index) {
                 final urlImage = widget.urlImage![index];
                 return PhotoViewGalleryPageOptions(
-                    imageProvider: NetworkImage(urlImage)
+                    imageProvider: NetworkImage(urlImage),
+                  minScale: PhotoViewComputedScale.contained,
+                  maxScale: PhotoViewComputedScale.contained*4
                 );
               }
           ),

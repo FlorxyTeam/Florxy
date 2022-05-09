@@ -404,6 +404,15 @@ router.route("/getData").get(middleware.checkToken, (req, res) => {
   });
 });
 
+router.route("/getSaveProduct").get(middleware.checkToken, (req, res) => {
+  console.log(req.decoded.username)
+  Profile.findOne({ username: req.decoded.username }).populate("saveproduct").exec(function(err, result) {
+    if (err) return res.json({ err: err });
+    if (result == null) return res.json({ data: [] });
+    else return res.json({ data: result });
+  });
+});
+
 router.route("/getUsername/:email").get((req, res) => {
   console.log(req.params.email)
   Profile.find({ email: req.params.email }, (err, result) => {
