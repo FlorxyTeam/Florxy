@@ -288,7 +288,7 @@ class _MentionPostState extends State<MentionPost> {
                     alignment: Alignment.topRight,
                     child: IconButton(
                       onPressed: () {
-                        ModalBottomSheetPost.Dialog_Settings(context, widget.username!, myusername!);
+                        ModalBottomSheetPost.Dialog_Settings(context, widget.username!, myusername!, widget.id!);
                       },
                       alignment: Alignment.topRight,
                       icon: Icon(Boxicons.bx_dots_vertical_rounded, size: 30, color: c.greyMain),
@@ -1052,7 +1052,7 @@ class _ReviewPostState extends State<ReviewPost> {
                     alignment: Alignment.topRight,
                     child: IconButton(
                       onPressed: () {
-                        ModalBottomSheetPost.Dialog_Settings(context, widget.username!, myusername!);
+                        ModalBottomSheetPost.Dialog_Settings(context, widget.username!, myusername!, widget.id!);
                       },
                       alignment: Alignment.topRight,
                       icon: Icon(Boxicons.bx_dots_vertical_rounded, size: 30, color: c.greyMain),
@@ -1801,7 +1801,7 @@ class _PostState extends State<Post> {
                     alignment: Alignment.topRight,
                     child: IconButton(
                       onPressed: () {
-                        ModalBottomSheetPost.Dialog_Settings(context, widget.username!, myusername!);
+                        ModalBottomSheetPost.Dialog_Settings(context, widget.username!, myusername!, widget.id!);
                       },
                       alignment: Alignment.topRight,
                       icon: Icon(Boxicons.bx_dots_vertical_rounded, size: 30, color: c.greyMain),
@@ -2432,7 +2432,7 @@ class _MentionPost2State extends State<MentionPost2> {
                     alignment: Alignment.topRight,
                     child: IconButton(
                       onPressed: () {
-                        ModalBottomSheetPost.Dialog_Settings(context, widget.username!, myusername!);
+                        ModalBottomSheetPost.Dialog_Settings(context, widget.username!, myusername!, widget.id!);
                       },
                       alignment: Alignment.topRight,
                       icon: Icon(Boxicons.bx_dots_vertical_rounded, size: 30, color: c.greyMain),
@@ -3170,7 +3170,7 @@ class _ReviewPost2State extends State<ReviewPost2> {
                     alignment: Alignment.topRight,
                     child: IconButton(
                       onPressed: () {
-                        ModalBottomSheetPost.Dialog_Settings(context, widget.username!, myusername!);
+                        ModalBottomSheetPost.Dialog_Settings(context, widget.username!, myusername!, widget.id!);
                       },
                       alignment: Alignment.topRight,
                       icon: Icon(Boxicons.bx_dots_vertical_rounded, size: 30, color: c.greyMain),
@@ -3882,7 +3882,7 @@ class _Post2State extends State<Post2> {
                     alignment: Alignment.topRight,
                     child: IconButton(
                       onPressed: () {
-                        ModalBottomSheetPost.Dialog_Settings(context, widget.username!, myusername!);
+                        ModalBottomSheetPost.Dialog_Settings(context, widget.username!, myusername!, widget.id!);
                       },
                       alignment: Alignment.topRight,
                       icon: Icon(Boxicons.bx_dots_vertical_rounded, size: 30, color: c.greyMain),
