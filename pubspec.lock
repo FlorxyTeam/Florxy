@@ -183,6 +183,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  cloud_firestore_platform_interface:
+    dependency: "direct main"
+    description:
+      name: cloud_firestore_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.5.5"
+  cloud_functions_platform_interface:
+    dependency: "direct main"
+    description:
+      name: cloud_functions_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "5.1.5"
   code_builder:
     dependency: transitive
     description:
@@ -317,7 +331,7 @@ packages:
     source: hosted
     version: "3.3.6"
   firebase_auth_platform_interface:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_auth_platform_interface
       url: "https://pub.dartlang.org"
@@ -351,6 +365,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.6.1"
+  firebase_database_platform_interface:
+    dependency: "direct main"
+    description:
+      name: firebase_database_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.2.1+5"
   firebase_messaging:
     dependency: "direct main"
     description:
@@ -359,7 +380,7 @@ packages:
     source: hosted
     version: "11.2.12"
   firebase_messaging_platform_interface:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_messaging_platform_interface
       url: "https://pub.dartlang.org"
@@ -380,7 +401,7 @@ packages:
     source: hosted
     version: "10.2.7"
   firebase_storage_platform_interface:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: firebase_storage_platform_interface
       url: "https://pub.dartlang.org"
@@ -1309,6 +1330,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.1"
+  web_ffi:
+    dependency: "direct main"
+    description:
+      name: web_ffi
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.7.2"
   web_socket_channel:
     dependency: transitive
     description:

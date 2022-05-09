@@ -79,15 +79,21 @@ dependencies:
   path_provider: ^2.0.9
   share_plus: ^3.1.0
   firebase_messaging: ^11.2.12
+  firebase_messaging_platform_interface:
+  firebase_storage_platform_interface:
+  cloud_functions_platform_interface:
+  cloud_firestore_platform_interface:
+  firebase_auth_platform_interface:
+  firebase_database_platform_interface:
   flutter_local_notifications: ^9.4.0
   firebase_core:
   firebase_storage:
   file_picker:
   firebase_app_check:
   socket_io_client: ^0.9.12
-  firebase_messaging:
   json_serializable:
   flat_icons_flutter:
+  web_ffi:
 #  tflite_flutter: ^0.9.0
   tflite: ^1.1.1
   meta:
