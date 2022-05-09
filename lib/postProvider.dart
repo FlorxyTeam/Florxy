@@ -274,14 +274,6 @@ class PostProvider extends ChangeNotifier {
 
   }
 
-  /*Future fetchSearchBody(String query) async{
-    print('SearchBody');
-    print(query);
-    String? token = await storage.read(key:"token");
-    final Uri resAPIURL = Uri.parse( baseurl + "/home/getSearchBody/"+query);
-    searchPost = parsedProduct["getBody"];
-  }*/
-
   Future fetchSearchProductPost(String query) async{
     print('SearchProductPost');
     print(query);
