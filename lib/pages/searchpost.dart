@@ -111,9 +111,9 @@ class _SearchPostState extends State<SearchPost> {
             ),
             actions: [
               Padding(
-                padding: EdgeInsets.only(top: 20, left: 5, right: 0),
+                padding: EdgeInsets.only(top: 20, left: 5, right: 10),
                 child: Container(
-                  width: MediaQuery.of(context).size.width-120,
+                  width: MediaQuery.of(context).size.width-90,
                   child: TextField(
                       controller: controller,
                       decoration: InputDecoration(
@@ -157,14 +157,6 @@ class _SearchPostState extends State<SearchPost> {
               ),
               Padding(
               padding: EdgeInsets.only(top: 14, left: 5, right: 10),
-                child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Boxicons.bx_slider_alt,
-                    size: 30,
-                    color: c.blackMain,
-                  ),
-                ),
               ),
             ],
           ),
@@ -203,9 +195,9 @@ class _SearchPostState extends State<SearchPost> {
             ),
             actions: [
               Padding(
-                padding: EdgeInsets.only(top: 20, left: 5, right: 0),
+                padding: EdgeInsets.only(top: 20, left: 5, right: 10),
                 child: Container(
-                  width: MediaQuery.of(context).size.width-120,
+                  width: MediaQuery.of(context).size.width-90,
                   child: TextField(
                       controller: controller,
                       decoration: InputDecoration(
@@ -240,17 +232,6 @@ class _SearchPostState extends State<SearchPost> {
                           print(query);
                         });
                       }
-                  ),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: 14, left: 5, right: 10),
-                child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(
-                    Boxicons.bx_slider_alt,
-                    size: 30,
-                    color: c.blackMain,
                   ),
                 ),
               ),
