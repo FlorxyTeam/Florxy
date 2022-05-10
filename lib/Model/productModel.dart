@@ -1,4 +1,4 @@
-import 'dart:ffi';
+// import 'dart:ffi';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'productModel.g.dart';
