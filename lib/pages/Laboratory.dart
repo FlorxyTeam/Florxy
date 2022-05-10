@@ -435,7 +435,7 @@ class _laboratoryState extends State<laboratory> {
                                       padding: const EdgeInsets.only(
                                           top: 9, bottom: 8),
                                       child: Poppins(
-                                          text: "Introduce new product",
+                                          text: "Create new product",
                                           size: 15,
                                           color: Color(0xFF053118),
                                           fontWeight: f.semiBold),
