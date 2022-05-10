@@ -23,6 +23,7 @@ const Product = schema(
         required: true,
       },
       p_desc: String,
+      p_cate: String,
       p_img: String,
       ing_id :[
         {

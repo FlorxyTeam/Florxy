@@ -1,4 +1,4 @@
-import 'dart:convert';
+  import 'dart:convert';
 import 'package:Florxy/Model/productModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -11,12 +11,14 @@ class NetworkHandler {
 
   // String baseurl = "https://asia-southeast1-florxy.cloudfunctions.net/app";
 
-  // String baseurl = "http://192.168.101.79:8080"; //nicha
 
-  String baseurl = "http://192.168.2.33:8080"; //deuan
+  // String baseurl = "http://192.168.101.79:8080"; //nicha
+ 
+
+  // String baseurl = "http://192.168.2.33:8080"; //deuan
 
   // String baseurl = "http://192.168.2.38:8080"; //Leo
-  // String baseurl = "http://192.168.1.11:8080"; //Frank
+  String baseurl = "http://192.168.1.7:8080"; //Frank
   // String baseurl = "http://192.168.1.101:8080"; //Ake
 
   var log = Logger();
@@ -129,6 +131,33 @@ class NetworkHandler {
     final url = Uri.parse(formater("/home/getProduct"));
     final response = await http.get(url);
 
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = json.decode(response.body);
+      List products = data["product"];
+      // print(products);
+      return products.map((json) => ProductModel.fromJson(json)).where((product) {
+        final brandLower = product.p_brand.toLowerCase();
+        final productLower = product.p_name.toLowerCase();
+        final mixlower = product.p_brand.toLowerCase() + " " + product.p_name.toLowerCase();
+        final searchLower = query.toLowerCase();
+
+        return brandLower.contains(searchLower) ||
+            productLower.contains(searchLower) ||
+            mixlower.contains(searchLower);
+      }).toList();
+    } else {
+      throw Exception();
+    }
+  }
+
+  Future<List<ProductModel>> getSimilarProduct(String query) async {
+
+    String? SimilarProduct = await storage.read(key: "similarproduct");
+    print('Similar id:'+SimilarProduct.toString());
+    // SimilarProduct = SimilarProduct?.replaceAll(' ', '%20');
+    print('/home/getSimilarProduct/${SimilarProduct}');
+    final url = Uri.parse(formater("/home/getSimilarProduct/${SimilarProduct}"));
+    final response = await http.get(url);
     if (response.statusCode == 200) {
       Map<String, dynamic> data = json.decode(response.body);
       List products = data["product"];

@@ -1,5 +1,6 @@
 
 import 'package:Florxy/CompareProduct/searchProduct.dart';
+import 'package:Florxy/SilimarProduct/similarproduct.dart';
 import 'package:Florxy/pages/scrap.dart';
 import 'package:Florxy/postProvider.dart';
 import 'package:Florxy/widgets/ModalViewProduct.dart';
@@ -126,6 +127,12 @@ class _laboratoryState extends State<laboratory> {
                     ),
                   ),
                   Expanded(child: Container()),
+                  GestureDetector(
+                      onTap: (){
+                        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => Scrap()));
+                      },
+                    child: Poppins(text: "Scrap", size: 12, color: c.blackMain, fontWeight: f.medium)
+                  )
                 ],
               ),
             ),
@@ -330,50 +337,55 @@ class _laboratoryState extends State<laboratory> {
                               ),
                             ],
                           ),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 22, right: 22),
-                                child: Container(
-                                  height: 58,
-                                  width: 58,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image:
-                                          AssetImage("assets/img/opacity.png"),
-                                      fit: BoxFit.cover,
+                          child: InkWell(
+                            onTap: (){
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => SimilarProduct()));
+                            },
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding:
+                                      const EdgeInsets.only(left: 22, right: 22),
+                                  child: Container(
+                                    height: 58,
+                                    width: 58,
+                                    decoration: BoxDecoration(
+                                      image: DecorationImage(
+                                        image:
+                                            AssetImage("assets/img/opacity.png"),
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 9, bottom: 8),
-                                      child: Poppins(
-                                          text: "Similar Products",
-                                          size: 15,
-                                          color: Color(0xFF053118),
-                                          fontWeight: f.semiBold),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(right: 8),
-                                      child: Inter(
-                                          text:
-                                              "Lorem Ipsum is simply dummy text of the printing and typesetting",
-                                          size: 13,
-                                          color: Color(0xFF053118)
-                                              .withOpacity(0.51),
-                                          fontWeight: f.regular),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            top: 9, bottom: 8),
+                                        child: Poppins(
+                                            text: "Similar Products",
+                                            size: 15,
+                                            color: Color(0xFF053118),
+                                            fontWeight: f.semiBold),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(right: 8),
+                                        child: Inter(
+                                            text:
+                                                "Lorem Ipsum is simply dummy text of the printing and typesetting",
+                                            size: 13,
+                                            color: Color(0xFF053118)
+                                                .withOpacity(0.51),
+                                            fontWeight: f.regular),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -435,7 +447,7 @@ class _laboratoryState extends State<laboratory> {
                                       padding: const EdgeInsets.only(
                                           top: 9, bottom: 8),
                                       child: Poppins(
-                                          text: "Introduce new product",
+                                          text: "Create new product",
                                           size: 15,
                                           color: Color(0xFF053118),
                                           fontWeight: f.semiBold),

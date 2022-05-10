@@ -42,9 +42,9 @@ app.use("/product", productRoute);
 
 app.route("/").get((req, res) => res.json("Hello world"));
 
- app.listen(Port, "0.0.0.0", () =>
-  console.log(`you server is running on port ${Port}`)
- );
+app.listen(Port, "0.0.0.0", () =>
+   console.log(`you server is running on port ${Port}`)
+  );
 
 // const server = app;
 
