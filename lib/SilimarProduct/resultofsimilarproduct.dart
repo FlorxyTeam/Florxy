@@ -132,10 +132,10 @@ class _ResultofSimilarProductState extends State<ResultofSimilarProduct> {
         num=num+1;
       }
       print(j);
-
+      print(allscore);
       int l=0;
       for(l;l<allscore.length;l++){
-        allscore[l]=(allscore[l]/(j-1))*100;
+        allscore[l]=(allscore[l]/(j))*100;
         allscore[l]= allscore[l].toStringAsFixed(2);
         similar_list[l].p_cate = allscore[l].toString();
         allscore[l] = double.parse(allscore[l]);
@@ -170,34 +170,34 @@ class _ResultofSimilarProductState extends State<ResultofSimilarProduct> {
         // print(similar_list[o].p_cate);
         int e = o;
         int r=o;
-        print('insert r from o: '+r.toString());
+        // print('insert r from o: '+r.toString());
         for(e;e<similar_list.length;e++){
           // print('e: '+e.toString());
           // print('r: '+r.toString());
           // print('before r: '+r.toString());
           if(o==4){
-            print('r=$r A: '+allscore[r].toString());
-            print('e=$e B: '+allscore[e].toString());
+            // print('r=$r A: '+allscore[r].toString());
+            // print('e=$e B: '+allscore[e].toString());
           }
           if(allscore[r]<allscore[e]){
-            print('r=$r A: '+allscore[r].toString());
-            print('e=$e B: '+allscore[e].toString());
+            // print('r=$r A: '+allscore[r].toString());
+            // print('e=$e B: '+allscore[e].toString());
             store[0] = allscore[r];
             allscore[r]= allscore[e];
             allscore[e]= store[0];
 
             // support_list.add(mynum[o]);
             // print(support_list);
-            print('mynum[r]: '+mynum[r].toString());
-            print('mynum[e]: '+mynum[e].toString());
+            // print('mynum[r]: '+mynum[r].toString());
+            // print('mynum[e]: '+mynum[e].toString());
             store[0] = mynum[r];
             mynum[r]= mynum[e];
             mynum[e]= store[0];
-            print(allscore);
-            print(mynum);
+            // print(allscore);
+            // print(mynum);
           }
         }
-        print('reset R');
+        // print('reset R');
       }
       int sorting=0;
       int getvalue = 0;
