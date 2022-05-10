@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:Florxy/SilimarProduct/resultofsimilarproduct.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +13,14 @@ import '../widgets/button.dart';
 import '../widgets/fontWeight.dart';
 import '../widgets/font.dart';
 
-class SimilarProduct extends StatefulWidget {
-  const SimilarProduct({Key? key}) : super(key: key);
+class ResultofSimilarProduct extends StatefulWidget {
+  const ResultofSimilarProduct({Key? key}) : super(key: key);
 
   @override
-  _SimilarProductState createState() => _SimilarProductState();
+  _ResultofSimilarProductState createState() => _ResultofSimilarProductState();
 }
 
-class _SimilarProductState extends State<SimilarProduct> {
+class _ResultofSimilarProductState extends State<ResultofSimilarProduct> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   String query = '';
@@ -30,6 +29,23 @@ class _SimilarProductState extends State<SimilarProduct> {
   List<ProductModel> product2 = [];
   List<MentionProductModel> mention = [];
   Timer? debouncer;
+
+  ProductModel productModel = ProductModel(
+    id: '',
+    review: 0,
+    mention: 0,
+    ing_rate: [],
+    ing_name: [],
+    ing_met: [],
+    ing_irr: [],
+    ing_id: [],
+    p_name: '',
+    p_img: '',
+    p_desc: '',
+    p_brand: '',
+    p_cate: '',
+  );
+
 
   @override
   void initState() {
@@ -57,7 +73,7 @@ class _SimilarProductState extends State<SimilarProduct> {
   }
 
   Future init() async {
-    final products = await networkHandler.getProducts(query);
+    final products = await networkHandler.getSimilarProduct(query);
 
     setState(() => this.products = products);
   }
@@ -96,7 +112,7 @@ class _SimilarProductState extends State<SimilarProduct> {
                       ? 18.5
                       : 0),
               child: Poppins(
-                text: "Similar Products",
+                text: "Result",
                 size: 20,
                 color: c.blackMain,
                 fontWeight: f.semiBold,
@@ -126,8 +142,6 @@ class _SimilarProductState extends State<SimilarProduct> {
               padding: const EdgeInsets.symmetric(horizontal: 23),
               child:  Column(
                 children: <Widget>[
-                  buildSearch(),
-                  SizedBox(height: 25),
                   products.isEmpty?Center(
                     child: Column(
                       children: [
@@ -162,12 +176,6 @@ class _SimilarProductState extends State<SimilarProduct> {
       ),
     );
   }
-
-  Widget buildSearch() => SearchMentionPost(
-    text: query,
-    hintText: "Search product to compare",
-    onChanged: searchProduct,
-  );
 
   Future searchProduct(String query) async => debounce(() async {
     final products = await networkHandler.getProducts(query);
@@ -235,13 +243,14 @@ class _SimilarProductState extends State<SimilarProduct> {
                             ),
                           ),
                         ),
-                        onTap: () async{
-                          print('Product id: '+product.p_cate!);
-                          await storage.write(key: "similarproduct", value: product.p_cate);
-                          String? SimilarProduct = await storage.read(key: "similarproduct");
-                          print('Similar id:'+SimilarProduct.toString());
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ResultofSimilarProduct()));
-
+                        onTap: () {
+                          // if(mention.length==3) {
+                          //   showAlertDialog(context);
+                          // } else setMentionProduct(product.id!, product.p_brand, product.p_name);
+                          // setState(() {
+                          //   num_products++;
+                          // });
+                          print(product.id!);
                         },
                       )
                     ],

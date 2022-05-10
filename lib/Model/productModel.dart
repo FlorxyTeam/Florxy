@@ -9,11 +9,13 @@ class ProductModel {
   String p_name;
   String p_brand;
   String p_desc;
+  String? p_cate;
   String p_img;
   List ing_name;
   List ing_met;
   List ing_irr;
   List ing_rate;
+  List? ing_id;
   int mention;
   int review;
 
@@ -22,11 +24,13 @@ class ProductModel {
     required this.p_name,
     required this.p_brand,
     required this.p_desc,
+    this.p_cate,
     required this.p_img,
     required this.ing_name,
     required this.ing_met,
     required this.ing_irr,
     required this.ing_rate,
+    this.ing_id,
     required this.mention,
     required this.review,
   });

@@ -45,6 +45,16 @@ router.route("/getProduct").get( (req, res) => {
   });
 });
 
+router.route("/getSimilarProduct/:p_cate").get( (req, res) => {
+  Product.find({ p_cate: req.params.p_cate}).populate("ing_id").exec(function(err, result){
+    if(err) {
+      return console.log(err);
+    } else {
+      return res.json({ product: result });
+    }
+  });
+});
+
 router.route("/getIDPost/:id").get(middleware.checkToken, (req,res)=>{
   Post.findOne({ _id: req.params.id }).populate("product").exec(function(err, result){
     if(err) {
@@ -84,12 +94,12 @@ router.route("/CreatePost").post(middleware.checkToken, (req, res)=>{
   });
   createpost
       .save()
-      .then((result)=>{
-        res.json({data: result}).catch((err)=>{
-          console.log(err),
-          res.json({err: err});
-        });
-      });
+      .then((result) => {
+        return res.json({data: result});
+       })
+       .catch((err) => {
+         return res.status(400).json({err: err});
+     });
 });
 
 
