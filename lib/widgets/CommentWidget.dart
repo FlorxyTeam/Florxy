@@ -77,9 +77,7 @@ class _CommentState extends State<Comment> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: fetchVote(),
-      builder: (context, snapshot) => Padding(
+    return Padding(
         padding: const EdgeInsets.only(top: 15),
         child: Container(
           child: Column(
@@ -169,7 +167,6 @@ class _CommentState extends State<Comment> {
             ],
           ),
         ),
-      ),
-    );
+      );
   }
 }
