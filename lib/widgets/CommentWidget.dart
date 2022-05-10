@@ -98,48 +98,49 @@ class _CommentState extends State<Comment> {
                       )
                   ),
                   SizedBox(width: 8),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Poppins(
-                            text: profileModel.fullname,
-                            fontWeight: f.semiBold,
-                            size: 13,
-                            color: Colors.black,
-                          ),
-                          SizedBox(width: 5),
-                          Inter(text: '@'+profileModel.username, size: 12, color: c.textUsername, fontWeight: f.medium),
-
-                        ],
-                      ),
-                      SizedBox(height: 2),
-                      Row(
-                        children: [
-                          Inter(text: 'Replying to', size: 11, color: c.blackSub2, fontWeight: f.regular),
-                          SizedBox(width: 5),
-                          Container(
-                            constraints: BoxConstraints(
-                              maxWidth: 120
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Poppins(
+                              text: profileModel.fullname,
+                              fontWeight: f.semiBold,
+                              size: 13,
+                              color: Colors.black,
                             ),
-                              child: Inter_Crop(text: '@'+widget.owner!, size: 12, color: c.greenMain, fontWeight: f.medium)),
-                          SizedBox(width: 5),
-                          Inter_Crop(text: postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
-                        ],
-                      ),
-                      SizedBox(height: 15),
-                      Inter(text: widget.body!, size: 12, color: c.postText, fontWeight: f.regular),
-                    ],
+                            SizedBox(width: 5),
+                            Inter(text: '@'+profileModel.username, size: 12, color: c.textUsername, fontWeight: f.medium),
+
+                          ],
+                        ),
+                        SizedBox(height: 2),
+                        Row(
+                          children: [
+                            Inter(text: 'Replying to', size: 11, color: c.blackSub2, fontWeight: f.regular),
+                            SizedBox(width: 5),
+                            Container(
+                              constraints: BoxConstraints(
+                                maxWidth: 120
+                              ),
+                                child: Inter_Crop(text: '@'+widget.owner!, size: 12, color: c.greenMain, fontWeight: f.medium)),
+                            SizedBox(width: 5),
+                            Inter_Crop(text: postTime!, size: 11, color: c.graySub2, fontWeight: f.medium)
+                          ],
+                        ),
+                        SizedBox(height: 15),
+                        Inter(text: widget.body!, size: 12, color: c.postText, fontWeight: f.regular),
+                      ],
+                    ),
                   ),
-                  Expanded(child: Container()),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(Boxicons.bxs_up_arrow, size:21, color: c.greyMain),
-                      Inter(text: countVote.toString(), size: 12, color: c.graySub2, fontWeight: f.medium)
-                    ],
-                  )
+                  // Column(
+                  //   crossAxisAlignment: CrossAxisAlignment.center,
+                  //   children: [
+                  //     Icon(Boxicons.bxs_up_arrow, size:21, color: c.greyMain),
+                  //     Inter(text: countVote.toString(), size: 12, color: c.graySub2, fontWeight: f.medium)
+                  //   ],
+                  // )
                 ],
               ),
               // Padding(

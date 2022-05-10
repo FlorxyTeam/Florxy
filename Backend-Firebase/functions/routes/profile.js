@@ -4,6 +4,7 @@ const router = express.Router();
 const Profile = require("../models/profile.model");
 const Chat = require("../models/chat.model");
 const Post = require("../models/post.model");
+const Comment = require("../models/comment.model");
 const Notification = require("../models/notification.model");
 const middleware = require("../middleware");
 
@@ -245,6 +246,7 @@ router.route("/chat").post((req, res) => {
 });
 
 router.route("/getChat/:myusername/:targetusername").get((req,res)=>{
+
   Chat.find({
     $and: [
       { $or: [{sender: req.params.myusername}, {sender: req.params.targetusername}] },
@@ -404,9 +406,9 @@ router.route("/getData").get(middleware.checkToken, (req, res) => {
   });
 });
 
-router.route("/getSaveProduct").get(middleware.checkToken, (req, res) => {
-  console.log(req.decoded.username)
-  Profile.findOne({ username: req.decoded.username }).populate("saveproduct").exec(function(err, result) {
+router.route("/getSaveProduct/:username").get(middleware.checkToken, (req, res) => {
+//  console.log(req.decoded.username)
+  Profile.findOne({ username: req.params.username }).populate("saveproduct").exec(function(err, result) {
     if (err) return res.json({ err: err });
     if (result == null) return res.json({ data: [] });
     else return res.json({ data: result });
@@ -504,11 +506,60 @@ router.route("/getSearchUser/:id").get(middleware.checkToken, (req, res)=>{
   });
 });
 
+router.route("/deletepost").post((req,res)=>{
+  Post.findOneAndDelete({ _id: req.body.idPost }).exec(function(err, result){
+    if(err){
+      return console.log(err);
+    } else {
+      Comment.find({mainpost: req.body.idPost}).remove().exec(function(err, result2){
+        if(err){
+          return console.log(err);
+        
+        } else res.json("delete post success");
+      });
+    }
+  });
+});
+
 router.route("/getAllProfile").get(middleware.checkToken, (req, res)=>{
   Profile.find({}, (err, result)=>{
     if (err) return res.json(err);
     return res.json({data: result});
   });
+});
+
+router.route("/addPinned/:username").post((req, res) => {
+  // console.log(req.body.pinPost);
+  Profile.findOneAndUpdate({ username: req.params.username },
+    { pinned: req.body.pinPost }, function(err, result){
+      if(err){
+        return console.log(err);
+      } else {
+        return res.json("add pin success");
+      }
+  })
+});
+
+router.route("/deletePinned/:username").post((req, res) => {
+  // console.log(req.body.pinPost);
+  Profile.findOneAndUpdate({ username: req.params.username },
+    { $unset :{pinned: req.body.pinPost} }, function(err, result){
+      if(err){
+        return console.log(err);
+      } else {
+        return res.json("delete pin success");
+      }
+  })
+});
+
+router.route("/getPinPost/:username").get((req, res)=>{
+  Profile.findOne({ username: req.params.username }).populate("pinned").exec(function(err, result){
+    if(err){
+      return console.log(err);
+    } else {
+      return res.json({ pinned: result});
+    }
+  })
 });
 
 module.exports = router;

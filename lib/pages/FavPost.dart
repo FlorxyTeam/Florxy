@@ -13,11 +13,12 @@ class FavPost extends StatefulWidget {
   FavPost({Key? key, this.idFavPost}) : super(key: key);
 
   @override
-  _FavPostState createState() => _FavPostState();
+  FavPostState createState() => FavPostState();
 }
 
-class _FavPostState extends State<FavPost> {
+class FavPostState extends State<FavPost> {
   List data = [];
+  bool check = false;
   ProfileModel profileModel = ProfileModel(
     id: '',
     username: '',
@@ -51,10 +52,23 @@ class _FavPostState extends State<FavPost> {
   }
 
   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+  }
+
+  // @override
+  // void didUpdateWidget(covariant FavPost oldWidget) {
+  //   // TODO: implement didUpdateWidget
+  //   super.didUpdateWidget(oldWidget);
+  //   fetchData();
+  // }
+
+  @override
   void initState() {
-    fetchData();
     // TODO: implement initState
     super.initState();
+    fetchData();
   }
 
   @override
@@ -75,7 +89,7 @@ class _FavPostState extends State<FavPost> {
                 comment: 0,
                 urlImage: data['coverImage'],
                 id: "${data['_id']}",
-                fetchdata: fetchData(),
+                // fetchdata: _FavPostState.initState(),
               ):
               "${data['type']}"=='review'?ReviewPost(
                 username: "${data['username']}",
@@ -85,7 +99,7 @@ class _FavPostState extends State<FavPost> {
                 urlImage: data['coverImage'],
                 id: "${data['_id']}",
                 rating: data['rating'],
-                fetchdata: fetchData(),
+                // fetchdata: fetchData(),
               ):"${data['type']}"=='post'?Post(
                 username: "${data['username']}",
                 postTime: "${data['updatedAt']}".toString().substring(0, 10),
@@ -93,7 +107,7 @@ class _FavPostState extends State<FavPost> {
                 comment: 0,
                 urlImage: data['coverImage'],
                 id: "${data['_id']}",
-                fetchdata: fetchData(),
+                // fetchdata: fetchData(),
               ):Container();
             },
           ),
