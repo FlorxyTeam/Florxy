@@ -206,7 +206,7 @@ class _anotherProfileState extends State<anotherProfile> {
                     children: [
                       AnotherPostReply( username: profileModel.username ),
                       FavPost( idFavPost : profileModel.id ),
-                      SavedPro(),
+                      SavedPro( username: profileModel.username ),
                     ],
                   ))
                 ],

@@ -173,9 +173,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         Expanded(
                             child: TabBarView(
                               children: [
-                                PostReply(),
+                                PostReply( username: profileModel.username ),
                                 FavPost( idFavPost: profileModel.id ),
-                                SavedPro(),
+                                SavedPro( username: profileModel.username ),
                               ],
                             ))
                       ],

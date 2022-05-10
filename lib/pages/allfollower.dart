@@ -69,6 +69,7 @@ class _allFollowerState extends State<allFollower> {
     print(data);
     List staticData = data;
     return profileModel.listfollower.length == 0 ? Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
