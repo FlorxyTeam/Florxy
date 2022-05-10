@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:Florxy/SilimarProduct/cateproduct.dart';
 import 'package:Florxy/SilimarProduct/resultofsimilarproduct.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,14 +14,14 @@ import '../widgets/button.dart';
 import '../widgets/fontWeight.dart';
 import '../widgets/font.dart';
 
-class SimilarProduct extends StatefulWidget {
-  const SimilarProduct({Key? key}) : super(key: key);
+class cateproduct extends StatefulWidget {
+  const cateproduct({Key? key}) : super(key: key);
 
   @override
-  _SimilarProductState createState() => _SimilarProductState();
+  _cateproductState createState() => _cateproductState();
 }
 
-class _SimilarProductState extends State<SimilarProduct> {
+class _cateproductState extends State<cateproduct> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   String query = '';
@@ -58,7 +57,7 @@ class _SimilarProductState extends State<SimilarProduct> {
   }
 
   Future init() async {
-    final products = await networkHandler.getProducts(query);
+    final products = await networkHandler.getSimilarProduct(query);
 
     setState(() => this.products = products);
   }
@@ -97,7 +96,7 @@ class _SimilarProductState extends State<SimilarProduct> {
                       ? 18.5
                       : 0),
               child: Poppins(
-                text: "Similar Products",
+                text: "Cate Products",
                 size: 20,
                 color: c.blackMain,
                 fontWeight: f.semiBold,
@@ -247,7 +246,7 @@ class _SimilarProductState extends State<SimilarProduct> {
                           String? SimilarProductID = await storage.read(key: "similarproductID");
                           print('Select Similar id: '+SimilarProductID.toString());
                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => ResultofSimilarProduct()));
-                          // Navigator.of(context).push(MaterialPageRoute(builder: (context) => cateproduct()));
+
                         },
                       )
                     ],
