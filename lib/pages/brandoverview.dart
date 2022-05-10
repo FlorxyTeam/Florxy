@@ -123,7 +123,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                   maxLines: 5,
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
-                      fontSize: 12,
+                      fontSize: 12.5,
                       fontWeight: f.regular,
                       color: Color(0xFF828282)),
                 ),
