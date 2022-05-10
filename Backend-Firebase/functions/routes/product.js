@@ -196,7 +196,7 @@ router.route("/updaterating/:_id").patch(middleware.checkToken, (req, res ) =>{
             console.log(post);
              for(i=0;i < post.length;i++){
                 rate = rate + parseFloat(post[i].rating);
-                console.log(post[0].rating);
+//                console.log(post[0].rating);
                 num = num+1
              }
              rate = rate/post.length;

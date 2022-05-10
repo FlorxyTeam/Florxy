@@ -92,7 +92,7 @@ class _listofbrandState extends State<listofbrand> {
             mainAxisSize: MainAxisSize.min,
             children: [
               _searchBar(),
-              _searchText!.text.isNotEmpty && _allbrandDisplay.isEmpty
+              _searchText.text.isNotEmpty && _allbrandDisplay.isEmpty
                   ? Center(
                       child: Column(
                         children: [
