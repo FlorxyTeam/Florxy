@@ -180,9 +180,7 @@ class _MentionPostState extends State<MentionPost> {
     if( product != null && product.length !=0 ){
       data = product[0];
     }
-    return FutureBuilder(
-      future: fetchComment(),
-      builder: (context, snapshot) => Container(
+    return Container(
         child:  _isLoading
             ?Padding(
               padding: EdgeInsets.only(left: 23, right: 22,top:  20),
@@ -784,8 +782,7 @@ class _MentionPostState extends State<MentionPost> {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }
 
@@ -943,9 +940,7 @@ class _ReviewPostState extends State<ReviewPost> {
     if( product != null && product.length !=0 ){
       data = product[0];
     }
-    return FutureBuilder(
-        future: fetchComment(),
-        builder: (context, snapshot) => Container(
+    return Container(
         child: _isLoading
             ?Padding(
           padding: EdgeInsets.only(left: 23, right: 22,top:  20),
@@ -1545,8 +1540,7 @@ class _ReviewPostState extends State<ReviewPost> {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }
 
@@ -1694,9 +1688,7 @@ class _PostState extends State<Post> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: fetchComment(),
-      builder: (context, snapshot) => Container(
+    return Container(
         child: _isLoading
             ?Padding(
           padding: EdgeInsets.only(left: 23, right: 22,top:  20),
@@ -2185,8 +2177,7 @@ class _PostState extends State<Post> {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }
 
@@ -2324,9 +2315,7 @@ class _MentionPost2State extends State<MentionPost2> {
     if( product != null && product.length !=0 ){
       data = product[0];
     }
-    return FutureBuilder(
-      future: fetchComment(),
-      builder: (context, snapshot) => Container(
+    return Container(
         child: _isLoading
             ?Padding(
           padding: EdgeInsets.only(left: 23, right: 22,top:  20),
@@ -2925,8 +2914,7 @@ class _MentionPost2State extends State<MentionPost2> {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }
 
@@ -3061,9 +3049,7 @@ class _ReviewPost2State extends State<ReviewPost2> {
     if( product != null && product.length !=0 ){
       data = product[0];
     }
-    return FutureBuilder(
-      future: fetchComment(),
-      builder: (context, snapshot) => Container(
+    return Container(
         child: _isLoading
             ?Padding(
           padding: EdgeInsets.only(left: 23, right: 22,top:  20),
@@ -3647,8 +3633,7 @@ class _ReviewPost2State extends State<ReviewPost2> {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }
 
@@ -3775,9 +3760,7 @@ class _Post2State extends State<Post2> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: fetchComment(),
-      builder: (context, snapshot) => Container(
+    return Container(
         child: _isLoading
             ?Padding(
           padding: EdgeInsets.only(left: 23, right: 22,top:  20),
@@ -4266,8 +4249,7 @@ class _Post2State extends State<Post2> {
             ),
           ],
         ),
-      ),
-    );
+      );
   }
 }
 
