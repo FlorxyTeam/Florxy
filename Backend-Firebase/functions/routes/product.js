@@ -23,7 +23,6 @@ router.route("/add/brand").post((req, res)=> {
   Brand.find({name:req.body.name},(err, result) =>{
     if(err) res.status(500).json({msg: err});
     if(result.length == 0){
-      // eslint-disable-next-line new-cap
       const brand = Brand({
         name: req.body.name,
       });
@@ -68,7 +67,6 @@ router.route("/add/ing").post((req, res)=> {
   console.log(result.length == 0);
     if(err) res.status(500).json({msg: err});
     if(result.length == 0){
-      // eslint-disable-next-line new-cap
       const ingredient = Ingredient({
         name: req.body.name,
         rate: req.body.rate,
@@ -126,7 +124,7 @@ router.route("/Allbrand/search").get((req, res) => {
 });
 
 
-// brand and list
+//brand and list
 router.route("/brand").get((req, res) => {
   products.aggregate([
                 {"$group" : {_id:"$p_brand", count:{$sum:1}}},
@@ -188,7 +186,7 @@ router.route("/topreview/brand/:p_brand").get(middleware.checkToken, (req, res )
 
 
 // Interesting review and mention
-// router.route("/post/interestingreview/:_id").get(middleware.checkToken, (req, res ) =>{
+//router.route("/post/interestingreview/:_id").get(middleware.checkToken, (req, res ) =>{
 //    let post = {};
 //    let rate = 0;
 //     Post.find({product: req.params._id, type:"review" } ).sort({rating: -1}).exec(function(err, result){
@@ -199,7 +197,7 @@ router.route("/topreview/brand/:p_brand").get(middleware.checkToken, (req, res )
 //            console.log(post);
 //             for(i=0;i < post.length;i++){
 //                rate = rate + parseFloat(post[i].rating);
-//                console.log(post[0].rating);
+////                console.log(post[0].rating);
 //             }
 //             rate = rate/post.length;
 //                console.log(rate);
@@ -313,13 +311,24 @@ router.route("/getAllProductData/All").get(middleware.checkToken, (req, res) => 
 });
 
 router.route("/getSearchProduct/:id").get(middleware.checkToken, (req, res)=>{
-  const query = req.params.id
+  var query = req.params.id
   products.find({$or: [{p_name: {$regex: query, $options:"i"}},
                       {p_brand: {$regex: query, $options:"i"}},],}, (err, result)=>{
     if (err) return res.json(err);
     return res.json({getProduct: result});
   });
 });
+router.route("/getSearchProduct/:id").get(middleware.checkToken,(req,res)=>{
+                print("getSearchProduct")
+                var query = req.params.id
+                product.find({$or: [{p_name: {$regex: query, $options:"i"}},
+                                    {p_brand: {$regex: query, $options:"i"}},],},
+                (err,result)=>{
+                    if(err)return res.json(err);
+                    return res.json({getProduct : result})
+                });
+ });
+
 
  router.route("/request").post(middleware.checkToken,(req, res)=> {
    // eslint-disable-next-line new-cap

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const express = require("express");
 const middleware = require("../middleware");
 
@@ -224,7 +223,6 @@ router.route("/getPost/viewPost/:id/:product")
     });
 
     router.route("/comment").post((req, res) => {
-      // eslint-disable-next-line new-cap
       const comment = Comment({
         username: req.body.username,
         mainpost: req.body.mainpost,
@@ -257,16 +255,16 @@ router.route("/getPost/viewPost/:id/:product")
     // })
 
     router.route("/getSearchProductPost/:id").get(middleware.checkToken, (req,res)=>{
-          const query = req.params.id.toLowerCase()
-          // console.log(typeof Post)
-          Post.find({product : {$ne : null} }).populate({
-              path: "product",
+          var query = req.params.id.toLowerCase()
+          //console.log(typeof Post)
+          Post.find({product : {$ne : null} },).populate({
+              path: 'product',
             }).exec(function(err, result){
                  if(err) {
                     return res.json(err);
                  } else {
-                    let i = 0;
-                    const my_result = []
+                    var i = 0;
+                    var my_result = []
                     while(i < result.length){
                     if(result[i].body.includes(query)){
                         my_result.push(result[i]);
@@ -292,7 +290,14 @@ router.route("/getPost/viewPost/:id/:product")
                                length: my_result.length});
                  }
             }
-
+            /*.then(result => console.log(typeof res.json(result))
+                    /result.find({$or: [
+                    {"product.p_name": {$regex: query, $options:"i"}},
+                    {"product.p_nbrand": {$regex: query, $options:"i"}},
+                    ],},(err,result)=>{
+                                    if(err)return res.json(err);
+                                    return res.json({data:result})
+                                })*/
            )
         });
 

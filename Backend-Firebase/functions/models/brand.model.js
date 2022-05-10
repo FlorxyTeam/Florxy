@@ -24,7 +24,7 @@ const Brand = schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
       }],
-    }
+    },
 );
 
 module.exports = mongoose.model("Brand", Brand);
