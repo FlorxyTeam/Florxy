@@ -113,7 +113,7 @@ class Scraper {
     else if(detail_low.contains("toner")){
       category = "Toner";
     }
-    else if(detail_low.contains("pads")||detail_low.contains("treatment")){
+    else if(detail_low.contains("pad")||detail_low.contains("treatment")){
       category = "Treatment";
     }
     else if(detail_low.contains("sun cream") || detail_low.contains("sunscreen")|| detail_low.contains("sun")){
