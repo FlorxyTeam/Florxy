@@ -312,11 +312,16 @@ class _CreatePostState extends State<CreatePost> {
                                   "rating": myrating,
                                   "product":productModel.id!,
                                 };
+
+                                Map<String, String> data2 = {
+                                  "username":profileModel.username,
+                                };
                                 print('nich za 7899999999');
                                 print(allimage.length);
                                 print(imageFileList!.length);
                                 if(allimage.length == imageFileList!.length){
                                   var response = await networkHandler.post2("/home/CreatePost", data);
+                                  var response2 = await networkHandler.patch("/product/updaterating/${productModel.id}", data2);
                                   if (response.statusCode == 200 ||
                                       response.statusCode == 201) {
                                     setState(() {
@@ -505,6 +510,10 @@ class _CreatePostState extends State<CreatePost> {
                             print(imageFileList!.length);
                             if(allimage.length == imageFileList!.length){
                               var response = await networkHandler.post2("/home/CreatePost", data);
+                              Map<String, String> data2 = {
+                                "username":profileModel.username,
+                              };
+                              var response2 = await networkHandler.patch("/product/updaterating/${productModel.id}", data2);
                               if (response.statusCode == 200 ||
                                   response.statusCode == 201) {
                                 setState(() {
