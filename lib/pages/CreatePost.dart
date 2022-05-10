@@ -285,7 +285,7 @@ class _CreatePostState extends State<CreatePost> {
                       print(profileModel.username);
                       if(_body.text!=""){
                       if (_globalkey.currentState!.validate()) {
-                        if (imageFileList != null) {
+                        if (imageFileList!.length != 0) {
                           int i =1;
                           for(var image in imageFileList!){
                             print(image.path);
@@ -312,6 +312,9 @@ class _CreatePostState extends State<CreatePost> {
                                   "rating": myrating,
                                   "product":productModel.id!,
                                 };
+                                print('nich za 7899999999');
+                                print(allimage.length);
+                                print(imageFileList!.length);
                                 if(allimage.length == imageFileList!.length){
                                   var response = await networkHandler.post2("/home/CreatePost", data);
                                   if (response.statusCode == 200 ||
@@ -358,7 +361,7 @@ class _CreatePostState extends State<CreatePost> {
                                 Map<String, dynamic> data = {
                                   "username":profileModel.username,
                                   "body": _body.text,
-                                  "type": posttype.toString(),
+                                  "type": 'post',
                                   "coverImage": allimage,
                                 };
                                 if(allimage.length == imageFileList!.length){
@@ -382,7 +385,186 @@ class _CreatePostState extends State<CreatePost> {
                             );
                             i=i+1;
                           }
+                          // int j =1;
+                          // for(var image in imageFileList!){
+                          //   print(image.path);
+                          //
+                          //   final path = image.path;
+                          //   final fileName = DateTime.now().toString()+'_'+profileModel.username+'_'+j.toString()+ '.jpg';
+                          //   firebase_storage.uploadPostImage(path, fileName).then((value) async {
+                          //     print('\nvalue : \n');
+                          //     print(value);
+                          //     allimage.add(value);
+                          //     print('\nALL IMAGE : \n');
+                          //     print(allimage);
+                          //
+                          //     // var rating = double.parse(myrating);
+                          //     // print('\n myrating\n');
+                          //     // print(rating.runtimeType);
+                          //
+                          //     if(isreview){
+                          //       Map<String, dynamic> data = {
+                          //         "username":profileModel.username,
+                          //         "body": _body.text,
+                          //         "type": posttype.toString(),
+                          //         "coverImage": allimage,
+                          //         "rating": myrating,
+                          //         "product":productModel.id!,
+                          //       };
+                          //       print(allimage.length);
+                          //       print(imageFileList!.length);
+                          //       if(allimage.length == imageFileList!.length){
+                          //         var response = await networkHandler.post2("/home/CreatePost", data);
+                          //         if (response.statusCode == 200 ||
+                          //             response.statusCode == 201) {
+                          //           setState(() {
+                          //             circular = false;
+                          //           });
+                          //           Navigator.of(context).pop();
+                          //         }else{
+                          //           setState(() {
+                          //             circular = false;
+                          //           });
+                          //         }
+                          //       }
+                          //     }
+                          //
+                          //
+                          //     else if(ismention){
+                          //       Map<String, dynamic> data = {
+                          //         "username":profileModel.username,
+                          //         "body": _body.text,
+                          //         "type": posttype.toString(),
+                          //         "coverImage": allimage,
+                          //         "product":idMentionProduct,
+                          //       };
+                          //       print(allimage.length);
+                          //       print(imageFileList!.length);
+                          //       if(allimage.length == imageFileList!.length){
+                          //         var response = await networkHandler.post2("/home/CreatePost", data);
+                          //         if (response.statusCode == 200 ||
+                          //             response.statusCode == 201) {
+                          //           setState(() {
+                          //             circular = false;
+                          //           });
+                          //           Navigator.of(context).pop();
+                          //         } else{
+                          //           setState(() {
+                          //             circular = false;
+                          //           });
+                          //         }
+                          //       }
+                          //     }
+                          //
+                          //
+                          //     else{
+                          //       Map<String, dynamic> data = {
+                          //         "username":profileModel.username,
+                          //         "body": _body.text,
+                          //         "type": 'post',
+                          //         "coverImage": allimage,
+                          //       };
+                          //       print(allimage.length);
+                          //       print(imageFileList!.length);
+                          //       if(allimage.length == imageFileList!.length){
+                          //         var response = await networkHandler.post2("/home/CreatePost", data);
+                          //         if (response.statusCode == 200 ||
+                          //             response.statusCode == 201) {
+                          //           setState(() {
+                          //             circular = false;
+                          //           });
+                          //           Navigator.of(context).pop();
+                          //         }else{
+                          //           setState(() {
+                          //             circular = false;
+                          //           });
+                          //         }
+                          //       }
+                          //     }
+                          //
+                          //
+                          //
+                          //
+                          //   }
+                          //   );
+                          //   j=j+1;
+                          // }
+                        }
+                        else{
+                          print('hi mother fucker flag{a553ab18f39d8132a156}');
+                          if(isreview){
+                            Map<String, dynamic> data = {
+                              "username":profileModel.username,
+                              "body": _body.text,
+                              "type": posttype.toString(),
+                              "rating": myrating,
+                              "product":productModel.id!,
+                            };
+                            print('nich za 7899999999');
+                            print(allimage.length);
+                            print(imageFileList!.length);
+                            if(allimage.length == imageFileList!.length){
+                              var response = await networkHandler.post2("/home/CreatePost", data);
+                              if (response.statusCode == 200 ||
+                                  response.statusCode == 201) {
+                                setState(() {
+                                  circular = false;
+                                });
+                                Navigator.of(context).pop();
+                              }else{
+                                setState(() {
+                                  circular = false;
+                                });
+                              }
+                            }
+                          }
 
+
+                          else if(ismention){
+                            Map<String, dynamic> data = {
+                              "username":profileModel.username,
+                              "body": _body.text,
+                              "type": posttype.toString(),
+                              "product":idMentionProduct,
+                            };
+                            if(allimage.length == imageFileList!.length){
+                              var response = await networkHandler.post2("/home/CreatePost", data);
+                              if (response.statusCode == 200 ||
+                                  response.statusCode == 201) {
+                                setState(() {
+                                  circular = false;
+                                });
+                                Navigator.of(context).pop();
+                              } else{
+                                setState(() {
+                                  circular = false;
+                                });
+                              }
+                            }
+                          }
+
+
+                          else{
+                            Map<String, dynamic> data = {
+                              "username":profileModel.username,
+                              "body": _body.text,
+                              "type": 'post',
+                            };
+                            if(allimage.length == imageFileList!.length){
+                              var response = await networkHandler.post2("/home/CreatePost", data);
+                              if (response.statusCode == 200 ||
+                                  response.statusCode == 201) {
+                                setState(() {
+                                  circular = false;
+                                });
+                                Navigator.of(context).pop();
+                              }else{
+                                setState(() {
+                                  circular = false;
+                                });
+                              }
+                            }
+                          }
                         }
 
 
@@ -394,11 +576,11 @@ class _CreatePostState extends State<CreatePost> {
                       //   });
                       // }
                       }
-                      // else{
-                      //   setState(() {
-                      //     circular = false;
-                      //   });
-                      // }
+                      else{
+                        setState(() {
+                          circular = false;
+                        });
+                      }
 
                     },
                     child: circular?

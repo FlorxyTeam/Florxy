@@ -6,6 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 
+import 'accountpage.dart';
+import 'help.dart';
+
 class Setting extends StatefulWidget {
   const Setting({Key? key}) : super(key: key);
 
@@ -110,130 +113,10 @@ class _SettingState extends State<Setting> {
   Widget SearchTextField() {
     return Column(
       children: [
-        TextFormField(
-            focusNode: _focusNodes[0],
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: c.greyLight,
-              contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-              hintText: 'Search in chat',
-              hintStyle: TextStyle(
-                  fontSize: 16, color: c.greyMain, fontWeight: f.medium),
-              prefixIcon: Padding(
-                padding: EdgeInsets.only(right: 13, left: 20),
-                child: Icon(Icons.search_rounded,
-                    size: 25,
-                    color: _focusNodes[0].hasFocus ? c.greenMain : c.greyMain),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                borderSide:
-                    BorderSide(color: c.graySub2.withOpacity(0), width: 2),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                borderSide: BorderSide(color: c.greenMain, width: 2),
-              ),
-            )),
-        SizedBox(height: 15,),
         InkWell(
-          onTap: (){print("Noti");},
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Icon(
-                  Icons.notifications_outlined,
-                  color: c.blackMain,
-                  size: 25.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Inter(
-                      text: "Notification",
-                      size: 17,
-                      color: c.blackMain,
-                      fontWeight: f.medium),
-                ),
-                Expanded(child: Container(),),
-                Icon(Icons.arrow_forward_ios_outlined,
-                    size: 18, color: c.greyMain),
-
-              ],
-            ),
-          ),
-        ),
-        GestureDetector(
-          onTap: (){},
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
-
-            child: Container(
-
-              child:Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(
-                    Icons.lock_outline,
-                    color: c.blackMain,
-                    size: 25.0,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15),
-                    child: Inter(
-                        text: "Privacy",
-                        size: 16,
-                        color: c.blackMain,
-                        fontWeight: f.medium),
-                  ),
-                  Expanded(child: Container()),
-                  Icon(Icons.arrow_forward_ios_outlined,
-                      size: 18, color: c.greyMain),
-
-                ],
-              ) ,
-            ),
-          ),
-        ),
-        InkWell(
-          onTap: (){},
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
-
-
-            child: Container(
-
-              child:Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(
-                    Icons.security_rounded,
-                    color: c.blackMain,
-                    size: 22.0,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: Inter(
-                        text: "Security",
-                        size: 16,
-                        color: c.blackMain,
-                        fontWeight: f.medium),
-                  ),
-                  Expanded(child: Container()),
-                  Icon(Icons.arrow_forward_ios_outlined,
-                      size: 18, color: c.greyMain),
-
-                ],
-              ) ,
-            ),
-          ),
-        ),
-        InkWell(
-          onTap: (){},
+          onTap: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => Account()));
+          },
           child: Padding(
             padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
 
@@ -267,7 +150,9 @@ class _SettingState extends State<Setting> {
           ),
         ),
         InkWell(
-          onTap: (){},
+          onTap: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => Help()));
+          },
           child: Padding(
             padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
 

@@ -16,7 +16,7 @@ import 'package:slide_popup_dialog_null_safety/slide_popup_dialog.dart'
 as slideDialog;
 
 class ModalBottomSheetPost {
-  static Dialog_Settings(context, String post_username, String my_username) {
+  static Dialog_Settings(context, String post_username, String my_username, String idpost ) {
     showModalBottomSheet(
         backgroundColor: Colors.transparent,
         context: context,
@@ -32,8 +32,8 @@ class ModalBottomSheetPost {
               decoration: BoxDecoration(
                   color: Theme.of(context).canvasColor,
                   borderRadius: BorderRadius.only(
-                      topLeft: const Radius.circular(40),
-                      topRight: const Radius.circular(40))),
+                      topLeft: const Radius.circular(38),
+                      topRight: const Radius.circular(38))),
             ),
           );
         });

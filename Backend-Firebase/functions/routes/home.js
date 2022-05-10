@@ -243,16 +243,6 @@ router.route("/getPost/viewPost/:id/:product")
     //     })
     //   })
     // })
-    router.route("/getSearchBody/:id").get(middleware.checkToken,(req,res)=>{
-                print("getSearchBody")
-                var query = req.params.id
-                Post.find({$or: [{username: {$regex: query, $options:"i"}},
-                                 {body: {$regex: query, $options:"i"}},],},
-                (err,result)=>{
-                    if(err)return res.json(err);
-                    return res.json({getBody : result})
-                });
-            });
 
     router.route("/getSearchProductPost/:id").get(middleware.checkToken, (req,res)=>{
           var query = req.params.id.toLowerCase()
