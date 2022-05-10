@@ -4,6 +4,7 @@ const router = express.Router();
 const Profile = require("../models/profile.model");
 const Chat = require("../models/chat.model");
 const Post = require("../models/post.model");
+const Comment = require("../models/comment.model");
 const Notification = require("../models/notification.model");
 const middleware = require("../middleware");
 
@@ -502,6 +503,21 @@ router.route("/getSearchUser/:id").get(middleware.checkToken, (req, res)=>{
                       {fullname: {$regex: query, $options:"i"}},],}, (err, result)=>{
     if (err) return res.json(err);
     return res.json({getUser: result});
+  });
+});
+
+router.route("/deletepost").post((req,res)=>{
+  Post.findOneAndDelete({ _id: req.body.idPost }).exec(function(err, result){
+    if(err){
+      return console.log(err);
+    } else {
+      Comment.find({mainpost: req.body.idPost}).remove().exec(function(err, result2){
+        if(err){
+          return console.log(err);
+        
+        } else res.json("delete post success");
+      });
+    }
   });
 });
 

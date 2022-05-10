@@ -13,12 +13,14 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:slide_popup_dialog_null_safety/slide_popup_dialog.dart'
 as slideDialog;
 
 import '../Model/profileModel.dart';
 import '../NetworkHandler.dart';
+import '../pages/navbar.dart';
 
 class ModalBottomSheetPost {
   static Dialog_Settings(context, String post_username, String my_username, String idpost) {
@@ -100,8 +102,8 @@ class _ListMenuState extends State<ListMenu> {
           return AlertDialog(
             contentPadding: EdgeInsets.zero,
             content: Container(
-              height: 130,
-              width: MediaQuery.of(context).size.width/2,
+              height: 152,
+              width: 270,
               child: Expanded(
                 child: Column(
                   children: [
@@ -111,11 +113,13 @@ class _ListMenuState extends State<ListMenu> {
                       children: [
                         Icon(Boxicons.bx_pin),
                         SizedBox(width: 3),
-                        Inter(text: "Unpin from your profile", size: 15, color: c.blackMain, fontWeight: f.bold),
+                        Inter(text: "You haved a pin post", size: 15, color: c.blackMain, fontWeight: f.bold),
                       ],
                     ),
-                    SizedBox(height: 7),
-                    Inter(text: "Are you sure?", size: 13.5, color: c.graySub2, fontWeight: f.medium),
+                    SizedBox(height: 9),
+                    Inter(text: "You can only pin one post. Are you", size: 13, color: c.graySub2, fontWeight: f.medium),
+                    SizedBox(height: 3),
+                    Inter(text: " sure you want to pin this post?", size: 13, color: c.graySub2, fontWeight: f.medium),
                     SizedBox(height: 20),
                     Align(
                       alignment: Alignment.bottomCenter,
@@ -131,7 +135,11 @@ class _ListMenuState extends State<ListMenu> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Expanded(child: Center(child: Inter(text: "Cancle", size: 15, color: c.graySub2, fontWeight: f.semiBold))),
+                                Expanded(child: GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: Center(child: Inter(text: "Cancle", size: 15, color: c.graySub2, fontWeight: f.semiBold)))),
                                 Container(
                                   height: 43,
                                   child: VerticalDivider(
@@ -139,7 +147,98 @@ class _ListMenuState extends State<ListMenu> {
                                     thickness: 0.7,
                                   ),
                                 ),
-                                Expanded(child: Center(child: Inter(text: "Unpin", size: 15, color: c.redMain, fontWeight: f.semiBold))),
+                                Expanded(
+                                  child: GestureDetector(
+                                    onTap: () async {
+                                      Map<String, String> data = {
+                                        "pinPost" : widget.idpost!
+                                      };
+                                      await networkHandler.post("/profile/addPinned/" + widget.my_username!, data);
+                                      fetchdata();
+                                      Navigator.of(context).pop();
+                                      Navigator.of(context).pushReplacement(
+                                          PageTransition(type: PageTransitionType.fade, child: Navbar(currentState: 4), duration: Duration(milliseconds: 0)));
+                                    },
+                                    child: Center(child: Inter(text: "Pin", size: 15, color: c.redMain, fontWeight: f.semiBold))),
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(Radius.circular(15.0))),
+          );
+        }
+    );
+  }
+
+  void showDeleteDialog(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            contentPadding: EdgeInsets.zero,
+            content: Container(
+              height: 146,
+              width: MediaQuery.of(context).size.width/2,
+              child: Expanded(
+                child: Column(
+                  children: [
+                    SizedBox(height: 20),
+                    Inter(text: "Delete Post", size: 15, color: c.blackMain, fontWeight: f.bold),
+                    SizedBox(height: 9),
+                    Inter(text: "Are you sure you want to", size: 13, color: c.graySub2, fontWeight: f.medium),
+                    SizedBox(height: 3),
+                    Inter(text: "delete post?", size: 13, color: c.graySub2, fontWeight: f.medium),
+                    SizedBox(height: 20),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Column(
+                        children: [
+                          Divider(
+                            color: c.greyMain,
+                            thickness: 0.7,
+                            height: 0,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Expanded(child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Center(child: Inter(text: "Cancle", size: 15, color: c.graySub2, fontWeight: f.semiBold)))),
+                                Container(
+                                  height: 43,
+                                  child: VerticalDivider(
+                                    color: c.greyMain,
+                                    thickness: 0.7,
+                                  ),
+                                ),
+                                Expanded(
+                                  child: GestureDetector(
+                                      onTap: () async {
+                                        Map<String, String> data = {
+                                          "idPost" : widget.idpost!
+                                        };
+                                        Map<String, String> data2 = {
+                                          "pinPost" : widget.idpost!
+                                        };
+                                        await networkHandler.post("/profile/deletePinned/" + widget.my_username!, data2);
+                                        await networkHandler.post("/profile/deletepost",data);
+                                        fetchdata();
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Center(child: Inter(text: "Delete", size: 15, color: c.redMain, fontWeight: f.semiBold))),
+                                ),
                               ],
                             ),
                           )
@@ -192,6 +291,9 @@ class _ListMenuState extends State<ListMenu> {
                     await networkHandler.post("/profile/addPinned/" + widget.my_username!, data);
                     fetchdata();
                     Navigator.of(context).pop();
+                    Navigator.of(context).pushReplacement(
+                    PageTransition(type: PageTransitionType.fade, child: Navbar(currentState: 4), duration: Duration(milliseconds: 0)));
+
                   } else showAlertDialog(context);
                 },
               ),
@@ -225,6 +327,8 @@ class _ListMenuState extends State<ListMenu> {
                   fetchdata();
                   // widget.fetchpinned;
                   Navigator.of(context).pop();
+                  Navigator.of(context).pushReplacement(
+                      PageTransition(type: PageTransitionType.fade, child: Navbar(currentState: 4), duration: Duration(milliseconds: 0)));
                 },
               ),
             ),
@@ -277,9 +381,11 @@ class _ListMenuState extends State<ListMenu> {
                 color: c.redMain,
                 fontWeight: f.semiBold),
             onTap: () async {
+              Map<String, String> data = {
+                "idPost" : widget.idpost!
+              };
               // Future.delayed(Duration(microseconds: 0));
-              closeDialog(context);
-              await Navigator.of(context).push(_createRoute());
+              showDeleteDialog(context);
             },
           ),
           decoration: BoxDecoration(

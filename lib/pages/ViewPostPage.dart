@@ -545,11 +545,11 @@ class _ViewPostState extends State<ViewPost> {
                               SizedBox(width: 3),
                               Inter(text: 'Likes', size: 12.5, color: c.textBlack, fontWeight: f.regular),
 
-                              SizedBox(width: 9),
-
-                              Inter(text: 16.toString(), size: 13.5, color: c.textBlack, fontWeight: f.bold),
-                              SizedBox(width: 3),
-                              Inter(text: 'Shared', size: 12.5, color: c.textBlack, fontWeight: f.regular),
+                              // SizedBox(width: 9),
+                              //
+                              // Inter(text: 16.toString(), size: 13.5, color: c.textBlack, fontWeight: f.bold),
+                              // SizedBox(width: 3),
+                              // Inter(text: 'Shared', size: 12.5, color: c.textBlack, fontWeight: f.regular),
                             ],
                           ),
                           SizedBox(height: 8),
