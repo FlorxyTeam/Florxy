@@ -325,7 +325,7 @@ class _anotherProfileState extends State<anotherProfile> {
                                 ],
                               ),
                               onTap: (){
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => allFollower( another_username: profileModel.username )));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => allFollower( another_username: profileModel.username ))).then((value) => fetchData());
                               },
                             ):
                             Column(
@@ -363,7 +363,7 @@ class _anotherProfileState extends State<anotherProfile> {
                                 ],
                               ),
                               onTap: (){
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => allFollowing( another_username: profileModel.username )));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => allFollowing( another_username: profileModel.username ))).then((value) => fetchData());
                               },
                             ):
                             Column(

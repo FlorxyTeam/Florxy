@@ -26,6 +26,7 @@ class Real{
   String p_brand = "";
   String p_desc = "";
   String p_img = "";
+  String p_cate = "";
   List p_ing = [];
   // Real(this.p_name, this.p_brand, this.p_desc, this.p_img, this.p_ing);
 }
@@ -73,12 +74,75 @@ class Scraper {
        img = "";
     }
     var detail = "";
-    if(parse_body.querySelectorAll('#product-details')[0].innerHtml.trim().contains("span")){
-      detail = parse_body.querySelectorAll('#product-details > span')[0].innerHtml.trim().replaceAll("\n        ", "");
-      detail = detail + parse_body.querySelectorAll('#product-details > span')[0].innerHtml.trim().replaceAll("\n       ", "");
+      if(parse_body.querySelectorAll('#product-details')[0].text.trim().contains("span")){
+      // detail = parse_body.querySelectorAll('#product-details > span')[0].text.trim();
+      // detail = detail + parse_body.querySelectorAll('#product-details > span')[0].text.trim().replaceAll("\n       ", "");
+      //   print("if");
     }
     else{
-      detail = parse_body.querySelectorAll('#product-details')[0].innerHtml.trim();
+      detail = parse_body.querySelectorAll('#product-details')[0].text.trim().replaceAll("\n        ", "").replaceAll("[more]", "").replaceAll("[less]", "");
+    // print("else");
+
+      }
+    var category = "";
+    var detail_low = name.toLowerCase() ;
+    if(detail_low.contains("body wash")||detail_low.contains("body")||detail_low.contains("soap")||detail_low.contains("body lotion")||detail_low.contains("shower")){
+      category = "Bath & Body";
+    }
+    else if(detail_low.contains("hand")){
+      category = "Hand Care";
+    }
+    else if(detail_low.contains("shampoo")){
+      category = "Shampoo";
+    }
+    else if(detail_low.contains("conditioner")){
+      category = "Conditioner";
+    }
+    else if(detail_low.contains("hair")||detail_low.contains("sculp")){
+      category = "Haircare";
+    }
+    else if(detail_low.contains("perfume")||detail_low.contains("parfum")||detail_low.contains("cologne")){
+      category = "Fragrance";
+    }
+    else if(detail_low.contains("nail")){
+      category = "Nail Care";
+    }
+    else if(detail_low.contains("mask")||detail_low.contains("sleep")){
+      category = "Mask";
+    }
+    else if(detail_low.contains("toner")){
+      category = "Toner";
+    }
+    else if(detail_low.contains("pad")||detail_low.contains("treatment")){
+      category = "Treatment";
+    }
+    else if(detail_low.contains("sun cream") || detail_low.contains("sunscreen")|| detail_low.contains("sun")){
+      category = "Sunscreen";
+    }
+    else if(detail_low.contains("serum")||detail_low.contains("ampoule")){
+      category = "Serum";
+    }
+    else if(detail_low.contains("eye serum")||detail_low.contains("eye cream")||detail_low.contains("eye repair")||detail_low.contains("eye gel")||detail_low.contains("eye treatment")){
+      category = "Eye Care";
+    }
+    else if(detail_low.contains("emulsion")){
+      category = "Emulsion";
+    }
+    else if(detail_low.contains("essence")||detail_low.contains("mist")){
+      category = "Essence";
+    }
+    else if(detail_low.contains("lip balm")){
+      category = "Lip Moisturizers";
+    }
+    else if(detail_low.contains("cleanser")||detail_low.contains("cleansing")||detail_low.contains("micellar")||detail_low.contains("makeup remover")||detail_low.contains("facial foam")){
+      category = "Cleanser & Makeup Remover";
+    }
+    else if(detail_low.contains("cream")|| detail_low.contains("lotion")|| detail_low.contains("gel") ||detail_low.contains("balm")||detail_low.contains("oil")){
+      category = "Moisturizers & Oil";
+    }
+
+    else if(detail_low.contains("eyebrown")|| detail_low.contains("cc")|| detail_low.contains("primer")|| detail_low.contains("concealer")|| detail_low.contains("powder")|| detail_low.contains("palette")|| detail_low.contains("bronzer")|| detail_low.contains("bb")|| detail_low.contains("brow")|| detail_low.contains("contour")|| detail_low.contains("corrector")|| detail_low.contains("foundation")|| detail_low.contains("blush")){
+      category = "Makeup";
     }
 
 
@@ -89,6 +153,7 @@ class Scraper {
     res.p_brand = brand;
     res.p_desc = detail;
     res.p_img = img!;
+    res.p_cate = category;
     var ram = [];
     // print(name);
     // print(brand);
@@ -484,22 +549,22 @@ Future<void> main() async{
  //  }
  //  print(stopwatch.elapsed);
   List results = [];
-  results = await Scraper.getData2('anua');
+  results = await Scraper.getData2('innisfree');
   for (var result in results) {
-    print(result.link);
+    // print(result.link);
     Real x = await Scraper.getBrand(result.link);
     // print(x.p_ing[1]);
-    for (var ing in x.p_ing[1]){
-      // print(ing);
-      List y = await Scraper.getIng(ing);
-      // print(y[0].length);
-      int i = 1;
-      for (var all in y[0]){
-        print(i);
-        print(all);
-        i++;
-      }
-    }
+    // for (var ing in x.p_ing[1]){
+    //   // print(ing);
+    //   List y = await Scraper.getIng(ing);
+    //   // print(y[0].length);
+    //   int i = 1;
+    //   for (var all in y[0]){
+    //     // print(i);
+    //     // print(all);
+    //     i++;
+    //   }
+    // }
     // List y = await Scraper.getIng(x.p_ing[1]);
     // print(x.p_name+y.length.toString());
     // var i = 0;

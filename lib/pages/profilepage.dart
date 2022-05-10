@@ -298,7 +298,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ],
                             ),
                             onTap: (){
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => allFollower( another_username: profileModel.username )));
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => allFollower( another_username: profileModel.username ))).then((value) => fetchData());
                             },
                           ),
                           SizedBox(
@@ -323,7 +323,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ],
                             ),
                             onTap: (){
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => allFollowing( another_username: profileModel.username )));
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => allFollowing( another_username: profileModel.username ))).then((value) => fetchData());
                             },
                           ),
                           SizedBox(

@@ -32,8 +32,8 @@ class ModalBottomSheetPost {
               decoration: BoxDecoration(
                   color: Theme.of(context).canvasColor,
                   borderRadius: BorderRadius.only(
-                      topLeft: const Radius.circular(40),
-                      topRight: const Radius.circular(40))),
+                      topLeft: const Radius.circular(38),
+                      topRight: const Radius.circular(38))),
             ),
           );
         });
