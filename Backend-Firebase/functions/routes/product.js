@@ -49,6 +49,8 @@ router.route("/add").post((req, res)=> {
     p_desc: req.body.p_desc,
     p_img: req.body.p_img,
     ing_id: req.body.ing_id,
+    p_cate: req.body.p_cate,
+
   });
   console.log("hi");
   product
