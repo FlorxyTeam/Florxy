@@ -71,7 +71,7 @@ const Profile = schema(
       ],
       pinned: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Pinned",
+        ref: "Post",
       },
       notification: [
         {

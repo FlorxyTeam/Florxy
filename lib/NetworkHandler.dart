@@ -165,9 +165,10 @@ class NetworkHandler {
 
     String? SimilarProduct = await storage.read(key: "similarproduct");
     print('Similar id:'+SimilarProduct.toString());
+    // SimilarProduct = SimilarProduct?.replaceAll(' ', '%20');
+    print('/home/getSimilarProduct/${SimilarProduct}');
     final url = Uri.parse(formater("/home/getSimilarProduct/${SimilarProduct}"));
     final response = await http.get(url);
-
     if (response.statusCode == 200) {
       Map<String, dynamic> data = json.decode(response.body);
       List products = data["product"];

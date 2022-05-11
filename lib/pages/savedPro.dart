@@ -8,7 +8,8 @@ import '../Model/profileModel.dart';
 import '../NetworkHandler.dart';
 
 class SavedPro extends StatefulWidget {
-  const SavedPro({Key? key}) : super(key: key);
+  String? username;
+  SavedPro({Key? key, this.username}) : super(key: key);
 
   @override
   _SavedProState createState() => _SavedProState();
@@ -42,7 +43,7 @@ class _SavedProState extends State<SavedPro> {
   }
   
   void fetchData() async {
-    var response = await networkHandler.get("/profile/getSaveProduct");
+    var response = await networkHandler.get("/profile/getSaveProduct/" + widget.username!);
     setState(() {
       profileModel = ProfileModel.fromJson(response['data']);
       save = profileModel.saveproduct;

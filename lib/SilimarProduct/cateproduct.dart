@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:Florxy/SilimarProduct/cateproduct.dart';
 import 'package:Florxy/SilimarProduct/resultofsimilarproduct.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,14 +14,14 @@ import '../widgets/button.dart';
 import '../widgets/fontWeight.dart';
 import '../widgets/font.dart';
 
-class SimilarProduct extends StatefulWidget {
-  const SimilarProduct({Key? key}) : super(key: key);
+class cateproduct extends StatefulWidget {
+  const cateproduct({Key? key}) : super(key: key);
 
   @override
-  _SimilarProductState createState() => _SimilarProductState();
+  _cateproductState createState() => _cateproductState();
 }
 
-class _SimilarProductState extends State<SimilarProduct> {
+class _cateproductState extends State<cateproduct> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   String query = '';
@@ -58,7 +57,7 @@ class _SimilarProductState extends State<SimilarProduct> {
   }
 
   Future init() async {
-    final products = await networkHandler.getProducts(query);
+    final products = await networkHandler.getSimilarProduct(query);
 
     setState(() => this.products = products);
   }
@@ -97,7 +96,7 @@ class _SimilarProductState extends State<SimilarProduct> {
                       ? 18.5
                       : 0),
               child: Poppins(
-                text: "Similar Products",
+                text: "Cate Products",
                 size: 20,
                 color: c.blackMain,
                 fontWeight: f.semiBold,
@@ -182,7 +181,7 @@ class _SimilarProductState extends State<SimilarProduct> {
   });
 
 
-  Widget buildProoduct(ProductModel product) => product.p_cate != '' ? Column(
+  Widget buildProoduct(ProductModel product) => Column(
     children: [
       Container(
         child: Padding(
@@ -193,7 +192,7 @@ class _SimilarProductState extends State<SimilarProduct> {
               SizedBox(width: 14),
               Center(
                 child: Container(
-                  height: 130,
+                  height: 110,
                   width: 70,
                   decoration: BoxDecoration(
                       color: Colors.transparent,
@@ -223,15 +222,13 @@ class _SimilarProductState extends State<SimilarProduct> {
                       SizedBox(height: 3),
                       PoppinsLeft_Crop(text: product.p_name, size: 13, color: c.textBlack, fontWeight: f.semiBold),
                       SizedBox(height: 10),
-                      Roboto_Crop(text: product.p_desc, size: 12, color: c.graySub2, fontWeight: f.regular),
-                      SizedBox(height: 12),
-                      Inter(text: "See similar product in", size: 12, color: c.greenMain, fontWeight: f.semiBold),
-                      SizedBox(height: 5),
+                      Roboto_Crop(text: product.p_desc, size: 12, color: c.greySub, fontWeight: f.regular),
+                      SizedBox(height: 10),
                       GestureDetector(
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: Container(
-                            // width: 60,
+                            width: 60,
                             child: WhiteGreenButton(
                               text: product.p_cate.toString(),
                               size: 11,
@@ -248,8 +245,8 @@ class _SimilarProductState extends State<SimilarProduct> {
                           await storage.write(key: "similarproductID", value: product.id);
                           String? SimilarProductID = await storage.read(key: "similarproductID");
                           print('Select Similar id: '+SimilarProductID.toString());
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ResultofSimilarProduct(brand: product.p_brand, name: product.p_name)));
-                          // Navigator.of(context).push(MaterialPageRoute(builder: (context) => cateproduct()));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ResultofSimilarProduct()));
+
                         },
                       )
                     ],
@@ -274,5 +271,5 @@ class _SimilarProductState extends State<SimilarProduct> {
       ),
       SizedBox(height: 23),
     ],
-  ):Container();
+  );
 }

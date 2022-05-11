@@ -121,6 +121,7 @@ class _allFollowingState extends State<allFollowing> {
         ),
       ),
     ):Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
