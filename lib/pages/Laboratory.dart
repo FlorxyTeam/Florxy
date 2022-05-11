@@ -126,7 +126,7 @@ class _laboratoryState extends State<laboratory> {
                       onTap: (){
                         // Navigator.of(context).push(MaterialPageRoute(builder: (context) => Scrap()));
                       },
-                      child: Poppins(text: "Scrap", size: 12, color: c.blackMain, fontWeight: f.medium)
+                      // child: Poppins(text: "Scrap", size: 12, color: c.blackMain, fontWeight: f.medium)
                   )
                 ],
               ),

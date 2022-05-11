@@ -17,6 +17,7 @@ import '../NetworkHandler.dart';
 import '../postProvider.dart';
 import '../widgets/SearchPostWidget.dart';
 import '../widgets/PostWidget.dart';
+import '../widgets/button.dart';
 
 class SearchPost extends StatefulWidget {
   const SearchPost({Key? key}) : super(key: key);
@@ -33,6 +34,7 @@ class _SearchPostState extends State<SearchPost> {
   String query = "";
   Timer? debouncer;
   String? post;
+  bool empty = true;
 
   @override
   void dispose() {
@@ -98,22 +100,12 @@ class _SearchPostState extends State<SearchPost> {
                 borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(26),
                 )),
-            leading: Padding(
-              padding: EdgeInsets.only(top: 17.5, left: 15),
-              child: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                icon: Icon(
-                  Icons.arrow_back_ios_new,
-                  size: 25,
-                  color: c.blackMain,
-                ),
-              ),
-            ),
+
             actions: [
               Padding(
-                padding: EdgeInsets.only(top: 20, left: 5, right: 10),
+                padding: EdgeInsets.only(top: 20, left: 10, right: 10),
                 child: Container(
-                  width: MediaQuery.of(context).size.width-90,
+                  width: MediaQuery.of(context).size.width-50,
                   child: TextField(
                       controller: controller,
                       decoration: InputDecoration(
@@ -124,7 +116,7 @@ class _SearchPostState extends State<SearchPost> {
                           padding: const EdgeInsets.only(right: 2, left: 12),
                           child: Icon(Icons.search_rounded, size: 23, color: c.blackSub2),
                         ),
-                        hintText: "Search Post",
+                        hintText: "Search Anything",
                         hintStyle: TextStyle(
                             fontSize: 14.5,
                             color: c.greyMain,
@@ -178,64 +170,48 @@ class _SearchPostState extends State<SearchPost> {
                 borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(0),
                 )),
-            leading: Padding(
-              padding: EdgeInsets.only(
-                  top: Theme.of(context).platform == TargetPlatform.android
-                      ? 17.5
-                      : 0,
-                  left: 15),
-              child: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                icon: Icon(
-                  Icons.arrow_back_ios_new,
-                  size: 25,
-                  color: c.blackMain,
+            title:Padding(
+              padding: EdgeInsets.only(top: 20, left: 10, right: 10,bottom: 10),
+              child: Container(
+                width: MediaQuery.of(context).size.width-10,
+                child: TextField(
+                    controller: controller,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: c.searchbar,
+                      contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.only(right: 2, left: 12),
+                        child: Icon(Icons.search_rounded, size: 23, color: c.blackSub2),
+                      ),
+                      hintText: "Search Anything!",
+                      hintStyle: TextStyle(
+                          fontSize: 14.5,
+                          color: c.greyMain,
+                          fontWeight: f.medium),
+                      border: InputBorder.none,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                        borderSide: BorderSide(
+                            color: c.graySub2.withOpacity(0), width: 2),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                        borderSide: BorderSide(
+                            color: c.graySub2.withOpacity(0), width: 2),
+                      ),
+                    ),
+                    onSubmitted: (String start){
+                      setState((){
+                        query = start;
+                        print(start);
+                        print(query);
+                      });
+                    }
                 ),
               ),
             ),
-            actions: [
-              Padding(
-                padding: EdgeInsets.only(top: 20, left: 5, right: 25),
-                child: Container(
-                  width: MediaQuery.of(context).size.width-90,
-                  child: TextField(
-                      controller: controller,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: c.searchbar,
-                        contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.only(right: 2, left: 12),
-                          child: Icon(Icons.search_rounded, size: 23, color: c.blackSub2),
-                        ),
-                        hintText: "Search Post",
-                        hintStyle: TextStyle(
-                            fontSize: 14.5,
-                            color: c.greyMain,
-                            fontWeight: f.medium),
-                        border: InputBorder.none,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-                          borderSide: BorderSide(
-                              color: c.graySub2.withOpacity(0), width: 2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-                          borderSide: BorderSide(
-                              color: c.graySub2.withOpacity(0), width: 2),
-                        ),
-                      ),
-                      onSubmitted: (String start){
-                        setState((){
-                          query = start;
-                          print(start);
-                          print(query);
-                        });
-                      }
-                  ),
-                ),
-              ),
-            ],
+
             bottom: PreferredSize(
                 child: query == "" ? Container(
                 ):Container(
@@ -367,7 +343,7 @@ class _SearchPostState extends State<SearchPost> {
                 Consumer<PostProvider>(
                     builder: (context, model, _) => FutureBuilder(
                       future: model.fetchSearchProductPost(query),
-                      builder: (context, snapshot) => MediaQuery.removePadding(
+                      builder: (context, snapshot) => model.searchPost?.length != 0 ? MediaQuery.removePadding(
                         context: context,
                         removeTop: true,
                         removeBottom: true,
@@ -399,8 +375,13 @@ class _SearchPostState extends State<SearchPost> {
                                 : Container();
                           },
                         ),
+                      ): Padding(
+                        padding: EdgeInsets.only(top: 50, left: 40, right: 40),
+                        child : Container(
+                          child:Inter(text: "Couldn't find any posts that match your search query. Please enter a new word.", size: 20, color: c.graySub2, fontWeight: f.bold),
+                        ),
                       ),
-                    )
+                    ),
                 ),
               ],
             ) : see == "Review" ? Column(
@@ -408,7 +389,7 @@ class _SearchPostState extends State<SearchPost> {
                 Consumer<PostProvider>(
                     builder: (context, model, _) => FutureBuilder(
                       future: model.fetchSearchProductPost(query),
-                      builder: (context, snapshot) => MediaQuery.removePadding(
+                      builder: (context, snapshot) => model.searchPost?.length != 0 ? MediaQuery.removePadding(
                         context: context,
                         removeTop: true,
                         removeBottom: true,
@@ -432,8 +413,13 @@ class _SearchPostState extends State<SearchPost> {
                                 : Container();
                           },
                         ),
+                      ): Padding(
+                        padding: EdgeInsets.only(top: 50, left: 40, right: 40),
+                        child : Container(
+                          child:Inter(text: "Couldn't find any reviews that match your search query. Please enter a new word.", size: 20, color: c.graySub2, fontWeight: f.bold),
+                        ),
                       ),
-                    )
+                    ),
                 ),
               ],
             ) : see == "User" ? Column(
@@ -441,7 +427,7 @@ class _SearchPostState extends State<SearchPost> {
                 Consumer<PostProvider>(
                     builder: (context, model, _) => FutureBuilder(
                       future: model.fetchSearchUser(query),
-                      builder: (context, snapshot) => MediaQuery.removePadding(
+                      builder: (context, snapshot) => model.searchUser?.length != 0 ? MediaQuery.removePadding(
                         context: context,
                         removeTop: true,
                         removeBottom: true,
@@ -462,8 +448,13 @@ class _SearchPostState extends State<SearchPost> {
                             ) : Container();
                           },
                         ),
+                      ): Padding(
+                        padding: EdgeInsets.only(top: 50, left: 40, right: 40),
+                        child : Container(
+                          child:Inter(text: "Couldn't find any users that match your search query. Please enter a new word.", size: 20, color: c.graySub2, fontWeight: f.bold),
+                        ),
                       ),
-                    )
+                    ),
                 ),
               ],
             ) : see == "Product" ? Column(
@@ -471,7 +462,7 @@ class _SearchPostState extends State<SearchPost> {
                 Consumer<PostProvider>(
                     builder: (context, model, _) => FutureBuilder(
                       future: model.fetchSearchProduct(query),
-                      builder: (context, snapshot) => MediaQuery.removePadding(
+                      builder: (context, snapshot) => model.searchProduct?.length != 0 ? MediaQuery.removePadding(
                         context: context,
                         removeTop: true,
                         removeBottom: true,
@@ -493,8 +484,13 @@ class _SearchPostState extends State<SearchPost> {
                             ) : Container();
                           },
                         ),
+                      ): Padding(
+                        padding: EdgeInsets.only(top: 50, left: 40, right: 40),
+                        child : Container(
+                          child:Inter(text: "Couldn't find any products that match your search query. Please enter a new word.", size: 20, color: c.graySub2, fontWeight: f.bold),
+                        ),
                       ),
-                    )
+                    ),
                 ),
               ],
             ) : Container(),
@@ -503,130 +499,3 @@ class _SearchPostState extends State<SearchPost> {
   }
 
 }
-
-/*height: MediaQuery.of(context).size.height ,
-child: Consumer<PostProvider>(
-builder: (context, model, _) => FutureBuilder(
-future: model.fetchSearchProductPost(query),
-builder: (context, snapshot) => see == "Post" ? ListView.builder(
-padding: EdgeInsets.only(top: 0),
-
-query == "" ? Container(
-              ): Container(
-                width: double.infinity,
-                height: 40,
-                color: Color(0xFFFFFFFF),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 0 , left: 20, right: 20),
-                      child : Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          query == "" ? Container(
-
-                          ) : Container(
-                            child : GestureDetector(
-                              onTap: () => seePost(),
-                              child: Poppins(
-                                text: "    Post",
-                                size: 14,
-                                color: c.greyMain,
-                                fontWeight: f.bold,
-                              ),
-                            ),
-                          ),
-                          query == "" ? Container(
-
-                          ) : Container(
-                            child : GestureDetector(
-                              onTap: () => seeReview(),
-                              child: Poppins(
-                                text: "   Review ",
-                                size: 14,
-                                color: c.greyMain,
-                                fontWeight: f.bold,
-                              ),
-                            ),
-                          ),
-                          query == "" ? Container(
-
-                          ) : Container(
-                            child : GestureDetector(
-                              onTap: () => seeUser(),
-                              child: Poppins(
-                                text: "User  ",
-                                size: 14,
-                                color: c.greyMain,
-                                fontWeight: f.bold,
-                              ),
-                            ),
-                          ),
-                          query == "" ? Container(
-
-                          ) : Container(
-                            child : GestureDetector(
-                              onTap: () => seeProduct(),
-                              child: Poppins(
-                                text: " Product ",
-                                size: 14,
-                                color: c.greyMain,
-                                fontWeight: f.bold,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(top: 10, left: 10, right: 10),
-                      child : Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          query == "" ? Container(
-
-                          ) : Container(
-                            height: 5,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              color: see == "Post" ? c.greenMain : Colors.white,
-                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                            ),
-                          ),
-                          query == "" ? Container(
-
-                          ) : Container(
-                            height: 5,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              color: see == "Review" ? c.greenMain : Colors.white,
-                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                            ),
-                          ),
-                          query == "" ? Container(
-
-                          ) : Container(
-                            height: 5,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              color: see == "User" ? c.greenMain : Colors.white,
-                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                            ),
-                          ),
-                          query == "" ? Container(
-
-                          ) : Container(
-                            height: 5,
-                            width: 80,
-                            decoration: BoxDecoration(
-                              color: see == "Product" ? c.greenMain : Colors.white,
-                              borderRadius: BorderRadius.all(Radius.circular(13.0)),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-*/

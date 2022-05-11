@@ -14,6 +14,7 @@ import '../widgets/SearchMentionPostWidget.dart';
 import '../widgets/button.dart';
 import '../widgets/fontWeight.dart';
 import '../widgets/font.dart';
+import 'compare1.dart';
 
 class SearchToCompare extends StatefulWidget {
   const SearchToCompare({Key? key}) : super(key: key);
@@ -285,7 +286,7 @@ class _SearchToCompareState extends State<SearchToCompare> {
                             height: 50,
                           ),
                           onTap: ()  {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => compare2(product2: mention )));
+                            // Navigator.of(context).push(MaterialPageRoute(builder: (context) => compare2(product2: mention )));
                           },
                         )
                             : mention.length == 3
