@@ -20,7 +20,8 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) {
     type: json['type'] as String?,
     createdAt: json['createdAt'] as String?,
     updatedAt: json['updatedAt'] as String?,
-    id: json['id'] as String?,
+    id: json['_id'] as String?,
+
   );
 }
 

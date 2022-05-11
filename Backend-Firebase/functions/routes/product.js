@@ -18,6 +18,17 @@ router.route("/getProductData/:id").get(middleware.checkToken, (req, res) => {
     else return res.json({ data: result });
   });
 });
+
+router.route("/getIngredientInfo/:id").get( (req, res) => {
+  Ingredient.findOne({ _id: req.params.id }).exec(function(err, result){
+    if(err) {
+      return console.log(err);
+    } else {
+      return res.json({ ingredient: result });
+    }
+  });
+});
+
 router.route("/add/brand").post((req, res)=> {
   // eslint-disable-next-line new-cap
   Brand.find({name:req.body.name},(err, result) =>{
@@ -312,6 +323,16 @@ router.route("/getSearchProduct/:id").get(middleware.checkToken,(req,res)=>{
                     return res.json({getProduct : result})
                 });
  });
+
+ router.route("/deleteProduct/:brand").get((req,res)=>{
+  products.deleteMany({ p_brand: req.params.brand }).exec(function(err, result){
+    if(err){
+      return console.log(err);
+    } else {
+      return res.json("delete product success");
+    }
+  });
+});
 
 
  router.route("/request").post(middleware.checkToken,(req, res)=> {

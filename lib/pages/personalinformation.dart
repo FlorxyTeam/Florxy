@@ -1,4 +1,6 @@
-import 'package:Florxy/pages/personalinformation.dart';
+import 'dart:io';
+
+import 'package:Florxy/pages/EditProfile.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/pages/navbar.dart';
@@ -6,20 +8,47 @@ import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class Account extends StatefulWidget {
-  const Account({Key? key}) : super(key: key);
+import '../Model/profileModel.dart';
+import '../Model/userModel.dart';
+import '../NetworkHandler.dart';
+
+class PersonalInformation extends StatefulWidget {
+  const PersonalInformation({Key? key}) : super(key: key);
 
   @override
-  _AccountState createState() => _AccountState();
+  _PersonalInformationState createState() => _PersonalInformationState();
 }
 
-class _AccountState extends State<Account> {
+class _PersonalInformationState extends State<PersonalInformation> {
   List<FocusNode> _focusNodes = [
     FocusNode(),
     FocusNode(),
     FocusNode(),
   ];
+
+  bool circular = false;
+  final networkHandler = NetworkHandler();
+  final storage = new FlutterSecureStorage();
+  final _globalkey = GlobalKey<FormState>();
+  ProfileModel profileModel = ProfileModel(
+    id: '',
+    username: '',
+    fullname: '',
+    DOB: '',
+    professor: '',
+    influencer: '',
+    bio: '',
+    img: '',
+    pinned: '',
+    notification: [],
+    saveproduct: [],
+    favorite: [],
+    listfollower: [],
+    listfollowing: [],
+  );
+
 
   @override
   void initState() {
@@ -29,6 +58,16 @@ class _AccountState extends State<Account> {
       });
     });
     super.initState();
+    fetchData();
+  }
+
+  @override
+  void fetchData() async{
+    var response = await networkHandler.get("/profile/getData/test3");
+    setState(() {
+      profileModel = ProfileModel.fromJson(response["data"]);
+      circular = false;
+    });
   }
 
   @override
@@ -72,14 +111,12 @@ class _AccountState extends State<Account> {
                     padding: const EdgeInsets.only(top: 13, left: 0 ),
                     child: Center(
                       child: Inter(
-                          text: "Account",
+                          text: "Personal Information",
                           size: 18,
                           color: c.blackMain,
                           fontWeight: f.semiBold),
                     ),
                   ),
-
-
                 ],
               ),
             ),
@@ -96,74 +133,100 @@ class _AccountState extends State<Account> {
               child: ListView(
                 padding: const EdgeInsets.only(top: 20,right: 30,left: 30),
                 children: <Widget>[
-                    Column(
+                  Column(
                     children: [
-                        InkWell(
-                          onTap: (){
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => PersonalInformation()));
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
-                            child: Row(
+                      Container(
+                          width: double.infinity,
+                          height: 70,
+                          child:
+                          Align(
+                            alignment: Alignment.topCenter,
+                            child:Text(
+                              "Provide your personal information, even if the account is used for a business, a pet or something else. This won't be part of your public profile.",
+                              style: TextStyle(fontSize: 12,height: 1.5),
+                            ),
+                          ),
+                      ),
+                      Divider(
+                        color: c.greyMain,
+                        thickness: 0.5,
+                        height: 0,
+                      ),
+                      SizedBox(height: 10),
+                      InkWell(
+                        onTap: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditPage()));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
+                          child: Container(
+                            child:Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15),
-                                  child: Inter(
-                                      text: "Personal information",
-                                      size: 17,
-                                      color: c.blackMain,
-                                      fontWeight: f.medium),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Inter(
+                                        text: "fullname",
+                                        size: 12,
+                                        color: c.greySub,
+                                        fontWeight: f.medium
+                                    ),
+                                    SizedBox(height: 10),
+                                    Inter(
+                                       text: profileModel.fullname,
+                                       size: 16,
+                                       color: c.blackMain,
+                                       fontWeight: f.medium
+                                    ),
+                                  ],
                                 ),
-                                Expanded(child: Container(),),
+                                Expanded(child: Container()),
                                 Icon(Icons.arrow_forward_ios_outlined,
                                     size: 18, color: c.greyMain),
                               ],
-                            ),
+                            ) ,
                           ),
                         ),
-                        InkWell(
-                          onTap: (){},
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
-                            child: Container(
-                              child:Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 17),
-                                    child: Inter(
-                                        text: "Link with Social Account",
+                      ),
+                      SizedBox(height: 10),
+                      Divider(
+                        color: c.greyMain,
+                        thickness: 0.5,
+                        height: 0,
+                      ),
+                      SizedBox(height: 10),
+                      InkWell(
+                        onTap: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditPage()));
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
+                          child: Container(
+                            child:Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Inter(
+                                        text: "username",
+                                        size: 12,
+                                        color: c.greySub,
+                                        fontWeight: f.medium
+                                    ),
+                                    SizedBox(height: 10),
+                                    Inter(
+                                        text: profileModel.username,
                                         size: 16,
                                         color: c.blackMain,
-                                        fontWeight: f.medium),
-                                  ),
-                                  Expanded(child: Container()),
-                                  Icon(Icons.arrow_forward_ios_outlined,
-                                      size: 18, color: c.greyMain),
-                                ],
-                              ) ,
-                            ),
-                          ),
-                        ),
-                      InkWell(
-                        onTap: (){},
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
-                          child: Container(
-                            child:Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15),
-                                  child: Inter(
-                                      text: "Switch to professional account",
-                                      size: 16,
-                                      color: c.blueMain,
-                                      fontWeight: f.medium),
+                                        fontWeight: f.medium
+                                    ),
+                                  ],
                                 ),
                                 Expanded(child: Container()),
                                 Icon(Icons.arrow_forward_ios_outlined,
@@ -173,8 +236,17 @@ class _AccountState extends State<Account> {
                           ),
                         ),
                       ),
+                      SizedBox(height: 10),
+                      Divider(
+                        color: c.greyMain,
+                        thickness: 0.5,
+                        height: 0,
+                      ),
+                      SizedBox(height: 10),
                       InkWell(
-                        onTap: (){},
+                        onTap: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditPage()));
+                        },
                         child: Padding(
                           padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
                           child: Container(
@@ -182,13 +254,24 @@ class _AccountState extends State<Account> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15),
-                                  child: Inter(
-                                      text: "Add new professional account",
-                                      size: 16,
-                                      color: c.blueMain,
-                                      fontWeight: f.medium),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Inter(
+                                        text: "Date of birth",
+                                        size: 12,
+                                        color: c.greySub,
+                                        fontWeight: f.medium
+                                    ),
+                                    SizedBox(height: 10),
+                                    Inter(
+                                        text: profileModel.DOB,
+                                        size: 16,
+                                        color: c.blackMain,
+                                        fontWeight: f.medium
+                                    ),
+                                  ],
                                 ),
                                 Expanded(child: Container()),
                                 Icon(Icons.arrow_forward_ios_outlined,
@@ -198,30 +281,11 @@ class _AccountState extends State<Account> {
                           ),
                         ),
                       ),
-                      InkWell(
-                        onTap: (){},
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
-                          child: Container(
-                            child:Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 15),
-                                  child: Inter(
-                                      text: "Delete Accout",
-                                      size: 16,
-                                      color: c.redMain,
-                                      fontWeight: f.medium),
-                                ),
-                                Expanded(child: Container()),
-                                Icon(Icons.arrow_forward_ios_outlined,
-                                    size: 18, color: c.greyMain),
-                              ],
-                            ) ,
-                          ),
-                        ),
+                      SizedBox(height: 10),
+                      Divider(
+                        color: c.greyMain,
+                        thickness: 0.5,
+                        height: 0,
                       ),
                     ],
                   ),
@@ -551,6 +615,5 @@ class _AccountState extends State<Account> {
       ],
     );
   }
-
 
 }
