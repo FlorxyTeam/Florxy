@@ -221,7 +221,7 @@ class _IngredientCheckerState extends State<IngredientChecker> {
                         ),
                       ),
                       SizedBox(height: 3),
-                      PoppinsLeft_Crop(text: product.id!, size: 13, color: c.textBlack, fontWeight: f.semiBold),
+                      PoppinsLeft_Crop(text: product.p_name, size: 13, color: c.textBlack, fontWeight: f.semiBold),
                       SizedBox(height: 10),
                       Roboto_Crop(text: product.p_desc, size: 12, color: c.greySub, fontWeight: f.regular),
                       SizedBox(height: 10),
