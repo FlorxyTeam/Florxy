@@ -28,6 +28,7 @@ class PostProvider extends ChangeNotifier {
   List<dynamic>? searchPost;
   List<dynamic>? searchUser;
   List<dynamic>? searchProduct;
+  List<dynamic>? report;
 
 
 
@@ -321,6 +322,22 @@ class PostProvider extends ChangeNotifier {
     searchProduct = parsedProduct["getProduct"];
     print("getProduct");
     print(searchProduct);
+  }
+
+  Future fetchReport(String idPost) async{
+    // var id = await storage.read(key: 'idPost');
+    // print(id);
+    String? token = await storage.read(key:"token");
+    final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/home/getReport/"+idPost);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization":"Bearer $token"},
+    );
+    final Map parsedReport = await json.decode(response.body.toString());
+
+    report = parsedReport["report"];
+    // print('comment');
+    // print(comment);
   }
 
 

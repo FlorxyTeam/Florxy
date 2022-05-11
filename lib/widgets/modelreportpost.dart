@@ -27,7 +27,7 @@ class ModalBottomSheetPost {
             child: Container(
               child: Padding(
                 padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-                child: _buildBottomNavigationMenu(context, post_username, my_username),
+                child: _buildBottomNavigationMenu(context, post_username, my_username, idpost),
               ),
               decoration: BoxDecoration(
                   color: Theme.of(context).canvasColor,
@@ -40,7 +40,7 @@ class ModalBottomSheetPost {
   }
 }
 
-Column _buildBottomNavigationMenu(context, String post_username, String my_username) {
+Column _buildBottomNavigationMenu(context, String post_username, String my_username, String idpost) {
   return Column(
     children: [
       Container(
@@ -108,8 +108,7 @@ Column _buildBottomNavigationMenu(context, String post_username, String my_usern
               fontWeight: f.semiBold),
           onTap: () async {
             // Future.delayed(Duration(microseconds: 0));
-            closeDialog(context);
-            await Navigator.of(context).push(_createRoute());
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReportPage(my_username: my_username, idpost: idpost,)));
           },
         ),
         decoration: BoxDecoration(
@@ -125,24 +124,6 @@ void closeDialog(context) {
   Navigator.of(context).pop();
 }
 
-//Edit
-Route _createRoute() {
-  return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => const ReportPage(),
-    transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      const begin = Offset(0.0, 1.0);
-      const end = Offset.zero;
-      const curve = Curves.ease;
-
-      var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-      return SlideTransition(
-        position: animation.drive(tween),
-        child: child,
-      );
-    },
-  );
-}
 
 
 

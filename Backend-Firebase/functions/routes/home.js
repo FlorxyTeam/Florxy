@@ -5,6 +5,7 @@ const Profile = require("../models/profile.model");
 const Post = require("../models/post.model");
 const Product = require("../models/product.model");
 const Comment = require("../models/comment.model");
+const Report = require("../models/report.model");
 const multer = require("multer");
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -310,5 +311,32 @@ router.route("/getPost/viewPost/:id/:product")
         }
       });
     });
+
+    router.route("/report").post((req, res) => {
+          const report = Report({
+            username: req.body.username,
+            mainpost: req.body.mainpost,
+            body: req.body.body,
+            type: req.body.type,
+          });
+          report
+            .save()
+            .then(() => {
+              return res.json("add report successfull");
+            })
+            .catch((err) => {
+              return res.status(400).json({ err: err });
+            });
+        });
+
+        router.route("/getReport/:id").get((req,res)=>{
+              Report.find({mainpost:req.params.id}).exec(function(err,findReport) {
+                  if(err){
+                    return res.json(err);
+                  } else {
+                    return res.send({ report: findReport , countReport: findReport.length });
+                  }
+              });
+            });
 
 module.exports = router;

@@ -85,6 +85,24 @@ router.route("/getUsername/:email").get((req, res) => {
   });
 });
 
+router.route("/getEmail/:username").get(middleware.checkToken, (req, res) => {
+  console.log(req.params.username)
+    User.findOne({ username: req.params.username }, (err, result) => {
+      if (err) return res.json({ err: err });
+      if (result == null) return res.json({ data: [] });
+      else return res.json({ data: result });
+    });
+});
+
+router.route("/getEmail").get(middleware.checkToken, (req, res) => {
+  console.log(req.decoded.username)
+  User.findOne({ username: req.decoded.username }, (err, result) => {
+    if (err) return res.json({ err: err });
+    if (result == null) return res.json({ data: [] });
+    else return res.json({ data: result });
+  });
+});
+
 router.route("/register").post((req, res) => {
   console.log("inside the register");
   const user = new User({
