@@ -195,7 +195,7 @@ class _SearchPostState extends State<SearchPost> {
             ),
             actions: [
               Padding(
-                padding: EdgeInsets.only(top: 20, left: 5, right: 10),
+                padding: EdgeInsets.only(top: 20, left: 5, right: 25),
                 child: Container(
                   width: MediaQuery.of(context).size.width-90,
                   child: TextField(
@@ -384,7 +384,6 @@ class _SearchPostState extends State<SearchPost> {
                               comment: 0,
                               urlImage: model.searchPost![index]['coverImage'],
                               id: model.searchPost![index]['_id'],
-                              // query : query,
                             )
                                 : model.searchPost![index]['type'] == 'post'
                                 ? Post(
@@ -396,7 +395,6 @@ class _SearchPostState extends State<SearchPost> {
                               comment: 0,
                               id: model.searchPost![index]['_id'],
                               urlImage: model.searchPost![index]['coverImage'],
-                              // query : query,
                             )
                                 : Container();
                           },
@@ -430,7 +428,6 @@ class _SearchPostState extends State<SearchPost> {
                               rating: model.searchPost![index]['rating'],
                               comment: 0,
                               id: model.searchPost![index]['_id'],
-                              // query : query,
                             )
                                 : Container();
                           },

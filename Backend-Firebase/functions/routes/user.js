@@ -123,7 +123,6 @@ router.route("/getUsername/:email").get((req, res) => {
 });
 
 
-
 router.route("/register/google").post((req, res) => {
   console.log("inside the register");
   const user = new User({
