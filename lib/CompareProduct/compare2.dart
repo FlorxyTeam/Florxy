@@ -3,6 +3,7 @@ import 'package:Florxy/Model/productModel.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -62,30 +63,92 @@ class _compare2State extends State<compare2> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(
+            Theme.of(context).platform == TargetPlatform.android ? 105 : 86.0),
+        child: Container(
+
+          decoration: BoxDecoration(
+            color: Colors.red,
+            boxShadow: [
+              BoxShadow(
+                color: c.shadow.withOpacity(0.32),
+                spreadRadius: -17,
+                blurRadius: 30,
+                offset: Offset(0, 6), // changes position of shadow
+              ),
+            ],
+          ),
+          child: AppBar(
+            centerTitle: false,
+            titleSpacing: 0,
+            backgroundColor: Colors.white,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(0),
+                )),
+            title: Padding(
+              padding: const EdgeInsets.only(top: 48.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+
+                  Poppins(
+                    text: "Comparing",
+                    size: 18,
+                    color: c.blackMain,
+                    fontWeight: f.semiBold,
+                  ),
+                  Poppins(
+                    text: "Products",
+                    size: 18,
+                    color: c.blackMain,
+                    fontWeight: f.semiBold,
+                  ),
+                ],
+              ),
+            ),
+            // leading: Padding(
+            //   padding: EdgeInsets.only(top: Theme.of(context).platform==TargetPlatform.android?17.5:0, left: 13),
+            //   child: IconButton(
+            //     padding: EdgeInsets.zero,
+            //     constraints: BoxConstraints(),
+            //     icon: Icon(FeatherIcons.chevronLeft),
+            //     iconSize: 34,
+            //     color: Colors.black,
+            //     onPressed: () {
+            //       Navigator.pop(context);
+            //     },
+            //   ),
+            // ),
+          ),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                children: [
-                  IconButton(
-                      icon: Icon(Icons.arrow_back_ios_new_rounded),
-                      color: c.blackMain,
-                      iconSize: 22,
-                      onPressed: () => Navigator.of(context).pop()),
-                  Padding(
-                    padding: const EdgeInsets.only(),
-                    child: Poppins(
-                      text: "Compare 2 products",
-                      color: c.blackMain,
-                      fontWeight: f.semiBold,
-                      size: 25,
-                    ),
-                  ),
-                ],
-              ),
+              // Row(
+              //   children: [
+              //     IconButton(
+              //         icon: Icon(Icons.arrow_back_ios_new_rounded),
+              //         color: c.blackMain,
+              //         iconSize: 22,
+              //         onPressed: () => Navigator.of(context).pop()),
+              //     Padding(
+              //       padding: const EdgeInsets.only(),
+              //       child: Poppins(
+              //         text: "Compare 2 products",
+              //         color: c.blackMain,
+              //         fontWeight: f.semiBold,
+              //         size: 25,
+              //       ),
+              //     ),
+              //   ],
+              // ),
               // Container(
               //   padding: EdgeInsets.only(right: 28, left: 28),
               //   width: MediaQuery.of(context).size.width,

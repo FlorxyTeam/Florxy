@@ -9,8 +9,8 @@ import 'package:Florxy/pages/productoverview.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:Florxy/NetworkHandler.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:Florxy/pages/compare1.dart';
-import 'package:Florxy/pages/compare2.dart';
+import 'package:Florxy/CompareProduct/compare1.dart';
+import 'package:Florxy/CompareProduct/compare2.dart';
 
 
 
