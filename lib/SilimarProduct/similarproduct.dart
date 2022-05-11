@@ -182,7 +182,7 @@ class _SimilarProductState extends State<SimilarProduct> {
   });
 
 
-  Widget buildProoduct(ProductModel product) => Column(
+  Widget buildProoduct(ProductModel product) => product.p_cate != '' ? Column(
     children: [
       Container(
         child: Padding(
@@ -193,7 +193,7 @@ class _SimilarProductState extends State<SimilarProduct> {
               SizedBox(width: 14),
               Center(
                 child: Container(
-                  height: 110,
+                  height: 130,
                   width: 70,
                   decoration: BoxDecoration(
                       color: Colors.transparent,
@@ -223,13 +223,15 @@ class _SimilarProductState extends State<SimilarProduct> {
                       SizedBox(height: 3),
                       PoppinsLeft_Crop(text: product.p_name, size: 13, color: c.textBlack, fontWeight: f.semiBold),
                       SizedBox(height: 10),
-                      Roboto_Crop(text: product.p_desc, size: 12, color: c.greySub, fontWeight: f.regular),
-                      SizedBox(height: 10),
+                      Roboto_Crop(text: product.p_desc, size: 12, color: c.graySub2, fontWeight: f.regular),
+                      SizedBox(height: 12),
+                      Inter(text: "See similar product in", size: 12, color: c.greenMain, fontWeight: f.semiBold),
+                      SizedBox(height: 5),
                       GestureDetector(
                         child: Align(
                           alignment: Alignment.centerRight,
                           child: Container(
-                            width: 60,
+                            // width: 60,
                             child: WhiteGreenButton(
                               text: product.p_cate.toString(),
                               size: 11,
@@ -246,7 +248,7 @@ class _SimilarProductState extends State<SimilarProduct> {
                           await storage.write(key: "similarproductID", value: product.id);
                           String? SimilarProductID = await storage.read(key: "similarproductID");
                           print('Select Similar id: '+SimilarProductID.toString());
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ResultofSimilarProduct()));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ResultofSimilarProduct(brand: product.p_brand, name: product.p_name)));
                           // Navigator.of(context).push(MaterialPageRoute(builder: (context) => cateproduct()));
                         },
                       )
@@ -272,5 +274,5 @@ class _SimilarProductState extends State<SimilarProduct> {
       ),
       SizedBox(height: 23),
     ],
-  );
+  ):Container();
 }
