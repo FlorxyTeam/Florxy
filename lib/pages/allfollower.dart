@@ -69,6 +69,7 @@ class _allFollowerState extends State<allFollower> {
     print(data);
     List staticData = data;
     return profileModel.listfollower.length == 0 ? Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.transparent,
@@ -111,47 +112,53 @@ class _allFollowerState extends State<allFollower> {
       ),
     ): Scaffold(
       body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: IconButton(
-                      icon: Icon(FeatherIcons.chevronLeft),
-                      iconSize: 34,
-                      padding: EdgeInsets.zero,
-                      constraints: BoxConstraints(),
-                      color: Colors.black,
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
+        child: Padding(
+          padding: EdgeInsets.only(
+              top: Theme.of(context).platform == TargetPlatform.android
+                  ? 18.5
+                  : 0),
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Align(
+                      alignment: Alignment.topLeft,
+                      child: IconButton(
+                        icon: Icon(FeatherIcons.chevronLeft),
+                        iconSize: 34,
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(),
+                        color: Colors.black,
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
                     ),
-                  ),
-                  Center(
-                    child: Poppins(
-                      text: "Followers",
-                      size: 18,
-                      color: c.blackMain,
-                      fontWeight: f.semiBold,
+                    Center(
+                      child: Poppins(
+                        text: "Followers",
+                        size: 18,
+                        color: c.blackMain,
+                        fontWeight: f.semiBold,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            SizedBox(height: 15),
-            ListView.builder(
-              shrinkWrap: true,
-              itemBuilder: (builder, index) {
-                Map data = staticData[index];
-                return Alias( username: "${data['username']}" );
-              },
-              itemCount: profileModel.listfollower.length,
-            ),
-          ],
+              SizedBox(height: 15),
+              ListView.builder(
+                shrinkWrap: true,
+                itemBuilder: (builder, index) {
+                  Map data = staticData[index];
+                  return Alias( username: "${data['username']}" );
+                },
+                itemCount: profileModel.listfollower.length,
+              ),
+            ],
+          ),
         ),
       ),
     );

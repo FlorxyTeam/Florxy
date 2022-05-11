@@ -46,6 +46,45 @@ router.route("/getProduct").get( (req, res) => {
   });
 });
 
+
+
+router.route("/getProductInfo/:id").get( (req, res) => {
+  Product.findOne({ _id: req.params.id }).exec(function(err, result){
+    if(err) {
+      return console.log(err);
+    } else {
+      return res.json({ product: result });
+    }
+  });
+});
+
+router.route("/getSimilarProduct/:p_cate").get( (req, res) => {
+  let x = req.params.p_cate
+//  x= x.replace('%20',' ');
+  console.log(x);
+  Product.find({ p_cate: x}).exec(function(err, result){
+    if(err) {
+      return console.log(err);
+    } else {
+      console.log(result);
+      return res.json({ product: result });
+    }
+  });
+});
+
+// router.route("/FindSimilarIng/:p_cate/:p_brand").get( (req, res) => {
+//   Product.find({ p_cate: req.params.p_cate}).exec(function(err, result){
+//     if(err) {
+//       return console.log(err);
+//     }
+//      else {
+//     Product.find({ p_brand: req.params.p_brand}).exec(function(err, result1){
+//         return res.json({ product: result1 });
+//     });
+//     }
+//   });
+// });
+
 router.route("/getIDPost/:id").get(middleware.checkToken, (req,res)=>{
   Post.findOne({ _id: req.params.id }).populate("product").exec(function(err, result){
     if(err) {
@@ -85,12 +124,12 @@ router.route("/CreatePost").post(middleware.checkToken, (req, res)=>{
   });
   createpost
       .save()
-      .then((result)=>{
-        res.json({data: result}).catch((err)=>{
-          console.log(err),
-          res.json({err: err});
-        });
-      });
+      .then((result) => {
+        return res.json({data: result});
+       })
+       .catch((err) => {
+         return res.status(400).json({err: err});
+     });
 });
 
 

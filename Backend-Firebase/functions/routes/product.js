@@ -18,6 +18,17 @@ router.route("/getProductData/:id").get(middleware.checkToken, (req, res) => {
     else return res.json({ data: result });
   });
 });
+
+router.route("/getIngredientInfo/:id").get( (req, res) => {
+  Ingredient.findOne({ _id: req.params.id }).exec(function(err, result){
+    if(err) {
+      return console.log(err);
+    } else {
+      return res.json({ ingredient: result });
+    }
+  });
+});
+
 router.route("/add/brand").post((req, res)=> {
   // eslint-disable-next-line new-cap
   Brand.find({name:req.body.name},(err, result) =>{
@@ -49,6 +60,8 @@ router.route("/add").post((req, res)=> {
     p_desc: req.body.p_desc,
     p_img: req.body.p_img,
     ing_id: req.body.ing_id,
+    p_cate: req.body.p_cate,
+
   });
   console.log("hi");
   product
@@ -206,8 +219,44 @@ router.route("/topreview/brand/:p_brand").get(middleware.checkToken, (req, res )
 //
 //
 //     });
-//});
+// });
+// Update rating
+router.route("/updaterating/:_id").patch(middleware.checkToken, (req, res ) =>{
+    let post = {};
+    let rate = 0;
+    let num = 0;
+     Post.find({product: req.params._id, type:"review" } ).sort({rating: -1}).exec(function(err, result){
+        if(err) {
+            res.status(500).json({msg: err});
+        }else{
+            post = result;
+            console.log(post);
+             for(i=0;i < post.length;i++){
+                rate = rate + parseFloat(post[i].rating);
+//                console.log(post[0].rating);
+                num = num+1
+             }
+             rate = rate/post.length;
+             console.log(rate);
+             products.findOneAndUpdate(
+                    {_id: req.params._id},
+                    {
+                     $set: {
+                         rating: rate,
+                         numReview: num,
+                     },
+                    },
+                     { new: true },
+                        (err, result) => {
+                          if (err) return res.json({ err: err });
+                          if (result == null) return res.json({ data: [] });
+                          else return res.json({ data: result });
+                    }
+                  );
+        }
+     });
 
+});
 
 
 router.route("/post/interestingreview/:_id").get(middleware.checkToken, (req, res ) =>{
@@ -355,13 +404,6 @@ router.route("/view/productoverview/:username").get(middleware.checkToken, (req,
 });
 
 
-
-//router.route("/updaterating/:id").patch(middleware.checkToken, (req, res) => {
-//       Post.find({product: req.params.id, type:"review" } ).sort({rating: -1}).exec(function(err, result){
-//            if(err) res.status(500).json({msg: err});
-//
-//         });
-//});
 
 
 module.exports = router;

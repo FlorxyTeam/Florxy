@@ -20,6 +20,7 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) {
     type: json['type'] as String?,
     createdAt: json['createdAt'] as String?,
     updatedAt: json['updatedAt'] as String?,
+    id: json['_id'] as String?,
   );
 }
 
@@ -36,4 +37,5 @@ Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
       'rating': instance.rating,
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,
+      'id': instance.id,
     };

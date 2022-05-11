@@ -141,6 +141,54 @@ class Inter_Crop extends StatelessWidget {
   }
 }
 
+class Inter_Crop2 extends StatelessWidget {
+  final double size;
+  final double? letterSpacing;
+  final String text;
+  final Color color;
+  final FontWeight fontWeight;
+  final FontStyle? fontStyle;
+
+  Inter_Crop2({Key? key, required this.text,required this.size,required this.color, this.fontStyle = FontStyle.normal, required this.fontWeight, this.letterSpacing}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(text,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 2,
+        style: GoogleFonts.inter(
+            textStyle: TextStyle(
+                color: color,
+                fontSize: size,
+                fontWeight: fontWeight,
+                letterSpacing: letterSpacing)));
+  }
+}
+
+class Inter_Crop3 extends StatelessWidget {
+  final double size;
+  final double? letterSpacing;
+  final String text;
+  final Color color;
+  final FontWeight fontWeight;
+  final FontStyle? fontStyle;
+
+  Inter_Crop3({Key? key, required this.text,required this.size,required this.color, this.fontStyle = FontStyle.normal, required this.fontWeight, this.letterSpacing}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(text,
+        overflow: TextOverflow.ellipsis,
+        maxLines: 3,
+        style: GoogleFonts.inter(
+            textStyle: TextStyle(
+                color: color,
+                fontSize: size,
+                fontWeight: fontWeight,
+                letterSpacing: letterSpacing)));
+  }
+}
+
 class Inter_1 extends StatelessWidget {
   final double size;
   final double? letterSpacing;

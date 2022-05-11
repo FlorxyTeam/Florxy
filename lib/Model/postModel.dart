@@ -1,3 +1,5 @@
+// import 'dart:ffi';
+
 import 'package:json_annotation/json_annotation.dart';
 part 'postModel.g.dart';
 
@@ -15,6 +17,7 @@ class PostModel {
   String? rating;
   String? createdAt;
   String? updatedAt;
+  String? id;
   PostModel({this.body,
              this.comment,
              this.favorite,
@@ -26,7 +29,8 @@ class PostModel {
              this.coverImage,
              this.type,
              this.createdAt,
-             this.updatedAt});
+             this.updatedAt,
+             this.id});
 
   factory PostModel.fromJson(Map<String, dynamic> json) =>
       _$PostModelFromJson(json);
