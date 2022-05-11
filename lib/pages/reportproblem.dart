@@ -185,8 +185,7 @@ class _ReportProblemState extends State<ReportProblem> {
                             setState(() {
 
                             });
-                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute
-                              (builder: (context)=>Help()), (route) => false);
+                            Navigator.pop(context);
                           },
                           child: GreyButton(
                             text: 'SUBMIT',

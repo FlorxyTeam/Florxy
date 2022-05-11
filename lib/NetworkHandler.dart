@@ -18,10 +18,10 @@ class NetworkHandler {
   // String baseurl = "http://192.168.2.33:1050"; //deuan
 
 
-  String baseurl = "http://192.168.2.48:8080"; //Leo
+  //String baseurl = "http://192.168.2.48:8080"; //Leo
   // String baseurl = "http://192.168.1.13:8080"; //Frank
 
-  // String baseurl = "http://192.168.1.101:8080"; //Ake
+   String baseurl = "http://192.168.1.101:8080"; //Ake
 
   var log = Logger();
 
