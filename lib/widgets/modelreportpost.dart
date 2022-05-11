@@ -232,8 +232,12 @@ class _ListMenuState extends State<ListMenu> {
                                         Map<String, String> data2 = {
                                           "pinPost" : widget.idpost!
                                         };
+                                        Map<String, String> data3 = {
+                                          "pinPost" : widget.idpost!
+                                        };
                                         await networkHandler.post("/profile/deletePinned/" + widget.my_username!, data2);
                                         await networkHandler.post("/profile/deletepost",data);
+
                                         fetchdata();
                                         Navigator.of(context).pop();
                                       },

@@ -1713,7 +1713,7 @@ class _PostState extends State<Post> {
           influencer: influencer,
           comment: comment!,
           favorite: countFav,
-          type: "type",
+          type: "post",
         ))).then((value) {
           fetchComment();
         });

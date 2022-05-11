@@ -100,22 +100,12 @@ class _SearchPostState extends State<SearchPost> {
                 borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(26),
                 )),
-            leading: Padding(
-              padding: EdgeInsets.only(top: 17.5, left: 15),
-              child: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                icon: Icon(
-                  Icons.arrow_back_ios_new,
-                  size: 25,
-                  color: c.blackMain,
-                ),
-              ),
-            ),
+
             actions: [
               Padding(
-                padding: EdgeInsets.only(top: 20, left: 5, right: 10),
+                padding: EdgeInsets.only(top: 20, left: 10, right: 10),
                 child: Container(
-                  width: MediaQuery.of(context).size.width-90,
+                  width: MediaQuery.of(context).size.width-50,
                   child: TextField(
                       controller: controller,
                       decoration: InputDecoration(
@@ -126,7 +116,7 @@ class _SearchPostState extends State<SearchPost> {
                           padding: const EdgeInsets.only(right: 2, left: 12),
                           child: Icon(Icons.search_rounded, size: 23, color: c.blackSub2),
                         ),
-                        hintText: "Search Post",
+                        hintText: "Search Anything",
                         hintStyle: TextStyle(
                             fontSize: 14.5,
                             color: c.greyMain,
@@ -180,64 +170,48 @@ class _SearchPostState extends State<SearchPost> {
                 borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(0),
                 )),
-            leading: Padding(
-              padding: EdgeInsets.only(
-                  top: Theme.of(context).platform == TargetPlatform.android
-                      ? 17.5
-                      : 0,
-                  left: 15),
-              child: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                icon: Icon(
-                  Icons.arrow_back_ios_new,
-                  size: 25,
-                  color: c.blackMain,
+            title:Padding(
+              padding: EdgeInsets.only(top: 20, left: 10, right: 10,bottom: 10),
+              child: Container(
+                width: MediaQuery.of(context).size.width-10,
+                child: TextField(
+                    controller: controller,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: c.searchbar,
+                      contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.only(right: 2, left: 12),
+                        child: Icon(Icons.search_rounded, size: 23, color: c.blackSub2),
+                      ),
+                      hintText: "Search Anything!",
+                      hintStyle: TextStyle(
+                          fontSize: 14.5,
+                          color: c.greyMain,
+                          fontWeight: f.medium),
+                      border: InputBorder.none,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                        borderSide: BorderSide(
+                            color: c.graySub2.withOpacity(0), width: 2),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                        borderSide: BorderSide(
+                            color: c.graySub2.withOpacity(0), width: 2),
+                      ),
+                    ),
+                    onSubmitted: (String start){
+                      setState((){
+                        query = start;
+                        print(start);
+                        print(query);
+                      });
+                    }
                 ),
               ),
             ),
-            actions: [
-              Padding(
-                padding: EdgeInsets.only(top: 20, left: 5, right: 25),
-                child: Container(
-                  width: MediaQuery.of(context).size.width-90,
-                  child: TextField(
-                      controller: controller,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: c.searchbar,
-                        contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.only(right: 2, left: 12),
-                          child: Icon(Icons.search_rounded, size: 23, color: c.blackSub2),
-                        ),
-                        hintText: "Search Post",
-                        hintStyle: TextStyle(
-                            fontSize: 14.5,
-                            color: c.greyMain,
-                            fontWeight: f.medium),
-                        border: InputBorder.none,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-                          borderSide: BorderSide(
-                              color: c.graySub2.withOpacity(0), width: 2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-                          borderSide: BorderSide(
-                              color: c.graySub2.withOpacity(0), width: 2),
-                        ),
-                      ),
-                      onSubmitted: (String start){
-                        setState((){
-                          query = start;
-                          print(start);
-                          print(query);
-                        });
-                      }
-                  ),
-                ),
-              ),
-            ],
+
             bottom: PreferredSize(
                 child: query == "" ? Container(
                 ):Container(

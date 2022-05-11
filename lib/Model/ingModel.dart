@@ -12,11 +12,13 @@ class IngModel {
   String cosing;
   String detail;
   List func;
+  List proof;
 
 
   IngModel({
     required this.name,
     required this.func,
+    required this.proof,
     required this.rate,
     required this.calling,
     required this.irr,
