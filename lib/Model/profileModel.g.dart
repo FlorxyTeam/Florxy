@@ -8,7 +8,7 @@ part of 'profileModel.dart';
 
 ProfileModel _$ProfileModelFromJson(Map<String, dynamic> json) {
   return ProfileModel(
-    id: json['_id'] as String?,
+    id: json['id'] as String?,
     username: json['username'] as String,
     fullname: json['fullname'] as String,
     DOB: json['DOB'] as String,

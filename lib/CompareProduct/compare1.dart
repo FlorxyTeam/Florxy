@@ -1,3 +1,4 @@
+import 'package:Florxy/Model/mentionProductModel.dart';
 import 'package:Florxy/Model/productModel.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
@@ -13,19 +14,38 @@ import '../postProvider.dart';
 
 class compare1 extends StatefulWidget {
   String? id1, id2, id3;
-  compare1({Key? key, this.id2, this.id1, this.id3}) : super(key: key);
+  List<MentionProductModel>? product;
+  compare1({Key? key, this.id2, this.id1, this.id3, this.product}) : super(key: key);
 
   @override
   _compare1State createState() => _compare1State();
 }
 
 class _compare1State extends State<compare1> {
-
+  List<MentionProductModel> compare3 = [];
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   @override
   void fetchData() async {
-    await networkHandler.get("/product/compare/" + widget.id1!+"/"+widget.id2!+"/" +widget.id3!);
+    setState(() {
+      compare3 = widget.product!;
+    });
+    var i = 0;
+    var l = 1 ;
+    for(i = 0; i < compare3.length; i++){
+      print(compare3[i].id);
+      if( compare3[i].id != null){
+        await storage.write(key: "p_id${l}", value: compare3[i].id);
+        print(compare3[i].id);
+        l = l+1;
+      }
+
+
+    }
+    var p1 = await storage.read(key: "p_id1");
+    var p2 = await storage.read(key: "p_id2");
+    var p3 = await storage.read(key: "p_id3");
+    await networkHandler.get("/product/compare3/" + p1!+"/"+p2!+"/" +p3!);
 
   }
 
@@ -100,12 +120,12 @@ class _compare1State extends State<compare1> {
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) =>
                               buildCard_brand_Mention(
-                                  model.com3![index]['p_name'],
-                                  model.com3![index]['p_img'],
-                                  model.com3![index]['_id'],
-                                  model.com3![index]['mention'],
-                                  model.com3![index]['p_brand'],
-                                  model.com3![index]['ing_name']
+                                model.com3![index]['p_name'],
+                                model.com3![index]['p_img'],
+                                model.com3![index]['_id'],
+
+                                model.com3![index]['p_brand'],
+
                               ),
                         ),
                       ),
@@ -124,7 +144,7 @@ class _compare1State extends State<compare1> {
     );
   }
 
-  Widget buildCard_brand_Mention(String p_name, String p_img, String id, int mention, String p_brand, List ing_name) =>
+  Widget buildCard_brand_Mention(String p_name, String p_img, String id,  String p_brand) =>
       Container(
         width: MediaQuery.of(context).size.width * 0.41,
         // height: MediaQuery.of(context).size.height ,
@@ -140,9 +160,9 @@ class _compare1State extends State<compare1> {
                   // height: MediaQuery.of(context).size.height,
                   decoration: BoxDecoration(
 
-                        border: Border.all( color: c.greyMain,
-                          width: 0.4,
-                        ),
+                    border: Border.all( color: c.greyMain,
+                      width: 0.4,
+                    ),
 
                     color: Colors.white,
 
@@ -196,7 +216,7 @@ class _compare1State extends State<compare1> {
                           padding: const EdgeInsets.only(top: 5, left: 7),
                           width: MediaQuery.of(context).size.width * 0.34,
                           child: Text(
-                             p_name,
+                            p_name,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.poppins(
@@ -225,21 +245,21 @@ class _compare1State extends State<compare1> {
                               removeBottom: true,
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: ListView.builder(
-                                  itemCount: ing_name.length,
-                                  itemBuilder: (context,int index){
-
-                                    return Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Roboto(text: ing_name[index], size: 13, color: Color(0xFF053118).withOpacity(0.8), fontWeight:f.regular),
-                                        SizedBox(height: 10)
-                                      ],
-                                    );
-                                  },
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                ),
+                                // child: ListView.builder(
+                                //   itemCount: ing_name.length,
+                                //   itemBuilder: (context,int index){
+                                //
+                                //     return Column(
+                                //       crossAxisAlignment: CrossAxisAlignment.start,
+                                //       children: [
+                                //         Roboto(text: ing_name[index], size: 13, color: Color(0xFF053118).withOpacity(0.8), fontWeight:f.regular),
+                                //         SizedBox(height: 10)
+                                //       ],
+                                //     );
+                                //   },
+                                //   shrinkWrap: true,
+                                //   physics: NeverScrollableScrollPhysics(),
+                                // ),
                               ),
                             ),
                           ),
