@@ -59,7 +59,7 @@ class _ScrapState extends State<Scrap> {
         }
           Map<String, dynamic> data = {
             "p_name": x.p_name,
-            "p_brand": x.p_brand,
+            "p_brand": "Clinique",
             "p_desc": x.p_desc,
             "p_img": x.p_img,
             "ing_id" : ingList,
@@ -84,9 +84,9 @@ class _ScrapState extends State<Scrap> {
   }
 
   Future<List> product() async{
-    results = await Scraper.getData2('anua');
+    results = await Scraper.getData2('clinique');
     Map<String, dynamic> data = {
-      "name": 'Anua',
+      "name": 'Clinique',
     };
 
     var response = await networkHandler.postO("/product/add/brand",data);

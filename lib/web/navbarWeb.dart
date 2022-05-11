@@ -4,6 +4,7 @@ import 'package:Florxy/pages/homepage.dart';
 import 'package:Florxy/pages/notificationpage.dart';
 import 'package:Florxy/pages/profilepage.dart';
 import 'package:Florxy/pages/searchpage.dart';
+import 'package:Florxy/web/adminWeb.dart';
 // import 'package:custom_navigation_bar/custom_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -29,22 +30,36 @@ class NavbarWeb extends StatefulWidget {
 }
 
 class _NavbarWebState extends State<NavbarWeb> {
-  List pages = [HomePageWeb(), SearchPage(), laboratory(),NotificationPage(), ProfilePage()];
+  List pages = [HomePageWeb(), AdminWeb(), laboratory(),NotificationPage(), ProfilePage()];
   int _currentIndex = 0;
+  bool isAdmin = false;
+  String creator = "";
   NetworkHandler networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
 
   void initState() {
     // TODO: implement initState
     super.initState();
-    fetchData();
     _currentIndex = widget.currentState;
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      print("WidgetsBinding");
+      await storage.write(key: "id", value: "hi");
+      print(await storage.read(key:"hi"));
+      fetchData();
+
+      // print(results);
+    });
+
   }
   void fetchData() async{
     var response = await networkHandler.get("/profile/getData");
     await storage.write(key: "id", value: response['data']['_id']);
     await storage.write(key: "username", value: response['data']['username']);
     await storage.write(key: "myfullname", value: response['data']['fullname']);
+    creator = response['data']['influencer'];
+    print("here");
+    print(creator);
+    isAdmin = creator.contains("Brand Owner")?true:false;
   }
 
   @override
@@ -96,7 +111,7 @@ class _NavbarWebState extends State<NavbarWeb> {
                             color:
                                 _currentIndex == 0 ? c.greenMain : Colors.black,
                         )),
-                    Container(
+                    isAdmin?Container(
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
@@ -115,10 +130,10 @@ class _NavbarWebState extends State<NavbarWeb> {
                                 _currentIndex = 1;
                               });
                             },
-                            icon: Icon(Boxicons.bx_search),
+                            icon: Icon(Boxicons.bxs_dashboard),
                             iconSize: 25,
                             color:
-                                _currentIndex == 1 ? c.greenMain : Colors.black,)),
+                                _currentIndex == 1 ? c.greenMain : Colors.black,)):Container(),
                     Container(
                         width: 40,
                         height: 40,
