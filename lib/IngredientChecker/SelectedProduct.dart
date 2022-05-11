@@ -277,22 +277,19 @@ class _SelectedProductState extends State<SelectedProduct> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.only(
-            top: Theme.of(context).platform == TargetPlatform.android ? 18.5 : 0,
-            left: 20,
-            right: 20,
-        ),
-
+        padding: const EdgeInsets.symmetric(horizontal: 23),
         child: Loading?
         Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            SizedBox(height: 15),
             Poppins(
               text: "Benefit",
               size: 22,
               color: c.blackMain,
               fontWeight: f.semiBold,
             ),
-            SizedBox(height: 23),
+            SizedBox(height: 15),
             checkFight_Acne?Fight_Acne_Blog():Text('False'),
             checkBrightening?Text('BT'):Text('False'),
             checkMoisturizer?Text('MT'):Text('False'),
@@ -309,20 +306,36 @@ class _SelectedProductState extends State<SelectedProduct> {
     );
   }
 
+  Widget list_product(String ing) {
+    return Container(
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Inter(text: ing, size: 15, color: Colors.black, fontWeight: f.semiBold),
+                Expanded(child: Container()),
+                Icon(FeatherIcons.chevronRight , size: 22),
+              ],
+            ),
+            SizedBox(height: 15),
+          ],
+        )
+    );
+  }
+
   Widget Fight_Acne_Blog(){
     return Container(
       child: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20, top: 18,bottom: 18),
+        padding: const EdgeInsets.only(left: 24, right: 24, top: 24,bottom: 9),
         child: Column(
           children: [
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(width: 14),
                 Center(
                   child: Container(
-                    height: 110,
-                    width: 70,
+                    height: 35,
+                    width: 55,
                     decoration: BoxDecoration(
                         color: Colors.transparent,
                         image: DecorationImage(
@@ -332,49 +345,31 @@ class _SelectedProductState extends State<SelectedProduct> {
                     ),
                   ),
                 ),
-                SizedBox(width: 20 ),
-                Expanded(
-                  child: Container(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        PoppinsLeft_Crop(text: 'Anti Acne', size: 20, color: c.textBlack, fontWeight: f.semiBold),
-                        SizedBox(height: 10),
-                      ],
-                    ),
-                  ),
-                ),
+                SizedBox(width: 10 ),
+                PoppinsLeft_Crop(text: 'Anti Acne', size: 18, color: c.textBlack, fontWeight: f.semiBold),
               ],
             ),
-            Row(children: [
-              Expanded(
-                child: Container(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Roboto_Crop(text: 'Nice ingredients that help you to fight against acne. They are also often antibacterial and/or anti-inflammatory agents.', size: 12, color: c.greySub, fontWeight: f.regular),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-            ],
-            ),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Text(Fight_Acne[0]),
-              ],
-            ),
-            // ListView.builder(
-            //   itemCount: Fight_Acne.length,
-            //   shrinkWrap: true,
-            //   itemBuilder: (context, index) {
-            //     return ListTile(
-            //       title: Text(Fight_Acne[index]),
-            //     );
-            //   },
+            SizedBox(height: 15),
+            Roboto(text: 'Nice ingredients that help you to fight against acne. They are also often antibacterial and/or anti-inflammatory agents.', size: 13, color: c.graySub2, fontWeight: f.regular),
+            SizedBox(height: 15),
+            // Row(
+            //   children: [
+            //     Text(Fight_Acne[0]),Text(Fight_Acne[index]),
+            //   ],
             // ),
+            MediaQuery.removePadding(
+              context: context,
+              removeTop: true,
+              removeBottom: true,
+              child: ListView.builder(
+                itemCount: Fight_Acne.length,
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  return list_product(Fight_Acne[index]);
+                },
+              ),
+            ),
           ],
         ),
       ),
