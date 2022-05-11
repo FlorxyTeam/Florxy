@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:Florxy/CompareProduct/compare1.dart';
 import 'package:Florxy/CompareProduct/compare2.dart';
 import 'package:Florxy/pages/comparepage.dart';
-import 'package:Florxy/pages/productoverview.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -258,7 +257,7 @@ class _AllProductofbrandState extends State<AllProductofbrand> {
     onTap: (){
       Navigator.of(context).push(MaterialPageRoute(
           builder: (context) =>
-              ProductOverview(id: product.id )));
+              comparepage(id: product.id, currentState: 0)));
     },
     child: Column(
       children: [

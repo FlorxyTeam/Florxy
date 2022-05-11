@@ -6,7 +6,6 @@ const multer = require("multer");
 const path = require("path");
 const e = require("express");
 const req = require("express/lib/request");
-const Product = require("../models/brand.model");
 
 router.route("/add").post((req,res)=> {
   const product = Product({

@@ -1,5 +1,6 @@
 import 'package:Florxy/Model/mentionProductModel.dart';
 import 'package:Florxy/Model/productModel.dart';
+import 'package:Florxy/Model/productModel2.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
@@ -28,13 +29,30 @@ class _compare2State extends State<compare2> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
 
+  ProModel productModel2 = ProModel(
+      id: '',
+      p_name: '',
+      p_brand:'',
+      p_desc: '',
+      p_cate:'',
+      p_img:'',
+      ing_id: [],
+      rating: 0,
+      numReview: 0
+  );
 
+  @override
+  void initState() {
+    fetchData();
+    // Provider.of<PostProvider>(context, listen: false).fetchCompare2();
+    // TODO: implement initState
+    super.initState();
+
+  }
   @override
   void fetchData() async {
     setState(() {
       compare2 = widget.product2!;
-
-
     });
     var i = 0;
     var l = 1;
@@ -46,23 +64,18 @@ class _compare2State extends State<compare2> {
         l = l+1;
       }
 
-
     }
     var p1 = await storage.read(key: "p_id1");
     var p2 = await storage.read(key: "p_id2");
-    await networkHandler.get("/product/compare2/" + p1!+"/"+p2!);
-
-
-  }
-
-  @override
-  void initState() {
-    fetchData();
-    Provider.of<PostProvider>(context, listen: false).fetchCompare2();
-    // TODO: implement initState
-    super.initState();
+    var response = await networkHandler.get("/product/compare2/" + p1!+"/"+p2!);
+    setState(() {
+      productModel2 = ProModel.fromJson(response["product"]);
+      print(productModel2);
+    });
 
   }
+
+
 
 
   @override
@@ -127,7 +140,7 @@ class _compare2State extends State<compare2> {
                         iconSize: 20,
                         color: c.greenMain,
                         onPressed: () {
-                          showAlertDialog(context);
+                          // Navigator.pop(context);
                         },
                       ),
                     ),
@@ -169,77 +182,54 @@ class _compare2State extends State<compare2> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-
-                Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  // color: c.redMain,
-                  child: Consumer<PostProvider>(
-                    builder: (context, model, _) => FutureBuilder(
-                      future: model.fetchCompare2(),
-                      builder: (context, snapshot) => ListView.separated(
-                        padding: EdgeInsets.only(left: 28, right: 2),
-                        itemCount: model.com2?.length ?? 0,
-                        separatorBuilder: (context, _) => SizedBox(),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) =>
-                            buildCard_brand_Mention(
-                              model.com2![index]['p_name'],
-                              model.com2![index]['p_img'],
-                              model.com2![index]['_id'],
-                              model.com2![index]['p_brand'],
-                              model.com2![index]['p_desc'],
-                              model.com2![index]['p_cate'],
-                              model.com2![index]['ind_id'],
-                              model.com2![index]['rating'].toDouble(),
-                              model.com2![index]['numReview']
-
-                            ),
-                      ),
-                    ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 90,
+                    color: c.greenMain,
+                    height:MediaQuery.of(context).size.height,
                   ),
-                ),
+                ],
+              ),
 
 
 
 
 
-                // Container(
-                //   height: MediaQuery.of(context).size.height,
-                //   width: MediaQuery.of(context).size.width,
-                //   // color: c.redMain,
-                //   child: Consumer<PostProvider>(
-                //     builder: (context, model, _) => FutureBuilder(
-                //       future: model.fetchCompare2(),
-                //       builder: (context, snapshot) => ListView.separated(
-                //         padding: EdgeInsets.only(left: 28, right: 2),
-                //         itemCount: model.com2?.length ?? 0,
-                //         separatorBuilder: (context, _) => SizedBox(),
-                //         scrollDirection: Axis.horizontal,
-                //         itemBuilder: (context, index) =>
-                //             buildCard_brand_Mention(
-                //               model.com2![index]['p_name'],
-                //               model.com2![index]['p_img'],
-                //               model.com2![index]['_id'],
-                //
-                //               model.com2![index]['p_brand'],
-                //
-                //             ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
-                SizedBox(
-                  height: 5,
-                ),
+              // Container(
+              //   height: MediaQuery.of(context).size.height,
+              //   width: MediaQuery.of(context).size.width,
+              //   // color: c.redMain,
+              //   child: Consumer<PostProvider>(
+              //     builder: (context, model, _) => FutureBuilder(
+              //       future: model.fetchCompare2(),
+              //       builder: (context, snapshot) => ListView.separated(
+              //         padding: EdgeInsets.only(left: 28, right: 2),
+              //         itemCount: model.com2?.length ?? 0,
+              //         separatorBuilder: (context, _) => SizedBox(),
+              //         scrollDirection: Axis.horizontal,
+              //         itemBuilder: (context, index) =>
+              //             buildCard_brand_Mention(
+              //               model.com2![index]['p_name'],
+              //               model.com2![index]['p_img'],
+              //               model.com2![index]['_id'],
+              //
+              //               model.com2![index]['p_brand'],
+              //
+              //             ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              SizedBox(
+                height: 5,
+              ),
 
-              ],
-            ),
+            ],
           ),
         ),
       ),
@@ -248,7 +238,7 @@ class _compare2State extends State<compare2> {
 
 
 
-  Widget buildCard_brand_Mention(String p_name, String p_img, String id,  String p_brand, String p_desc, String p_cate, List ing, double rating, int numReview) =>
+  Widget buildCard_brand_Mention(String p_name, String p_img, String id,  String p_brand) =>
       Container(
         width: MediaQuery.of(context).size.width * 0.41,
         // height: MediaQuery.of(context).size.height ,
@@ -272,7 +262,7 @@ class _compare2State extends State<compare2> {
 
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 0, right: 0, top: 7, bottom: 7),
+                    padding: const EdgeInsets.only(left: 5, right: 5, top: 7, bottom: 7),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -316,7 +306,7 @@ class _compare2State extends State<compare2> {
                         ),
 
                         Container(
-                          height: 40,
+                          height: 45,
                           padding: const EdgeInsets.only(top: 5, left: 7),
                           width: MediaQuery.of(context).size.width * 0.34,
                           child: Text(
@@ -324,7 +314,7 @@ class _compare2State extends State<compare2> {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: GoogleFonts.poppins(
-                                fontSize: 12,
+                                fontSize: 14,
                                 fontWeight: f.semiBold,
                                 color: Color(0xFF0254231)),
                           ),
@@ -334,131 +324,11 @@ class _compare2State extends State<compare2> {
                         ),
                         Container(
                           padding: EdgeInsets.only(),
-                          width: MediaQuery.of(context).size.width+4,
-                          child: Divider(
-                            height: 0,
-                            color: c.greyMain,
-                            thickness: 0.4,
-                          ),
-                        ),
-                        Container(
-                          height: 105,
-                          padding: const EdgeInsets.only(top: 5, left: 7),
-                          width: MediaQuery.of(context).size.width * 0.34,
-                          child: Text(
-                            p_desc,
-                            maxLines: 5,
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                fontWeight: f.semiBold,
-                                color: Color(0xFF0254231)),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(),
                           width: MediaQuery.of(context).size.width,
                           child: Divider(
                             height: 0,
                             color: c.greyMain,
                             thickness: 0.4,
-                          ),
-                        ),
-                        Container(
-                          height: 45,
-                          padding: const EdgeInsets.only(top: 5, left: 7),
-                          width: MediaQuery.of(context).size.width * 0.34,
-                          child: Text(
-                            p_cate,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                fontWeight: f.semiBold,
-                                color: Color(0xFF0254231)),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(),
-                          width: MediaQuery.of(context).size.width+4,
-                          child: Divider(
-                            height: 0,
-                            color: c.greyMain,
-                            thickness: 0.4,
-                          ),
-                        ),
-                        Container(
-                          // height: 45,
-                          padding: const EdgeInsets.only(top: 5, left: 7),
-                          width: MediaQuery.of(context).size.width * 0.34,
-                          child: Text(
-                            "Higlight",
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                fontWeight: f.semiBold,
-                                color: Color(0xFF0254231)),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(),
-                          width: MediaQuery.of(context).size.width+4,
-                          child: Divider(
-                            height: 0,
-                            color: c.greyMain,
-                            thickness: 0.4,
-                          ),
-                        ),
-                        Container(
-                          // height: 45,
-                          padding: const EdgeInsets.only(top: 5, left: 7),
-                          width: MediaQuery.of(context).size.width * 0.34,
-                          child: Text(
-                            "Beware",
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                fontWeight: f.semiBold,
-                                color: Color(0xFF0254231)),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(),
-                          width: MediaQuery.of(context).size.width+4,
-                          child: Divider(
-                            height: 0,
-                            color: c.greyMain,
-                            thickness: 0.4,
-                          ),
-                        ),
-                        numReview !=0 ?
-                        Container(
-                          // height: 45,
-                          padding: const EdgeInsets.only(top: 5, left: 7),
-                          width: MediaQuery.of(context).size.width * 0.34,
-                          child: Text(
-                            rating.toString(),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                fontWeight: f.semiBold,
-                                color: Color(0xFF0254231)),
-                          ),
-                        ):Container(
-                          // height: 45,
-                          padding: const EdgeInsets.only(top: 5, left: 7),
-                          width: MediaQuery.of(context).size.width * 0.34,
-                          child: Text(
-                            "No review",
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                fontWeight: f.semiBold,
-                                color: Color(0xFF0254231)),
                           ),
                         ),
                         Expanded(
@@ -497,137 +367,4 @@ class _compare2State extends State<compare2> {
           ],
         ),
       );
-
-  void showAlertDialog(BuildContext context) {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Container(
-              height: 205,
-              width: 200,
-              child: Expanded(
-                child: Column(
-                  children: [
-                    // SizedBox(height: 8),
-                    Stack(
-                      alignment: Alignment.topRight,
-                      // mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Center(child: Icon(FeatherIcons.meh, size: 40, color: c.greenMain)),
-                        GestureDetector(
-                          onTap: (){
-                            Navigator.of(context).pop();
-                          },
-                          child: Align(
-                              alignment: Alignment.topRight,
-                              child: Icon(FeatherIcons.x, size: 26, color: c.blackMain)
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 5),
-                    Inter(text: "Ingredients detail", size: 15, color: c.blackMain, fontWeight: f.semiBold),
-                    SizedBox(height: 15),
-                    Center(child: Inter(text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry.", size: 13, color: c.blackMain, fontWeight: f.regular)),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 17, left: 0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-
-                          Container(
-                            width: 120,
-                            height: 35,
-                            // margin: EdgeInsets.only(top: 5, left: 5),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 5, left: 5, top: 2, bottom: 2),
-                              child: Row(
-                                children: [
-                                  Icon(FeatherIcons.smile, size: 22, color: Colors.white),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 5),
-                                    child: Inter(
-                                        text:"Magnificent",
-                                        size: 12,
-                                        color: Colors.white,
-                                        fontWeight: f.semiBold),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            decoration: BoxDecoration(
-                                color:  Color(0xFF008DDC),
-                                borderRadius: BorderRadius.circular(50)),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 5),
-                            child: Container(
-                              width: 80,
-                              height: 35,
-                              // margin: EdgeInsets.only(top: 5, left: 5),
-                              child: Padding(
-                                padding: const EdgeInsets.only(
-                                    right: 5, left: 5, top: 2, bottom: 2),
-                                child: Row(
-                                  children: [
-                                    Icon(FeatherIcons.frown, size: 25, color: Colors.white),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 5),
-                                      child: Inter(
-                                          text:"Avoid",
-                                          size: 12,
-                                          color: Colors.white,
-                                          fontWeight: f.semiBold),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              decoration: BoxDecoration(
-                                  color:  Color(0xFFFF522D),
-                                  borderRadius: BorderRadius.circular(50)),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8),
-                      child: Container(
-                        width: 94,
-                        height: 35,
-                        // margin: EdgeInsets.only(top: 5, left: 5),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              right: 5, left: 5, top: 2, bottom: 2),
-                          child: Row(
-                            children: [
-                              Icon(FeatherIcons.meh, size: 22, color: Colors.white),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 5),
-                                child: Inter(
-                                    text:"Positive",
-                                    size: 12,
-                                    color: Colors.white,
-                                    fontWeight: f.semiBold),
-                              ),
-                            ],
-                          ),
-                        ),
-                        decoration: BoxDecoration(
-                            color:  Color(0xFFFFC107),
-                            borderRadius: BorderRadius.circular(50)),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(15.0))),
-          );
-        }
-    );
-  }
 }

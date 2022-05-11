@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'pro2.dart';
+part of 'productModel2.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

@@ -1,7 +1,7 @@
 // import 'dart:ffi';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'pro2.g.dart';
+part 'productModel2.g.dart';
 
 @JsonSerializable()
 class ProModel {

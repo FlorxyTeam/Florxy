@@ -24,7 +24,7 @@ class comparepage extends StatefulWidget {
 }
 
 class _comparepageState extends State<comparepage> {
-  List pages = [];
+  List pages = [ProductOverview()];
   int _currentIndex = 0;
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
