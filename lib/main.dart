@@ -9,9 +9,12 @@ import 'package:Florxy/pages/welcomepage.dart';
 import 'package:Florxy/provider/google_sign_in.dart';
 import 'package:Florxy/red_page.dart';
 import 'package:Florxy/services/local_notification_service.dart';
+import 'package:Florxy/web/Loadingscreen-web.dart';
+import 'package:Florxy/web/welcomepage-web.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -50,6 +53,8 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   Widget page = FlorxyScreen();
+  Widget web = FlorxyScreen();
+
   final storage = new FlutterSecureStorage();
   // This widget is the root of your application.
 
@@ -65,10 +70,12 @@ class _MyAppState extends State<MyApp> {
     if(token != null){
       setState(() {
         page= FlorxyScreen();
+        web = LoadingScreenWeb();
       });
     }else{
       setState(() {
         page= WelcomePage();
+        web = WelcomePageWeb();
       });
     }
   }
@@ -77,12 +84,12 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
 
-    return MultiProvider(
+    return (kIsWeb)?MultiProvider(
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Florxy',
           theme: ThemeData(),
-          home: page,
+          home: web,
           routes: {
             "noti": (_) => Navbar(currentState: 3),
             },
@@ -91,6 +98,21 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider( create: (_) => PostProvider()),
         ChangeNotifierProvider(create: (context) => GoogleSignInProvider())
       ]
+    )
+    :MultiProvider(
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Florxy',
+          theme: ThemeData(),
+          home: page,
+          routes: {
+            "noti": (_) => Navbar(currentState: 3),
+          },
+        ),
+        providers: [
+          ChangeNotifierProvider( create: (_) => PostProvider()),
+          ChangeNotifierProvider(create: (context) => GoogleSignInProvider())
+        ]
     );
   }
 }
