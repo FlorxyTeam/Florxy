@@ -17,12 +17,11 @@ class PostProvider extends ChangeNotifier {
   List<dynamic>? listOfbrand;
   List<dynamic>? brandOverview;
   List<dynamic>? notification;
-  List<dynamic>? topmention;
   List<dynamic>? topreview;
   List<dynamic>? comment;
   List<dynamic>? profile;
   List<dynamic>? chat;
-  List<dynamic>? pro1;
+  List<dynamic>? com2;
   List<dynamic>? com3;
   List<dynamic>? interestingreview;
   List<dynamic>? searchPost;
@@ -187,7 +186,7 @@ class PostProvider extends ChangeNotifier {
     var p_id2 = await storage.read(key: 'p_id2');
     print('Compare2 '+ p_id1.toString());
     print('Compare2 '+ p_id2.toString());
-    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/compare/" + p_id1!+"/"+p_id2!);
+    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/compare2/" + p_id1!+"/"+p_id2!);
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization": "Bearer $token"},
@@ -195,7 +194,7 @@ class PostProvider extends ChangeNotifier {
 
     final Map parseBrand = await json.decode(response.body.toString());
 
-    pro1 = parseBrand["data"];
+    com2 = parseBrand["data"];
 
   }
 
@@ -209,7 +208,7 @@ class PostProvider extends ChangeNotifier {
     print('Compare3 '+ p_id2.toString());
     print('Compare3 '+ p_id3.toString());
 
-    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/compare/" + p_id1!+"/"+p_id2!+"/"+p_id3!);
+    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/compare3/" + p_id1!+"/"+p_id2!+"/"+p_id3!);
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization": "Bearer $token"},
@@ -223,21 +222,7 @@ class PostProvider extends ChangeNotifier {
 
   }
 
-  Future fetchTopmentionProduct() async {
-    print('Topmontion');
-    String? token = await storage.read(key: "token");
-    var p_brand = await storage.read(key: 'p_brand');
-    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/topmention/brand/" + p_brand!);
-    http.Response response = await httpClient.get(
-      resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
-    );
 
-    final Map parseBrand = await json.decode(response.body.toString());
-
-    topmention = parseBrand["data"];
-
-  }
 
   Future fetchTopreviewProduct() async {
     print('Topreview');
@@ -252,6 +237,7 @@ class PostProvider extends ChangeNotifier {
     final Map parseBrand = await json.decode(response.body.toString());
 
     topreview = parseBrand["data"];
+    print(topreview);
 
   }
 

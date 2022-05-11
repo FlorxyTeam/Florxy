@@ -21,7 +21,7 @@ class _Loading_RequestState extends State<Loading_Request> {
     super.initState();
     // print(isLoaded);
     Provider.of<PostProvider>(context, listen: false).fetchData().then((value) =>
-        Future.delayed(Duration(seconds: 1),(){
+        Future.delayed(Duration(seconds: 0),(){
           Navigator.of(context).pushReplacement(
               PageTransition(type: PageTransitionType.fade, child: Navbar(currentState: 0,), duration: Duration(milliseconds: 1200)));
         })

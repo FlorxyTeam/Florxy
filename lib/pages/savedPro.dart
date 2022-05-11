@@ -65,6 +65,7 @@ class _SavedProState extends State<SavedPro> {
             SizedBox(height: 10),
             ListView.builder(
               itemCount: save.length,
+              physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 Map saveProduct = save[index];

@@ -84,12 +84,12 @@ router.route("/CreatePost").post(middleware.checkToken, (req, res)=>{
   });
   createpost
       .save()
-      .then((result)=>{
-        res.json({data: result}).catch((err)=>{
-          console.log(err),
-          res.json({err: err});
-        });
-      });
+      .then((result) => {
+        return res.json({data: result});
+       })
+       .catch((err) => {
+         return res.status(400).json({err: err});
+     });
 });
 
 

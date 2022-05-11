@@ -192,7 +192,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                                 padding: const EdgeInsets.only(
                                     right: 10, left: 10, top: 5, bottom: 5),
                                 child: Inter(
-                                    text: productModel.p_brand,
+                                    text: productModel.p_brand ,
                                     size: 13,
                                     color: Colors.white,
                                     fontWeight: f.semiBold),
@@ -201,22 +201,22 @@ class _ProductOverviewState extends State<ProductOverview> {
                                   color: Color(0xFFB3E697),
                                   borderRadius: BorderRadius.circular(50)),
                             ),
-                            Row(
-                              children: [
-                                Icon(
-
-                                  Icons.remove_red_eye_outlined,
-                                  color:Color(0xFF97AFA2),
-                                  size: 16.0,
-                                ),
-                                SizedBox(width: 2,),
-                                Roboto(
-                                    text: "2500 Views this product",
-                                    size: 11,
-                                    color: Color(0xFF97AFA2),
-                                    fontWeight: f.medium),
-                              ],
-                            ),
+                            // Row(
+                            //   children: [
+                            //     Icon(
+                            //
+                            //       Icons.remove_red_eye_outlined,
+                            //       color:Color(0xFF97AFA2),
+                            //       size: 16.0,
+                            //     ),
+                            //     SizedBox(width: 2,),
+                            //     // Roboto(
+                            //     //     text: "2500 Views this product",
+                            //     //     size: 11,
+                            //     //     color: Color(0xFF97AFA2),
+                            //     //     fontWeight: f.medium),
+                            //   ],
+                            // ),
                             if(isSave == false)InkWell(
                               onTap: () async {
                                Map<String, String> data = {

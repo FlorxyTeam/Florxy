@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:Florxy/pages/compare1.dart';
+import 'package:Florxy/pages/compare2.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -91,9 +93,14 @@ class _SearchToCompareState extends State<SearchToCompare> {
                       // mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Center(child: Icon(FeatherIcons.alertTriangle, size: 74, color: c.yellowMain)),
-                        Align(
-                            alignment: Alignment.topRight,
-                            child: Icon(FeatherIcons.x, size: 26, color: c.blackMain)
+                        GestureDetector(
+                          onTap: (){
+                            Navigator.of(context).pop();
+                          },
+                          child: Align(
+                              alignment: Alignment.topRight,
+                              child: Icon(FeatherIcons.x, size: 26, color: c.blackMain)
+                          ),
                         ),
                       ],
                     ),
@@ -269,24 +276,38 @@ class _SearchToCompareState extends State<SearchToCompare> {
                     SizedBox(height: 10),
                     Padding(
                       padding: const EdgeInsets.only(left: 45, right: 45),
-                      child: num_products != 1 ? GestureDetector(
+                      child: mention.length == 2
+                          ? GestureDetector(
                         child: GreenButton(
                           text: 'COMPARE',
                           size: 14,
                           color: c.textWhite,
                           height: 50,
                         ),
-                        onTap: () async {
-                          // await storage.write(key: "mention-product", value: 'check');
-                          // await storage.write(key: "review-product", value: 'check');
-                          // Navigator.pop(context, mention);
+                        onTap: ()  {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => compare2(product2: mention )));
                         },
-                      ): GreyButton(
+                      )
+                          : mention.length == 3
+                          ? GestureDetector(
+                        child: GreenButton(
+                          text: 'COMPARE',
+                          size: 14,
+                          color: c.textWhite,
+                          height: 50,
+                        ),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => compare1(product: mention )));
+
+
+                        },
+                      )
+                          :GreyButton(
                         text: 'COMPARE',
                         size: 14,
                         color: c.textWhite,
                         height: 50,
-                      ),
+                      )
                     ),
                     SizedBox(height: 30)
                   ],

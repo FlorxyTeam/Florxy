@@ -1,3 +1,4 @@
+import 'package:Florxy/pages/AllProductofBrand.dart';
 import 'package:Florxy/pages/productoverview.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
@@ -33,7 +34,6 @@ class _BrandoverviewState extends State<Brandoverview> {
     print(widget.p_brand);
     await storage.write(key: "p_brand", value: widget.p_brand);
     await networkHandler.get("/product/brand/" + widget.p_brand!);
-    await networkHandler.get("/product/topmention/brand/" + widget.p_brand!);
     await networkHandler.get("/product/topreview/brand/" + widget.p_brand!);
     var x = await storage.read(key: "num");
     if (x == null) {
@@ -46,7 +46,7 @@ class _BrandoverviewState extends State<Brandoverview> {
     fetchData();
     // TODO: implement initState
     Provider.of<PostProvider>(context, listen: false).fetchBrandOverview();
-    Provider.of<PostProvider>(context, listen: false).fetchTopmentionProduct();
+
     Provider.of<PostProvider>(context, listen: false).fetchTopreviewProduct();
     super.initState();
   }
@@ -442,7 +442,9 @@ class _BrandoverviewState extends State<Brandoverview> {
                             model.topreview![index]['p_img'],
                             model.topreview![index]['_id'],
                             model.topreview![index]['p_desc'],
-                            model.topreview![index]['p_brand'],
+                            model.topreview![index]['p_cate'],
+                            model.topreview![index]['rating'].toDouble(),
+                            model.topreview![index]['numReview'],
                           ),
                         ),
                       ),
@@ -483,6 +485,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                             model.topreview![index]['p_img'],
                             model.topreview![index]['_id'],
                             model.topreview![index]['review'],
+
                           ),
                         ),
                       ),
@@ -493,57 +496,59 @@ class _BrandoverviewState extends State<Brandoverview> {
               SizedBox(
                 height: 10,
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8, left: 28, right: 28),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 18,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        right: 5, left: 9, top: 10, bottom: 4),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          child: Icon(
-                            Icons.border_all_rounded,
-                            color: c.blackMain,
+              GestureDetector(
+                onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllProductofbrand(p_brand: widget.p_brand)));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8, left: 28, right: 28),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height / 18,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          right: 5, left: 9, top: 10, bottom: 4),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            child: Icon(
+                              Icons.border_all_rounded,
+                              color: c.blackMain,
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Poppins(
-                            text:
-                                "All Product of " + widget.p_brand.toString(),
-                            size: 17,
-                            color: Colors.black,
-                            fontWeight: f.semiBold),
-                        Expanded(child: Container()),
-                        Container(
-                          color: Colors.white,
-                          child: InkWell(
-                            onTap: () {},
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Poppins(
+                              text:
+                                  "All Product of " + widget.p_brand.toString(),
+                              size: 17,
+                              color: Colors.black,
+                              fontWeight: f.semiBold),
+                          Expanded(child: Container()),
+                          Container(
+                            color: Colors.white,
                             child: Icon(
                               Icons.arrow_forward_ios_rounded,
                               color: c.blackMain,
                             ),
                           ),
+                        ],
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: c.shadow.withOpacity(0.32),
+                          spreadRadius: 0,
+                          blurRadius: 10,
+                          offset: Offset(0, 0), // changes position of shadow
                         ),
                       ],
                     ),
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: c.shadow.withOpacity(0.32),
-                        spreadRadius: 0,
-                        blurRadius: 10,
-                        offset: Offset(0, 0), // changes position of shadow
-                      ),
-                    ],
                   ),
                 ),
               ),
@@ -558,7 +563,7 @@ class _BrandoverviewState extends State<Brandoverview> {
   }
 
   Widget buildCard_Popular(String p_name, String p_img, String id,
-          String p_desc, String p_brand) =>
+          String p_desc, String p_brand, var rating, int numReview) =>
       Container(
         width: MediaQuery.of(context).size.width * 0.75,
         height: MediaQuery.of(context).size.height * 0.195,
@@ -657,10 +662,11 @@ class _BrandoverviewState extends State<Brandoverview> {
                                   SizedBox(
                                     height: 7,
                                   ),
+                                  numReview != 0 ?
                                   Row(
                                     children: [
                                       RatingBarIndicator(
-                                        rating: 2.75,
+                                        rating: rating,
                                         itemBuilder: (context, index) => Icon(
                                           Icons.star,
                                           color: Colors.amber,
@@ -675,13 +681,21 @@ class _BrandoverviewState extends State<Brandoverview> {
                                         padding: const EdgeInsets.only(
                                             top: 2, left: 4),
                                         child: Roboto(
-                                            text: "2.75",
+                                            text: rating.toString(),
                                             size: 14,
                                             color: Color(0xFFFFC107),
                                             fontWeight: f.semiBold),
                                       ),
                                     ],
-                                  ),
+                                  ):Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 2, left: 0),
+                                    child: Roboto(
+                                        text: "No review",
+                                        size: 14,
+                                        color: Color(0xFFFFC107),
+                                        fontWeight: f.semiBold),
+                                  )
                                 ],
                               ),
                             ),

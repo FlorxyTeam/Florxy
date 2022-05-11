@@ -9,6 +9,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
 import '../postProvider.dart';
+import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 
 
 class PostReply extends StatefulWidget {
@@ -21,6 +22,11 @@ class PostReply extends StatefulWidget {
 class _PostReplyState extends State<PostReply> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
+  Future<void> _refreshPage() async {
+    // refreshKey.currentState?.show(atTop: false);
+    fetchData();
+    await Future.delayed(Duration(seconds: 1));
+  }
 
   void fetchData() async{
     var username = await storage.read(key: 'username');
@@ -31,6 +37,7 @@ class _PostReplyState extends State<PostReply> {
   @override
   void initState() {
     fetchData();
+    _refreshPage();
     // TODO: implement initState
     Provider.of<PostProvider>(context,listen: false).fetchMyPostAndReply();
     super.initState();
@@ -39,41 +46,49 @@ class _PostReplyState extends State<PostReply> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        height: MediaQuery.of(context).size.height-170,
-        child: Consumer<PostProvider>(builder: (context,model,_) => FutureBuilder(
-          future: model.fetchMyPostAndReply(),
-          builder: (context,snapshot) => ListView.builder(
-            scrollDirection: Axis.vertical,
-            itemCount: model.myPost?.length??0,
-            itemBuilder: (context,int index){
-              return model.myPost![index]['type']=='mention'?MentionPost(
-                username: model.myPost![index]['username'],
-                postTime: model.myPost![index]['updatedAt'].toString().substring(0, 10),
-                post: model.myPost![index]['body'],
-                comment: 0,
-                urlImage: model.myPost![index]['coverImage'],
-                id: model.myPost![index]['_id'],
-              ):
-              model.myPost![index]['type']=='review'?ReviewPost(
-                username: model.myPost![index]['username'],
-                postTime: model.myPost![index]['updatedAt'].toString().substring(0, 10),
-                post: model.myPost![index]['body'],
-                rating: model.myPost![index]['rating'],
-                urlImage: model.myPost![index]['coverImage'],
-                comment: 0,
-                id: model.myPost![index]['_id'],
-              ):model.myPost![index]['type']=='post' ? Post(
-                  username: model.myPost![0]['username'],
+      body: LiquidPullToRefresh(
+        onRefresh: _refreshPage,
+        color: c.greenMain,
+        height: 100,
+        backgroundColor: c.textWhite,
+        animSpeedFactor: 10,
+        showChildOpacityTransition: false,
+        child: Container(
+          height: MediaQuery.of(context).size.height-170,
+          child: Consumer<PostProvider>(builder: (context,model,_) => FutureBuilder(
+            future: model.fetchMyPostAndReply(),
+            builder: (context,snapshot) => ListView.builder(
+              scrollDirection: Axis.vertical,
+              itemCount: model.myPost?.length??0,
+              itemBuilder: (context,int index){
+                return model.myPost![index]['type']=='mention'?MentionPost(
+                  username: model.myPost![index]['username'],
                   postTime: model.myPost![index]['updatedAt'].toString().substring(0, 10),
                   post: model.myPost![index]['body'],
                   comment: 0,
+                  urlImage: model.myPost![index]['coverImage'],
                   id: model.myPost![index]['_id'],
-                  urlImage: model.myPost![index]['coverImage']
-              ):Container();
-            },
-          ),
-        )),
+                ):
+                model.myPost![index]['type']=='review'?ReviewPost(
+                  username: model.myPost![index]['username'],
+                  postTime: model.myPost![index]['updatedAt'].toString().substring(0, 10),
+                  post: model.myPost![index]['body'],
+                  rating: model.myPost![index]['rating'],
+                  urlImage: model.myPost![index]['coverImage'],
+                  comment: 0,
+                  id: model.myPost![index]['_id'],
+                ):model.myPost![index]['type']=='post' ? Post(
+                    username: model.myPost![0]['username'],
+                    postTime: model.myPost![index]['updatedAt'].toString().substring(0, 10),
+                    post: model.myPost![index]['body'],
+                    comment: 0,
+                    id: model.myPost![index]['_id'],
+                    urlImage: model.myPost![index]['coverImage']
+                ):Container();
+              },
+            ),
+          )),
+        ),
       ),
     );
   }
