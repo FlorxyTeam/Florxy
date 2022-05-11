@@ -371,6 +371,19 @@ router.route("/checkusername/:username").get((req,res)=>{
     console.log("Username - Checked");
 })
 
+router.route("/unSaveProduct/:username").post(middleware.checkToken, (req, res)=>{
+  // res.json(req.params.id);
+  Profile.findOneAndUpdate({username: req.params.username},
+      {$pull: {saveproduct: req.body.unSave}}, function(err, unFavPost) {
+      // console.log(req.params.id);
+        if (err) {
+          return res.json(err);
+        } else {
+          return res.json("unSave product succes!!");
+        }
+      });
+});
+
 router.route("/PostAndReply/:username").get((req,res)=>{
   Post.find({username: req.params.username}, (err, result)=>{
     if(err){

@@ -28,7 +28,7 @@ const upload = multer({
 });
 
 router.route("/getPost").get( (req, res) => {
-  Post.find({}).sort({updatedAt: -1}).exec(function(err, result) {
+  Post.find({}).sort({createdAt: -1}).exec(function(err, result) {
     // console.log('result: '+ result);
     if (err) return res.json({err: err});
     if (result == null) return res.json({data: []});
