@@ -323,7 +323,7 @@ class _ResultofSimilarProductState extends State<ResultofSimilarProduct> {
               ],
             ),
           ),
-          Positioned(
+          checkfinish?Positioned(
             bottom: 0,
             left: 0,
             child: Container(
@@ -346,7 +346,19 @@ class _ResultofSimilarProductState extends State<ResultofSimilarProduct> {
               child: Padding(
                 padding: const EdgeInsets.only(left: 20, right: 30, top: 20,bottom: 20),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Row(
+                        children: [
+                          Icon(FeatherIcons.copy, size: 14),
+                          SizedBox(width: 4,),
+                          Inter(text: "Similar product of", size: 13, color: c.textBlack, fontWeight: f.bold),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 15),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -426,7 +438,7 @@ class _ResultofSimilarProductState extends State<ResultofSimilarProduct> {
                 ),
               ),
             ),
-          )
+          ):Container()
         ],
       ),
     );
