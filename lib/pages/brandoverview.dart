@@ -1,3 +1,4 @@
+import 'package:Florxy/pages/AllProductofBrand.dart';
 import 'package:Florxy/pages/productoverview.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
@@ -33,7 +34,6 @@ class _BrandoverviewState extends State<Brandoverview> {
     print(widget.p_brand);
     await storage.write(key: "p_brand", value: widget.p_brand);
     await networkHandler.get("/product/brand/" + widget.p_brand!);
-    await networkHandler.get("/product/topmention/brand/" + widget.p_brand!);
     await networkHandler.get("/product/topreview/brand/" + widget.p_brand!);
     var x = await storage.read(key: "num");
     if (x == null) {
@@ -46,7 +46,7 @@ class _BrandoverviewState extends State<Brandoverview> {
     fetchData();
     // TODO: implement initState
     Provider.of<PostProvider>(context, listen: false).fetchBrandOverview();
-    Provider.of<PostProvider>(context, listen: false).fetchTopmentionProduct();
+
     Provider.of<PostProvider>(context, listen: false).fetchTopreviewProduct();
     super.initState();
   }
@@ -155,7 +155,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                               spreadRadius: 0,
                               blurRadius: 10,
                               offset:
-                                  Offset(0, 0), // changes position of shadow
+                              Offset(0, 0), // changes position of shadow
                             ),
                           ],
                         ),
@@ -187,7 +187,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
                                         height: 15,
@@ -210,7 +210,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                                             child: InkWell(
                                               onTap: () => showModalBottomSheet(
                                                   backgroundColor:
-                                                      Colors.transparent,
+                                                  Colors.transparent,
                                                   context: context,
                                                   builder: (context) {
                                                     return Container(
@@ -219,28 +219,28 @@ class _BrandoverviewState extends State<Brandoverview> {
                                                       child: Container(
                                                         child: Padding(
                                                           padding:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  top: 20,
-                                                                  left: 20,
-                                                                  right: 20),
+                                                          const EdgeInsets
+                                                              .only(
+                                                              top: 20,
+                                                              left: 20,
+                                                              right: 20),
                                                           child:
-                                                              _buildBottomNavigationMenu(
-                                                                  context),
+                                                          _buildBottomNavigationMenu(
+                                                              context),
                                                         ),
                                                         decoration: BoxDecoration(
                                                             color: Theme.of(
-                                                                    context)
+                                                                context)
                                                                 .canvasColor,
                                                             borderRadius: BorderRadius.only(
                                                                 topLeft:
-                                                                    const Radius
-                                                                            .circular(
-                                                                        42),
+                                                                const Radius
+                                                                    .circular(
+                                                                    42),
                                                                 topRight:
-                                                                    const Radius
-                                                                            .circular(
-                                                                        42))),
+                                                                const Radius
+                                                                    .circular(
+                                                                    42))),
                                                       ),
                                                     );
                                                   }),
@@ -261,7 +261,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                                             GestureDetector(
                                               child: Column(
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                                 children: [
                                                   Poppins(
                                                       text: "14K",
@@ -279,15 +279,15 @@ class _BrandoverviewState extends State<Brandoverview> {
                                             ),
                                             SizedBox(
                                                 width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
+                                                    .size
+                                                    .width /
                                                     18
-                                                // width: 30,
-                                                ),
+                                              // width: 30,
+                                            ),
                                             GestureDetector(
                                               child: Column(
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                                 children: [
                                                   Poppins(
                                                       text: "14",
@@ -305,11 +305,11 @@ class _BrandoverviewState extends State<Brandoverview> {
                                             ),
                                             SizedBox(
                                                 width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
+                                                    .size
+                                                    .width /
                                                     18
-                                                // width: 30,
-                                                ),
+                                              // width: 30,
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -387,7 +387,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                                 child: Container(
                                   width: MediaQuery.of(context).size.width,
                                   height:
-                                      MediaQuery.of(context).size.height / 24,
+                                  MediaQuery.of(context).size.height / 24,
                                   child: Padding(
                                     padding: const EdgeInsets.only(
                                         right: 5, left: 5, top: 2, bottom: 4),
@@ -417,7 +417,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                 children: [
                   Padding(
                     padding:
-                        const EdgeInsets.only(left: 28, top: 22, bottom: 6),
+                    const EdgeInsets.only(left: 28, top: 22, bottom: 6),
                     child: Poppins(
                       text: "Most Popular",
                       color: Color(0xFF254231),
@@ -442,7 +442,9 @@ class _BrandoverviewState extends State<Brandoverview> {
                             model.topreview![index]['p_img'],
                             model.topreview![index]['_id'],
                             model.topreview![index]['p_desc'],
-                            model.topreview![index]['p_brand'],
+                            model.topreview![index]['p_cate'],
+                            model.topreview![index]['rating'].toDouble(),
+                            model.topreview![index]['numReview'],
                           ),
                         ),
                       ),
@@ -479,11 +481,12 @@ class _BrandoverviewState extends State<Brandoverview> {
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) =>
                               buildCard_recommended(
-                            model.topreview![index]['p_name'],
-                            model.topreview![index]['p_img'],
-                            model.topreview![index]['_id'],
-                            model.topreview![index]['review'],
-                          ),
+                                model.topreview![index]['p_name'],
+                                model.topreview![index]['p_img'],
+                                model.topreview![index]['_id'],
+                                model.topreview![index]['review'],
+
+                              ),
                         ),
                       ),
                     ),
@@ -493,57 +496,59 @@ class _BrandoverviewState extends State<Brandoverview> {
               SizedBox(
                 height: 10,
               ),
-              Padding(
-                padding: const EdgeInsets.only(top: 8, left: 28, right: 28),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height / 18,
-                  child: Padding(
-                    padding: const EdgeInsets.only(
-                        right: 5, left: 9, top: 10, bottom: 4),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          child: Icon(
-                            Icons.border_all_rounded,
-                            color: c.blackMain,
+              GestureDetector(
+                onTap: (){
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllProductofbrand(p_brand: widget.p_brand)));
+                },
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8, left: 28, right: 28),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height / 18,
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          right: 5, left: 9, top: 10, bottom: 4),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            child: Icon(
+                              Icons.border_all_rounded,
+                              color: c.blackMain,
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Poppins(
-                            text:
-                                "All Product of " + widget.p_brand.toString(),
-                            size: 17,
-                            color: Colors.black,
-                            fontWeight: f.semiBold),
-                        Expanded(child: Container()),
-                        Container(
-                          color: Colors.white,
-                          child: InkWell(
-                            onTap: () {},
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Poppins(
+                              text:
+                              "All Product of " + widget.p_brand.toString(),
+                              size: 17,
+                              color: Colors.black,
+                              fontWeight: f.semiBold),
+                          Expanded(child: Container()),
+                          Container(
+                            color: Colors.white,
                             child: Icon(
                               Icons.arrow_forward_ios_rounded,
                               color: c.blackMain,
                             ),
                           ),
+                        ],
+                      ),
+                    ),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          color: c.shadow.withOpacity(0.32),
+                          spreadRadius: 0,
+                          blurRadius: 10,
+                          offset: Offset(0, 0), // changes position of shadow
                         ),
                       ],
                     ),
-                  ),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: c.shadow.withOpacity(0.32),
-                        spreadRadius: 0,
-                        blurRadius: 10,
-                        offset: Offset(0, 0), // changes position of shadow
-                      ),
-                    ],
                   ),
                 ),
               ),
@@ -558,7 +563,7 @@ class _BrandoverviewState extends State<Brandoverview> {
   }
 
   Widget buildCard_Popular(String p_name, String p_img, String id,
-          String p_desc, String p_brand) =>
+      String p_desc, String p_brand, var rating, int numReview) =>
       Container(
         width: MediaQuery.of(context).size.width * 0.75,
         height: MediaQuery.of(context).size.height * 0.195,
@@ -627,7 +632,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                                     decoration: BoxDecoration(
                                         color: Color(0xFF86CA89),
                                         borderRadius:
-                                            BorderRadius.circular(50)),
+                                        BorderRadius.circular(50)),
                                   ),
                                   SizedBox(
                                     height: 5,
@@ -645,7 +650,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                                       style: GoogleFonts.poppins(
                                           fontSize: 15,
                                           fontWeight: f.semiBold,
-                                        color: Color(0xFF053118)),
+                                          color: Color(0xFF053118)),
                                     ),
                                   ),
                                   SizedBox(height: 7),
@@ -657,10 +662,11 @@ class _BrandoverviewState extends State<Brandoverview> {
                                   SizedBox(
                                     height: 7,
                                   ),
+                                  numReview != 0 ?
                                   Row(
                                     children: [
                                       RatingBarIndicator(
-                                        rating: 2.75,
+                                        rating: rating,
                                         itemBuilder: (context, index) => Icon(
                                           Icons.star,
                                           color: Colors.amber,
@@ -669,19 +675,27 @@ class _BrandoverviewState extends State<Brandoverview> {
                                         itemSize: 23.0,
                                         direction: Axis.horizontal,
                                         unratedColor:
-                                            Colors.amber.withOpacity(0.31),
+                                        Colors.amber.withOpacity(0.31),
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(
                                             top: 2, left: 4),
                                         child: Roboto(
-                                            text: "2.75",
+                                            text: rating.toString(),
                                             size: 14,
                                             color: Color(0xFFFFC107),
                                             fontWeight: f.semiBold),
                                       ),
                                     ],
-                                  ),
+                                  ):Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 2, left: 0),
+                                    child: Roboto(
+                                        text: "No review",
+                                        size: 14,
+                                        color: Color(0xFFFFC107),
+                                        fontWeight: f.semiBold),
+                                  )
                                 ],
                               ),
                             ),
@@ -698,7 +712,7 @@ class _BrandoverviewState extends State<Brandoverview> {
       );
 
   Widget buildCard_recommended(
-          String p_name, String p_img, String id, int review) =>
+      String p_name, String p_img, String id, int review) =>
       Container(
         width: MediaQuery.of(context).size.width * 0.40,
         height: MediaQuery.of(context).size.height * 0.313,
@@ -709,9 +723,9 @@ class _BrandoverviewState extends State<Brandoverview> {
                 onTap: () async {
                   Navigator.of(context).push(MaterialPageRoute(
                       builder: (context) => comparepage(
-                            id: id,
-                            currentState: 0,
-                          )));
+                        id: id,
+                        currentState: 0,
+                      )));
                   await storage.write(key: "p_id", value: id);
                 },
                 child: Container(
@@ -749,7 +763,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                       Container(
                         height: 45,
                         padding:
-                            const EdgeInsets.only(top: 5, left: 10, right: 2),
+                        const EdgeInsets.only(top: 5, left: 10, right: 2),
                         width: MediaQuery.of(context).size.width * 0.414,
                         child: Text(
                           p_name,
@@ -764,7 +778,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                       Container(
                         height: 45,
                         padding:
-                            const EdgeInsets.only(top: 8, left: 10, right: 2),
+                        const EdgeInsets.only(top: 8, left: 10, right: 2),
                         width: MediaQuery.of(context).size.width * 0.414,
                         child: Text(
                           "Lorem Ipsum is simply dummy text of the printing typesetting...",
@@ -788,7 +802,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                             children: [
                               Padding(
                                 padding:
-                                    const EdgeInsets.only(left: 5, right: 3),
+                                const EdgeInsets.only(left: 5, right: 3),
                                 child: Icon(
                                   Boxicons.bxs_star,
                                   size: 13,
@@ -801,7 +815,7 @@ class _BrandoverviewState extends State<Brandoverview> {
                                 height: 45,
                                 padding: const EdgeInsets.only(top: 5.12),
                                 width:
-                                    MediaQuery.of(context).size.width / 13.57,
+                                MediaQuery.of(context).size.width / 13.57,
                                 child: Text(
                                   "234",
                                   maxLines: 1,
@@ -863,7 +877,7 @@ class _BrandoverviewState extends State<Brandoverview> {
               color: c.textWhite,
               border: Border(
                 bottom:
-                    BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.5)),
+                BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.5)),
               )),
         ),
         Container(
@@ -884,7 +898,7 @@ class _BrandoverviewState extends State<Brandoverview> {
               color: c.textWhite,
               border: Border(
                 bottom:
-                    BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.5)),
+                BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.5)),
               )),
         ),
         Container(
@@ -903,7 +917,7 @@ class _BrandoverviewState extends State<Brandoverview> {
               color: c.textWhite,
               border: Border(
                 bottom:
-                    BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.5)),
+                BorderSide(width: 0.8, color: c.greyMain.withOpacity(0.5)),
               )),
         ),
         Container(
