@@ -2,6 +2,7 @@
 import 'package:Florxy/CompareProduct/searchProduct.dart';
 import 'package:Florxy/IngredientChecker/IngredientChecker.dart';
 import 'package:Florxy/SilimarProduct/similarproduct.dart';
+import 'package:Florxy/pages/category.dart';
 import 'package:Florxy/pages/scrap.dart';
 import 'package:Florxy/postProvider.dart';
 import 'package:Florxy/widgets/ModalViewProduct.dart';
@@ -77,7 +78,7 @@ class _laboratoryState extends State<laboratory> {
   @override
   void initState() {
     Provider.of<PostProvider>(context, listen: false).fetchBrand();
-    _refreshPage();
+    // _refreshPage();
     super.initState();
   }
 
@@ -316,85 +317,7 @@ class _laboratoryState extends State<laboratory> {
                   ),
                 ],
               ),
-              Stack(
-                children: [
-                  Center(
-                    child: Padding(
-                      padding: const EdgeInsets.only(
-                          left: 28, right: 28, bottom: 27),
-                      child: GestureDetector(
-                        onTap: () {},
 
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          // height: MediaQuery.of(context).size.height * 0.12,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(17),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: c.shadow.withOpacity(0.32),
-                                spreadRadius: -17,
-                                blurRadius: 30,
-                                offset:
-                                Offset(0, 6), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 12.0, left: 12, bottom: 12,top: 12),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding:
-                                  const EdgeInsets.only(left: 22, right: 22),
-                                  child: Container(
-                                    height: 58,
-                                    width: 58,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage(
-                                            "assets/img/ab-testing.png"),
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 9, bottom: 8),
-                                        child: Poppins(
-                                            text: "Compare Products",
-                                            size: 15,
-                                            color: Color(0xFF053118),
-                                            fontWeight: f.semiBold),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(right: 8),
-                                        child: Inter_Crop2(
-                                            text:
-                                            "Lorem Ipsum is simply dummy text of the printing and typesetting",
-                                            size: 13,
-                                            color: Color(0xFF053118)
-                                                .withOpacity(0.51),
-                                            fontWeight: f.regular),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
               Stack(
                 children: [
                   Center(
@@ -534,7 +457,7 @@ class _laboratoryState extends State<laboratory> {
                                         padding: const EdgeInsets.only(
                                             top: 9, bottom: 8),
                                         child: Poppins(
-                                            text: "Create new product",
+                                            text: "Suggest new product",
                                             size: 15,
                                             color: Color(0xFF053118),
                                             fontWeight: f.semiBold),
@@ -874,7 +797,7 @@ class _laboratoryState extends State<laboratory> {
             Center(
               child: InkWell(
                 onTap: () {
-
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => Category()));
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.28,

@@ -5,6 +5,7 @@ part of 'ingModel.dart';
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
+
 IngModel _$IngModelFromJson(Map<String, dynamic> json) {
   return IngModel(
     name: json['name'] as String,
@@ -16,7 +17,6 @@ IngModel _$IngModelFromJson(Map<String, dynamic> json) {
     come: json['come'] as String,
     cosing: json['cosing'] as String,
     detail: json['detail'] as String,
-
   );
 }
 
@@ -30,4 +30,5 @@ Map<String, dynamic> _$IngModelToJson(IngModel instance) => <String, dynamic>{
       'come': instance.come,
       'cosing': instance.cosing,
       'detail': instance.detail,
+      'func': instance.func,
     };
