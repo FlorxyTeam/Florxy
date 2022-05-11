@@ -1,4 +1,5 @@
 import 'package:Florxy/NetworkHandler.dart';
+import 'package:Florxy/pages/navbar.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/button.dart';
@@ -206,15 +207,22 @@ class _creatorAliasFinishState extends State<creatorAliasFinish> {
                           onTap: () async{
                             String? aliasname = await storage.read(key: "influencer");
                             String? myusername = await storage.read(key: "myusername");
+                            String? linkimg = await storage.read(key: "requestimg-link");
+                            print('my link: '+linkimg.toString());
                             print("Your Alias of Influencer: $aliasname");
                             print("$myusername");
+
                             Map<String, String> data = {
-                              "influencer":"$aliasname"
+                              "influencer":"$aliasname",
+                              "img":"$linkimg",
                             };
                             print(data);
-                            var addinfluencer = await networkHandler
-                                .patch("/profile/addinfluencer/$myusername",data);
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => EditPage()));
+                            var addRequestinfluencer = await networkHandler.post("/user/requestAlias/influencer",data);
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Navbar(currentState: 4,)),
+                                    (route) => false);
                           },
                           child: GreenButton(
                             text: 'Finish',
