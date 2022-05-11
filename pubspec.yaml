@@ -91,6 +91,7 @@ dependencies:
   tflite: ^1.1.1
   meta:
   cached_network_image: ^3.2.0
+  flutter_speed_dial: ^6.0.0
 #  socket_io_client: ^0.9.12
   flutter_cache_manager: ^3.3.0
   flutter_rating_bar: ^4.0.0
