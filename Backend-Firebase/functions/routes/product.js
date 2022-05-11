@@ -29,6 +29,16 @@ router.route("/getIngredientInfo/:id").get( (req, res) => {
   });
 });
 
+router.route("/getIngredientInfoFromName/:name").get( (req, res) => {
+  Ingredient.findOne({ name: req.params.name }).exec(function(err, result){
+    if(err) {
+      return console.log(err);
+    } else {
+      return res.json({ ingredient: result });
+    }
+  });
+});
+
 router.route("/add/brand").post((req, res)=> {
   // eslint-disable-next-line new-cap
   Brand.find({name:req.body.name},(err, result) =>{

@@ -9,6 +9,7 @@ IngModel _$IngModelFromJson(Map<String, dynamic> json) {
   return IngModel(
     name: json['name'] as String,
     func: json['func'] as List<dynamic>,
+    proof: json['proof'] as List<dynamic>,
     rate: json['rate'] as String,
     calling: json['calling'] as String,
     irr: json['irr'] as String,
@@ -21,6 +22,7 @@ IngModel _$IngModelFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$IngModelToJson(IngModel instance) => <String, dynamic>{
       'name': instance.name,
+      'proof': instance.proof,
       'func': instance.func,
       'rate': instance.rate,
       'calling': instance.calling,
