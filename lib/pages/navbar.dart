@@ -4,6 +4,7 @@ import 'package:Florxy/pages/homepage.dart';
 import 'package:Florxy/pages/notificationpage.dart';
 import 'package:Florxy/pages/profilepage.dart';
 import 'package:Florxy/pages/searchpage.dart';
+import 'package:Florxy/pages/searchpost.dart';
 import 'package:Florxy/services/local_notification_service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:custom_navigation_bar/custom_navigation_bar.dart';
@@ -28,7 +29,7 @@ class Navbar extends StatefulWidget {
 }
 
 class _NavbarState extends State<Navbar> {
-  List pages = [HomePage(), SearchPage(), laboratory(),NotificationPage(), ProfilePage()];
+  List pages = [HomePage(), SearchPost(), laboratory(),NotificationPage(), ProfilePage()];
   int _currentIndex = 0;
   NetworkHandler networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
