@@ -1,3 +1,6 @@
+import 'package:Florxy/pages/opensourcelibraries.dart';
+import 'package:Florxy/pages/privacypolicy.dart';
+import 'package:Florxy/pages/termsofuse.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/pages/navbar.dart';
@@ -113,6 +116,7 @@ class _SettingState extends State<Setting> {
   Widget SearchTextField() {
     return Column(
       children: [
+        SizedBox(height: 10,),
         InkWell(
           onTap: (){
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => Account()));
@@ -130,7 +134,7 @@ class _SettingState extends State<Setting> {
                   Icon(
                     Icons.account_circle_outlined,
                     color: c.blackMain,
-                    size: 22.0,
+                    size: 30.0,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 17),
@@ -149,6 +153,7 @@ class _SettingState extends State<Setting> {
             ),
           ),
         ),
+        SizedBox(height: 20,),
         InkWell(
           onTap: (){
             Navigator.of(context).push(MaterialPageRoute(builder: (context) => Help()));
@@ -166,7 +171,7 @@ class _SettingState extends State<Setting> {
                   Icon(
                     Icons.help_outline_rounded,
                     color: c.blackMain,
-                    size: 23.0,
+                    size: 30.0,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
@@ -185,8 +190,11 @@ class _SettingState extends State<Setting> {
             ),
           ),
         ),
+        SizedBox(height: 20,),
         InkWell(
-          onTap: (){},
+          onTap: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => PrivacyPolicy()));
+          },
           child: Padding(
             padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
 
@@ -200,7 +208,7 @@ class _SettingState extends State<Setting> {
                   Icon(
                     Boxicons.bx_data,
                     color: c.blackMain,
-                    size: 23.0,
+                    size: 30.0,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 13),
@@ -219,8 +227,11 @@ class _SettingState extends State<Setting> {
             ),
           ),
         ),
+        SizedBox(height: 20,),
         InkWell(
-          onTap: (){},
+          onTap: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => TermsOfUse()));
+          },
           child: Padding(
             padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
 
@@ -234,7 +245,7 @@ class _SettingState extends State<Setting> {
                   Icon(
                     Icons.checklist_outlined,
                     color: c.blackMain,
-                    size: 23.0,
+                    size: 30.0,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 13),
@@ -253,8 +264,11 @@ class _SettingState extends State<Setting> {
             ),
           ),
         ),
+        SizedBox(height: 20,),
         InkWell(
-          onTap: (){},
+          onTap: (){
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => OpenSourceLibraries()));
+          },
           child: Padding(
             padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
 
@@ -267,7 +281,7 @@ class _SettingState extends State<Setting> {
                   Icon(
                     Boxicons.bx_book_heart,
                     color: c.blackMain,
-                    size: 20.0,
+                    size: 30.0,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
@@ -280,30 +294,11 @@ class _SettingState extends State<Setting> {
                   Expanded(child: Container()),
                   Icon(Icons.arrow_forward_ios_outlined,
                       size: 18, color: c.greyMain),
-
                 ],
               ) ,
             ),
           ),
         ),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       ],
     );
   }
