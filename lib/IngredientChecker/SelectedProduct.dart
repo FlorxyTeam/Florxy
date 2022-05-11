@@ -317,7 +317,7 @@ class _SelectedProductState extends State<SelectedProduct> {
               SizedBox(height: 15),
             ],
           ),
-        ):Text('LOADING>>>>'),
+        ):Center(child: Image.asset("assets/img/2.gif",width: 50)),
       ),
     );
   }
@@ -378,10 +378,13 @@ class _SelectedProductState extends State<SelectedProduct> {
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                      onTap: (){
-                        ModalShowIngredient.Dialog_Settings(context);
+                      onTap: () async{
+                        await storage.write(key: "SeeInfoIngredient", value: Fight_Acne[index]);
+                        String? SeeInfoIngredient = await storage.read(key: "SeeInfoIngredient");
+                        print(SeeInfoIngredient);
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => IngredientInfo()));
                       },
-                      child: list_product(Fight_Acne[index]),
+                      child: list_product(Fight_Acne[index])
                   );
                 },
               ),
@@ -441,7 +444,15 @@ class _SelectedProductState extends State<SelectedProduct> {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return list_product(Brightening[index]);
+                  return GestureDetector(
+                      onTap: () async{
+                        await storage.write(key: "SeeInfoIngredient", value: Brightening[index]);
+                        String? SeeInfoIngredient = await storage.read(key: "SeeInfoIngredient");
+                        print(SeeInfoIngredient);
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => IngredientInfo()));
+                      },
+                      child: list_product(Brightening[index])
+                  );
                 },
               ),
             ),
@@ -567,7 +578,15 @@ class _SelectedProductState extends State<SelectedProduct> {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return list_product(Soothing[index]);
+                  return GestureDetector(
+                      onTap: () async{
+                        await storage.write(key: "SeeInfoIngredient", value: Soothing[index]);
+                        String? SeeInfoIngredient = await storage.read(key: "SeeInfoIngredient");
+                        print(SeeInfoIngredient);
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => IngredientInfo()));
+                      },
+                      child: list_product(Soothing[index])
+                  );
                 },
               ),
             ),
@@ -626,7 +645,15 @@ class _SelectedProductState extends State<SelectedProduct> {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return list_product(UV_Protection[index]);
+                  return GestureDetector(
+                      onTap: () async{
+                        await storage.write(key: "SeeInfoIngredient", value: UV_Protection[index]);
+                        String? SeeInfoIngredient = await storage.read(key: "SeeInfoIngredient");
+                        print(SeeInfoIngredient);
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => IngredientInfo()));
+                      },
+                      child: list_product(UV_Protection[index])
+                  );
                 },
               ),
             ),
@@ -685,7 +712,15 @@ class _SelectedProductState extends State<SelectedProduct> {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return list_product(Antioxidant[index]);
+                  return GestureDetector(
+                      onTap: () async{
+                        await storage.write(key: "SeeInfoIngredient", value: Antioxidant[index]);
+                        String? SeeInfoIngredient = await storage.read(key: "SeeInfoIngredient");
+                        print(SeeInfoIngredient);
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => IngredientInfo()));
+                      },
+                      child: list_product(Antioxidant[index])
+                  );
                 },
               ),
             ),
@@ -744,7 +779,15 @@ class _SelectedProductState extends State<SelectedProduct> {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return list_product(Preservation[index]);
+                  return GestureDetector(
+                      onTap: () async{
+                        await storage.write(key: "SeeInfoIngredient", value: Preservation[index]);
+                        String? SeeInfoIngredient = await storage.read(key: "SeeInfoIngredient");
+                        print(SeeInfoIngredient);
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => IngredientInfo()));
+                      },
+                      child: list_product(Preservation[index])
+                  );
                 },
               ),
             ),
@@ -803,7 +846,15 @@ class _SelectedProductState extends State<SelectedProduct> {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return list_product(Exfoliant[index]);
+                  return GestureDetector(
+                      onTap: () async{
+                        await storage.write(key: "SeeInfoIngredient", value: Exfoliant[index]);
+                        String? SeeInfoIngredient = await storage.read(key: "SeeInfoIngredient");
+                        print(SeeInfoIngredient);
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => IngredientInfo()));
+                      },
+                      child: list_product(Exfoliant[index])
+                  );
                 },
               ),
             ),
@@ -862,7 +913,15 @@ class _SelectedProductState extends State<SelectedProduct> {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return list_product(Perfuming[index]);
+                  return GestureDetector(
+                      onTap: () async{
+                        await storage.write(key: "SeeInfoIngredient", value: Perfuming[index]);
+                        String? SeeInfoIngredient = await storage.read(key: "SeeInfoIngredient");
+                        print(SeeInfoIngredient);
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => IngredientInfo()));
+                      },
+                      child: list_product(Perfuming[index])
+                  );
                 },
               ),
             ),
@@ -921,7 +980,15 @@ class _SelectedProductState extends State<SelectedProduct> {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
-                  return list_product(Antibacterial[index]);
+                  return GestureDetector(
+                      onTap: () async{
+                        await storage.write(key: "SeeInfoIngredient", value: Antibacterial[index]);
+                        String? SeeInfoIngredient = await storage.read(key: "SeeInfoIngredient");
+                        print(SeeInfoIngredient);
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context) => IngredientInfo()));
+                      },
+                      child: list_product(Antibacterial[index])
+                  );
                 },
               ),
             ),
