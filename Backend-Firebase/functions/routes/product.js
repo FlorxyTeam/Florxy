@@ -129,7 +129,7 @@ router.route("/brand").get((req, res) => {
   products.aggregate([
                 {"$group" : {_id:"$p_brand", count:{$sum:1}}},
 
-     ]).sort({count: -1}).limit(5).exec(function ( err,result ) {
+     ]).sort({count: -1}).exec(function ( err,result ) {
           if(err)return res.json(err);
           return res.json({data : result})
        });
@@ -141,12 +141,11 @@ router.route("/brand/:p_brand").get(middleware.checkToken, (req, res) => {
     products.find({p_brand: req.params.p_brand},(err, result) => {
         if(err) res.status(500).json({msg: err});
         res.json({
-            data: result,
+            product: result,
             p_brand: req.params.p_brand,
         })
     })
 });
-
 
 
 
@@ -175,7 +174,7 @@ router.route("/topmention/brand/:p_brand").get(middleware.checkToken, (req, res 
 
 // top 5 reviews
 router.route("/topreview/brand/:p_brand").get(middleware.checkToken, (req, res ) =>{
-     products.find({p_brand: req.params.p_brand}).sort({mention: -1}).limit(5).exec(function(err, review){
+     products.find({p_brand: req.params.p_brand}).sort({rating: -1}).limit(5).exec(function(err, review){
      if(err) res.status(500).json({msg: err});
        res.json({
             data: review,
@@ -185,30 +184,6 @@ router.route("/topreview/brand/:p_brand").get(middleware.checkToken, (req, res )
 });
 
 
-// Interesting review and mention
-//router.route("/post/interestingreview/:_id").get(middleware.checkToken, (req, res ) =>{
-//    let post = {};
-//    let rate = 0;
-//     Post.find({product: req.params._id, type:"review" } ).sort({rating: -1}).exec(function(err, result){
-//        if(err) {
-//            res.status(500).json({msg: err});
-//        }else{
-//            post = result;
-//            console.log(post);
-//             for(i=0;i < post.length;i++){
-//                rate = rate + parseFloat(post[i].rating);
-////                console.log(post[0].rating);
-//             }
-//             rate = rate/post.length;
-//                console.log(rate);
-//
-//
-//
-//        }
-//
-//
-//     });
-// });
 // Update rating
 router.route("/updaterating/:_id").patch(middleware.checkToken, (req, res ) =>{
     let post = {};
@@ -223,9 +198,10 @@ router.route("/updaterating/:_id").patch(middleware.checkToken, (req, res ) =>{
              for(i=0;i < post.length;i++){
                 rate = rate + parseFloat(post[i].rating);
 //                console.log(post[0].rating);
-                num = num+1
+                num = num+1;
              }
              rate = rate/post.length;
+             rate = parseFloat(rate).toFixed(1);
              console.log(rate);
              products.findOneAndUpdate(
                     {_id: req.params._id},
@@ -248,6 +224,7 @@ router.route("/updaterating/:_id").patch(middleware.checkToken, (req, res ) =>{
 });
 
 
+
 router.route("/post/interestingreview/:_id").get(middleware.checkToken, (req, res ) =>{
 
      Post.find({product: req.params._id, type:"review" } ).sort({rating: -1}).exec(function(err, result){
@@ -265,26 +242,30 @@ router.route("/post/interestingreview/:_id").get(middleware.checkToken, (req, re
 
 
 // compare 2 products
-router.route("/compare/:p_id1/:p_id2").get(middleware.checkToken, (req, res) => {
-    products.findOne({_id: req.params.p_id1}, (err, result1) => {
+router.route("/compare2/:id1/:id2").get(middleware.checkToken, (req, res) => {
+    products.findOne({_id: req.params.id1}, (err, result1) => {
         console.log("Compare 2 products.");
-        if(err) res.status(500).json({msg: err});
-         products.findOne({_id: req.params.p_id2}, (err, result2) => {
+        if(err) {
+            res.status(500).json({msg: err});
+        }else {
+//        res.json({data: result1});
+            products.findOne({_id: req.params.id2}, (err, result2) => {
+                     if(err){
+                      res.status(500).json({msg: err});
+                     }else{
+                         res.json({ data: [result1, result2],});
+                     }
+            });
+        }
 
-          res.json({
-                     data: result1,result2
-
-                 })
-         });
 
     })
 });
 
 
 // compare 3 products
-router.route("/compare/:p_id1/:p_id2/:p_id3").get(middleware.checkToken, (req, res) => {
+router.route("/compare3/:p_id1/:p_id2/:p_id3").get(middleware.checkToken, (req, res) => {
     products.findOne({_id: req.params.p_id1}, (err, result1) => {
-        console.log("Compare 3 products.");
         if(err) res.status(500).json({msg: err});
          products.findOne({_id: req.params.p_id2}, (err, result2) => {
             if(err) res.status(500).json({msg: err});
