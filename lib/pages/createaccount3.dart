@@ -146,13 +146,6 @@ class _CreateAccountState extends State<CreateAccount3> {
                         };
                         var response2 = await networkHandler.post("/user/login-google", data2);
                         Map<String, dynamic> output = json.decode(response2.body);
-                        if(output["msg"].toString().contains('false')){
-                          print('false');
-                          final provider = Provider.of<GoogleSignInProvider>(context,listen: false);
-                          provider.logout();
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateAccount1()));
-                        }
-                        else{
                           print(output["token"]);
 
                           await storage.write(
@@ -164,7 +157,7 @@ class _CreateAccountState extends State<CreateAccount3> {
                           }else{
                             String output = json.decode(response.body);
                           }
-                        }
+                        
                       },
                       child: Padding(
                         padding: EdgeInsets.only(left: 40,right: 40),
