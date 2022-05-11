@@ -192,9 +192,7 @@ class _ReportFinishState extends State<ReportFinish> {
                             };
                             var response = await networkHandler.post("/home/report", data);
                             print(response);
-                            setState(() {
-                              Provider.of<PostProvider>(context,listen: false).fetchReport(widget.idpost!);
-                            });
+                            setState(() {});
                             Navigator.pushAndRemoveUntil(context, MaterialPageRoute
                               (builder: (context)=>Navbar(currentState: 0)), (route) => false);
                           },

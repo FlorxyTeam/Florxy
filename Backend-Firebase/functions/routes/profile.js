@@ -388,6 +388,19 @@ router.route("/checkusername/:username").get((req,res)=>{
     console.log("Username - Checked");
 })
 
+router.route("/unSaveProduct/:username").post(middleware.checkToken, (req, res)=>{
+  // res.json(req.params.id);
+  Profile.findOneAndUpdate({username: req.params.username},
+      {$pull: {saveproduct: req.body.unSave}}, function(err, unFavPost) {
+      // console.log(req.params.id);
+        if (err) {
+          return res.json(err);
+        } else {
+          return res.json("unSave product succes!!");
+        }
+      });
+});
+
 router.route("/PostAndReply/:username").get((req,res)=>{
   Post.find({username: req.params.username}, (err, result)=>{
     if(err){
@@ -550,7 +563,7 @@ router.route("/update/profile").patch(middleware.checkToken, (req, res) => {
 });
 
 router.route("/getSearchUser/:id").get(middleware.checkToken, (req, res)=>{
-  var query = req.params.id
+  const query = req.params.id
   Profile.find({$or: [{username: {$regex: query, $options:"i"}},
                       {fullname: {$regex: query, $options:"i"}},],}, (err, result)=>{
     if (err) return res.json(err);

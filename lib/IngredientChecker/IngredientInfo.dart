@@ -1,6 +1,7 @@
 import 'package:Florxy/Model/ingModel.dart';
 import 'package:Florxy/NetworkHandler.dart';
 import 'package:Florxy/widgets/font.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -83,7 +84,7 @@ class _IngredientInfoState extends State<IngredientInfo> {
                       ? 18.5
                       : 0),
               child: Poppins(
-                text: "Ingredient Information",
+                text: ingModel.name,
                 size: 20,
                 color: c.blackMain,
                 fontWeight: f.semiBold,
@@ -105,9 +106,15 @@ class _IngredientInfoState extends State<IngredientInfo> {
           ),
         ),
       ),
-
-      body: Center(child: Column(
+      body: Column(
         children: [
+          Container(
+            child: Row(
+              children: [
+
+              ],
+            ),
+          ),
           Text('Name: '+ingModel.name),
           Text('Rate: '+ingModel.rate.toString()),
           Text('Func: '+ingModel.func.toString()),
@@ -115,6 +122,42 @@ class _IngredientInfoState extends State<IngredientInfo> {
           Text('Detail: '+ingModel.detail),
           Text('Proof: '+ingModel.proof.toString()),
         ],
-      )),);
+      ),
+
+      // body: Column(
+      //   crossAxisAlignment: CrossAxisAlignment.start,
+      //   children: [
+      //     Roboto(text: ingModel.detail, size: 13, color: c.graySub2, fontWeight: f.regular),
+      //     Inter(text: "All Functions", size: 15, color: Colors.black, fontWeight: f.semiBold),
+      //     ListView.builder(
+      //       shrinkWrap: true,
+      //         scrollDirection: Axis.horizontal,
+      //         physics: NeverScrollableScrollPhysics(),
+      //       itemCount: ingModel.func.length,
+      //         itemBuilder: (BuildContext context, int index){
+      //         return Row(
+      //           crossAxisAlignment: CrossAxisAlignment.start,
+      //           children: [
+      //             Roboto(text: ingModel.func[index], size: 13, color: c.graySub2, fontWeight: f.regular),
+      //             SizedBox(width: 5)
+      //           ],
+      //         );
+      //         }
+      //     ),
+      //     Inter(text: "Cosing", size: 15, color: Colors.black, fontWeight: f.semiBold),
+      //     Roboto(text: ingModel.cosing, size: 13, color: c.graySub2, fontWeight: f.regular),
+      //     Column(
+      //       children: [
+      //         Text('Name: '+ingModel.name),
+      //         Text('Rate: '+ingModel.rate.toString()),
+      //         Text('Func: '+ingModel.func.toString()),
+      //         Text('Cosing: '+ingModel.cosing),
+      //         Text('Detail: '+ingModel.detail),
+      //         Text('Proof: '+ingModel.proof.toString()),
+      //       ],
+      //     ),
+      //   ],
+      // ),
+    );
   }
 }

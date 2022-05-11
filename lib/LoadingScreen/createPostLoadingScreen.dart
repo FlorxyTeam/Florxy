@@ -44,7 +44,7 @@ class _CreatPostLoadingScreenState extends State<CreatPostLoadingScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Image.asset("assets/img/2.gif",width: 18),
-              SizedBox(width: 4),
+              SizedBox(width: 5),
               Inter(text: 'Posting...', size: 15, color: Colors.black, fontWeight: f.semiBold),
             ],
           ),

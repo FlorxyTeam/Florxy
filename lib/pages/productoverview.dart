@@ -1,9 +1,16 @@
+import 'package:Florxy/CompareProduct/searchProduct.dart';
+import 'package:Florxy/IngredientChecker/IngredientChecker.dart';
+import 'package:Florxy/Model/brands.dart';
+import 'package:Florxy/Model/ingModel.dart';
+import 'package:Florxy/Model/pro2.dart';
+import 'package:Florxy/SilimarProduct/similarproduct.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:boxicons/boxicons.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +22,7 @@ import 'package:Florxy/pages/comparepage.dart';
 
 import '../postProvider.dart';
 import '../widgets/PostWidget.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 
 
@@ -35,18 +43,16 @@ class _ProductOverviewState extends State<ProductOverview> {
   Map? data;
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
-  ProductModel productModel = ProductModel(
+  ProModel productModel = ProModel(
     id:'',
     p_name:'',
     p_brand: '',
     p_desc: '',
     p_img: '',
-    ing_name: [],
-    ing_met: [],
-    ing_irr: [],
-    ing_rate: [],
-    mention: 0,
-    review: 0,
+    ing_id: [],
+    p_cate: '',
+    rating: 0,
+    numReview: 0,
   );
 
   ProfileModel myprofileModel = ProfileModel(
@@ -66,16 +72,36 @@ class _ProductOverviewState extends State<ProductOverview> {
     listfollowing: [],
   );
 
+  BrandModel brand = BrandModel(
+      id:'' ,
+      name: '',
+      owners: [],
+      about: '',
+      banner: '',
+      recommend: []
+  );
+
+  IngModel ingModel = IngModel(
+    name: '',
+    func: [],
+    calling: '',
+    come: '',
+    cosing: '',
+    detail: '',
+    irr: '',
+    rate: '',
+  );
+
 
 
   void fetchData() async {
     var id = await storage.read(key: "p_id");
     var username = await storage.read(key: "username");
-    var response = await networkHandler.get("/product/" + id!);
+    var response = await networkHandler.get("/product/" + widget.id!);
     var response2 = await networkHandler.get("/product/view/productoverview/" + username!);
 
     setState(() {
-      productModel = ProductModel.fromJson(response["data"]);
+      productModel = ProModel.fromJson(response["data"]);
       myprofileModel = ProfileModel.fromJson(response2["data"]);
 
     });
@@ -109,6 +135,66 @@ class _ProductOverviewState extends State<ProductOverview> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
+      floatingActionButton: SpeedDial(
+        backgroundColor: c.greenMain,
+        icon: Icons.close_rounded,
+        overlayColor: Colors.black,
+        overlayOpacity: 0.4,
+        children: [
+          SpeedDialChild(
+            child: Container(
+              height: 25,
+              width: 25,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                      "assets/img/check-list.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            label: "Ingredient Checker",
+            onTap: (){
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => IngredientChecker()));
+            }
+          ),
+          SpeedDialChild(
+            child: Container(
+              height: 25,
+              width: 25,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(
+                      "assets/img/ab-testing.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+              label: "Product Compare",
+              onTap: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchToCompare()));
+              }
+          ),
+          SpeedDialChild(
+              label: "Similar Product",
+            child: Container(
+              height: 25,
+              width: 25,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image:
+                  AssetImage("assets/img/opacity.png"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+              onTap: (){
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => SimilarProduct()));
+              }
+
+          )
+        ],
+      ),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -119,7 +205,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 20, left: 5),
+                      padding: const EdgeInsets.only(top: 20, left: 20),
                       child: Container(
                         child: InkWell(
                           onTap: (){
@@ -154,7 +240,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                           },
                           child: Icon(Boxicons
                               .bx_dots_vertical_rounded,
-                            color:c.blackMain,
+                            color:c.textWhite,
                             size: 27,
                           ),
                         ),
@@ -188,12 +274,13 @@ class _ProductOverviewState extends State<ProductOverview> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
+                              productModel.p_cate != ''?
                               Container(
                                 child: Padding(
                                   padding: const EdgeInsets.only(
                                       right: 10, left: 10, top: 5, bottom: 5),
                                   child: Inter(
-                                      text: productModel.p_brand ,
+                                      text: productModel.p_cate! ,
                                       size: 13,
                                       color: Colors.white,
                                       fontWeight: f.semiBold),
@@ -201,7 +288,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                                 decoration: BoxDecoration(
                                     color: Color(0xFFB3E697),
                                     borderRadius: BorderRadius.circular(50)),
-                              ),
+                              ):Container(),
                               // Row(
                               //   children: [
                               //     Icon(
@@ -268,74 +355,48 @@ class _ProductOverviewState extends State<ProductOverview> {
                               color: Color(0xFF053118).withOpacity(0.68),
                               fontWeight: f.regular),
                         ),
+                        productModel.rating != 0 ?
                         Padding(
                           padding: const EdgeInsets.only(left: 25, top: 5),
                           child: Row(
                             children: [
-                              Icon(
-
-                                Icons.star_rounded,
-                                color:Color(0xFFFFC107),
-                                size: 30.0,
+                              RatingBarIndicator(
+                                rating: productModel.rating.toDouble(),
+                                itemBuilder: (context, index) => Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                ),
+                                itemCount: 5,
+                                itemSize: 30.0,
+                                direction: Axis.horizontal,
+                                unratedColor:
+                                Colors.amber.withOpacity(0.31),
                               ),
-                              Icon(
-
-                                Icons.star_rounded,
-                                color:Color(0xFFFFC107),
-                                size: 30.0,
-                              ),
-                              Icon(
-
-                                Icons.star_rounded,
-                                color:Color(0xFFFFC107),
-                                size: 30.0,
-                              ),
-                              Icon(
-
-                                Icons.star_rounded,
-                                color:Color(0xFFFFC107),
-                                size: 30.0,
-                              ),
-                              Icon(
-
-                                Icons.star_half_rounded,
-                                color:Color(0xFFFFC107),
-                                size: 30.0,
-                              ),
-                              SizedBox(width: 5,),
-                              Inter(
-                                  text: "4.8",
-
-                                  size: 15,
-                                  color:Color(0xFFFFC107),
-                                  fontWeight: f.bold),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 25, top: 10, bottom: 15,right: 25),
-                          child: Row(
-                            children: [
-                              InkWell(
-                                onTap: (){
-                                  Navigator.of(context).pop();
-                                },
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                    top: 2, left: 6),
                                 child: Roboto(
-                                    text: "Find relevent product",
-
-                                    size: 15,
-                                    color: Color(0xFF32A060),
-                                    fontWeight: f.medium),
+                                    text: (productModel.rating).toDouble().toString(),
+                                    size: 16,
+                                    color: Color(0xFFFFC107),
+                                    fontWeight: f.semiBold),
                               ),
-                              SizedBox( width: 3,),
-                              Icon(Icons.arrow_forward_rounded,
-                                color: Color(0xFF32A060),
-                                size: 14,
-                              ),
-
                             ],
                           ),
+                        ):Padding(
+                          padding: const EdgeInsets.only(left: 20, top: 5),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 2, left: 4),
+                            child: Roboto(
+                                text: "No review",
+                                size: 16,
+                                color: Color(0xFFFFC107),
+                                fontWeight: f.semiBold),
+                          ),
                         ),
+                        SizedBox(height: 20),
+
 
                       ],
                     ),
@@ -440,29 +501,7 @@ class _ProductOverviewState extends State<ProductOverview> {
                           ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 25,  bottom: 15),
-                        child: Row(
-                          children: [
-                            InkWell(
-                              onTap: (){
-                                Navigator.of(context).pop();
-                              },
-                              child: Roboto(
-                                  text: "See all ingredients",
 
-                                  size: 15,
-                                  color: Color(0xFF32A060),
-                                  fontWeight: f.medium),
-                            ),
-                            SizedBox( width: 3,),
-                            Icon(Icons.arrow_forward_rounded,
-                              color: Color(0xFF32A060),
-                              size: 14,
-                            ),
-                          ],
-                        ),
-                      ),
                     ],
                   ),
                 ),

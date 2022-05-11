@@ -6,9 +6,11 @@ import 'package:Florxy/pages/searchpost.dart';
 import 'package:Florxy/widgets/button.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:boxicons/boxicons.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
@@ -121,43 +123,48 @@ class _CreateAccountState extends State<CreateAccount3> {
                           "username": "$username"
                         };
                         var response = await networkHandler.post("/user/register/google", data);
+                        if(response.statusCode == 200 ||
+                            response.statusCode == 201){
+                          String? fullname =
+                          await storage.read(key: "fullname");
+                          String? date =
+                          await storage.read(key: "date");
 
+                          Map<String, String> data3 = {
+                            "fullname": "$fullname",
+                            "DOB": "$date",
+                            "username": "$username"
+                          };
+                          print(username);
+                          print(fullname);
+                          print(date);
+                          var response3 = await networkHandler.post(
+                              "/profile/add-google", data3);
+                          if(response3.statusCode == 200 ||
+                          response3.statusCode == 201){
 
-                        String? fullname =
-                        await storage.read(key: "fullname");
-                        String? date =
-                        await storage.read(key: "date");
+                            Map<String, String> data2 = {
+                              "google": google,
+                            };
 
-                        Map<String, String> data3 = {
-                          "fullname": "$fullname",
-                          "DOB": "$date",
-                          "username": "$username"
-                        };
-                        print(username);
-                        print(fullname);
-                        print(date);
-                        var response3 = await networkHandler.post(
-                            "/profile/add-google", data3);
+                            var response2 = await networkHandler.post("/user/login-google", data2);
+                            Map<String, dynamic> output = json.decode(response2.body);
+                              print(output["token"]);
 
+                              await storage.write(
+                                  key: "username", value: output["username"]);
+                              if(response.statusCode==200|| response.statusCode==201){
+                                await storage.write(key: "token", value: output["token"]);
+                                Navigator.pushAndRemoveUntil(context, MaterialPageRoute
+                                  (builder: (context)=>GoogleStream()), (route) => false);
+                              }else{
+                                String output = json.decode(response.body);
+                              }
 
-
-                        Map<String, String> data2 = {
-                          "google": google,
-                        };
-                        var response2 = await networkHandler.post("/user/login-google", data2);
-                        Map<String, dynamic> output = json.decode(response2.body);
-                          print(output["token"]);
-
-                          await storage.write(
-                              key: "username", value: output["username"]);
-                          if(response.statusCode==200|| response.statusCode==201){
-                            await storage.write(key: "token", value: output["token"]);
-                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute
-                              (builder: (context)=>GoogleStream()), (route) => false);
-                          }else{
-                            String output = json.decode(response.body);
                           }
-                        
+                        }
+
+
                       },
                       child: Padding(
                         padding: EdgeInsets.only(left: 40,right: 40),
@@ -197,39 +204,102 @@ class _CreateAccountState extends State<CreateAccount3> {
                       ),
                     ),
                     SizedBox(height: 25),
-                    Padding(
-                      padding: EdgeInsets.only(left: 40,right: 40),
-                      child: Container(
-                          height: 55,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: c.shadow.withOpacity(0.32),
-                                spreadRadius: -4,
-                                blurRadius: 23,
-                                offset: Offset(0, 6), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              IconButton(
-                                icon: Icon(Boxicons.bxl_facebook_circle),
-                                iconSize: 32,
-                                color: Color(0xFF156ACF),
-                                onPressed: () {},
-                              ),
-                              Inter(
-                                  text: 'Continue with Facebook',
-                                  size: 14,
-                                  color: Color(0xFF484848),
-                                  fontWeight: f.bold
-                              )
-                            ],
-                          )
+                    GestureDetector(
+                      onTap: () async{
+                        final LoginResult result = await FacebookAuth.instance.login(permissions: ['email', 'public_profile', 'user_birthday', 'user_friends', 'user_gender', 'user_link'],); // by default we request the email and the public profile
+                        if (result.status == LoginStatus.success){
+                          final AccessToken accessToken = result.accessToken!;
+                          final userData = await FacebookAuth.i.getUserData(
+                            fields: "name,email,picture.width(200),birthday,friends,gender,link",
+                          );
+                          print(userData["id"]);
+                          final credential = FacebookAuthProvider.credential(accessToken.token);
+                          await FirebaseAuth.instance.signInWithCredential(credential);
+                          String? username = await storage.read(key: "username");
+                          Map<String, String> data = {
+                            "google": userData["id"],
+                            "username": "$username"
+                          };
+                          var response = await networkHandler.post("/user/register/google", data);
+                          if(response.statusCode == 200 ||
+                              response.statusCode == 201){
+                            String? fullname =
+                            await storage.read(key: "fullname");
+                            String? date =
+                            await storage.read(key: "date");
+
+                            Map<String, String> data3 = {
+                              "fullname": "$fullname",
+                              "DOB": "$date",
+                              "username": "$username"
+                            };
+                            print(username);
+                            print(fullname);
+                            print(date);
+                            var response3 = await networkHandler.post(
+                                "/profile/add-google", data3);
+                            if(response3.statusCode == 200 ||
+                                response3.statusCode == 201){
+
+                              Map<String, String> data2 = {
+                                "google": userData["id"],
+                              };
+
+                              var response2 = await networkHandler.post("/user/login-google", data2);
+                              Map<String, dynamic> output = json.decode(response2.body);
+                              print(output["token"]);
+
+                              await storage.write(
+                                  key: "username", value: output["username"]);
+                              if(response.statusCode==200|| response.statusCode==201){
+                                await storage.write(key: "token", value: output["token"]);
+                                Navigator.pushAndRemoveUntil(context, MaterialPageRoute
+                                  (builder: (context)=>GoogleStream()), (route) => false);
+                              }else{
+                                String output = json.decode(response.body);
+                              }
+
+                            }
+                          }
+                        }
+
+
+
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 40,right: 40),
+                        child: Container(
+                            height: 55,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: c.shadow.withOpacity(0.32),
+                                  spreadRadius: -4,
+                                  blurRadius: 23,
+                                  offset: Offset(0, 6), // changes position of shadow
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                IconButton(
+                                  icon: Icon(Boxicons.bxl_facebook_circle),
+                                  iconSize: 32,
+                                  color: Color(0xFF156ACF),
+                                  onPressed: () {},
+                                ),
+                                Inter(
+                                    text: 'Continue with Facebook',
+                                    size: 14,
+                                    color: Color(0xFF484848),
+                                    fontWeight: f.bold
+                                )
+                              ],
+                            )
+                        ),
                       ),
                     ),
                     SizedBox(height: 25),
