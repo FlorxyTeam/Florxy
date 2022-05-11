@@ -9,7 +9,7 @@
 // });
 const express = require("express");
 const mongoose = require("mongoose");
-const Port = process.env.PORT || 1050;
+const Port = process.env.PORT || 8080;
 const app = express();
 
 const mongoURI =

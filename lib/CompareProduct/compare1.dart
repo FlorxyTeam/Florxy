@@ -3,6 +3,7 @@ import 'package:Florxy/Model/productModel.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -60,91 +61,190 @@ class _compare1State extends State<compare1> {
 
 
   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(
+            Theme.of(context).platform == TargetPlatform.android ? 95 : 76.0),
+        child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: c.shadow.withOpacity(0.32),
+                spreadRadius: -17,
+                blurRadius: 30,
+                offset: Offset(0, 6), // changes position of shadow
+              ),
+            ],
+          ),
+          child: AppBar(
+            centerTitle: false,
+            titleSpacing: 0,
+            backgroundColor: Colors.white,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(0),
+                )),
+            bottom: PreferredSize(
+              preferredSize: Size(0, 0),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Row(
+                  children: [
+
+                    Column(
+                      children: [
+                        Poppins(
+                          text: "     Comparing",
+                          size: 18,
+                          color: c.blackMain,
+                          fontWeight: f.semiBold,
+                        ),
+                        Poppins(
+                          text: "Products",
+                          size: 18,
+                          color: c.blackMain,
+                          fontWeight: f.semiBold,
+                        ),
+                      ],
+                    ),
+                    Expanded(child: Container()),
+
+
+                    Padding(
+                      padding: EdgeInsets.only(top: Theme.of(context).platform==TargetPlatform.android?0.5:0, right: 10),
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(),
+                        icon: Icon(FeatherIcons.alertCircle),
+                        iconSize: 20,
+                        color: c.greenMain,
+                        onPressed: () {
+                          // Navigator.pop(context);
+                        },
+                      ),
+                    ),
+
+                    Padding(
+                      padding: EdgeInsets.only(top: Theme.of(context).platform==TargetPlatform.android?0.5:0, right: 20),
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: BoxConstraints(),
+                        icon: Icon(Icons.keyboard_arrow_down_rounded),
+                        iconSize: 35,
+                        color: Colors.black,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+
+
+                  ],
+                ),
+              ),
+            ),
+            // leading: Padding(
+            //   padding: EdgeInsets.only(top: Theme.of(context).platform==TargetPlatform.android?17.5:0, left: 13),
+            //   child: IconButton(
+            //     padding: EdgeInsets.zero,
+            //     constraints: BoxConstraints(),
+            //     icon: Icon(FeatherIcons.chevronLeft),
+            //     iconSize: 34,
+            //     color: Colors.black,
+            //     onPressed: () {
+            //       Navigator.pop(context);
+            //     },
+            //   ),
+            // ),
+          ),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                children: [
-                  IconButton(
-                      icon: Icon(Icons.arrow_back_ios_new_rounded),
-                      color: c.blackMain,
-                      iconSize: 22,
-                      onPressed: () => Navigator.of(context).pop()),
-                  Padding(
-                    padding: const EdgeInsets.only(),
-                    child: Poppins(
-                      text: "Compare 3 products",
-                      color: c.blackMain,
-                      fontWeight: f.semiBold,
-                      size: 25,
-                    ),
-                  ),
-                ],
-              ),
-              // Container(
-              //   padding: EdgeInsets.only(right: 28, left: 28),
-              //   width: MediaQuery.of(context).size.width,
-              //   child: Divider(
-              //     height: 0,
-              //     color: c.greyMain,
-              //     thickness: 0.4,
-              //   ),
-              // ),
-              SizedBox(
-                height: 5,
-              ),
+          child: Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
 
+                Container(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  // color: c.redMain,
+                  child: Consumer<PostProvider>(
+                    builder: (context, model, _) => FutureBuilder(
+                      future: model.fetchCompare3(),
+                      builder: (context, snapshot) => ListView.separated(
+                        padding: EdgeInsets.only(left: 28, right: 2),
+                        itemCount: model.com3?.length ?? 0,
+                        separatorBuilder: (context, _) => SizedBox(),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) =>
+                            buildCard_brand_Mention(
+                              model.com3![index]['p_name'],
+                              model.com3![index]['p_img'],
+                              model.com3![index]['_id'],
+                              model.com3![index]['p_brand'],
+                              model.com3![index]['p_desc'],
+                              model.com3![index]['p_cate'],
+                              model.com3![index]['ind_id'],
+                              model.com3![index]['rating'].toDouble(),
+                              model.com3![index]['numReview'],
 
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-
-                  Container(
-                    height: MediaQuery.of(context).size.height,
-                    width: MediaQuery.of(context).size.height,
-                    // color: c.redMain,
-                    child: Consumer<PostProvider>(
-                      builder: (context, model, _) => FutureBuilder(
-                        future: model.fetchCompare3(),
-                        builder: (context, snapshot) => ListView.separated(
-                          padding: EdgeInsets.only(left: 28, right: 2),
-                          itemCount: model.com3?.length ?? 0,
-                          separatorBuilder: (context, _) => SizedBox(),
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) =>
-                              buildCard_brand_Mention(
-                                model.com3![index]['p_name'],
-                                model.com3![index]['p_img'],
-                                model.com3![index]['_id'],
-
-                                model.com3![index]['p_brand'],
-
-                              ),
-                        ),
+                            ),
                       ),
                     ),
                   ),
-                ],
-              ),
-              SizedBox(
-                height: 5,
-              ),
+                ),
 
-            ],
+
+
+
+
+                // Container(
+                //   height: MediaQuery.of(context).size.height,
+                //   width: MediaQuery.of(context).size.width,
+                //   // color: c.redMain,
+                //   child: Consumer<PostProvider>(
+                //     builder: (context, model, _) => FutureBuilder(
+                //       future: model.fetchCompare2(),
+                //       builder: (context, snapshot) => ListView.separated(
+                //         padding: EdgeInsets.only(left: 28, right: 2),
+                //         itemCount: model.com2?.length ?? 0,
+                //         separatorBuilder: (context, _) => SizedBox(),
+                //         scrollDirection: Axis.horizontal,
+                //         itemBuilder: (context, index) =>
+                //             buildCard_brand_Mention(
+                //               model.com2![index]['p_name'],
+                //               model.com2![index]['p_img'],
+                //               model.com2![index]['_id'],
+                //
+                //               model.com2![index]['p_brand'],
+                //
+                //             ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
+                SizedBox(
+                  height: 5,
+                ),
+
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Widget buildCard_brand_Mention(String p_name, String p_img, String id,  String p_brand) =>
+
+
+  Widget buildCard_brand_Mention(String p_name, String p_img, String id,  String p_brand, String p_desc, String p_cate, List ing, double rating, int numReview) =>
       Container(
         width: MediaQuery.of(context).size.width * 0.41,
         // height: MediaQuery.of(context).size.height ,
@@ -168,7 +268,7 @@ class _compare1State extends State<compare1> {
 
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.only(left: 5, right: 5, top: 7, bottom: 7),
+                    padding: const EdgeInsets.only(left: 0, right: 0, top: 7, bottom: 7),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -230,11 +330,131 @@ class _compare1State extends State<compare1> {
                         ),
                         Container(
                           padding: EdgeInsets.only(),
-                          width: MediaQuery.of(context).size.width,
+                          width: MediaQuery.of(context).size.width+4,
                           child: Divider(
                             height: 0,
                             color: c.greyMain,
                             thickness: 0.4,
+                          ),
+                        ),
+                        Container(
+                          // height: 45,
+                          padding: const EdgeInsets.only(top: 5, left: 7),
+                          width: MediaQuery.of(context).size.width * 0.34,
+                          child: Text(
+                            p_desc,
+                            maxLines: 5,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: f.semiBold,
+                                color: Color(0xFF0254231)),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(),
+                          width: MediaQuery.of(context).size.width+4,
+                          child: Divider(
+                            height: 0,
+                            color: c.greyMain,
+                            thickness: 0.4,
+                          ),
+                        ),
+                        Container(
+                          // height: 45,
+                          padding: const EdgeInsets.only(top: 5, left: 7),
+                          width: MediaQuery.of(context).size.width * 0.34,
+                          child: Text(
+                            p_cate,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: f.semiBold,
+                                color: Color(0xFF0254231)),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(),
+                          width: MediaQuery.of(context).size.width+4,
+                          child: Divider(
+                            height: 0,
+                            color: c.greyMain,
+                            thickness: 0.4,
+                          ),
+                        ),
+                        Container(
+                          // height: 45,
+                          padding: const EdgeInsets.only(top: 5, left: 7),
+                          width: MediaQuery.of(context).size.width * 0.34,
+                          child: Text(
+                            "Higlight",
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: f.semiBold,
+                                color: Color(0xFF0254231)),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(),
+                          width: MediaQuery.of(context).size.width+4,
+                          child: Divider(
+                            height: 0,
+                            color: c.greyMain,
+                            thickness: 0.4,
+                          ),
+                        ),
+                        Container(
+                          // height: 45,
+                          padding: const EdgeInsets.only(top: 5, left: 7),
+                          width: MediaQuery.of(context).size.width * 0.34,
+                          child: Text(
+                            "Beware",
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: f.semiBold,
+                                color: Color(0xFF0254231)),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(),
+                          width: MediaQuery.of(context).size.width+4,
+                          child: Divider(
+                            height: 0,
+                            color: c.greyMain,
+                            thickness: 0.4,
+                          ),
+                        ),
+                        numReview !=0 ?
+                        Container(
+                          // height: 45,
+                          padding: const EdgeInsets.only(top: 5, left: 7),
+                          width: MediaQuery.of(context).size.width * 0.34,
+                          child: Text(
+                            rating.toString(),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: f.semiBold,
+                                color: Color(0xFF0254231)),
+                          ),
+                        ):Container(
+                          // height: 45,
+                          padding: const EdgeInsets.only(top: 5, left: 7),
+                          width: MediaQuery.of(context).size.width * 0.34,
+                          child: Text(
+                            "No review",
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: GoogleFonts.poppins(
+                                fontSize: 14,
+                                fontWeight: f.semiBold,
+                                color: Color(0xFF0254231)),
                           ),
                         ),
                         Expanded(

@@ -162,7 +162,7 @@ router.route("/brand/:p_brand").get(middleware.checkToken, (req, res) => {
 
 // go to ProductOverview
 router.route("/:_id").get(middleware.checkToken, (req, res) => {
-    products.findOne({_id: req.params._id}, (err, result) => {
+    products.findOne({_id: req.params._id}).populate("ing_id").exec(function (err, result) {
         console.log("ProductOverview");
         if(err) res.status(500).json({msg: err});
         else return res.json({
@@ -174,7 +174,7 @@ router.route("/:_id").get(middleware.checkToken, (req, res) => {
 
 // top 5 mentions
 router.route("/topmention/brand/:p_brand").get(middleware.checkToken, (req, res ) =>{
-     products.find({p_brand: req.params.p_brand}).sort({mention: -1}).limit(5).exec(function(err, mention){
+     products.find({p_brand: req.params.p_brand}).sort({numReview: -1}).limit(5).exec(function(err, mention){
      if(err) res.status(500).json({msg: err});
         res.json({
             data: mention,
@@ -396,6 +396,19 @@ router.route("/view/productoverview/:username").get(middleware.checkToken, (req,
         })
     })
 });
+
+router.route("/accoutbrand/:brand").get(middleware.checkToken, (req, res) => {
+    Brand.findOne({name: req.params.brand}).populate("recommend").populate("owners").exec(function (err, result){
+
+        if(err) res.status(500).json({msg: err});
+        else return res.json({
+            data: result,
+        })
+    })
+});
+
+
+
 
 
 

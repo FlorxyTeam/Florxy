@@ -6,6 +6,12 @@ import 'package:Florxy/pages/comparepage.dart';
 import 'package:Florxy/pages/productoverview.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -17,15 +23,15 @@ import '../widgets/button.dart';
 import '../widgets/fontWeight.dart';
 import '../widgets/font.dart';
 
-class AllProductofbrand extends StatefulWidget {
+class Category extends StatefulWidget {
   String? p_brand;
-  AllProductofbrand({Key? key, this.p_brand}) : super(key: key);
+  Category({Key? key, this.p_brand}) : super(key: key);
 
   @override
-  _AllProductofbrandState createState() => _AllProductofbrandState();
+  _CategoryState createState() => _CategoryState();
 }
 
-class _AllProductofbrandState extends State<AllProductofbrand> {
+class _CategoryState extends State<Category> {
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
   String query = '';
@@ -155,7 +161,7 @@ class _AllProductofbrandState extends State<AllProductofbrand> {
                       ? 18.5
                       : 0),
               child: Poppins(
-                text: "All Product of " +widget.p_brand!,
+                text: "All Product of " ,
                 size: 20,
                 color: c.blackMain,
                 fontWeight: f.semiBold,
@@ -208,12 +214,9 @@ class _AllProductofbrandState extends State<AllProductofbrand> {
                         shrinkWrap: true,
                         itemBuilder: (context, index) {
                           final product = products[index];
-
-                          if(products[index].p_brand == widget.p_brand){
                             return buildProoduct(product);
-                          }else{
-                            return Container();
-                          }
+
+
                           // return buildProoduct(product);
                         },
                       ),
