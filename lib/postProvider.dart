@@ -29,6 +29,7 @@ class PostProvider extends ChangeNotifier {
   List<dynamic>? searchUser;
   List<dynamic>? searchProduct;
   List<dynamic>? report;
+  List<dynamic>? problem;
 
 
 
@@ -379,11 +380,11 @@ class PostProvider extends ChangeNotifier {
     print(searchProduct);
   }
 
-  Future fetchReport(String idPost) async{
+  Future fetchReport(username) async{
     // var id = await storage.read(key: 'idPost');
     // print(id);
     String? token = await storage.read(key:"token");
-    final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/home/getReport/"+idPost);
+    final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/home/getReport/"+username);
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization":"Bearer $token"},
@@ -391,6 +392,22 @@ class PostProvider extends ChangeNotifier {
     final Map parsedReport = await json.decode(response.body.toString());
 
     report = parsedReport["report"];
+    // print('comment');
+    // print(comment);
+  }
+
+  Future fetchProblem(username) async{
+    // var id = await storage.read(key: 'idPost');
+    // print(id);
+    String? token = await storage.read(key:"token");
+    final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/home/getProblem/"+username);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization":"Bearer $token"},
+    );
+    final Map parsedProblem = await json.decode(response.body.toString());
+
+    problem = parsedProblem["problem"];
     // print('comment');
     // print(comment);
   }

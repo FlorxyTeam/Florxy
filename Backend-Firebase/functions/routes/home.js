@@ -6,6 +6,7 @@ const Post = require("../models/post.model");
 const Product = require("../models/product.model");
 const Comment = require("../models/comment.model");
 const Report = require("../models/report.model");
+const Problem = require("../models/problem.model");
 const multer = require("multer");
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -368,8 +369,8 @@ router.route("/getPost/viewPost/:id/:product")
             });
         });
 
-        router.route("/getReport/:id").get((req,res)=>{
-              Report.find({mainpost:req.params.id}).exec(function(err,findReport) {
+        router.route("/getReport/:username").get((req,res)=>{
+              Report.find({ username: req.params.username }).exec(function(err,findReport) {
                   if(err){
                     return res.json(err);
                   } else {
@@ -377,5 +378,30 @@ router.route("/getPost/viewPost/:id/:product")
                   }
               });
             });
+
+    router.route("/problem").post((req, res) => {
+              const problem = Problem({
+                username: req.body.username,
+                body: req.body.body,
+              });
+              problem
+                .save()
+                .then(() => {
+                  return res.json("add problem successfull");
+                })
+                .catch((err) => {
+                  return res.status(400).json({ err: err });
+                });
+            });
+
+            router.route("/getProblem/:username").get((req,res)=>{
+                  Problem.find({ username: req.params.username }).exec(function(err,findProblem) {
+                      if(err){
+                        return res.json(err);
+                      } else {
+                        return res.send({ problem: findProblem , countProblem: findProblem.length });
+                      }
+                  });
+                });
 
 module.exports = router;

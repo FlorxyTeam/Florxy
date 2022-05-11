@@ -352,10 +352,8 @@ class _ListMenuState extends State<ListMenu> {
                     size: 15,
                     color: c.blackMain,
                     fontWeight: f.semiBold),
-                onTap: () async {
-                  // Future.delayed(Duration(microseconds: 0));
-                  closeDialog(context);
-                  await Navigator.of(context).push(_createRoute());
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReportPage(my_username: widget.my_username,idpost: widget.idpost,)));
                 },
               ),
               decoration: BoxDecoration(
