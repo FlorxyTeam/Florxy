@@ -22,6 +22,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/services.dart';
 import 'postProvider.dart';
+import 'package:Florxy/web/navbarWeb.dart';
+
 import 'package:firebase_app_check/firebase_app_check.dart';
 
 Future<void> backgroundHandler(RemoteMessage message) async{
@@ -70,7 +72,7 @@ class _MyAppState extends State<MyApp> {
     if(token != null){
       setState(() {
         page= FlorxyScreen();
-        web = LoadingScreenWeb();
+        web = NavbarWeb(currentState: 0,);
       });
     }else{
       setState(() {

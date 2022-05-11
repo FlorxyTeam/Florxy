@@ -17,6 +17,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import '../Model/userModel.dart';
 import '../NetworkHandler.dart';
 import '../pages/Loadingscreen.dart';
 import '../pages/createaccount_withemail.dart';
@@ -58,7 +59,10 @@ class _WelcomePageWebState extends State<WelcomePageWeb> {
     });
     super.initState();
   }
-
+  UserModel userModel = UserModel(
+    email: "",
+    username: "",
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -226,12 +230,23 @@ class _WelcomePageWebState extends State<WelcomePageWeb> {
                                             setState(() {
                                               circular=true;
                                             });
+                                            String myemail = _emailController.text;
+                                            var getuser = await networkHandler.get("/user/getUsername/$myemail");
+                                            print(getuser);
+                                            userModel = UserModel.fromJson(getuser["data"]);
+                                            print("USERNAME: "+userModel.username);
+
                                             Map<String, String> data = {
                                               "email": _emailController.text,
+                                              "username": userModel.username,
                                               "password": _passwordController.text,
                                             };
                                             var response = await networkHandler.post("/user/login-email", data);
 
+
+
+                                            await storage.write(
+                                                key: "username", value: userModel.username);
                                             if(response.statusCode==200|| response.statusCode==201){
                                               Map<String, dynamic> output = json.decode(response.body);
                                               print(output["msg"]);
@@ -266,129 +281,7 @@ class _WelcomePageWebState extends State<WelcomePageWeb> {
                                 ],
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top:18.0,bottom: 18.0),
-                            child: Row(
-                              children: [
-                                Expanded(child: Divider()),
-                                Padding(
-                                  padding: const EdgeInsets.only(left:8.0,right: 8.0),
-                                  child: Inter(text: 'OR', size: 12, color: c.graySub2, fontWeight: f.semiBold),
-                                ),
-                                Expanded(child: Divider()),
-
-                              ],
-                            ),
-                          ),
-                          // SizedBox(height: 26),
-                          GestureDetector(
-                            onTap: () async {
-                              final provider = Provider.of<GoogleSignInProvider>(context, listen:false);
-                              await provider.googleLogin();
-                              // print(user.email);
-                              // print(user.uid);
-
-                              Navigator.pushAndRemoveUntil(context, MaterialPageRoute
-                                (builder: (context)=>GoogleStream()), (route) => false);
-
-
-
-                            },
-                            child: Container(
-                                height: 45,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: c.shadow.withOpacity(0.32),
-                                      spreadRadius: -4,
-                                      blurRadius: 23,
-                                      offset: Offset(0, 6), // changes position of shadow
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(right: 9),
-                                      child: Image(
-                                        image: AssetImage('assets/img/Google_icon-icons.com_66793.png'),
-                                        height: 18,
-                                      ),
-                                    ),
-                                    Flexible(
-                                      child: Inter(
-                                          text: 'Continue with Google',
-                                          size: 12,
-                                          color: Color(0xFF484848),
-                                          fontWeight: f.bold
-                                      ),
-                                    )
-                                  ],
-                                )
-                            ),
-                          ),
-                          SizedBox(height: 15),
-                          GestureDetector(
-                            onTap: () async {
-                              final LoginResult result = await FacebookAuth.instance.login(permissions: ['email', 'public_profile', 'user_birthday', 'user_friends', 'user_gender', 'user_link'],); // by default we request the email and the public profile
-                              print("result: $result");
-// or FacebookAuth.i.login()
-                              if (result.status == LoginStatus.success) {
-                                // you are logged
-                                final AccessToken accessToken = result.accessToken!;
-                                final userData = await FacebookAuth.i.getUserData(
-                                  fields: "name,email,picture.width(200),birthday,friends,gender,link",
-                                );
-                                print(userData);
-                                print(accessToken.token);
-                                final credential = FacebookAuthProvider.credential(accessToken.token);
-                                await FirebaseAuth.instance.signInWithCredential(credential);
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => GoogleStream()));
-
-                                // print("hi");
-                                // print(accessToken);
-                                // print(result);
-                              } else {
-                                print(result.status);
-                                print(result.message);
-                              }
-                            },
-                            child: Container(
-                                height: 45,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(50),
-                                  color: Colors.white,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: c.shadow.withOpacity(0.32),
-                                      spreadRadius: -4,
-                                      blurRadius: 23,
-                                      offset: Offset(0, 6), // changes position of shadow
-                                    ),
-                                  ],
-                                ),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Padding(
-                                        padding: EdgeInsets.only(right: 7),
-                                        child: Icon(Boxicons.bxl_facebook_circle, size: 24,color: Color(0xFF156ACF))),
-                                    Flexible(
-                                      child: Inter(
-                                          text: 'Continue with Facebook',
-                                          size: 12,
-                                          color: Color(0xFF484848),
-                                          fontWeight: f.bold
-                                      ),
-                                    )
-                                  ],
-                                )
-                            ),
-                          ),
+                          ), // SizedBox(height: 26),
                           SizedBox(height: 40),
                           InkWell(
                             onTap: (){

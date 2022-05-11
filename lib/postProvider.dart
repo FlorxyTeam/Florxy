@@ -38,7 +38,9 @@ class PostProvider extends ChangeNotifier {
     final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/home/getPost");
     http.Response response = await httpClient.get(
       resAPIURL,
-      headers: {"Authorization": "Bearer $token","Access-Control-Allow-Origin": "*"
+      headers: {"Authorization": "Bearer $token","Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'
       },
 
     );
@@ -54,7 +56,9 @@ class PostProvider extends ChangeNotifier {
     final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/brand");
     http.Response response = await httpClient.get(
       resAPIURL,
-      headers: {"Authorization": "Bearer $token","Access-Control-Allow-Origin": "*"
+      headers: {"Authorization": "Bearer $token","Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'
       },
     );
     final Map parseBrand = await json.decode(response.body.toString());
@@ -70,7 +74,9 @@ class PostProvider extends ChangeNotifier {
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization": "Bearer $token",
-        "Access-Control-Allow-Origin": "*"
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'
       },
     );
 
@@ -88,7 +94,9 @@ class PostProvider extends ChangeNotifier {
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization": "Bearer $token",
-    "Access-Control-Allow-Origin": "*"
+    "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'
     },
     );
 
@@ -106,7 +114,9 @@ class PostProvider extends ChangeNotifier {
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization": "Bearer $token",
-        "Access-Control-Allow-Origin": "*"},
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
 
     );
     final Map parsedProduct = await json.decode(response.body.toString());
@@ -123,7 +133,9 @@ class PostProvider extends ChangeNotifier {
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization": "Bearer $token",
-        "Access-Control-Allow-Origin": "*"},
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
     final Map parsedProduct = await json.decode(response.body.toString());
 
@@ -138,7 +150,9 @@ class PostProvider extends ChangeNotifier {
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization": "Bearer $token",
-        "Access-Control-Allow-Origin": "*"},
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
     final Map parsedProduct = await json.decode(response.body.toString());
 
@@ -169,7 +183,9 @@ class PostProvider extends ChangeNotifier {
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization":"Bearer $token",
-        "Access-Control-Allow-Origin": "*"},
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
     final Map parsedProduct = await json.decode(response.body.toString());
 
@@ -184,7 +200,9 @@ class PostProvider extends ChangeNotifier {
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization":"Bearer $token",
-        "Access-Control-Allow-Origin": "*"},
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
     final Map parsedProduct = await json.decode(response.body.toString());
 
@@ -204,7 +222,9 @@ class PostProvider extends ChangeNotifier {
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization": "Bearer $token",
-        "Access-Control-Allow-Origin": "*"},
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
 
     final Map parseBrand = await json.decode(response.body.toString());
@@ -227,7 +247,9 @@ class PostProvider extends ChangeNotifier {
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization": "Bearer $token",
-        "Access-Control-Allow-Origin": "*"},
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
 
     final Map parseBrand = await json.decode(response.body.toString());
@@ -246,7 +268,9 @@ class PostProvider extends ChangeNotifier {
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization": "Bearer $token",
-        "Access-Control-Allow-Origin": "*"},
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
 
     final Map parseBrand = await json.decode(response.body.toString());
@@ -263,7 +287,9 @@ class PostProvider extends ChangeNotifier {
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization": "Bearer $token",
-        "Access-Control-Allow-Origin": "*"},
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
 
     final Map parseBrand = await json.decode(response.body.toString());
@@ -281,7 +307,9 @@ class PostProvider extends ChangeNotifier {
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization": "Bearer $token",
-        "Access-Control-Allow-Origin": "*"},
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
 
     final Map parseBrand = await json.decode(response.body.toString());
@@ -301,7 +329,9 @@ class PostProvider extends ChangeNotifier {
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization": "Bearer $token",
-        "Access-Control-Allow-Origin": "*"},
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
     final Map parsedProduct = await json.decode(response.body.toString());
 
@@ -318,7 +348,9 @@ class PostProvider extends ChangeNotifier {
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization": "Bearer $token",
-        "Access-Control-Allow-Origin": "*"},
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
     final Map parsedProduct = await json.decode(response.body.toString());
 
@@ -335,7 +367,9 @@ class PostProvider extends ChangeNotifier {
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization": "Bearer $token",
-        "Access-Control-Allow-Origin": "*"},
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
     final Map parsedProduct = await json.decode(response.body.toString());
 

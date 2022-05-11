@@ -15,6 +15,9 @@ import 'package:Florxy/pages/Laboratory.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../widgets/font.dart';
+import 'homePageWeb.dart';
+
 
 
 class NavbarWeb extends StatefulWidget {
@@ -26,7 +29,7 @@ class NavbarWeb extends StatefulWidget {
 }
 
 class _NavbarWebState extends State<NavbarWeb> {
-  List pages = [HomePage(), SearchPage(), laboratory(),NotificationPage(), ProfilePage()];
+  List pages = [HomePageWeb(), SearchPage(), laboratory(),NotificationPage(), ProfilePage()];
   int _currentIndex = 0;
   NetworkHandler networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
@@ -52,28 +55,36 @@ class _NavbarWebState extends State<NavbarWeb> {
         children: [
           pages[_currentIndex],
           Positioned(
-              bottom: 0,
+              top: 0,
               left: 0,
               child: Container(
                 width: size.width,
-                height: Theme.of(context).platform==TargetPlatform.android?75:95,
+                height: 60,
                 decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(40),
-                        topRight: Radius.circular(40))),
+                    color: Colors.white,),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
+
+                    SizedBox(width: 70,),
+                    Poppins(
+                      text: 'FLORXY',
+                      fontWeight: f.semiBold,
+                      color: c.blackMain,
+                      size: 25,
+                    ),
+                    Expanded(child: Container()),
                     Container(
-                        width: 45,
-                        height: 45,
+                        width: 40,
+                        height: 40,
                         decoration: BoxDecoration(
                             color: _currentIndex == 0
                                 ? c.greenLight2.withOpacity(0.8)
                                 : Colors.white,
                             borderRadius: BorderRadius.circular(10)),
                         child: IconButton(
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
                             padding: EdgeInsets.zero,
                             onPressed: () {
                               setState(() {
@@ -81,18 +92,22 @@ class _NavbarWebState extends State<NavbarWeb> {
                               });
                             },
                             icon: Icon(Boxicons.bx_home_circle),
-                            iconSize: 30,
+                            iconSize: 25,
                             color:
-                                _currentIndex == 0 ? c.greenMain : c.greyMain)),
+                                _currentIndex == 0 ? c.greenMain : Colors.black,
+                        )),
                     Container(
-                        width: 45,
-                        height: 45,
+                        width: 40,
+                        height: 40,
                         decoration: BoxDecoration(
                             color: _currentIndex == 1
                                 ? c.greenLight2.withOpacity(0.8)
                                 : Colors.white,
                             borderRadius: BorderRadius.circular(10)),
                         child: IconButton(
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
                             padding: EdgeInsets.zero,
                             onPressed: () {
                               print(_currentIndex);
@@ -101,18 +116,21 @@ class _NavbarWebState extends State<NavbarWeb> {
                               });
                             },
                             icon: Icon(Boxicons.bx_search),
-                            iconSize: 30,
+                            iconSize: 25,
                             color:
-                                _currentIndex == 1 ? c.greenMain : c.greyMain)),
+                                _currentIndex == 1 ? c.greenMain : Colors.black,)),
                     Container(
-                        width: 45,
-                        height: 45,
+                        width: 40,
+                        height: 40,
                         decoration: BoxDecoration(
                             color: _currentIndex == 2
                                 ? c.greenLight2.withOpacity(0.8)
                                 : Colors.white,
                             borderRadius: BorderRadius.circular(10)),
                         child: IconButton(
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
                             padding: EdgeInsets.zero,
                             onPressed: () {
                               setState(() {
@@ -120,18 +138,21 @@ class _NavbarWebState extends State<NavbarWeb> {
                               });
                             },
                             icon: Icon(Boxicons.bxs_flask),
-                            iconSize: 30,
+                            iconSize: 25,
                             color:
-                                _currentIndex == 2 ? c.greenMain : c.greyMain)),
+                                _currentIndex == 2 ? c.greenMain : Colors.black,)),
                     Container(
-                        width: 45,
-                        height: 45,
+                        width: 40,
+                        height: 40,
                         decoration: BoxDecoration(
                             color: _currentIndex == 3
                                 ? c.greenLight2.withOpacity(0.8)
                                 : Colors.white,
                             borderRadius: BorderRadius.circular(10)),
                         child: IconButton(
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
                             padding: EdgeInsets.zero,
                             onPressed: () {
                               setState(() {
@@ -139,18 +160,21 @@ class _NavbarWebState extends State<NavbarWeb> {
                               });
                             },
                             icon: Icon(Boxicons.bx_bell),
-                            iconSize: 30,
+                            iconSize: 25,
                             color:
-                            _currentIndex == 3 ? c.greenMain : c.greyMain)),
+                            _currentIndex == 3 ? c.greenMain : Colors.black,)),
                     Container(
-                        width: 45,
-                        height: 45,
+                        width: 40,
+                        height: 40,
                         decoration: BoxDecoration(
                             color: _currentIndex == 4
                                 ? c.greenLight2.withOpacity(0.8)
                                 : Colors.white,
                             borderRadius: BorderRadius.circular(10)),
                         child: IconButton(
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
                             padding: EdgeInsets.zero,
                             onPressed: () {
                               setState(() {
@@ -158,9 +182,11 @@ class _NavbarWebState extends State<NavbarWeb> {
                               });
                             },
                             icon: Icon(Boxicons.bx_user_circle),
-                            iconSize: 30,
+                            iconSize: 25,
                             color:
-                                _currentIndex == 4 ? c.greenMain : c.greyMain)),
+                                _currentIndex == 4 ? c.greenMain : Colors.black,)),
+                    SizedBox(width: 70,),
+
                   ],
                 ),
               ))
