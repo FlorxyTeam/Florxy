@@ -1,11 +1,20 @@
+import 'dart:convert';
+
 import 'package:Florxy/pages/createaccount2.dart';
 import 'package:Florxy/pages/createaccount_withemail.dart';
+import 'package:Florxy/pages/searchpost.dart';
 import 'package:Florxy/widgets/button.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:boxicons/boxicons.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/google_sign_in.dart';
+import 'createaccount1.dart';
+import 'googlestream.dart';
 
 
 class CreateAccount3 extends StatefulWidget {
@@ -16,6 +25,9 @@ class CreateAccount3 extends StatefulWidget {
 }
 
 class _CreateAccountState extends State<CreateAccount3> {
+  final storage = new FlutterSecureStorage();
+
+
   @override
   Widget build(BuildContext context) {
 
@@ -96,40 +108,99 @@ class _CreateAccountState extends State<CreateAccount3> {
                       ],
                     ),
                     SizedBox(height: 80,),
-                    Padding(
-                      padding: EdgeInsets.only(left: 40,right: 40),
-                      child: Container(
-                          height: 55,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            color: Colors.white,
-                            boxShadow: [
-                              BoxShadow(
-                                color: c.shadow.withOpacity(0.32),
-                                spreadRadius: -4,
-                                blurRadius: 23,
-                                offset: Offset(0, 6), // changes position of shadow
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(right: 10),
-                                child: Image(
-                                  image: AssetImage('assets/img/Google_icon-icons.com_66793.png'),
-                                  height: 25,
+                    GestureDetector(
+                      onTap: () async{
+                        final provider = Provider.of<GoogleSignInProvider>(context, listen:false);
+                        var google = await provider.googleLogin();
+                        // print(google + "thiasssdsksspdkspodkspd");
+                        String? username = await storage.read(key: "username");
+                        print(username);
+                        print(google);
+                        Map<String, String> data = {
+                          "google": google,
+                          "username": "$username"
+                        };
+                        var response = await networkHandler.post("/user/register/google", data);
+
+
+                        String? fullname =
+                        await storage.read(key: "fullname");
+                        String? date =
+                        await storage.read(key: "date");
+
+                        Map<String, String> data3 = {
+                          "fullname": "$fullname",
+                          "DOB": "$date",
+                          "username": "$username"
+                        };
+                        print(username);
+                        print(fullname);
+                        print(date);
+                        var response3 = await networkHandler.post(
+                            "/profile/add-google", data3);
+
+
+
+                        Map<String, String> data2 = {
+                          "google": google,
+                        };
+                        var response2 = await networkHandler.post("/user/login-google", data2);
+                        Map<String, dynamic> output = json.decode(response2.body);
+                        if(output["msg"].toString().contains('false')){
+                          print('false');
+                          final provider = Provider.of<GoogleSignInProvider>(context,listen: false);
+                          provider.logout();
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateAccount1()));
+                        }
+                        else{
+                          print(output["token"]);
+
+                          await storage.write(
+                              key: "username", value: output["username"]);
+                          if(response.statusCode==200|| response.statusCode==201){
+                            await storage.write(key: "token", value: output["token"]);
+                            Navigator.pushAndRemoveUntil(context, MaterialPageRoute
+                              (builder: (context)=>GoogleStream()), (route) => false);
+                          }else{
+                            String output = json.decode(response.body);
+                          }
+                        }
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 40,right: 40),
+                        child: Container(
+                            height: 55,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(50),
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: c.shadow.withOpacity(0.32),
+                                  spreadRadius: -4,
+                                  blurRadius: 23,
+                                  offset: Offset(0, 6), // changes position of shadow
                                 ),
-                              ),
-                              Inter(
-                                  text: 'Continue with Google',
-                                  size: 14,
-                                  color: Color(0xFF484848),
-                                  fontWeight: f.bold
-                              )
-                            ],
-                          )
+                              ],
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(right: 10),
+                                  child: Image(
+                                    image: AssetImage('assets/img/Google_icon-icons.com_66793.png'),
+                                    height: 25,
+                                  ),
+                                ),
+                                Inter(
+                                    text: 'Continue with Google',
+                                    size: 14,
+                                    color: Color(0xFF484848),
+                                    fontWeight: f.bold
+                                )
+                              ],
+                            )
+                        ),
                       ),
                     ),
                     SizedBox(height: 25),

@@ -342,6 +342,23 @@ router.route("/add").post(middleware.checkToken, (req, res) => {
     });
 });
 
+router.route("/add-google").post((req, res) => {
+  // eslint-disable-next-line new-cap
+  const profile = Profile({
+    username: req.body.username,
+    fullname: req.body.fullname,
+    DOB: req.body.DOB,
+  });
+  profile
+    .save()
+    .then(() => {
+      return res.json({ msg: "profile successfully stored" });
+    })
+    .catch((err) => {
+      return res.status(400).json({ err: err });
+    });
+});
+
 router.route("/checkProfile").get(middleware.checkToken, (req, res) => {
   Profile.findOne({ username: req.decoded.username }, (err, result) => {
     if (err) return res.json({ err: err });
