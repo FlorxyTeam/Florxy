@@ -72,7 +72,7 @@ class _MyAppState extends State<MyApp> {
     if(token != null){
       setState(() {
         page= FlorxyScreen();
-        web = NavbarWeb(currentState: 0,);
+        web = NavbarWeb(currentState: 1,);
       });
     }else{
       setState(() {
