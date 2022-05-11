@@ -1,4 +1,5 @@
-import 'package:Florxy/pages/AllProductofBrand.dart';
+
+import 'package:Florxy/pages/AllProductBrand.dart';
 import 'package:Florxy/pages/productoverview.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
