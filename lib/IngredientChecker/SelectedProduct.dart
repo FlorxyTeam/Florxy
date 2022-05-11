@@ -52,8 +52,36 @@ class _SelectedProductState extends State<SelectedProduct> {
   IngModel ingModel = IngModel(
     name: '',
     func: [],
+    calling: '',
+    come: '',
+    cosing: '',
+    detail: '',
+    irr: '',
+    rate: '',
   );
-
+  // Exfoliant -> Exfoliant
+  // Perfuming -> Perfuming
+  List Fight_Acne = [];
+  List Brightening = [];
+  List Moisturizer = [];
+  List Soothing = [];
+  List UV_Protection = [];
+  List Antioxidant = [];
+  List Preservation = [];
+  List Exfoliant = [];
+  List Perfuming = [];
+  List Antibacterial = [];
+  bool checkFight_Acne = false;
+  bool checkBrightening = false;
+  bool checkMoisturizer = false;
+  bool checkSoothing = false;
+  bool checkUV_Protection = false;
+  bool checkAntioxidant = false;
+  bool checkPreservation = false;
+  bool checkExfoliant = false;
+  bool checkPerfuming = false;
+  bool checkAntibacterial = false;
+  bool Loading = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -101,11 +129,73 @@ class _SelectedProductState extends State<SelectedProduct> {
       });
     }
     int z= 0;
+// anti-acne -> Fight Acne
+// skin brightening -> Brightening
+// moisturizer/humectant -> Moisturizer
+// soothing -> Soothing
+// sunscreen -> UV Protection
+// antioxidant -> Antioxidant
+// preservative -> Preservation
+// exfoliant -> Exfoliant
+// perfuming -> Perfuming
+// antimicrobial/antibacterial -> Antibacterial
+    setState(() {
+      for(var e in ingInfo){
+        print(e.name +' : '+e.func);
+        if(e.func=="anti-acne"){
+          Fight_Acne.add(e.name);
+          checkFight_Acne=true;
+        }
+        else if(e.func=="skin brightening"){
+          Brightening.add(e.name);
+          checkBrightening=true;
+        }
+        else if(e.func=="moisturizer/humectant"){
+          Moisturizer.add(e.name);
+          checkMoisturizer=true;
+        }
+        else if(e.func=="soothing"){
+          Soothing.add(e.name);
+          checkSoothing=true;
+        }
+        else if(e.func=="sunscreen"){
+          UV_Protection.add(e.name);
+          checkUV_Protection=true;
+        }
+        else if(e.func=="antioxidant"){
+          Antioxidant.add(e.name);
+          checkAntioxidant=true;
+        }
+        else if(e.func=="preservative"){
+          Preservation.add(e.name);
+          checkPreservation=true;
+        }
+        else if(e.func=="exfoliant"){
+          Exfoliant.add(e.name);
+          checkExfoliant=true;
+        }
+        else if(e.func=="perfuming"){
+          Perfuming.add(e.name);
+          checkPerfuming=true;
+        }
+        else if(e.func=="antimicrobial/antibacterial"){
+          Antibacterial.add(e.name);
+          checkAntibacterial=true;
+        }
 
-    List functi = [];
-    for(var e in ingInfo){
-      print(e.name +' : '+e.func);
-    }
+      }
+      print(Fight_Acne);
+      print(Brightening);
+      print(Moisturizer);
+      print(Soothing);
+      print(UV_Protection);
+      print(Antioxidant);
+      print(Preservation);
+      print(Exfoliant);
+      print(Perfuming);
+      print(Antibacterial);
+      Loading = true;
+    });
 
 
   }
@@ -186,7 +276,120 @@ class _SelectedProductState extends State<SelectedProduct> {
           ),
         ),
       ),
-      body: Text('hi'),
+      body: Padding(
+        padding: EdgeInsets.only(
+            top: Theme.of(context).platform == TargetPlatform.android ? 18.5 : 0,
+            left: 20,
+            right: 20,
+        ),
+
+        child: Loading?
+        Column(
+          children: [
+            Poppins(
+              text: "Benefit",
+              size: 22,
+              color: c.blackMain,
+              fontWeight: f.semiBold,
+            ),
+            SizedBox(height: 23),
+            checkFight_Acne?Fight_Acne_Blog():Text('False'),
+            checkBrightening?Text('BT'):Text('False'),
+            checkMoisturizer?Text('MT'):Text('False'),
+            checkSoothing?Text('ST'):Text('False'),
+            checkUV_Protection?Text('UV'):Text('False'),
+            checkAntioxidant?Text('AX'):Text('False'),
+            checkPreservation?Text('PV'):Text('False'),
+            checkExfoliant?Text('EF'):Text('False'),
+            checkPerfuming?Text('PF'):Text('False'),
+            checkAntibacterial?Text('AB'):Text('False'),
+          ],
+        ):Text('LOADING>>>>'),
+      ),
+    );
+  }
+
+  Widget Fight_Acne_Blog(){
+    return Container(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 18,bottom: 18),
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(width: 14),
+                Center(
+                  child: Container(
+                    height: 110,
+                    width: 70,
+                    decoration: BoxDecoration(
+                        color: Colors.transparent,
+                        image: DecorationImage(
+                            image: AssetImage('assets/IngredientInspect/Fight Acne.png'),
+                            fit: BoxFit.contain
+                        )
+                    ),
+                  ),
+                ),
+                SizedBox(width: 20 ),
+                Expanded(
+                  child: Container(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        PoppinsLeft_Crop(text: 'Anti Acne', size: 20, color: c.textBlack, fontWeight: f.semiBold),
+                        SizedBox(height: 10),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Row(children: [
+              Expanded(
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Roboto_Crop(text: 'Nice ingredients that help you to fight against acne. They are also often antibacterial and/or anti-inflammatory agents.', size: 12, color: c.greySub, fontWeight: f.regular),
+                    ],
+                  ),
+                ),
+              ),
+              SizedBox(height: 10),
+            ],
+            ),
+            SizedBox(height: 20),
+            Row(
+              children: [
+                Text(Fight_Acne[0]),
+              ],
+            ),
+            // ListView.builder(
+            //   itemCount: Fight_Acne.length,
+            //   shrinkWrap: true,
+            //   itemBuilder: (context, index) {
+            //     return ListTile(
+            //       title: Text(Fight_Acne[index]),
+            //     );
+            //   },
+            // ),
+          ],
+        ),
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(17),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: c.shadow.withOpacity(0.1),
+            spreadRadius: -15,
+            blurRadius: 41,
+            offset: Offset(3, 7), // changes position of shadow
+          ),
+        ],
+      ),
     );
   }
 }

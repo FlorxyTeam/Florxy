@@ -58,7 +58,7 @@ class _IngredientCheckerState extends State<IngredientChecker> {
   }
 
   Future init() async {
-    final products = await networkHandler.getSimilarProduct(query);
+    final products = await networkHandler.getProducts(query);
 
     setState(() => this.products = products);
   }

@@ -5,12 +5,24 @@ part 'ingModel.g.dart';
 @JsonSerializable()
 class IngModel {
   String name;
+  String? rate;
+  String calling;
+  String irr;
+  String come;
+  String cosing;
+  String detail;
   List func;
 
 
   IngModel({
     required this.name,
     required this.func,
+    required this.rate,
+    required this.calling,
+    required this.irr,
+    required this.come,
+    required this.cosing,
+    required this.detail,
   });
 
   factory IngModel.fromJson(Map<String, dynamic> json) =>
