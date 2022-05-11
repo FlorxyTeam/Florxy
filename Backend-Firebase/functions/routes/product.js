@@ -340,6 +340,16 @@ router.route("/getSearchProduct/:id").get(middleware.checkToken,(req,res)=>{
                 });
  });
 
+ router.route("/deleteProduct/:brand").get((req,res)=>{
+  products.deleteMany({ p_brand: req.params.brand }).exec(function(err, result){
+    if(err){
+      return console.log(err);
+    } else {
+      return res.json("delete product success");
+    }
+  });
+});
+
 
  router.route("/request").post(middleware.checkToken,(req, res)=> {
    // eslint-disable-next-line new-cap

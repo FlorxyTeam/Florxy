@@ -15,7 +15,7 @@ class NetworkHandler {
   // String baseurl = "http://192.168.101.79:8080"; //nicha
  
 
-  // String baseurl = "http://192.168.2.33:8080"; //deuan
+  String baseurl = "http://192.168.2.33:1050"; //deuan
 
   // String baseurl = "http://192.168.2.48:8080"; //Leo
   // String baseurl = "http://192.168.1.13:8080"; //Frank

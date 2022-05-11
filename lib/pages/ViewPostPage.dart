@@ -27,10 +27,10 @@ import '../postProvider.dart';
 import 'CreatePost.dart';
 
 class ViewPost extends StatefulWidget {
-  String? fullname, username, img, professor, influencer, id, body;
+  String? fullname, username, img, professor, influencer, id, body, type, rating;
   int comment,favorite;
   List? urlImage,listProduct;
-  ViewPost({Key? key, this.fullname, this.username, this.img, required this.comment, required this.favorite, this.urlImage, this.influencer, this.professor, this.id, this.body, this.listProduct}) : super(key: key);
+  ViewPost({Key? key, this.fullname, this.username, this.img, required this.comment, required this.favorite, this.urlImage, this.influencer, this.professor, this.id, this.body, this.listProduct, this.type, this.rating}) : super(key: key);
 
   @override
   _ViewPostState createState() => _ViewPostState();
