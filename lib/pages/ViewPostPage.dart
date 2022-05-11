@@ -506,7 +506,7 @@ class _ViewPostState extends State<ViewPost> {
                             height: 0,
                           ),
                           SizedBox(height: 8),
-                          widget.type == 'post' ? MediaQuery.removePadding(
+                          widget.type != 'post' ? MediaQuery.removePadding(
                             context: context,
                             removeTop: true,
                             removeBottom: true,

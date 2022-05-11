@@ -86,9 +86,6 @@ class _UsersState extends State<Users> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.fullname);
-    print(widget.username);
-    print(widget.img);
     return FutureBuilder(
       builder: (context, snapshot) => Container(
         child:  _isLoading
@@ -98,115 +95,115 @@ class _UsersState extends State<Users> {
             )
             : Padding(
               padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
-              child : Container(
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                ),
-                child : Column(
-                      children: [
-                        SizedBox(height: 15),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 23, right: 4),
-                          child: Row(
-                            children: [
-                              Container(
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color(0xFFE5E5E5)
-                                  ),
-                                  width: 50,
-                                  height: 50,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(50),
-                                    child: CachedNetworkImage(imageUrl: widget.img,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
-                                  )
-                              ),
+              child : GestureDetector(
+                onTap: () async {
+                  var x = await storage.read(key: "username");
+                  print(x);
+                  print(widget.username);
+                  if(x != widget.username){
+                    await storage.write(
+                        key: "anotherprofile", value: widget.username);
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile( another_username: widget.username )));
+                  }
+                  else{
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
+                  }
+                },
+                child: Container(
+                  // color: Colors.amber,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(20),
+                  ),
+                  child : Column(
+                        children: [
+                          SizedBox(height: 15),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 23, right: 4),
+                            child: Row(
+                              children: [
+                                Container(
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Color(0xFFE5E5E5)
+                                    ),
+                                    width: 50,
+                                    height: 50,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(50),
+                                      child: CachedNetworkImage(imageUrl: widget.img,fit: BoxFit.cover,errorWidget: (context, url, error) => Container(),),
+                                    )
+                                ),
 
-                              SizedBox( width: 8 ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      InkWell(
-                                        child: Poppins(
+                                SizedBox( width: 8 ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Poppins(
                                           text: widget.fullname,
                                           fontWeight: f.semiBold,
                                           size: 13,
                                           color: Colors.black,
                                         ),
-                                        onTap: () async {
-                                          var x = await storage.read(key: "username");
-                                          print('fuck leo');
-                                          print(x);
-                                          print(widget.username);
-                                          if(x != widget.username){
-                                            await storage.write(
-                                                key: "anotherprofile", value: widget.username);
-                                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => anotherProfile()));
-                                          }
-                                          else{
-                                            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Navbar(currentState: 4)));
-                                          }
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                  Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
-                                  SizedBox( height: 7 ),
-                                  Row(
-                                    children: [
-                                      (widget.professor=="")?
-                                      Container():Container(
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 7, left: 7, top: 4, bottom: 4),
-                                          child: Inter(
-                                              text: widget.professor,
-                                              size: 8,
-                                              color: Colors.white,
-                                              fontWeight: f.semiBold),
+                                      ],
+                                    ),
+                                    Inter(text: '@'+widget.username!, size: 11, color: c.textUsername, fontWeight: f.medium),
+                                    SizedBox( height: 7 ),
+                                    Row(
+                                      children: [
+                                        (widget.professor=="")?
+                                        Container():Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 7, left: 7, top: 4, bottom: 4),
+                                            child: Inter(
+                                                text: widget.professor,
+                                                size: 8,
+                                                color: Colors.white,
+                                                fontWeight: f.semiBold),
+                                          ),
+                                          decoration: BoxDecoration(
+                                              color: professor_color!,
+                                              borderRadius: BorderRadius.circular(10)),
                                         ),
-                                        decoration: BoxDecoration(
-                                            color: professor_color!,
-                                            borderRadius: BorderRadius.circular(10)),
-                                      ),
-                                      SizedBox( width: 5 ),
-                                      (widget.influencer=="")?
-                                      Container():Container(
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              right: 5, left: 5, top: 2, bottom: 2),
-                                          child: Inter(
-                                              text: widget.influencer,
-                                              size: 8,
-                                              color: creator_color!,
-                                              fontWeight: f.bold),
+                                        SizedBox( width: 5 ),
+                                        (widget.influencer=="")?
+                                        Container():Container(
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(
+                                                right: 5, left: 5, top: 2, bottom: 2),
+                                            child: Inter(
+                                                text: widget.influencer,
+                                                size: 8,
+                                                color: creator_color!,
+                                                fontWeight: f.bold),
+                                          ),
+                                          decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: creator_color!,
+                                                width: 2,
+                                              ),
+                                              borderRadius: BorderRadius.circular(10)),
                                         ),
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                              color: creator_color!,
-                                              width: 2,
-                                            ),
-                                            borderRadius: BorderRadius.circular(10)),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                              Expanded(child: Container()),
-                              Container(
-                                height: 66,
-                                alignment: Alignment.topRight,
-                              ),
-                            ],
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                Expanded(child: Container()),
+                                Container(
+                                  height: 66,
+                                  alignment: Alignment.topRight,
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 13),
-                    ],
-                ),
+                          SizedBox(height: 13),
+                      ],
+                  ),
             ),
+              ),
         ),
       ),
     );
