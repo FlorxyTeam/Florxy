@@ -8,7 +8,6 @@ part of 'postModel.dart';
 
 PostModel _$PostModelFromJson(Map<String, dynamic> json) {
   return PostModel(
-    id: json['_id'] as String?,
     body: json['body'] as String?,
     comment: json['comment'] as List<dynamic>?,
     favorite: json['favorite'] as List<dynamic>?,
@@ -21,12 +20,12 @@ PostModel _$PostModelFromJson(Map<String, dynamic> json) {
     type: json['type'] as String?,
     createdAt: json['createdAt'] as String?,
     updatedAt: json['updatedAt'] as String?,
+    id: json['_id'] as String?,
   );
 }
 
 Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
       'pinnedcomment': instance.pinnedcomment,
-      'id': instance.id,
       'comment': instance.comment,
       'favorite': instance.favorite,
       'type': instance.type,
@@ -38,4 +37,5 @@ Map<String, dynamic> _$PostModelToJson(PostModel instance) => <String, dynamic>{
       'rating': instance.rating,
       'createdAt': instance.createdAt,
       'updatedAt': instance.updatedAt,
+      'id': instance.id,
     };

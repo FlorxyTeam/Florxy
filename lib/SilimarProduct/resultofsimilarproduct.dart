@@ -304,19 +304,22 @@ class _ResultofSimilarProductState extends State<ResultofSimilarProduct> {
                       Inter(text: "Please find another product.", size: 13, color: c.greySub, fontWeight: f.semiBold)
                     ],
                   ),
-                ):Expanded(
-                  child: MediaQuery.removePadding(
-                    context: context,
-                    removeTop: true,
-                    removeBottom: true,
-                    child: ListView.builder(
-                      itemCount: sort_list.length,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        final product = sort_list[index];
-                        var match = double.parse(sort_list[index].p_cate);
-                        return buildProoduct(product, widget.brand!, widget.name!, match);
-                      },
+                ):Container(
+                  height: MediaQuery.of(context).size.height-330,
+                  child: Expanded(
+                    child: MediaQuery.removePadding(
+                      context: context,
+                      removeTop: true,
+                      // removeBottom: true,
+                      child: ListView.builder(
+                        itemCount: sort_list.length,
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          final product = sort_list[index];
+                          var match = double.parse(sort_list[index].p_cate);
+                          return buildProoduct(product, widget.brand!, widget.name!, match);
+                        },
+                      ),
                     ),
                   ),
                 ),
