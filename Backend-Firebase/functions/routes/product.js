@@ -129,7 +129,7 @@ router.route("/brand").get((req, res) => {
   products.aggregate([
                 {"$group" : {_id:"$p_brand", count:{$sum:1}}},
 
-     ]).sort({count: -1}).exec(function ( err,result ) {
+     ]).sort({count: -1}).limit(5).exec(function ( err,result ) {
           if(err)return res.json(err);
           return res.json({data : result})
        });

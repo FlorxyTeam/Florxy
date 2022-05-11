@@ -246,7 +246,7 @@ class _laboratoryState extends State<laboratory> {
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(builder: (context) => SearchToCompare()));
                         },
-     child: Container(
+                          child: Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height * 0.12,
                           decoration: BoxDecoration(
