@@ -1,42 +1,33 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'productModel.dart';
+part of 'productModel2.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-ProductModel _$ProductModelFromJson(Map<String, dynamic> json) {
-  return ProductModel(
+ProModel _$ProModelFromJson(Map<String, dynamic> json) {
+  return ProModel(
     id: json['id'] as String?,
     p_name: json['p_name'] as String,
     p_brand: json['p_brand'] as String,
     p_desc: json['p_desc'] as String,
     p_cate: json['p_cate'] as String?,
     p_img: json['p_img'] as String,
-    ing_name: json['ing_name'] as List<dynamic>,
-    ing_met: json['ing_met'] as List<dynamic>,
-    ing_irr: json['ing_irr'] as List<dynamic>,
-    ing_rate: json['ing_rate'] as List<dynamic>,
     ing_id: json['ing_id'] as List<dynamic>?,
-    mention: json['mention'] as int,
-    review: json['review'] as int,
+    rating: json['rating'] as int,
+    numReview: json['numReview'] as int,
   );
 }
 
-Map<String, dynamic> _$ProductModelToJson(ProductModel instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ProModelToJson(ProModel instance) => <String, dynamic>{
       'id': instance.id,
       'p_name': instance.p_name,
       'p_brand': instance.p_brand,
       'p_desc': instance.p_desc,
       'p_cate': instance.p_cate,
       'p_img': instance.p_img,
-      'ing_name': instance.ing_name,
-      'ing_met': instance.ing_met,
-      'ing_irr': instance.ing_irr,
-      'ing_rate': instance.ing_rate,
       'ing_id': instance.ing_id,
-      'mention': instance.mention,
-      'review': instance.review,
+      'rating': instance.rating,
+      'numReview': instance.numReview,
     };

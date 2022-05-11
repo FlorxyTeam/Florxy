@@ -129,7 +129,7 @@ router.route("/brand").get((req, res) => {
   products.aggregate([
                 {"$group" : {_id:"$p_brand", count:{$sum:1}}},
 
-     ]).sort({count: -1}).exec(function ( err,result ) {
+     ]).sort({count: -1}).limit(5).exec(function ( err,result ) {
           if(err)return res.json(err);
           return res.json({data : result})
        });
@@ -253,7 +253,10 @@ router.route("/compare2/:id1/:id2").get(middleware.checkToken, (req, res) => {
                      if(err){
                       res.status(500).json({msg: err});
                      }else{
-                         res.json({ data: [result1, result2],});
+                         res.json({
+                           product: [result1, result2],
+
+                         });
                      }
             });
         }
@@ -272,7 +275,7 @@ router.route("/compare3/:p_id1/:p_id2/:p_id3").get(middleware.checkToken, (req, 
              products.findOne({_id: req.params.p_id3}, (err, result3) => {
               if(err) res.status(500).json({msg: err});
              res.json({
-                         data: [result1, result2, result3],
+                         product: [result1, result2, result3],
 
               });
 

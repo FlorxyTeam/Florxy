@@ -519,45 +519,51 @@ class _laboratoryState extends State<laboratory> {
                   builder: (context, snapshot) => ListView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: (model.listOfbrand!.length <= 5) ? model.listOfbrand?.length  : 5,
+                      itemCount: model.listOfbrand!.length,
                       itemBuilder: (context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 28, left: 28, bottom: 25),
-                          child: GestureDetector(
-                            onTap: (){
-                              Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          Brandoverview(
-                                              p_brand:
-                                              model.listOfbrand![index]['_id'])));
-                            },
-                            child: Row(
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Poppins(
-                                        text: model.listOfbrand![index]['_id'],
-                                        size: 15,
-                                        color: c.blackMain,
-                                        fontWeight: f.semiBold),
-                                    Poppins(
-                                        text: model.listOfbrand![index]['count'].toString() + " products",
-                                        size: 12,
-                                        color: Color(0xFF848484),
-                                        fontWeight: f.semiBold),
+                        if(model.listOfbrand!.length > 0){
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 28, left: 28, bottom: 25),
+                            child: GestureDetector(
+                              onTap: (){
+                                Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            Brandoverview(
+                                                p_brand:
+                                                model.listOfbrand![index]['_id'])));
+                              },
+                              child: Row(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Poppins(
+                                          text: model.listOfbrand![index]['_id'],
+                                          size: 15,
+                                          color: c.blackMain,
+                                          fontWeight: f.semiBold),
+                                      Poppins(
+                                          text: model.listOfbrand![index]['count'].toString() + " products",
+                                          size: 12,
+                                          color: Color(0xFF848484),
+                                          fontWeight: f.semiBold),
 
-                                  ],
-                                ),
-                                Expanded(child: Container()),
-                                Icon(Icons.arrow_forward_ios_outlined,
-                                    size: 15, color: c.blackMain)
+                                    ],
+                                  ),
+                                  Expanded(child: Container()),
+                                  Icon(Icons.arrow_forward_ios_outlined,
+                                      size: 15, color: c.blackMain)
 
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        }else{
+                          return Center(
+                              child: Image.asset("assets/img/2.gif",width: 60,));
+                        }
+
                       }),),
               ),
               SizedBox(
