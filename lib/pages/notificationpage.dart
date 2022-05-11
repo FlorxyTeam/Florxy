@@ -61,42 +61,15 @@ class _NotificationPageState extends State<NotificationPage> {
                   bottom: Radius.circular(26),
                 )),
             title: Padding(
-              padding: EdgeInsets.only(
-                  top: Theme.of(context).platform == TargetPlatform.android
-                      ? 18.5
-                      : 0,
-                  left: 8),
+              padding: const EdgeInsets.only(top: 12.0,left: 6),
               child: Poppins(
-                text: 'Notification Center  ',
+                text: 'Notification Center',
                 fontWeight: f.semiBold,
                 color: c.blackMain,
                 size: 25,
               ),
             ),
-            actions: [
-              Padding(
-                padding: EdgeInsets.only(
-                    top: Theme.of(context).platform == TargetPlatform.android
-                        ? 13.5
-                        : 0,
-                    right: 13),
-                child:
-                IconButton(
-                  icon: Icon(
-                      vis
-                          ? Boxicons.bx_bell
-                          : Boxicons.bx_bell_off,
-                      size: 30,
-                      color: Colors.black),
-                  onPressed: () {
-                    setState(() {
-                      vis = !vis;
-                    });
-                  },
-                  color: Colors.black,
-                ),
-              ),
-            ],
+
           ),
         ),
       ),

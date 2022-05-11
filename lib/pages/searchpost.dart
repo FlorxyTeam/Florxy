@@ -98,22 +98,12 @@ class _SearchPostState extends State<SearchPost> {
                 borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(26),
                 )),
-            leading: Padding(
-              padding: EdgeInsets.only(top: 17.5, left: 15),
-              child: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                icon: Icon(
-                  Icons.arrow_back_ios_new,
-                  size: 25,
-                  color: c.blackMain,
-                ),
-              ),
-            ),
+
             actions: [
               Padding(
-                padding: EdgeInsets.only(top: 20, left: 5, right: 10),
+                padding: EdgeInsets.only(top: 20, left: 10, right: 10),
                 child: Container(
-                  width: MediaQuery.of(context).size.width-90,
+                  width: MediaQuery.of(context).size.width-50,
                   child: TextField(
                       controller: controller,
                       decoration: InputDecoration(
@@ -124,7 +114,7 @@ class _SearchPostState extends State<SearchPost> {
                           padding: const EdgeInsets.only(right: 2, left: 12),
                           child: Icon(Icons.search_rounded, size: 23, color: c.blackSub2),
                         ),
-                        hintText: "Search Post",
+                        hintText: "Search Anything",
                         hintStyle: TextStyle(
                             fontSize: 14.5,
                             color: c.greyMain,
@@ -178,64 +168,48 @@ class _SearchPostState extends State<SearchPost> {
                 borderRadius: BorderRadius.vertical(
                   bottom: Radius.circular(0),
                 )),
-            leading: Padding(
-              padding: EdgeInsets.only(
-                  top: Theme.of(context).platform == TargetPlatform.android
-                      ? 17.5
-                      : 0,
-                  left: 15),
-              child: IconButton(
-                onPressed: () => Navigator.of(context).pop(),
-                icon: Icon(
-                  Icons.arrow_back_ios_new,
-                  size: 25,
-                  color: c.blackMain,
+            title:Padding(
+              padding: EdgeInsets.only(top: 20, left: 10, right: 10,bottom: 10),
+              child: Container(
+                width: MediaQuery.of(context).size.width-10,
+                child: TextField(
+                    controller: controller,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: c.searchbar,
+                      contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.only(right: 2, left: 12),
+                        child: Icon(Icons.search_rounded, size: 23, color: c.blackSub2),
+                      ),
+                      hintText: "Search Anything!",
+                      hintStyle: TextStyle(
+                          fontSize: 14.5,
+                          color: c.greyMain,
+                          fontWeight: f.medium),
+                      border: InputBorder.none,
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                        borderSide: BorderSide(
+                            color: c.graySub2.withOpacity(0), width: 2),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(40.0)),
+                        borderSide: BorderSide(
+                            color: c.graySub2.withOpacity(0), width: 2),
+                      ),
+                    ),
+                    onSubmitted: (String start){
+                      setState((){
+                        query = start;
+                        print(start);
+                        print(query);
+                      });
+                    }
                 ),
               ),
             ),
-            actions: [
-              Padding(
-                padding: EdgeInsets.only(top: 20, left: 5, right: 25),
-                child: Container(
-                  width: MediaQuery.of(context).size.width-90,
-                  child: TextField(
-                      controller: controller,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: c.searchbar,
-                        contentPadding: EdgeInsets.fromLTRB(10, 10, 10, 0),
-                        prefixIcon: Padding(
-                          padding: const EdgeInsets.only(right: 2, left: 12),
-                          child: Icon(Icons.search_rounded, size: 23, color: c.blackSub2),
-                        ),
-                        hintText: "Search Post",
-                        hintStyle: TextStyle(
-                            fontSize: 14.5,
-                            color: c.greyMain,
-                            fontWeight: f.medium),
-                        border: InputBorder.none,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-                          borderSide: BorderSide(
-                              color: c.graySub2.withOpacity(0), width: 2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(40.0)),
-                          borderSide: BorderSide(
-                              color: c.graySub2.withOpacity(0), width: 2),
-                        ),
-                      ),
-                      onSubmitted: (String start){
-                        setState((){
-                          query = start;
-                          print(start);
-                          print(query);
-                        });
-                      }
-                  ),
-                ),
-              ),
-            ],
+
             bottom: PreferredSize(
                 child: query == "" ? Container(
                 ):Container(
@@ -360,145 +334,148 @@ class _SearchPostState extends State<SearchPost> {
           ),
         )
       ),
-      body: SingleChildScrollView(
-            child:  query == "" ? Container(
-            ) : see == "Post" ? Column(
-              children: [
-                Consumer<PostProvider>(
-                    builder: (context, model, _) => FutureBuilder(
-                      future: model.fetchSearchProductPost(query),
-                      builder: (context, snapshot) => MediaQuery.removePadding(
-                        context: context,
-                        removeTop: true,
-                        removeBottom: true,
-                        child: ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: model.searchPost?.length ?? 0,
-                          itemBuilder: (context, int index) {
-                            return model.searchPost![index]['type'] == 'mention'
-                                ? MentionPost(
-                              username: model.searchPost![index]['username'],
-                              postTime: model.searchPost![index]['updatedAt'].toString().substring(0, 10),
-                              post: model.searchPost![index]['body'],
-                              comment: 0,
-                              urlImage: model.searchPost![index]['coverImage'],
-                              id: model.searchPost![index]['_id'],
-                            )
-                                : model.searchPost![index]['type'] == 'post'
-                                ? Post(
-                              username: model.searchPost![index]['username'],
-                              postTime: model.searchPost![index]['updatedAt']
-                                  .toString()
-                                  .substring(0, 10),
-                              post: model.searchPost![index]['body'],
-                              comment: 0,
-                              id: model.searchPost![index]['_id'],
-                              urlImage: model.searchPost![index]['coverImage'],
-                            )
-                                : Container();
-                          },
+      body: Padding(
+        padding: const EdgeInsets.only(bottom: 90.0),
+        child: SingleChildScrollView(
+              child:  query == "" ? Container(
+              ) : see == "Post" ? Column(
+                children: [
+                  Consumer<PostProvider>(
+                      builder: (context, model, _) => FutureBuilder(
+                        future: model.fetchSearchProductPost(query),
+                        builder: (context, snapshot) => MediaQuery.removePadding(
+                          context: context,
+                          removeTop: true,
+                          removeBottom: true,
+                          child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: model.searchPost?.length ?? 0,
+                            itemBuilder: (context, int index) {
+                              return model.searchPost![index]['type'] == 'mention'
+                                  ? MentionPost(
+                                username: model.searchPost![index]['username'],
+                                postTime: model.searchPost![index]['updatedAt'].toString().substring(0, 10),
+                                post: model.searchPost![index]['body'],
+                                comment: 0,
+                                urlImage: model.searchPost![index]['coverImage'],
+                                id: model.searchPost![index]['_id'],
+                              )
+                                  : model.searchPost![index]['type'] == 'post'
+                                  ? Post(
+                                username: model.searchPost![index]['username'],
+                                postTime: model.searchPost![index]['updatedAt']
+                                    .toString()
+                                    .substring(0, 10),
+                                post: model.searchPost![index]['body'],
+                                comment: 0,
+                                id: model.searchPost![index]['_id'],
+                                urlImage: model.searchPost![index]['coverImage'],
+                              )
+                                  : Container();
+                            },
+                          ),
                         ),
-                      ),
-                    )
-                ),
-              ],
-            ) : see == "Review" ? Column(
-              children: [
-                Consumer<PostProvider>(
-                    builder: (context, model, _) => FutureBuilder(
-                      future: model.fetchSearchProductPost(query),
-                      builder: (context, snapshot) => MediaQuery.removePadding(
-                        context: context,
-                        removeTop: true,
-                        removeBottom: true,
-                        child: ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: model.searchPost?.length ?? 0,
-                          itemBuilder: (context, int index) {
-                            return model.searchPost![index]['type'] == 'review'
-                                ? ReviewPost(
-                              username: model.searchPost![index]['username'],
-                              postTime: model.searchPost![index]['updatedAt']
-                                  .toString()
-                                  .substring(0, 10),
-                              urlImage: model.searchPost![index]['coverImage'],
-                              post: model.searchPost![index]['body'],
-                              rating: model.searchPost![index]['rating'],
-                              comment: 0,
-                              id: model.searchPost![index]['_id'],
-                            )
-                                : Container();
-                          },
+                      )
+                  ),
+                ],
+              ) : see == "Review" ? Column(
+                children: [
+                  Consumer<PostProvider>(
+                      builder: (context, model, _) => FutureBuilder(
+                        future: model.fetchSearchProductPost(query),
+                        builder: (context, snapshot) => MediaQuery.removePadding(
+                          context: context,
+                          removeTop: true,
+                          removeBottom: true,
+                          child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: model.searchPost?.length ?? 0,
+                            itemBuilder: (context, int index) {
+                              return model.searchPost![index]['type'] == 'review'
+                                  ? ReviewPost(
+                                username: model.searchPost![index]['username'],
+                                postTime: model.searchPost![index]['updatedAt']
+                                    .toString()
+                                    .substring(0, 10),
+                                urlImage: model.searchPost![index]['coverImage'],
+                                post: model.searchPost![index]['body'],
+                                rating: model.searchPost![index]['rating'],
+                                comment: 0,
+                                id: model.searchPost![index]['_id'],
+                              )
+                                  : Container();
+                            },
+                          ),
                         ),
-                      ),
-                    )
-                ),
-              ],
-            ) : see == "User" ? Column(
-              children: [
-                Consumer<PostProvider>(
-                    builder: (context, model, _) => FutureBuilder(
-                      future: model.fetchSearchUser(query),
-                      builder: (context, snapshot) => MediaQuery.removePadding(
-                        context: context,
-                        removeTop: true,
-                        removeBottom: true,
-                        child: ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: model.searchUser?.length ?? 0,
-                          itemBuilder: (context, int index) {
-                            return model.searchUser![index]['__v'] == 0
-                                ? Users(
-                              username: model.searchUser![index]['username'],
-                              fullname: model.searchUser![index]['fullname'],
-                              influencer: model.searchUser![index]['influencer'],
-                              professor: model.searchUser![index]['professor'],
-                              img: model.searchUser![index]['img'],
-                              id: model.searchUser![index]['_id'],
-                              query : query,
-                            ) : Container();
-                          },
+                      )
+                  ),
+                ],
+              ) : see == "User" ? Column(
+                children: [
+                  Consumer<PostProvider>(
+                      builder: (context, model, _) => FutureBuilder(
+                        future: model.fetchSearchUser(query),
+                        builder: (context, snapshot) => MediaQuery.removePadding(
+                          context: context,
+                          removeTop: true,
+                          removeBottom: true,
+                          child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: model.searchUser?.length ?? 0,
+                            itemBuilder: (context, int index) {
+                              return model.searchUser![index]['__v'] == 0
+                                  ? Users(
+                                username: model.searchUser![index]['username'],
+                                fullname: model.searchUser![index]['fullname'],
+                                influencer: model.searchUser![index]['influencer'],
+                                professor: model.searchUser![index]['professor'],
+                                img: model.searchUser![index]['img'],
+                                id: model.searchUser![index]['_id'],
+                                query : query,
+                              ) : Container();
+                            },
+                          ),
                         ),
-                      ),
-                    )
-                ),
-              ],
-            ) : see == "Product" ? Column(
-              children: [
-                Consumer<PostProvider>(
-                    builder: (context, model, _) => FutureBuilder(
-                      future: model.fetchSearchProduct(query),
-                      builder: (context, snapshot) => MediaQuery.removePadding(
-                        context: context,
-                        removeTop: true,
-                        removeBottom: true,
-                        child: ListView.builder(
-                          physics: NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: model.searchProduct?.length ?? 0,
-                          itemBuilder: (context, int index) {
-                            print(model.searchProduct![index]['p_name']);
-                            print(model.searchProduct![index]['p_brand']);
-                            return model.searchProduct![index]['__v'] == 0
-                                ? Products(
-                              name: model.searchProduct![index]['p_name'],
-                              brand: model.searchProduct![index]['p_brand'],
-                              desc: model.searchProduct![index]['p_desc'],
-                              img: model.searchProduct![index]['p_img'],
-                              id: model.searchProduct![index]['_id'],
-                              query : query,
-                            ) : Container();
-                          },
+                      )
+                  ),
+                ],
+              ) : see == "Product" ? Column(
+                children: [
+                  Consumer<PostProvider>(
+                      builder: (context, model, _) => FutureBuilder(
+                        future: model.fetchSearchProduct(query),
+                        builder: (context, snapshot) => MediaQuery.removePadding(
+                          context: context,
+                          removeTop: true,
+                          removeBottom: true,
+                          child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: model.searchProduct?.length ?? 0,
+                            itemBuilder: (context, int index) {
+                              print(model.searchProduct![index]['p_name']);
+                              print(model.searchProduct![index]['p_brand']);
+                              return model.searchProduct![index]['__v'] == 0
+                                  ? Products(
+                                name: model.searchProduct![index]['p_name'],
+                                brand: model.searchProduct![index]['p_brand'],
+                                desc: model.searchProduct![index]['p_desc'],
+                                img: model.searchProduct![index]['p_img'],
+                                id: model.searchProduct![index]['_id'],
+                                query : query,
+                              ) : Container();
+                            },
+                          ),
                         ),
-                      ),
-                    )
-                ),
-              ],
-            ) : Container(),
-          ),
+                      )
+                  ),
+                ],
+              ) : Container(),
+            ),
+      ),
     );
   }
 

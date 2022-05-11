@@ -3,10 +3,69 @@ const config = require("../config");
 const jwt = require("jsonwebtoken");
 const middleware = require("../middleware");
 const User = require("../models/users.model");
+const RPA = require("../models/RequestProfessorAlias.model");
+const RIA = require("../models/RequestInfluencerAlias.model");
 const bcrypt = require("bcryptjs");
 
 // eslint-disable-next-line new-cap
 const router = express.Router();
+
+
+router.route("/checkRequestAlias/influencer").get(middleware.checkToken, (req, res) => {
+  RIA.findOne({username: req.decoded.username}, (err, result) => {
+    if (err) res.status(500).json({msg: err});
+    return res.json({
+      data: result,
+      email: req.params.email,
+    });
+  });
+});
+router.route("/checkRequestAlias/professor").get(middleware.checkToken, (req, res) => {
+  RPA.findOne({username: req.decoded.username}, (err, result) => {
+    if (err) res.status(500).json({msg: err});
+    return res.json({
+      data: result,
+      email: req.params.email,
+    });
+  });
+});
+
+
+router.route("/requestAlias/influencer").post(middleware.checkToken,(req, res)=> {
+  // eslint-disable-next-line new-cap
+    console.log('add influe');
+    const ria = new RIA({
+      username: req.decoded.username,
+      influencer: req.body.influencer,
+      img: req.body.img,
+    });
+    ria
+        .save()
+        .then(() => {
+          return res.json({msg: "Request influencer  successfully stored"});
+        })
+        .catch((err) => {
+          return res.status(400).json({err: err});
+        });
+});
+
+router.route("/requestAlias/professor").post(middleware.checkToken,(req, res)=> {
+  // eslint-disable-next-line new-cap
+    console.log('add professor');
+    const rpa = new RPA({
+      username: req.decoded.username,
+      professor: req.body.professor,
+      img: req.body.img,
+    });
+    rpa
+        .save()
+        .then(() => {
+          return res.json({msg: "Request professor  successfully stored"});
+        })
+        .catch((err) => {
+          return res.status(400).json({err: err});
+        });
+});
 
 router.route("/:email").get(middleware.checkToken, (req, res) => {
   User.findOne({email: req.params.email}, (err, result) => {
