@@ -189,8 +189,7 @@ router.route("/register/google").post((req, res) => {
   const user = new User({
     google: req.body.google,
     username: req.body.username,
-    email: "",
-    password: ""
+    email: req.body.google
   });
   user
       .save()
