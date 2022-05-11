@@ -1,43 +1,39 @@
-import 'package:Florxy/pages/reportproblem.dart';
-import 'package:Florxy/pages/supportrequests.dart';
+
+import 'package:Florxy/pages/EditProfile.dart';
+import 'package:Florxy/pages/showproblem.dart';
+import 'package:Florxy/pages/showreport.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/material.dart';
-import 'package:Florxy/pages/navbar.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'helpcenter.dart';
+import '../Model/profileModel.dart';
+import '../NetworkHandler.dart';
 
-class Help extends StatefulWidget {
-  const Help({Key? key}) : super(key: key);
+class SupportRequests extends StatefulWidget {
+  const SupportRequests({Key? key}) : super(key: key);
 
   @override
-  _HelpState createState() => _HelpState();
+  _SupportRequestsState createState() => _SupportRequestsState();
 }
 
-class _HelpState extends State<Help> {
+class _SupportRequestsState extends State<SupportRequests> {
   List<FocusNode> _focusNodes = [
     FocusNode(),
     FocusNode(),
     FocusNode(),
   ];
 
+
   @override
   void initState() {
-    _focusNodes.forEach((node) {
-      node.addListener(() {
-        setState(() {});
-      });
-    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
-    final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
       appBar: PreferredSize(
@@ -75,7 +71,7 @@ class _HelpState extends State<Help> {
                     padding: const EdgeInsets.only(top: 13, left: 0 ),
                     child: Center(
                       child: Inter(
-                          text: "Help",
+                          text: "Support Request",
                           size: 18,
                           color: c.blackMain,
                           fontWeight: f.semiBold),
@@ -88,60 +84,33 @@ class _HelpState extends State<Help> {
         ),
       ),
       body: SafeArea(
+        // resizeToAvoidBottomInset: true,
+
         child: Center(
           child: GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
             child: Form(
               child: ListView(
-                padding: const EdgeInsets.only(top: 20,right: 30,left: 30),
+                padding: const EdgeInsets.only(top: 10,right: 30,left: 30),
                 children: <Widget>[
                   Column(
                     children: [
-                      SizedBox(height: 10,),
                       InkWell(
                         onTap: (){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReportProblem()));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ShowProblem()));
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10),
-                                child: Inter(
-                                    text: "Report a Problem",
-                                    size: 17,
+                          child: Container(
+                            child:Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Inter(
+                                    text: "Reports",
+                                    size: 16,
                                     color: c.blackMain,
-                                    fontWeight: f.medium),
-                              ),
-                              Expanded(child: Container(),),
-                              Icon(Icons.arrow_forward_ios_outlined,
-                                  size: 18, color: c.greyMain),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 20,),
-                      InkWell(
-                        onTap: (){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => HelpCenter()));
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
-                          child: Container(
-                            child:Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: Inter(
-                                      text: "Help Center",
-                                      size: 16,
-                                      color: c.blackMain,
-                                      fontWeight: f.medium),
+                                    fontWeight: f.medium
                                 ),
                                 Expanded(child: Container()),
                                 Icon(Icons.arrow_forward_ios_outlined,
@@ -151,10 +120,16 @@ class _HelpState extends State<Help> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(height: 10),
+                      Divider(
+                        color: c.greyMain,
+                        thickness: 0.5,
+                        height: 0,
+                      ),
+                      SizedBox(height: 10),
                       InkWell(
                         onTap: (){
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => SupportRequests()));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ShowReport()));
                         },
                         child: Padding(
                           padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
@@ -163,13 +138,11 @@ class _HelpState extends State<Help> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10),
-                                  child: Inter(
-                                      text: "Support Requests",
-                                      size: 16,
-                                      color: c.blackMain,
-                                      fontWeight: f.medium),
+                                Inter(
+                                    text: "Violations",
+                                    size: 16,
+                                    color: c.blackMain,
+                                    fontWeight: f.medium
                                 ),
                                 Expanded(child: Container()),
                                 Icon(Icons.arrow_forward_ios_outlined,
@@ -178,6 +151,12 @@ class _HelpState extends State<Help> {
                             ) ,
                           ),
                         ),
+                      ),
+                      SizedBox(height: 10),
+                      Divider(
+                        color: c.greyMain,
+                        thickness: 0.5,
+                        height: 0,
                       ),
                     ],
                   ),
@@ -189,6 +168,5 @@ class _HelpState extends State<Help> {
       ),
     );
   }
-
 
 }

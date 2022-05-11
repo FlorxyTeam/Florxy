@@ -38,7 +38,7 @@ const Ingredient = schema(
       link: {
         type: String,
       },
-    },
+    }
 );
 
 module.exports = mongoose.model("Ingredient", Ingredient);

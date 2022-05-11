@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:Florxy/NetworkHandler.dart';
 import 'package:Florxy/pages/LoginPage.dart';
+import 'package:Florxy/pages/florxyScreen.dart';
 import 'package:Florxy/pages/welcomepage.dart';
 import 'package:Florxy/widgets/button.dart';
 import 'package:Florxy/widgets/font.dart';
@@ -435,7 +436,7 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                                 Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => LastThingPage()),
+                                        builder: (context) => FlorxyScreen()),
                                     (route) => false);
                               } else {
                                 Scaffold.of(context).showSnackBar(

@@ -1,3 +1,4 @@
+/* eslint-disable new-cap */
 const express = require("express");
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -145,7 +146,7 @@ router.route("/Allbrand/search").get((req, res) => {
 });
 
 
-//brand and list
+// brand and list
 router.route("/brand").get((req, res) => {
   products.aggregate([
                 {"$group" : {_id:"$p_brand", count:{$sum:1}}},
@@ -216,7 +217,7 @@ router.route("/updaterating/:_id").patch(middleware.checkToken, (req, res ) =>{
         }else{
             post = result;
             console.log(post);
-             for(i=0;i < post.length;i++){
+             for(let i=0;i < post.length;i++){
                 rate = rate + parseFloat(post[i].rating);
 //                console.log(post[0].rating);
                 num = num+1;
@@ -316,23 +317,14 @@ router.route("/getAllProductData/All").get(middleware.checkToken, (req, res) => 
 });
 
 router.route("/getSearchProduct/:id").get(middleware.checkToken, (req, res)=>{
-  var query = req.params.id
+  const query = req.params.id
   products.find({$or: [{p_name: {$regex: query, $options:"i"}},
                       {p_brand: {$regex: query, $options:"i"}},],}, (err, result)=>{
     if (err) return res.json(err);
     return res.json({getProduct: result});
   });
 });
-router.route("/getSearchProduct/:id").get(middleware.checkToken,(req,res)=>{
-                print("getSearchProduct")
-                var query = req.params.id
-                product.find({$or: [{p_name: {$regex: query, $options:"i"}},
-                                    {p_brand: {$regex: query, $options:"i"}},],},
-                (err,result)=>{
-                    if(err)return res.json(err);
-                    return res.json({getProduct : result})
-                });
- });
+
 
  router.route("/deleteProduct/:brand").get((req,res)=>{
   products.deleteMany({ p_brand: req.params.brand }).exec(function(err, result){

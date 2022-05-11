@@ -157,7 +157,9 @@ router.route("/login-google").post((req, res) => {
   User.findOne({google: req.body.google}, (err, result) => {
     if (err) return res.status(500).json({msg: err});
     if (result === null) {
-      return res.status(403).json("Email or password is incorrect");
+      return res.json({
+              msg: "false",
+            });
     }
     console.log(result.username);
       // implement the JWT
@@ -187,8 +189,7 @@ router.route("/register/google").post((req, res) => {
   const user = new User({
     google: req.body.google,
     username: req.body.username,
-    email: "",
-    password: ""
+    email: req.body.google
   });
   user
       .save()
