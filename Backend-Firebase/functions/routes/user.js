@@ -134,6 +134,7 @@ router.route("/register").post((req, res) => {
     password: req.body.password,
     username: req.body.username,
   });
+
 //  const salt = await bcrypt.genSalt();
 //  const Hashpassword = await bcrypt.hash(user.password,salt);
 //  user.password = Hashpassword;
