@@ -1,5 +1,6 @@
 import 'package:Florxy/Model/productModel.dart';
 import 'package:Florxy/pages/LoginPage.dart';
+import 'package:Florxy/pages/productoverview.dart';
 import 'package:Florxy/pages/searchpage.dart';
 import 'package:Florxy/widgets/SearchMentionPostWidget.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
@@ -102,7 +103,7 @@ class _ProductView2State extends State<ProductView2> {
       children: [
         GestureDetector(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage(id: widget.id, currentState: 0)));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductOverview(id: widget.id)));
           },
           child: Container(
             child: Padding(
