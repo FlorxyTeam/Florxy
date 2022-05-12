@@ -9,15 +9,15 @@ const functions = require("firebase-functions");
 // });
 const express = require("express");
 const mongoose = require("mongoose");
-// const Port = process.env.PORT || 8080;
+ const Port = process.env.PORT || 8080;
 const app = express();
 
-const mongoURI =
-  "mongodb+srv://Florxy:r95_KBygY7gcVe4@florxy.thphu.mongodb.net/Florxy?retryWrites=true&w=majority";
-mongoose.connect(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+//const mongoURI =
+//  "mongodb+srv://Florxy:r95_KBygY7gcVe4@florxy.thphu.mongodb.net/Florxy?retryWrites=true&w=majority";
+//mongoose.connect(mongoURI, {
+//  useNewUrlParser: true,
+//  useUnifiedTopology: true,
+//});
 
 const connection = mongoose.connection;
 

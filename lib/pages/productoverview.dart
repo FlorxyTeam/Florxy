@@ -90,6 +90,7 @@ class _ProductOverviewState extends State<ProductOverview> {
     detail: '',
     irr: '',
     rate: '',
+    proof: []
   );
 
 
