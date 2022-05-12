@@ -22,12 +22,12 @@ import 'package:Florxy/pages/requestproduct.dart';
 class CardItem {
   final String urlImage;
   final String title;
-  final String link;
+
 
   const CardItem({
     required this.urlImage,
     required this.title,
-    required this.link
+
   });
 }
 
@@ -62,23 +62,23 @@ class _laboratoryState extends State<laboratory> {
     CardItem(
       urlImage: "assets/img/bioderma.jpg",
       title: "Bath&Body",
-      link: "Category"
+
 
     ),
     CardItem(
       urlImage: "assets/img/pixi.jpg",
       title: "Hair Care",
-        link: ""
+
     ),
     CardItem(
       urlImage: "assets/img/bioderma.jpg",
       title: "Fragrance",
-        link: ""
+
     ),
     CardItem(
       urlImage: "assets/img/pixi.jpg",
       title: "Skincare",
-        link: ""
+
     ),
   ];
 
@@ -804,7 +804,7 @@ class _laboratoryState extends State<laboratory> {
             Center(
               child: InkWell(
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => Category()));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => Category(type: item.title)));
                 },
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.28,

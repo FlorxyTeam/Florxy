@@ -1,4 +1,4 @@
-const functions = require("firebase-functions");
+//const functions = require("firebase-functions");
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -12,12 +12,12 @@ const mongoose = require("mongoose");
  const Port = process.env.PORT || 8080;
 const app = express();
 
-//const mongoURI =
-//  "mongodb+srv://Florxy:r95_KBygY7gcVe4@florxy.thphu.mongodb.net/Florxy?retryWrites=true&w=majority";
-//mongoose.connect(mongoURI, {
-//  useNewUrlParser: true,
-//  useUnifiedTopology: true,
-//});
+const mongoURI =
+  "mongodb+srv://Florxy:r95_KBygY7gcVe4@florxy.thphu.mongodb.net/Florxy?retryWrites=true&w=majority";
+mongoose.connect(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 const connection = mongoose.connection;
 
@@ -42,9 +42,9 @@ app.use("/product", productRoute);
 
 app.route("/").get((req, res) => res.json("Hello world"));
 
-// app.listen(Port, "0.0.0.0", () =>
-//    console.log(`you server is running on port ${Port}`)
-//   );
+ app.listen(Port, "0.0.0.0", () =>
+    console.log(`you server is running on port ${Port}`)
+   );
 
 // const server = app;
 
@@ -56,7 +56,7 @@ app.route("/").get((req, res) => res.json("Hello world"));
 // io.on("connection",(socket)=>{
 //   console.log("socket connected");
 //   console.log(socket.id, "has joined");
-  
+
 //   socket.on("test",(username)=>{
 //     console.log(username);
 //     clients[username] = socket;
@@ -71,4 +71,4 @@ app.route("/").get((req, res) => res.json("Hello world"));
 
 // });
 
-exports.app = functions.region("asia-southeast1").https.onRequest(app);
+//exports.app = functions.region("asia-southeast1").https.onRequest(app);

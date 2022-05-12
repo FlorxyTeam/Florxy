@@ -24,8 +24,8 @@ import '../widgets/fontWeight.dart';
 import '../widgets/font.dart';
 
 class Category extends StatefulWidget {
-  String? p_brand;
-  Category({Key? key, this.p_brand}) : super(key: key);
+  String? type;
+  Category({Key? key, this.type}) : super(key: key);
 
   @override
   _CategoryState createState() => _CategoryState();
