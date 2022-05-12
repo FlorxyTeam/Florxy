@@ -58,19 +58,19 @@ class _laboratoryState extends State<laboratory> {
 
   List<CardItem> items = [
     CardItem(
-      urlImage: "assets/img/bioderma.jpg",
+      urlImage: "assets/img/bath.jpg",
       title: "Bath&Body",
     ),
     CardItem(
-      urlImage: "assets/img/pixi.jpg",
+      urlImage: "assets/img/haircare.jpg",
       title: "Hair Care",
     ),
     CardItem(
-      urlImage: "assets/img/bioderma.jpg",
+      urlImage: "assets/img/fragance.jpg",
       title: "Fragrance",
     ),
     CardItem(
-      urlImage: "assets/img/pixi.jpg",
+      urlImage: "assets/img/Skincare.jpg",
       title: "Skincare",
     ),
   ];
