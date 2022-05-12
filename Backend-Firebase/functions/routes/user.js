@@ -96,8 +96,8 @@ router.route("/checkemail/:email").get((req, res) => {
 });
 
 
-router.route("/login-email").post(async (req, res) => {
-  User.findOne({email: req.body.email},async (err, result) => {
+router.route("/login-email").post((req, res) => {
+  User.findOne({email: req.body.email},(err, result) => {
     if (err) return res.status(500).json({msg: err});
     if (result === null) {
       return res.status(403).json("Email or password is incorrect");
@@ -105,12 +105,12 @@ router.route("/login-email").post(async (req, res) => {
 
     console.log(req.body.password);
 
-    const isMatch = await bcrypt.compare(req.body.password,result.password);
-
-    if (!isMatch) {
-      return res.status(400).json("Invalid credentials");
-    }
-    if (isMatch) {
+//    const isMatch = await bcrypt.compare(req.body.password,result.password);
+//
+//    if (!isMatch) {
+//      return res.status(400).json("Invalid credentials");
+//    }
+    if (result.password === req.body.password) {
       // implement the JWT
       const token = jwt.sign({username: req.body.username}, config.key, {
         // expiresIn: "24h",
@@ -125,7 +125,7 @@ router.route("/login-email").post(async (req, res) => {
   });
 });
 
-router.route("/register").post( async (req, res) => {
+router.route("/register").post((req, res) => {
   console.log("inside the register");
   
   
@@ -134,10 +134,11 @@ router.route("/register").post( async (req, res) => {
     password: req.body.password,
     username: req.body.username,
   });
-  const salt = await bcrypt.genSalt();
-  const Hashpassword = await bcrypt.hash(user.password,salt);
-  user.password = Hashpassword;
-  console.log(user.password);
+
+//  const salt = await bcrypt.genSalt();
+//  const Hashpassword = await bcrypt.hash(user.password,salt);
+//  user.password = Hashpassword;
+//  console.log(user.password);
 
  
   console.log(user.password);

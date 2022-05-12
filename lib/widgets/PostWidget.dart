@@ -6,6 +6,7 @@ import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/pages/FavPost.dart';
 import 'package:Florxy/pages/ViewPostPage.dart';
 import 'package:Florxy/pages/navbar.dart';
+import 'package:Florxy/pages/productoverview.dart';
 import 'package:Florxy/widgets/ModalViewProduct.dart';
 import 'package:Florxy/widgets/modelreportpost.dart';
 import 'package:boxicons/boxicons.dart';
@@ -609,7 +610,7 @@ class _MentionPostState extends State<MentionPost> {
                             padding: const EdgeInsets.only(left: 9, right: 4, top: 3, bottom: 3),
                             child: product.length == 1?GestureDetector(
                               onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage(id: '${data?['_id']}', currentState: 0)));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductOverview(id: '${data?['_id']}')));
                               },
                               child: Row(
                                 children: [
@@ -667,7 +668,7 @@ class _MentionPostState extends State<MentionPost> {
                             padding: const EdgeInsets.only(left: 9, right: 4, top: 3, bottom: 3),
                             child: product.length == 1?GestureDetector(
                               onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage(id: '${data?['_id']}', currentState: 0)));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductOverview(id: '${data?['_id']}')));
                               },
                               child: Row(
                                 children: [
@@ -1374,7 +1375,7 @@ class _ReviewPostState extends State<ReviewPost> {
                             padding: const EdgeInsets.only(left: 9, right: 4,top: 2.5,bottom: 2.5),
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage(id: '${data?['_id']}', currentState: 0)));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductOverview(id: '${data?['_id']}')));
                               },
                               child: Row(
                                 children: [
@@ -1424,7 +1425,7 @@ class _ReviewPostState extends State<ReviewPost> {
                             padding: const EdgeInsets.only(left: 9, right: 4,top: 2.5,bottom: 2.5),
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage(id: '${data?['_id']}', currentState: 0)));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductOverview(id: '${data?['_id']}')));
                               },
                               child: Row(
                                 children: [
@@ -2758,7 +2759,7 @@ class _MentionPost2State extends State<MentionPost2> {
                             padding: const EdgeInsets.only(left: 9, right: 4, top: 3, bottom: 3),
                             child: product.length==1?GestureDetector(
                               onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage(id: '${data?['_id']}', currentState: 0)));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductOverview(id: '${data?['_id']}')));
                               },
                               child: Row(
                                 children: [
@@ -2816,7 +2817,7 @@ class _MentionPost2State extends State<MentionPost2> {
                             padding: const EdgeInsets.only(left: 9, right: 4, top: 3, bottom: 3),
                             child: product.length==1?GestureDetector(
                               onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage(id: '${data?['_id']}', currentState: 0)));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductOverview(id: '${data?['_id']}')));
                               },
                               child: Row(
                                 children: [
@@ -3494,7 +3495,7 @@ class _ReviewPost2State extends State<ReviewPost2> {
                             padding: const EdgeInsets.only(left: 9, right: 4,top: 2.5,bottom: 2.5),
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage(id: '${data?['_id']}', currentState: 0)));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductOverview(id: '${data?['_id']}')));
                               },
                               child: Row(
                                 children: [
@@ -3544,7 +3545,7 @@ class _ReviewPost2State extends State<ReviewPost2> {
                             padding: const EdgeInsets.only(left: 9, right: 4,top: 2.5,bottom: 2.5),
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage(id: '${data?['_id']}', currentState: 0)));
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductOverview(id: '${data?['_id']}')));
                               },
                               child: Row(
                                 children: [

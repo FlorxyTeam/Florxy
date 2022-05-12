@@ -1,3 +1,4 @@
+import 'package:Florxy/pages/productoverview.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../pages/comparepage.dart';
@@ -19,7 +20,7 @@ class _ProductInMentionPostState extends State<ProductInMentionPost> {
       children: [
         GestureDetector(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage(id: widget.id, currentState: 0)));
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductOverview(id: widget.id)));
           },
           child: Column(
             children: [

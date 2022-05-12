@@ -89,7 +89,7 @@ class _ProductOverviewState extends State<ProductOverview> {
     cosing: '',
     detail: '',
     irr: '',
-    rate: '',
+    rate: '', proof: [],
   );
 
 
