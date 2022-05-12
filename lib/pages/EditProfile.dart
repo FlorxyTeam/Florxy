@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:Florxy/Model/profileModel.dart';
 import 'package:Florxy/NetworkHandler.dart';
+import 'package:Florxy/pages/professororcreator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -238,12 +239,12 @@ class _EditPageState extends State<EditPage> {
                         height: 55,
                         onPressed: () async{
                           await storage.write(key: "myusername", value: profileModel.username);
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => AliasPage()));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProfessorOrCreator()));
 
                           },
 
                         child: Inter(
-                          text: "Switch to Professional Account",
+                          text: "Request Professional Account",
                           size: 13,
                           color: c.textWhite,
                           fontWeight: f.bold,

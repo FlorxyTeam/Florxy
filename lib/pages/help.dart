@@ -1,3 +1,5 @@
+import 'package:Florxy/pages/reportproblem.dart';
+import 'package:Florxy/pages/supportrequests.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/pages/navbar.dart';
@@ -5,6 +7,8 @@ import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
+
+import 'helpcenter.dart';
 
 class Help extends StatefulWidget {
   const Help({Key? key}) : super(key: key);
@@ -93,8 +97,11 @@ class _HelpState extends State<Help> {
                 children: <Widget>[
                   Column(
                     children: [
+                      SizedBox(height: 10,),
                       InkWell(
-                        onTap: (){},
+                        onTap: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReportProblem()));
+                        },
                         child: Padding(
                           padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
                           child: Row(
@@ -102,7 +109,7 @@ class _HelpState extends State<Help> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.only(left: 15),
+                                padding: const EdgeInsets.only(left: 10),
                                 child: Inter(
                                     text: "Report a Problem",
                                     size: 17,
@@ -116,8 +123,11 @@ class _HelpState extends State<Help> {
                           ),
                         ),
                       ),
+                      SizedBox(height: 20,),
                       InkWell(
-                        onTap: (){},
+                        onTap: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => HelpCenter()));
+                        },
                         child: Padding(
                           padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
                           child: Container(
@@ -126,7 +136,7 @@ class _HelpState extends State<Help> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 15),
+                                  padding: const EdgeInsets.only(left: 10),
                                   child: Inter(
                                       text: "Help Center",
                                       size: 16,
@@ -141,8 +151,11 @@ class _HelpState extends State<Help> {
                           ),
                         ),
                       ),
+                      SizedBox(height: 20,),
                       InkWell(
-                        onTap: (){},
+                        onTap: (){
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => SupportRequests()));
+                        },
                         child: Padding(
                           padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
                           child: Container(
@@ -151,7 +164,7 @@ class _HelpState extends State<Help> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 17),
+                                  padding: const EdgeInsets.only(left: 10),
                                   child: Inter(
                                       text: "Support Requests",
                                       size: 16,
@@ -174,324 +187,6 @@ class _HelpState extends State<Help> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget SearchTextField() {
-    return Column(
-      children: [
-        TextFormField(
-            focusNode: _focusNodes[0],
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: c.greyLight,
-              contentPadding: EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-              hintText: 'Search in chat',
-              hintStyle: TextStyle(
-                  fontSize: 16, color: c.greyMain, fontWeight: f.medium),
-              prefixIcon: Padding(
-                padding: EdgeInsets.only(right: 13, left: 20),
-                child: Icon(Icons.search_rounded,
-                    size: 25,
-                    color: _focusNodes[0].hasFocus ? c.greenMain : c.greyMain),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                borderSide:
-                BorderSide(color: c.graySub2.withOpacity(0), width: 2),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                borderSide: BorderSide(color: c.greenMain, width: 2),
-              ),
-            )),
-        SizedBox(height: 15,),
-        InkWell(
-          onTap: (){print("Noti");},
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Icon(
-                  Icons.notifications_outlined,
-                  color: c.blackMain,
-                  size: 25.0,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Inter(
-                      text: "Notification",
-                      size: 17,
-                      color: c.blackMain,
-                      fontWeight: f.medium),
-                ),
-                Expanded(child: Container(),),
-                Icon(Icons.arrow_forward_ios_outlined,
-                    size: 18, color: c.greyMain),
-
-              ],
-            ),
-          ),
-        ),
-        InkWell(
-          onTap: (){},
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
-
-            child: Container(
-
-              child:Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(
-                    Icons.lock_outline,
-                    color: c.blackMain,
-                    size: 25.0,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15),
-                    child: Inter(
-                        text: "Privacy",
-                        size: 16,
-                        color: c.blackMain,
-                        fontWeight: f.medium),
-                  ),
-                  Expanded(child: Container()),
-                  Icon(Icons.arrow_forward_ios_outlined,
-                      size: 18, color: c.greyMain),
-
-                ],
-              ) ,
-            ),
-          ),
-        ),
-        InkWell(
-          onTap: (){},
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
-
-
-            child: Container(
-
-              child:Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(
-                    Icons.security_rounded,
-                    color: c.blackMain,
-                    size: 22.0,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: Inter(
-                        text: "Security",
-                        size: 16,
-                        color: c.blackMain,
-                        fontWeight: f.medium),
-                  ),
-                  Expanded(child: Container()),
-                  Icon(Icons.arrow_forward_ios_outlined,
-                      size: 18, color: c.greyMain),
-
-                ],
-              ) ,
-            ),
-          ),
-        ),
-        InkWell(
-          onTap: (){
-
-          },
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
-
-
-            child: Container(
-
-              child:Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(
-                    Icons.account_circle_outlined,
-                    color: c.blackMain,
-                    size: 22.0,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 17),
-                    child: Inter(
-                        text: "Account",
-                        size: 16,
-                        color: c.blackMain,
-                        fontWeight: f.medium),
-                  ),
-                  Expanded(child: Container()),
-                  Icon(Icons.arrow_forward_ios_outlined,
-                      size: 18, color: c.greyMain),
-
-                ],
-              ) ,
-            ),
-          ),
-        ),
-        InkWell(
-          onTap: (){},
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
-
-
-            child: Container(
-
-              child:Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(
-                    Icons.help_outline_rounded,
-                    color: c.blackMain,
-                    size: 23.0,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15),
-                    child: Inter(
-                        text: "Help",
-                        size: 16,
-                        color: c.blackMain,
-                        fontWeight: f.medium),
-                  ),
-                  Expanded(child: Container()),
-                  Icon(Icons.arrow_forward_ios_outlined,
-                      size: 18, color: c.greyMain),
-
-                ],
-              ) ,
-            ),
-          ),
-        ),
-        InkWell(
-          onTap: (){},
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
-
-
-            child: Container(
-
-              child:Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(
-                    Boxicons.bx_data,
-                    color: c.blackMain,
-                    size: 23.0,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 13),
-                    child: Inter(
-                        text: "Data policy",
-                        size: 16,
-                        color: c.blackMain,
-                        fontWeight: f.medium),
-                  ),
-                  Expanded(child: Container()),
-                  Icon(Icons.arrow_forward_ios_outlined,
-                      size: 18, color: c.greyMain),
-
-                ],
-              ) ,
-            ),
-          ),
-        ),
-        InkWell(
-          onTap: (){},
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
-
-
-            child: Container(
-
-              child:Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(
-                    Icons.checklist_outlined,
-                    color: c.blackMain,
-                    size: 23.0,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 13),
-                    child: Inter(
-                        text: "Terms of use",
-                        size: 16,
-                        color: c.blackMain,
-                        fontWeight: f.medium),
-                  ),
-                  Expanded(child: Container()),
-                  Icon(Icons.arrow_forward_ios_outlined,
-                      size: 18, color: c.greyMain),
-
-                ],
-              ) ,
-            ),
-          ),
-        ),
-        InkWell(
-          onTap: (){},
-          child: Padding(
-            padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
-
-            child: Container(
-
-              child:Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Icon(
-                    Boxicons.bx_book_heart,
-                    color: c.blackMain,
-                    size: 20.0,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 15),
-                    child: Inter(
-                        text: "Open source libraries",
-                        size: 16,
-                        color: c.blackMain,
-                        fontWeight: f.medium),
-                  ),
-                  Expanded(child: Container()),
-                  Icon(Icons.arrow_forward_ios_outlined,
-                      size: 18, color: c.greyMain),
-
-                ],
-              ) ,
-            ),
-          ),
-        ),
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      ],
     );
   }
 

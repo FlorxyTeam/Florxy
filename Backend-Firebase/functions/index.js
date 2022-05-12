@@ -9,7 +9,7 @@
 // });
 const express = require("express");
 const mongoose = require("mongoose");
-const Port = process.env.PORT || 8080;
+ const Port = process.env.PORT || 8080;
 const app = express();
 
 const mongoURI =
@@ -42,9 +42,9 @@ app.use("/product", productRoute);
 
 app.route("/").get((req, res) => res.json("Hello world"));
 
-app.listen(Port, "0.0.0.0", () =>
-   console.log(`you server is running on port ${Port}`)
-  );
+ app.listen(Port, "0.0.0.0", () =>
+    console.log(`you server is running on port ${Port}`)
+   );
 
 // const server = app;
 
@@ -56,7 +56,7 @@ app.listen(Port, "0.0.0.0", () =>
 // io.on("connection",(socket)=>{
 //   console.log("socket connected");
 //   console.log(socket.id, "has joined");
-  
+
 //   socket.on("test",(username)=>{
 //     console.log(username);
 //     clients[username] = socket;

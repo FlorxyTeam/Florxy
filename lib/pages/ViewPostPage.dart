@@ -27,10 +27,10 @@ import '../postProvider.dart';
 import 'CreatePost.dart';
 
 class ViewPost extends StatefulWidget {
-  String? fullname, username, img, professor, influencer, id, body;
+  String? fullname, username, img, professor, influencer, id, body, type, rating;
   int comment,favorite;
   List? urlImage,listProduct;
-  ViewPost({Key? key, this.fullname, this.username, this.img, required this.comment, required this.favorite, this.urlImage, this.influencer, this.professor, this.id, this.body, this.listProduct}) : super(key: key);
+  ViewPost({Key? key, this.fullname, this.username, this.img, required this.comment, required this.favorite, this.urlImage, this.influencer, this.professor, this.id, this.body, this.listProduct, this.type, this.rating}) : super(key: key);
 
   @override
   _ViewPostState createState() => _ViewPostState();
@@ -77,7 +77,6 @@ class _ViewPostState extends State<ViewPost> {
   @override
   Widget build(BuildContext context) {
     final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
-    List product = widget.listProduct!;
     return Scaffold(
         backgroundColor: c.textWhite,
         body: Stack(
@@ -507,14 +506,14 @@ class _ViewPostState extends State<ViewPost> {
                             height: 0,
                           ),
                           SizedBox(height: 8),
-                          MediaQuery.removePadding(
+                          widget.type != 'post' ? MediaQuery.removePadding(
                             context: context,
                             removeTop: true,
                             removeBottom: true,
                             child: ListView.builder(
                               itemCount: widget.listProduct!.length,
                               itemBuilder: (context,int index){
-                                Map data = product[index];
+                                Map data = widget.listProduct![index];
                                 return ProductInMentionPost(
                                   brand: "${data['p_brand']}",
                                   product: "${data['p_name']}",
@@ -526,7 +525,7 @@ class _ViewPostState extends State<ViewPost> {
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                             ),
-                          ),
+                          ) : Container(),
                           SizedBox(height: 15),
                           // Divider(
                           //   color: c.greyMain,

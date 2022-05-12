@@ -33,12 +33,12 @@ class ModalBottomSheetPost {
             height: 250,
             child: Container(
               child: Padding(
-                padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-                child: ListMenu(
+                  padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
+                  child: ListMenu(
                     post_username: post_username,
                     my_username: my_username,
                     idpost: idpost,
-                )
+                  )
               ),
               decoration: BoxDecoration(
                   color: Theme.of(context).canvasColor,
@@ -136,10 +136,10 @@ class _ListMenuState extends State<ListMenu> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Expanded(child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Center(child: Inter(text: "Cancle", size: 15, color: c.graySub2, fontWeight: f.semiBold)))),
+                                    onTap: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Center(child: Inter(text: "Cancle", size: 15, color: c.graySub2, fontWeight: f.semiBold)))),
                                 Container(
                                   height: 43,
                                   child: VerticalDivider(
@@ -149,17 +149,17 @@ class _ListMenuState extends State<ListMenu> {
                                 ),
                                 Expanded(
                                   child: GestureDetector(
-                                    onTap: () async {
-                                      Map<String, String> data = {
-                                        "pinPost" : widget.idpost!
-                                      };
-                                      await networkHandler.post("/profile/addPinned/" + widget.my_username!, data);
-                                      fetchdata();
-                                      Navigator.of(context).pop();
-                                      Navigator.of(context).pushReplacement(
-                                          PageTransition(type: PageTransitionType.fade, child: Navbar(currentState: 4), duration: Duration(milliseconds: 0)));
-                                    },
-                                    child: Center(child: Inter(text: "Pin", size: 15, color: c.redMain, fontWeight: f.semiBold))),
+                                      onTap: () async {
+                                        Map<String, String> data = {
+                                          "pinPost" : widget.idpost!
+                                        };
+                                        await networkHandler.post("/profile/addPinned/" + widget.my_username!, data);
+                                        fetchdata();
+                                        Navigator.of(context).pop();
+                                        Navigator.of(context).pushReplacement(
+                                            PageTransition(type: PageTransitionType.fade, child: Navbar(currentState: 4), duration: Duration(milliseconds: 0)));
+                                      },
+                                      child: Center(child: Inter(text: "Pin", size: 15, color: c.redMain, fontWeight: f.semiBold))),
                                 ),
                               ],
                             ),
@@ -232,8 +232,12 @@ class _ListMenuState extends State<ListMenu> {
                                         Map<String, String> data2 = {
                                           "pinPost" : widget.idpost!
                                         };
+                                        Map<String, String> data3 = {
+                                          "pinPost" : widget.idpost!
+                                        };
                                         await networkHandler.post("/profile/deletePinned/" + widget.my_username!, data2);
                                         await networkHandler.post("/profile/deletepost",data);
+
                                         fetchdata();
                                         Navigator.of(context).pop();
                                       },
@@ -292,7 +296,7 @@ class _ListMenuState extends State<ListMenu> {
                     fetchdata();
                     Navigator.of(context).pop();
                     Navigator.of(context).pushReplacement(
-                    PageTransition(type: PageTransitionType.fade, child: Navbar(currentState: 4), duration: Duration(milliseconds: 0)));
+                        PageTransition(type: PageTransitionType.fade, child: Navbar(currentState: 4), duration: Duration(milliseconds: 0)));
 
                   } else showAlertDialog(context);
                 },
@@ -352,10 +356,8 @@ class _ListMenuState extends State<ListMenu> {
                     size: 15,
                     color: c.blackMain,
                     fontWeight: f.semiBold),
-                onTap: () async {
-                  // Future.delayed(Duration(microseconds: 0));
-                  closeDialog(context);
-                  await Navigator.of(context).push(_createRoute());
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReportPage(my_username: widget.my_username,idpost: widget.idpost,)));
                 },
               ),
               decoration: BoxDecoration(
@@ -407,7 +409,7 @@ void closeDialog(context) {
 //Edit
 Route _createRoute() {
   return PageRouteBuilder(
-    pageBuilder: (context, animation, secondaryAnimation) => const ReportPage(),
+    pageBuilder: (context, animation, secondaryAnimation) => ReportPage(),
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       const begin = Offset(0.0, 1.0);
       const end = Offset.zero;
@@ -422,6 +424,3 @@ Route _createRoute() {
     },
   );
 }
-
-
-

@@ -1,15 +1,19 @@
 import 'package:Florxy/pages/reportpage.dart';
+import 'package:Florxy/pages/searchpost.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/button.dart';
+import 'package:provider/provider.dart';
+import '../postProvider.dart';
 import 'navbar.dart';
 
 
 class ReportFinish extends StatefulWidget {
   final String Bad;
-  const ReportFinish({Key? key,required this.Bad}) : super(key: key);
+  String? my_username,idpost;
+  ReportFinish({Key? key, required this.Bad, this.my_username, this.idpost}) : super(key: key);
 
   @override
   _ReportFinishState createState() => _ReportFinishState();
@@ -17,6 +21,7 @@ class ReportFinish extends StatefulWidget {
 
 class _ReportFinishState extends State<ReportFinish> {
   String notific = "No Check";
+  TextEditingController _report = TextEditingController();
   Check() {
     setState(() {
       notific = 'Check';
@@ -30,6 +35,7 @@ class _ReportFinishState extends State<ReportFinish> {
 
   @override
   Widget build(BuildContext context) {
+    String Body = "";
     String Choose = widget.Bad;
     return Scaffold(
         appBar: PreferredSize(
@@ -138,12 +144,14 @@ class _ReportFinishState extends State<ReportFinish> {
                             SizedBox(height: 5),
                             Container(
                               height: 90,
+                              width: MediaQuery.of(context).size.width-90,
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.all(Radius.circular(13.0)),
                               ),
-                              child: TextField(
+                              child: TextFormField(
                                   maxLines: 5,
+                                  controller: _report,
                                   decoration: InputDecoration(
                                     hintText: 'You can type here',
                                     hintStyle: TextStyle(fontSize: 14, color: c.graySub2, fontWeight: f.regular),
@@ -166,33 +174,25 @@ class _ReportFinishState extends State<ReportFinish> {
                 ),
             ),
             Positioned(
-                bottom: 50,
+                bottom: 30,
                 child: Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Poppins(
-                          text: 'Receive notifications about this report            ',
-                          size: 11.5,
-                          color: c.blackSub,
-                          fontWeight: f.medium,
-                        ),
-                        notific == 'Check' ? IconButton(
-                            onPressed: ()=> NoCheck(),
-                            icon: Icon(Boxicons.bxs_checkbox_checked,color: c.greenSub2,)
-                        ): IconButton(
-                            onPressed: ()=> Check(),
-                            icon: Icon(Boxicons.bx_checkbox,)
-                        )
-                      ],
-                    ),
+
                     Container(
                       width: MediaQuery.of(context).size.width,
                       child: Padding(
                         padding: EdgeInsets.only(left: 40,right: 40),
                         child: GestureDetector(
-                          onTap: () {
+                          onTap: () async {
+                            Map<String, String> data = {
+                              "username": widget.my_username!,
+                              "mainpost": widget.idpost!,
+                              "type": widget.Bad,
+                              "body" : _report.text,
+                            };
+                            var response = await networkHandler.post("/home/report", data);
+                            print(response);
+                            setState(() {});
                             Navigator.pushAndRemoveUntil(context, MaterialPageRoute
                               (builder: (context)=>Navbar(currentState: 0)), (route) => false);
                           },
