@@ -1,5 +1,6 @@
 import 'package:Florxy/Model/productModel.dart';
 import 'package:Florxy/pages/LoginPage.dart';
+import 'package:Florxy/pages/productoverview.dart';
 import 'package:Florxy/pages/searchpage.dart';
 import 'package:Florxy/widgets/SearchMentionPostWidget.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/scrapper/incidecoder.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:provider/provider.dart';
 
 import '../NetworkHandler.dart';
@@ -99,13 +101,15 @@ class ProductView extends StatefulWidget {
 }
 
 class _ProductViewState extends State<ProductView> {
+  final storage = new FlutterSecureStorage();
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         GestureDetector(
-          onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => comparepage(id: widget.id, currentState: 0)));
+          onTap: () async {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductOverview(id: widget.id)));
+            await storage.write(key: "p_id", value: widget.id);
           },
           child: Container(
             child: Padding(

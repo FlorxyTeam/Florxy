@@ -286,7 +286,7 @@ class _SearchToCompareState extends State<SearchToCompare> {
                             height: 50,
                           ),
                           onTap: ()  {
-                            // Navigator.of(context).push(MaterialPageRoute(builder: (context) => compare2(product2: mention )));
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => compare2(product2: mention )));
                           },
                         )
                             : mention.length == 3

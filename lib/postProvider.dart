@@ -300,12 +300,12 @@ class PostProvider extends ChangeNotifier {
 
   }
 
-  Future fetchInteresting() async {
+  Future fetchInteresting(productID) async {
     print('Interesting review');
     String? token = await storage.read(key: "token");
-    var id = await storage.read(key: 'p_id');
-    print(id);
-    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/post/interestingreview/" + id!);
+    //var id = await storage.read(key: 'p_id');
+    // print(productID);
+    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/post/interestingreview/" + productID);
     http.Response response = await httpClient.get(
       resAPIURL,
       headers: {"Authorization": "Bearer $token",
@@ -317,7 +317,7 @@ class PostProvider extends ChangeNotifier {
     final Map parseBrand = await json.decode(response.body.toString());
 
     interestingreview = parseBrand["interesting"];
-    print(interestingreview);
+    // print(interestingreview);
 
 
   }

@@ -10,6 +10,7 @@ import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'dart:async';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -70,7 +71,7 @@ class _laboratoryState extends State<laboratory> {
       title: "Fragrance",
     ),
     CardItem(
-      urlImage: "assets/img/Skincare.jpg",
+      urlImage: "assets/img/Skincare.png",
       title: "Skincare",
     ),
   ];
@@ -87,7 +88,8 @@ class _laboratoryState extends State<laboratory> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(77.0),
+        preferredSize: Size.fromHeight(
+            Theme.of(context).platform == TargetPlatform.android ? 75 : 66.0),
         child: Container(
           decoration: BoxDecoration(
             boxShadow: [
@@ -101,6 +103,8 @@ class _laboratoryState extends State<laboratory> {
           ),
           child: AppBar(
             automaticallyImplyLeading: false,
+            centerTitle: false,
+            titleSpacing: 0,
             backgroundColor: Colors.white,
             elevation: 0,
             shape: RoundedRectangleBorder(
@@ -108,28 +112,20 @@ class _laboratoryState extends State<laboratory> {
                   bottom: Radius.circular(26),
                 )),
             title: Padding(
-              padding: const EdgeInsets.only(top: 18.5, left: 0),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 13, left: 0),
-                    child: Center(
-                      child: Poppins(
-                          text: "Laboratory",
-                          size: 24,
-                          color: c.blackMain,
-                          fontWeight: f.semiBold),
-                    ),
-                  ),
-                  Expanded(child: Container()),
-                  GestureDetector(
-                      onTap: (){
-                        // Navigator.of(context).push(MaterialPageRoute(builder: (context) => Scrap()));
-                      },
-                      // child: Poppins(text: "Scrap", size: 12, color: c.blackMain, fontWeight: f.medium)
-                  )
-                ],
+              padding: EdgeInsets.only(
+                  top: Theme.of(context).platform == TargetPlatform.android
+                      ? 18.5
+                      : 0),
+              child: Poppins(
+                text: "Laboratory",
+                size: 25,
+                color: c.blackMain,
+                fontWeight: f.semiBold,
               ),
+            ),
+            leading: Padding(
+              padding: EdgeInsets.only(top: Theme.of(context).platform==TargetPlatform.android?17.5:0, left: 13),
+              child:  Icon(FeatherIcons.chevronLeft),
             ),
           ),
         ),
