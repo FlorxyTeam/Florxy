@@ -6,6 +6,6 @@ Florxy application
 
 #Use android studio version > 2.0.0 and flutter version >=2.15.1 <3.0.0
 
-1. Pull branch Florxy-web
+1. Pull branch florxy
 2. Run flutter pub get
 3. Run Main.dart on any emulator you want or connect your smartphone device
