@@ -26,6 +26,12 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 
 import 'package:Florxy/widgets/font.dart';
 import 'package:Florxy/widgets/fontWeight.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:provider/provider.dart';
+
+import '../LoadingScreen/createPostLoadingScreen.dart';
+import '../postProvider.dart';
+import 'navbar.dart';
 
 
 class CreatePost extends StatefulWidget {
@@ -519,7 +525,14 @@ class _CreatePostState extends State<CreatePost> {
                                 setState(() {
                                   circular = false;
                                 });
-                                Navigator.of(context).pop();
+
+                                    Navigator.of(context).pushReplacement(
+                                        PageTransition(type: PageTransitionType.fade, child: CreatPostLoadingScreen(), duration: Duration(milliseconds: 0)));
+
+                                // Provider.of<PostProvider>(context, listen: false).fetchData();
+                                // Navigator.of(context).pop();
+                                // Navigator.of(context).pushReplacement(
+                                //     PageTransition(type: PageTransitionType.fade, child: Navbar(currentState: 0), duration: Duration(milliseconds: 0)));
                               }else{
                                 setState(() {
                                   circular = false;
@@ -543,7 +556,13 @@ class _CreatePostState extends State<CreatePost> {
                                 setState(() {
                                   circular = false;
                                 });
-                                Navigator.of(context).pop();
+
+                                    Navigator.of(context).pushReplacement(
+                                        PageTransition(type: PageTransitionType.fade, child: CreatPostLoadingScreen(), duration: Duration(milliseconds: 0)));
+                                // Provider.of<PostProvider>(context, listen: false).fetchData();
+                                // Navigator.of(context).pop();
+                                // Navigator.of(context).pushReplacement(
+                                //     PageTransition(type: PageTransitionType.fade, child: Navbar(currentState: 0), duration: Duration(milliseconds: 0)));
                               } else{
                                 setState(() {
                                   circular = false;
@@ -566,7 +585,12 @@ class _CreatePostState extends State<CreatePost> {
                                 setState(() {
                                   circular = false;
                                 });
-                                Navigator.of(context).pop();
+                                // Provider.of<PostProvider>(context, listen: false).fetchData();
+                                // Navigator.of(context).pop();
+
+                                    Navigator.of(context).pushReplacement(
+                                    PageTransition(type: PageTransitionType.fade, child: CreatPostLoadingScreen(), duration: Duration(milliseconds: 0)));
+
                               }else{
                                 setState(() {
                                   circular = false;
@@ -592,8 +616,7 @@ class _CreatePostState extends State<CreatePost> {
                       }
 
                     },
-                    child: circular?
-                    Center(child: CircularProgressIndicator(),):GreenButton(
+                    child: GreenButton(
                       text: 'POST',
                       size: 12,
                       color: Colors.white,
@@ -910,6 +933,7 @@ class _CreatePostState extends State<CreatePost> {
                     storage.delete(key: "mention-product");
                     storage.delete(key: "review-product");
                     isadd=false;
+                    idMentionProduct = [];
                   });
                 },
                 padding: EdgeInsets.zero,

@@ -1,3 +1,5 @@
+/* eslint-disable new-cap */
+/* eslint-disable camelcase */
 const express = require("express");
 const middleware = require("../middleware");
 
@@ -5,6 +7,8 @@ const Profile = require("../models/profile.model");
 const Post = require("../models/post.model");
 const Product = require("../models/product.model");
 const Comment = require("../models/comment.model");
+const Report = require("../models/report.model");
+const Problem = require("../models/problem.model");
 const multer = require("multer");
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -27,7 +31,7 @@ const upload = multer({
 });
 
 router.route("/getPost").get( (req, res) => {
-  Post.find({}).sort({updatedAt: -1}).exec(function(err, result) {
+  Post.find({}).sort({createdAt: -1}).exec(function(err, result) {
     // console.log('result: '+ result);
     if (err) return res.json({err: err});
     if (result == null) return res.json({data: []});
@@ -58,7 +62,7 @@ router.route("/getProductInfo/:id").get( (req, res) => {
 });
 
 router.route("/getSimilarProduct/:p_cate").get( (req, res) => {
-  let x = req.params.p_cate
+  const x = req.params.p_cate
 //  x= x.replace('%20',' ');
   console.log(x);
   Product.find({ p_cate: x}).exec(function(err, result){
@@ -284,16 +288,17 @@ router.route("/getPost/viewPost/:id/:product")
     // })
 
     router.route("/getSearchProductPost/:id").get(middleware.checkToken, (req,res)=>{
-          var query = req.params.id.toLowerCase()
-          //console.log(typeof Post)
-          Post.find({product : {$ne : null} },).populate({
-              path: 'product',
+          const query = req.params.id.toLowerCase()
+          // console.log(typeof Post)
+          Post.find({product : {$ne : null} }).populate({
+              path: "product",
             }).exec(function(err, result){
                  if(err) {
                     return res.json(err);
                  } else {
-                    var i = 0;
-                    var my_result = []
+                    let i = 0;
+                    // eslint-disable-next-line camelcase
+                    const my_result = []
                     while(i < result.length){
                     if(result[i].body.includes(query)){
                         my_result.push(result[i]);
@@ -319,14 +324,6 @@ router.route("/getPost/viewPost/:id/:product")
                                length: my_result.length});
                  }
             }
-            /*.then(result => console.log(typeof res.json(result))
-                    /result.find({$or: [
-                    {"product.p_name": {$regex: query, $options:"i"}},
-                    {"product.p_nbrand": {$regex: query, $options:"i"}},
-                    ],},(err,result)=>{
-                                    if(err)return res.json(err);
-                                    return res.json({data:result})
-                                })*/
            )
         });
 
@@ -349,5 +346,57 @@ router.route("/getPost/viewPost/:id/:product")
         }
       });
     });
+
+    router.route("/report").post((req, res) => {
+          const report = Report({
+            username: req.body.username,
+            mainpost: req.body.mainpost,
+            body: req.body.body,
+            type: req.body.type,
+          });
+          report
+            .save()
+            .then(() => {
+              return res.json("add report successfull");
+            })
+            .catch((err) => {
+              return res.status(400).json({ err: err });
+            });
+        });
+
+        router.route("/getReport/:username").get((req,res)=>{
+              Report.find({ username: req.params.username }).exec(function(err,findReport) {
+                  if(err){
+                    return res.json(err);
+                  } else {
+                    return res.send({ report: findReport , countReport: findReport.length });
+                  }
+              });
+            });
+
+    router.route("/problem").post((req, res) => {
+              const problem = Problem({
+                username: req.body.username,
+                body: req.body.body,
+              });
+              problem
+                .save()
+                .then(() => {
+                  return res.json("add problem successfull");
+                })
+                .catch((err) => {
+                  return res.status(400).json({ err: err });
+                });
+            });
+
+            router.route("/getProblem/:username").get((req,res)=>{
+                  Problem.find({ username: req.params.username }).exec(function(err,findProblem) {
+                      if(err){
+                        return res.json(err);
+                      } else {
+                        return res.send({ problem: findProblem , countProblem: findProblem.length });
+                      }
+                  });
+                });
 
 module.exports = router;

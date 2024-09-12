@@ -167,22 +167,32 @@ Column _buildLoginMenu(context) {
             final provider = Provider.of<GoogleSignInProvider>(context, listen:false);
             var google = await provider.googleLogin();
             // print(google + "thiasssdsksspdkspodkspd");
+            print(google);
             Map<String, String> data = {
               "google": google,
             };
             var response = await networkHandler.post("/user/login-google", data);
             Map<String, dynamic> output = json.decode(response.body);
-            print(output["token"]);
-
-            await storage.write(
-                key: "username", value: output["username"]);
-            if(response.statusCode==200|| response.statusCode==201){
-              await storage.write(key: "token", value: output["token"]);
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute
-                (builder: (context)=>GoogleStream()), (route) => false);
-            }else{
-              String output = json.decode(response.body);
+            if(output["msg"].toString().contains('false')){
+              print('false');
+              final provider = Provider.of<GoogleSignInProvider>(context,listen: false);
+              provider.logout();
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateAccount1()));
             }
+            else{
+              print(output["token"]);
+
+              await storage.write(
+                  key: "username", value: output["username"]);
+              if(response.statusCode==200|| response.statusCode==201){
+                await storage.write(key: "token", value: output["token"]);
+                Navigator.pushAndRemoveUntil(context, MaterialPageRoute
+                  (builder: (context)=>GoogleStream()), (route) => false);
+              }else{
+                String output = json.decode(response.body);
+              }
+            }
+
             // print(user.uid);
 
           },
@@ -235,11 +245,46 @@ Column _buildLoginMenu(context) {
               final userData = await FacebookAuth.i.getUserData(
                 fields: "name,email,picture.width(200),birthday,friends,gender,link",
               );
-              print(userData);
+              print(userData["id"]);
               print(accessToken.token);
               final credential = FacebookAuthProvider.credential(accessToken.token);
               await FirebaseAuth.instance.signInWithCredential(credential);
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => GoogleStream()));
+
+              Map<String, String> data = {
+                "google": userData["id"],
+              };
+              var response = await networkHandler.post("/user/login-google", data);
+              Map<String, dynamic> output = json.decode(response.body);
+              if(output["msg"].toString().contains('false')){
+                print('false');
+                final AccessToken? accessToken = await FacebookAuth.instance.accessToken;
+                if (accessToken != null) {
+                  print(accessToken);
+                  await FacebookAuth.instance.logOut();
+                  FacebookAuth.i.logOut();
+                  FirebaseAuth.instance.signOut();
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => WelcomePage()),
+                          (route) => false);
+                }
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreateAccount1()));
+              }
+              else{
+                print(output["token"]);
+
+                await storage.write(
+                    key: "username", value: output["username"]);
+                if(response.statusCode==200|| response.statusCode==201){
+                  await storage.write(key: "token", value: output["token"]);
+                  Navigator.pushAndRemoveUntil(context, MaterialPageRoute
+                    (builder: (context)=>GoogleStream()), (route) => false);
+                }else{
+                  String output = json.decode(response.body);
+                }
+              }
+              // Navigator.of(context).push(MaterialPageRoute(builder: (context) => GoogleStream()));
 
               // print("hi");
               // print(accessToken);

@@ -1,3 +1,4 @@
+/* eslint-disable new-cap */
 const express = require("express");
 // eslint-disable-next-line new-cap
 const router = express.Router();
@@ -18,6 +19,27 @@ router.route("/getProductData/:id").get(middleware.checkToken, (req, res) => {
     else return res.json({ data: result });
   });
 });
+
+router.route("/getIngredientInfo/:id").get( (req, res) => {
+  Ingredient.findOne({ _id: req.params.id }).exec(function(err, result){
+    if(err) {
+      return console.log(err);
+    } else {
+      return res.json({ ingredient: result });
+    }
+  });
+});
+
+router.route("/getIngredientInfoFromName/:name").get( (req, res) => {
+  Ingredient.findOne({ name: req.params.name }).exec(function(err, result){
+    if(err) {
+      return console.log(err);
+    } else {
+      return res.json({ ingredient: result });
+    }
+  });
+});
+
 router.route("/add/brand").post((req, res)=> {
   // eslint-disable-next-line new-cap
   Brand.find({name:req.body.name},(err, result) =>{
@@ -124,12 +146,12 @@ router.route("/Allbrand/search").get((req, res) => {
 });
 
 
-//brand and list
+// brand and list
 router.route("/brand").get((req, res) => {
   products.aggregate([
                 {"$group" : {_id:"$p_brand", count:{$sum:1}}},
 
-     ]).sort({count: -1}).exec(function ( err,result ) {
+     ]).sort({count: -1}).limit(5).exec(function ( err,result ) {
           if(err)return res.json(err);
           return res.json({data : result})
        });
@@ -141,7 +163,7 @@ router.route("/brand/:p_brand").get(middleware.checkToken, (req, res) => {
     products.find({p_brand: req.params.p_brand},(err, result) => {
         if(err) res.status(500).json({msg: err});
         res.json({
-            data: result,
+            product: result,
             p_brand: req.params.p_brand,
         })
     })
@@ -149,10 +171,9 @@ router.route("/brand/:p_brand").get(middleware.checkToken, (req, res) => {
 
 
 
-
 // go to ProductOverview
 router.route("/:_id").get(middleware.checkToken, (req, res) => {
-    products.findOne({_id: req.params._id}, (err, result) => {
+    products.findOne({_id: req.params._id}).populate("ing_id").exec(function (err, result) {
         console.log("ProductOverview");
         if(err) res.status(500).json({msg: err});
         else return res.json({
@@ -164,7 +185,7 @@ router.route("/:_id").get(middleware.checkToken, (req, res) => {
 
 // top 5 mentions
 router.route("/topmention/brand/:p_brand").get(middleware.checkToken, (req, res ) =>{
-     products.find({p_brand: req.params.p_brand}).sort({mention: -1}).limit(5).exec(function(err, mention){
+     products.find({p_brand: req.params.p_brand}).sort({numReview: -1}).limit(5).exec(function(err, mention){
      if(err) res.status(500).json({msg: err});
         res.json({
             data: mention,
@@ -175,7 +196,7 @@ router.route("/topmention/brand/:p_brand").get(middleware.checkToken, (req, res 
 
 // top 5 reviews
 router.route("/topreview/brand/:p_brand").get(middleware.checkToken, (req, res ) =>{
-     products.find({p_brand: req.params.p_brand}).sort({mention: -1}).limit(5).exec(function(err, review){
+     products.find({p_brand: req.params.p_brand}).sort({rating: -1}).limit(5).exec(function(err, review){
      if(err) res.status(500).json({msg: err});
        res.json({
             data: review,
@@ -185,30 +206,6 @@ router.route("/topreview/brand/:p_brand").get(middleware.checkToken, (req, res )
 });
 
 
-// Interesting review and mention
-//router.route("/post/interestingreview/:_id").get(middleware.checkToken, (req, res ) =>{
-//    let post = {};
-//    let rate = 0;
-//     Post.find({product: req.params._id, type:"review" } ).sort({rating: -1}).exec(function(err, result){
-//        if(err) {
-//            res.status(500).json({msg: err});
-//        }else{
-//            post = result;
-//            console.log(post);
-//             for(i=0;i < post.length;i++){
-//                rate = rate + parseFloat(post[i].rating);
-////                console.log(post[0].rating);
-//             }
-//             rate = rate/post.length;
-//                console.log(rate);
-//
-//
-//
-//        }
-//
-//
-//     });
-// });
 // Update rating
 router.route("/updaterating/:_id").patch(middleware.checkToken, (req, res ) =>{
     let post = {};
@@ -220,12 +217,13 @@ router.route("/updaterating/:_id").patch(middleware.checkToken, (req, res ) =>{
         }else{
             post = result;
             console.log(post);
-             for(i=0;i < post.length;i++){
+             for(let i=0;i < post.length;i++){
                 rate = rate + parseFloat(post[i].rating);
 //                console.log(post[0].rating);
-                num = num+1
+                num = num+1;
              }
              rate = rate/post.length;
+             rate = parseFloat(rate).toFixed(1);
              console.log(rate);
              products.findOneAndUpdate(
                     {_id: req.params._id},
@@ -248,6 +246,7 @@ router.route("/updaterating/:_id").patch(middleware.checkToken, (req, res ) =>{
 });
 
 
+
 router.route("/post/interestingreview/:_id").get(middleware.checkToken, (req, res ) =>{
 
      Post.find({product: req.params._id, type:"review" } ).sort({rating: -1}).exec(function(err, result){
@@ -265,33 +264,40 @@ router.route("/post/interestingreview/:_id").get(middleware.checkToken, (req, re
 
 
 // compare 2 products
-router.route("/compare/:p_id1/:p_id2").get(middleware.checkToken, (req, res) => {
-    products.findOne({_id: req.params.p_id1}, (err, result1) => {
+router.route("/compare2/:id1/:id2").get(middleware.checkToken, (req, res) => {
+    products.findOne({_id: req.params.id1}, (err, result1) => {
         console.log("Compare 2 products.");
-        if(err) res.status(500).json({msg: err});
-         products.findOne({_id: req.params.p_id2}, (err, result2) => {
+        if(err) {
+            res.status(500).json({msg: err});
+        }else {
+//        res.json({data: result1});
+            products.findOne({_id: req.params.id2}, (err, result2) => {
+                     if(err){
+                      res.status(500).json({msg: err});
+                     }else{
+                         res.json({
+                           product: [result1, result2],
 
-          res.json({
-                     data: result1,result2
+                         });
+                     }
+            });
+        }
 
-                 })
-         });
 
     })
 });
 
 
 // compare 3 products
-router.route("/compare/:p_id1/:p_id2/:p_id3").get(middleware.checkToken, (req, res) => {
+router.route("/compare3/:p_id1/:p_id2/:p_id3").get(middleware.checkToken, (req, res) => {
     products.findOne({_id: req.params.p_id1}, (err, result1) => {
-        console.log("Compare 3 products.");
         if(err) res.status(500).json({msg: err});
          products.findOne({_id: req.params.p_id2}, (err, result2) => {
             if(err) res.status(500).json({msg: err});
              products.findOne({_id: req.params.p_id3}, (err, result3) => {
               if(err) res.status(500).json({msg: err});
              res.json({
-                         data: [result1, result2, result3],
+                         product: [result1, result2, result3],
 
               });
 
@@ -311,23 +317,24 @@ router.route("/getAllProductData/All").get(middleware.checkToken, (req, res) => 
 });
 
 router.route("/getSearchProduct/:id").get(middleware.checkToken, (req, res)=>{
-  var query = req.params.id
+  const query = req.params.id
   products.find({$or: [{p_name: {$regex: query, $options:"i"}},
                       {p_brand: {$regex: query, $options:"i"}},],}, (err, result)=>{
     if (err) return res.json(err);
     return res.json({getProduct: result});
   });
 });
-router.route("/getSearchProduct/:id").get(middleware.checkToken,(req,res)=>{
-                print("getSearchProduct")
-                var query = req.params.id
-                product.find({$or: [{p_name: {$regex: query, $options:"i"}},
-                                    {p_brand: {$regex: query, $options:"i"}},],},
-                (err,result)=>{
-                    if(err)return res.json(err);
-                    return res.json({getProduct : result})
-                });
- });
+
+
+ router.route("/deleteProduct/:brand").get((req,res)=>{
+  products.deleteMany({ p_brand: req.params.brand }).exec(function(err, result){
+    if(err){
+      return console.log(err);
+    } else {
+      return res.json("delete product success");
+    }
+  });
+});
 
 
  router.route("/request").post(middleware.checkToken,(req, res)=> {
@@ -391,6 +398,19 @@ router.route("/view/productoverview/:username").get(middleware.checkToken, (req,
         })
     })
 });
+
+router.route("/accoutbrand/:brand").get(middleware.checkToken, (req, res) => {
+    Brand.findOne({name: req.params.brand}).populate("recommend").populate("owners").exec(function (err, result){
+
+        if(err) res.status(500).json({msg: err});
+        else return res.json({
+            data: result,
+        })
+    })
+});
+
+
+
 
 
 

@@ -9,9 +9,9 @@ import 'package:Florxy/pages/productoverview.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:Florxy/NetworkHandler.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:Florxy/pages/compare1.dart';
-import 'package:Florxy/pages/compare2.dart';
-import 'package:Florxy/pages/compare3.dart';
+import 'package:Florxy/CompareProduct/compare1.dart';
+import 'package:Florxy/CompareProduct/compare2.dart';
+
 
 
 class comparepage extends StatefulWidget {
@@ -24,7 +24,7 @@ class comparepage extends StatefulWidget {
 }
 
 class _comparepageState extends State<comparepage> {
-  List pages = [ProductOverview()];
+  List pages = [];
   int _currentIndex = 0;
   final networkHandler = NetworkHandler();
   final storage = new FlutterSecureStorage();
@@ -134,7 +134,7 @@ class _comparepageState extends State<comparepage> {
 
                                     }else if( x != null && y != null && z != null ){
 
-                                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => compare1(id1: x, id2: y, id3: z,)));
+                                      // Navigator.of(context).push(MaterialPageRoute(builder: (context) => compare1(id1: x, id2: y, id3: z,)));
 
 
                                     }

@@ -960,6 +960,7 @@ class _ReviewPostState extends State<ReviewPost> {
         influencer: influencer,
         comment: comment!,
         favorite: countFav,
+        rating: widget.rating
 
       ))).then((value) {
         fetchComment();
@@ -1712,6 +1713,7 @@ class _PostState extends State<Post> {
           influencer: influencer,
           comment: comment!,
           favorite: countFav,
+          type: "post",
         ))).then((value) {
           fetchComment();
         });

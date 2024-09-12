@@ -89,6 +89,9 @@ class Scraper {
     if(detail_low.contains("body wash")||detail_low.contains("body")||detail_low.contains("soap")||detail_low.contains("body lotion")||detail_low.contains("shower")){
       category = "Bath & Body";
     }
+    else if(detail_low.contains("eyebrown")|| detail_low.contains("cc")|| detail_low.contains("primer")|| detail_low.contains("concealer")|| detail_low.contains("powder")|| detail_low.contains("palette")|| detail_low.contains("bronzer")|| detail_low.contains("bb")|| detail_low.contains("brow")|| detail_low.contains("contour")|| detail_low.contains("corrector")|| detail_low.contains("foundation")|| detail_low.contains("blush")){
+      category = "Makeup";
+    }
     else if(detail_low.contains("hand")){
       category = "Hand Care";
     }
@@ -141,9 +144,7 @@ class Scraper {
       category = "Moisturizers & Oil";
     }
 
-    else if(detail_low.contains("eyebrown")|| detail_low.contains("cc")|| detail_low.contains("primer")|| detail_low.contains("concealer")|| detail_low.contains("powder")|| detail_low.contains("palette")|| detail_low.contains("bronzer")|| detail_low.contains("bb")|| detail_low.contains("brow")|| detail_low.contains("contour")|| detail_low.contains("corrector")|| detail_low.contains("foundation")|| detail_low.contains("blush")){
-      category = "Makeup";
-    }
+
 
 
 

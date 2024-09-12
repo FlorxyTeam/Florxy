@@ -7,7 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:Florxy/pages/editprofile.dart';
 
 class Privilege3 extends StatefulWidget {
-  const Privilege3({Key? key}) : super(key: key);
+  String? my_username;
+  Privilege3({Key? key, this.my_username}) : super(key: key);
 
   @override
   _Privilege3State createState() => _Privilege3State();

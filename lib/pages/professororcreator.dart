@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:Florxy/NetworkHandler.dart';
 import 'package:Florxy/pages/privilege3.dart';
 import 'package:Florxy/widgets/font.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,6 +8,7 @@ import 'package:Florxy/widgets/fontWeight.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/pages/professoraccount.dart';
 import 'package:Florxy/pages/creatoraccount.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ProfessorOrCreator extends StatefulWidget {
   const ProfessorOrCreator({Key? key}) : super(key: key);
@@ -14,6 +18,53 @@ class ProfessorOrCreator extends StatefulWidget {
 }
 
 class _ProfessorOrCreatorState extends State<ProfessorOrCreator> {
+
+  final networkHandler = NetworkHandler();
+  final storage = new FlutterSecureStorage();
+  bool checkRequestInflu = false;
+  bool checkRequestProfess= false;
+  bool noMoreRequest = false;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    fetchData();
+  }
+  void fetchData() async{
+    setState(() {
+      checkRequestInflu=true;
+      checkRequestProfess=true;
+    });
+
+    var response = await networkHandler.get("/user/checkRequestAlias/influencer");
+    setState(() {
+      if(response["data"] != null){
+        checkRequestInflu=true;
+        print(response["data"]);
+      }else{
+        checkRequestInflu= false;
+      }
+    });
+
+    var response2 = await networkHandler.get("/user/checkRequestAlias/professor");
+
+    setState(() {
+      if(response2["data"] != null){
+        checkRequestProfess=true;
+        print(response["data"]);
+      }else{
+        checkRequestProfess= false;
+      }
+    });
+
+    if(response2["data"]!=null && response["data"]!=null){
+      setState(() {
+        noMoreRequest=true;
+      });
+    }
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +91,13 @@ class _ProfessorOrCreatorState extends State<ProfessorOrCreator> {
                           SizedBox(height: 18),
                           Padding(
                             padding: EdgeInsets.only(left: 0, right: 0, top: 100),
-                            child: Column(
+                            child: noMoreRequest?Container(child: Center(child: Poppins(
+                                text: 'All of your request is pending.',
+                                size: 17,
+                                color: c.blackSub,
+                                fontWeight: f.bold)
+                              ,),)
+                                :Column(
                               children: [
                                 Align(
                                   alignment: Alignment.center,
@@ -58,7 +115,7 @@ class _ProfessorOrCreatorState extends State<ProfessorOrCreator> {
                             padding: EdgeInsets.only(left: 20, right: 20, top: 170),
                             child: Column(
                               children: [
-                                ClipRRect(
+                                checkRequestProfess?Container():ClipRRect(
                                   borderRadius: BorderRadius.circular(20),
                                   child: Stack(
                                     children: <Widget>[
@@ -81,7 +138,7 @@ class _ProfessorOrCreatorState extends State<ProfessorOrCreator> {
 
                                           // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => ProfessorAccount()), (route) => false);
                                         },
-                                        child: Column(
+                                        child:Column(
                                           children:[
                                             Text(
                                               'Professor account                                          ',
@@ -106,7 +163,7 @@ class _ProfessorOrCreatorState extends State<ProfessorOrCreator> {
                                   ),
                                 ),
                                 SizedBox(height: 20),
-                                ClipRRect(
+                                checkRequestInflu?Container():ClipRRect(
                                   borderRadius: BorderRadius.circular(20),
                                   child: Stack(
                                     children: <Widget>[

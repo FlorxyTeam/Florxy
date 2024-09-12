@@ -342,6 +342,23 @@ router.route("/add").post(middleware.checkToken, (req, res) => {
     });
 });
 
+router.route("/add-google").post((req, res) => {
+  // eslint-disable-next-line new-cap
+  const profile = Profile({
+    username: req.body.username,
+    fullname: req.body.fullname,
+    DOB: req.body.DOB,
+  });
+  profile
+    .save()
+    .then(() => {
+      return res.json({ msg: "profile successfully stored" });
+    })
+    .catch((err) => {
+      return res.status(400).json({ err: err });
+    });
+});
+
 router.route("/checkProfile").get(middleware.checkToken, (req, res) => {
   Profile.findOne({ username: req.decoded.username }, (err, result) => {
     if (err) return res.json({ err: err });
@@ -371,6 +388,19 @@ router.route("/checkusername/:username").get((req,res)=>{
     console.log("Username - Checked");
 })
 
+router.route("/unSaveProduct/:username").post(middleware.checkToken, (req, res)=>{
+  // res.json(req.params.id);
+  Profile.findOneAndUpdate({username: req.params.username},
+      {$pull: {saveproduct: req.body.unSave}}, function(err, unFavPost) {
+      // console.log(req.params.id);
+        if (err) {
+          return res.json(err);
+        } else {
+          return res.json("unSave product succes!!");
+        }
+      });
+});
+
 router.route("/PostAndReply/:username").get((req,res)=>{
   Post.find({username: req.params.username}, (err, result)=>{
     if(err){
@@ -396,6 +426,15 @@ router.route("/otherPostAndReply/:username").get((req,res)=>{
     }
   })
 })
+
+router.route("/getData/:username").get(middleware.checkToken, (req, res) => {
+  console.log(req.params.username)
+  Profile.findOne({ username: req.params.username }, (err, result) => {
+    if (err) return res.json({ err: err });
+    if (result == null) return res.json({ data: [] });
+    else return res.json({ data: result });
+  });
+});
 
 router.route("/getData").get(middleware.checkToken, (req, res) => {
   console.log(req.decoded.username)
@@ -471,6 +510,32 @@ router.route("/update").patch(middleware.checkToken, (req, res) => {
   );
 });
 
+router.route("/updatefullname").patch(middleware.checkToken, (req, res) => {
+  let profile = {};
+  Profile.findOne({ username: req.decoded.username }, (err, result) => {
+    if (err) {
+      profile = {};
+    }
+    if (result != null) {
+      profile = result;
+    }
+  });
+  Profile.findOneAndUpdate(
+    { username: req.decoded.username },
+    {
+      $set: {
+           fullname: req.body.fullname ? req.body.fullname : profile.fullname,
+      },
+    },
+    { new: true },
+    (err, result) => {
+      if (err) return res.json({ err: err });
+      if (result == null) return res.json({ data: [] });
+      else return res.json({ data: result });
+    }
+  );
+});
+
 router.route("/update/profile").patch(middleware.checkToken, (req, res) => {
   let profile = {};
   Profile.findOne({ username: req.decoded.username }, (err, result) => {
@@ -498,7 +563,7 @@ router.route("/update/profile").patch(middleware.checkToken, (req, res) => {
 });
 
 router.route("/getSearchUser/:id").get(middleware.checkToken, (req, res)=>{
-  var query = req.params.id
+  const query = req.params.id
   Profile.find({$or: [{username: {$regex: query, $options:"i"}},
                       {fullname: {$regex: query, $options:"i"}},],}, (err, result)=>{
     if (err) return res.json(err);

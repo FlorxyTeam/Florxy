@@ -208,14 +208,17 @@ class _AliasFinishState extends State<AliasFinish> {
                           onTap: () async{
                             String? aliasname = await storage.read(key: "professor");
                             String? myusername = await storage.read(key: "myusername");
+                            String? linkimg = await storage.read(key: "requestimg-link-profess");
+                            print('my link: '+linkimg.toString());
                             print("Your Alias of Professor: $aliasname");
                             print("$myusername");
                             Map<String, String> data = {
-                              "professor":"$aliasname"
+                              "professor":"$aliasname",
+                              "img":"$linkimg",
                             };
                             print(data);
-                            var addprofessor = await networkHandler
-                                .patch("/profile/addprofessor/$myusername",data);
+                            var addRequestprofessor = await networkHandler.post("/user/requestAlias/professor",data);
+                            // var addprofessor = await networkHandler.patch("/profile/addprofessor/$myusername",data);
                             Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(

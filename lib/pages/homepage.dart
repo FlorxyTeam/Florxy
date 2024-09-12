@@ -1,3 +1,4 @@
+import 'package:Florxy/pages/Loadingscreen.dart';
 import 'package:Florxy/pages/ViewPostPage.dart';
 import 'package:Florxy/Model/postModel.dart';
 import 'package:Florxy/pages/chat.dart';
@@ -14,9 +15,13 @@ import 'package:flutter/material.dart';
 import 'package:Florxy/widgets/PostWidget.dart';
 import "package:flutter_feather_icons/flutter_feather_icons.dart";
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+import '../LoadingScreen/createPostLoadingScreen.dart';
 import '../NetworkHandler.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+
+import 'navbar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -26,14 +31,28 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  HomePage homePage = HomePage();
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   _refreshPage();
+  //   // fetchData();
+  // }
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
     _refreshPage();
-    // fetchData();
   }
+
+  @override
+  void didUpdateWidget(covariant HomePage oldWidget) {
+    // TODO: implement didUpdateWidget
+    super.didUpdateWidget(oldWidget);
+  }
+
   final storage = new FlutterSecureStorage();
 
   Future<void> _refreshPage() async {
@@ -114,7 +133,12 @@ class _HomePageState extends State<HomePage> {
                     storage.delete(key: "mention-product");
                     storage.delete(key: "rating");
                     Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => CreatePost()));
+                        MaterialPageRoute(builder: (context) => CreatePost()))
+                        .then((value) {
+                      Provider.of<PostProvider>(context, listen: false).fetchData();
+                      // Navigator.of(context).pushReplacement(
+                      //     PageTransition(type: PageTransitionType.fade, child: CreatPostLoadingScreen(), duration: Duration(milliseconds: 0)));
+                    });
                   },
                 ),
               ),

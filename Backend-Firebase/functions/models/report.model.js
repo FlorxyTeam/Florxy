@@ -11,13 +11,6 @@ const Report = schema(
         },
         body: String,
         type: String,
-        vote: [
-                    {
-                        username: {
-                            type: String,
-                        },
-                    }
-                ],
     },
     {
         timestamps: true,

@@ -71,9 +71,12 @@ class _SavedProState extends State<SavedPro> {
                 Map saveProduct = save[index];
                 return buildProoduct(
                     '${saveProduct['p_brand']}',
+                    '${saveProduct['_id']}',
                     '${saveProduct['p_name']}',
                     '${saveProduct['p_desc']}',
-                    '${saveProduct['p_img']}'
+                    '${saveProduct['p_img']}',
+                    true,
+                    widget.username!
                 );
               }
             )
@@ -83,7 +86,7 @@ class _SavedProState extends State<SavedPro> {
     );
   }
 
-  Widget buildProoduct(String brand, String product, String desc, String img) => Column(
+  Widget buildProoduct(String brand, String id, String product, String desc, String img, bool isSave, String username) => Column(
     children: [
       Container(
         child: Padding(
@@ -133,8 +136,24 @@ class _SavedProState extends State<SavedPro> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 10),
-                    child: Icon(Icons.bookmark_rounded,
-                      color:c.greenMain,
+                    child: isSave?InkWell(
+                      onTap: () async{
+                        final networkHandler = NetworkHandler();
+                        Map<String, String> data = {
+                          "unSave": id
+                        };
+                        await networkHandler.post("/profile/unSaveProduct/"+username, data);
+                        setState(() {
+                          isSave = false;
+                        });
+                      },
+                      child: Icon(Icons.bookmark_rounded,
+                        color:c.greenMain,
+                        size: 25,
+                      ),
+                    ):
+                    Icon(Icons.bookmark_rounded,
+                      color:c.graySub2,
                       size: 25,
                     ),
                   )

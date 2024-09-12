@@ -22,12 +22,14 @@ class PostProvider extends ChangeNotifier {
   List<dynamic>? comment;
   List<dynamic>? profile;
   List<dynamic>? chat;
-  List<dynamic>? pro1;
+  List<dynamic>? com2;
   List<dynamic>? com3;
   List<dynamic>? interestingreview;
   List<dynamic>? searchPost;
   List<dynamic>? searchUser;
   List<dynamic>? searchProduct;
+  List<dynamic>? report;
+  List<dynamic>? problem;
 
 
 
@@ -38,7 +40,11 @@ class PostProvider extends ChangeNotifier {
     final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/home/getPost");
     http.Response response = await httpClient.get(
       resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
+      headers: {"Authorization": "Bearer $token","Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'
+      },
+
     );
     final Map parsedData = await json.decode(response.body.toString());
 
@@ -52,7 +58,10 @@ class PostProvider extends ChangeNotifier {
     final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/brand");
     http.Response response = await httpClient.get(
       resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
+      headers: {"Authorization": "Bearer $token","Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'
+      },
     );
     final Map parseBrand = await json.decode(response.body.toString());
 
@@ -66,7 +75,11 @@ class PostProvider extends ChangeNotifier {
     final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/brand/" + p_brand!);
     http.Response response = await httpClient.get(
       resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
+      headers: {"Authorization": "Bearer $token",
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'
+      },
     );
 
     final Map parseBrand = await json.decode(response.body.toString());
@@ -82,7 +95,11 @@ class PostProvider extends ChangeNotifier {
     print(resAPIURL);
     http.Response response = await httpClient.get(
       resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
+      headers: {"Authorization": "Bearer $token",
+    "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'
+    },
     );
 
     final Map parsedData = await json.decode(response.body.toString());
@@ -98,7 +115,11 @@ class PostProvider extends ChangeNotifier {
     final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/home/createPost/mention/topMention");
     http.Response response = await httpClient.get(
       resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
+      headers: {"Authorization": "Bearer $token",
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
+
     );
     final Map parsedProduct = await json.decode(response.body.toString());
 
@@ -113,7 +134,10 @@ class PostProvider extends ChangeNotifier {
     final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/profile/PostAndReply/"+username!);
     http.Response response = await httpClient.get(
       resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
+      headers: {"Authorization": "Bearer $token",
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
     final Map parsedProduct = await json.decode(response.body.toString());
 
@@ -127,7 +151,10 @@ class PostProvider extends ChangeNotifier {
     final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/profile/otherPostAndReply/"+username);
     http.Response response = await httpClient.get(
       resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
+      headers: {"Authorization": "Bearer $token",
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
     final Map parsedProduct = await json.decode(response.body.toString());
 
@@ -157,7 +184,10 @@ class PostProvider extends ChangeNotifier {
     final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/home/getComment/"+idPost);
     http.Response response = await httpClient.get(
       resAPIURL,
-      headers: {"Authorization":"Bearer $token"},
+      headers: {"Authorization":"Bearer $token",
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
     final Map parsedProduct = await json.decode(response.body.toString());
 
@@ -171,7 +201,10 @@ class PostProvider extends ChangeNotifier {
     final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/profile/getChat/"+myUsername+"/"+targetUsername);
     http.Response response = await httpClient.get(
       resAPIURL,
-      headers: {"Authorization":"Bearer $token"},
+      headers: {"Authorization":"Bearer $token",
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
     final Map parsedProduct = await json.decode(response.body.toString());
 
@@ -187,15 +220,18 @@ class PostProvider extends ChangeNotifier {
     var p_id2 = await storage.read(key: 'p_id2');
     print('Compare2 '+ p_id1.toString());
     print('Compare2 '+ p_id2.toString());
-    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/compare/" + p_id1!+"/"+p_id2!);
+    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/compare2/" + p_id1!+"/"+p_id2!);
     http.Response response = await httpClient.get(
       resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
+      headers: {"Authorization": "Bearer $token",
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
 
     final Map parseBrand = await json.decode(response.body.toString());
 
-    pro1 = parseBrand["data"];
+    com2 = parseBrand["product"];
 
   }
 
@@ -209,15 +245,18 @@ class PostProvider extends ChangeNotifier {
     print('Compare3 '+ p_id2.toString());
     print('Compare3 '+ p_id3.toString());
 
-    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/compare/" + p_id1!+"/"+p_id2!+"/"+p_id3!);
+    final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/compare3/" + p_id1!+"/"+p_id2!+"/"+p_id3!);
     http.Response response = await httpClient.get(
       resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
+      headers: {"Authorization": "Bearer $token",
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
 
     final Map parseBrand = await json.decode(response.body.toString());
 
-    com3 = parseBrand["data"];
+    com3 = parseBrand["product"];
     print(com3);
 
 
@@ -230,7 +269,10 @@ class PostProvider extends ChangeNotifier {
     final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/topmention/brand/" + p_brand!);
     http.Response response = await httpClient.get(
       resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
+      headers: {"Authorization": "Bearer $token",
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
 
     final Map parseBrand = await json.decode(response.body.toString());
@@ -246,7 +288,10 @@ class PostProvider extends ChangeNotifier {
     final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/topreview/brand/" + p_brand!);
     http.Response response = await httpClient.get(
       resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
+      headers: {"Authorization": "Bearer $token",
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
 
     final Map parseBrand = await json.decode(response.body.toString());
@@ -263,7 +308,10 @@ class PostProvider extends ChangeNotifier {
     final Uri resAPIURL = Uri.parse(networkHandler.baseurl + "/product/post/interestingreview/" + id!);
     http.Response response = await httpClient.get(
       resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
+      headers: {"Authorization": "Bearer $token",
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
 
     final Map parseBrand = await json.decode(response.body.toString());
@@ -282,7 +330,10 @@ class PostProvider extends ChangeNotifier {
     print(networkHandler.baseurl + "/home/getSearchProductPost/"+query);
     http.Response response = await httpClient.get(
       resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
+      headers: {"Authorization": "Bearer $token",
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
     final Map parsedProduct = await json.decode(response.body.toString());
 
@@ -298,7 +349,10 @@ class PostProvider extends ChangeNotifier {
     final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/profile/getSearchUser/"+query);
     http.Response response = await httpClient.get(
       resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
+      headers: {"Authorization": "Bearer $token",
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
     final Map parsedProduct = await json.decode(response.body.toString());
 
@@ -314,13 +368,48 @@ class PostProvider extends ChangeNotifier {
     final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/product/getSearchProduct/"+query);
     http.Response response = await httpClient.get(
       resAPIURL,
-      headers: {"Authorization": "Bearer $token"},
+      headers: {"Authorization": "Bearer $token",
+        "Access-Control-Allow-Origin": "*",
+        'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE',
+        'Access-Control-Allow-Headers':'Origin,X-Requested-With,Content-Type,Accept,content-type,application/json'},
     );
     final Map parsedProduct = await json.decode(response.body.toString());
 
     searchProduct = parsedProduct["getProduct"];
     print("getProduct");
     print(searchProduct);
+  }
+
+  Future fetchReport(username) async{
+    // var id = await storage.read(key: 'idPost');
+    // print(id);
+    String? token = await storage.read(key:"token");
+    final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/home/getReport/"+username);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization":"Bearer $token"},
+    );
+    final Map parsedReport = await json.decode(response.body.toString());
+
+    report = parsedReport["report"];
+    // print('comment');
+    // print(comment);
+  }
+
+  Future fetchProblem(username) async{
+    // var id = await storage.read(key: 'idPost');
+    // print(id);
+    String? token = await storage.read(key:"token");
+    final Uri resAPIURL = Uri.parse( networkHandler.baseurl + "/home/getProblem/"+username);
+    http.Response response = await httpClient.get(
+      resAPIURL,
+      headers: {"Authorization":"Bearer $token"},
+    );
+    final Map parsedProblem = await json.decode(response.body.toString());
+
+    problem = parsedProblem["problem"];
+    // print('comment');
+    // print(comment);
   }
 
 
