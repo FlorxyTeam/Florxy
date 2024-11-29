@@ -8,7 +8,8 @@ import 'package:Florxy/pages/editprofile.dart';
 
 
 class Privilege2 extends StatefulWidget {
-  const Privilege2({Key? key}) : super(key: key);
+  String? my_username;
+  Privilege2({Key? key, this.my_username}) : super(key: key);
 
   @override
   _Privilege2State createState() => _Privilege2State();

@@ -20,6 +20,7 @@ import 'package:http/http.dart' as http;
 import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../Model/aliasColorModel.dart';
 import '../pages/anotherProfile.dart';
 import '../pages/comparepage.dart';
 import 'NotificationWidget.dart';
@@ -45,6 +46,10 @@ class _UsersState extends State<Users> {
   final storage = new FlutterSecureStorage();
   Map? data;
 
+  Color? professor_color, creator_color;
+  Professor list_professor_color = Professor();
+  Creator list_creator_color = Creator();
+
   late bool _isLoading;
   @override
   void initState() {
@@ -59,6 +64,22 @@ class _UsersState extends State<Users> {
 
     setState(() {
       _isLoading =false;
+      int i=0, j=0;
+      for(i;i<=list_professor_color.alias_professor.length-1;i++) {
+        if(widget.professor==list_professor_color.alias_professor[i].alias){
+          setState(() {
+            professor_color = list_professor_color.alias_professor[i].color;
+          });
+        }
+      }
+
+      for(j;j<=list_creator_color.alias_creator.length-1;j++) {
+        if(widget.influencer==list_creator_color.alias_creator[j].alias){
+          setState(() {
+            creator_color = list_creator_color.alias_creator[j].color;
+          });
+        }
+      }
     });
   }
 
@@ -148,7 +169,7 @@ class _UsersState extends State<Users> {
                                               fontWeight: f.semiBold),
                                         ),
                                         decoration: BoxDecoration(
-                                            color: c.greenMain,
+                                            color: professor_color!,
                                             borderRadius: BorderRadius.circular(10)),
                                       ),
                                       SizedBox( width: 5 ),
@@ -160,12 +181,12 @@ class _UsersState extends State<Users> {
                                           child: Inter(
                                               text: widget.influencer,
                                               size: 8,
-                                              color: c.blueMain,
+                                              color: creator_color!,
                                               fontWeight: f.bold),
                                         ),
                                         decoration: BoxDecoration(
                                             border: Border.all(
-                                              color: c.blueMain,
+                                              color: creator_color!,
                                               width: 2,
                                             ),
                                             borderRadius: BorderRadius.circular(10)),

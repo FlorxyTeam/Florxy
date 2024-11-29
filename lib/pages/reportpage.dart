@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'navbar.dart';
 
 class ReportPage extends StatefulWidget {
-  const ReportPage({Key? key}) : super(key: key);
+  String? my_username, idpost;
+
+  ReportPage({Key? key, this.my_username, this.idpost}) : super(key: key);
 
   @override
   _ReportPageState createState() => _ReportPageState();
@@ -107,7 +109,11 @@ class _ReportPageState extends State<ReportPage> {
                     trailing: Icon(Icons.keyboard_arrow_right_sharp),
                     onTap: () {
                       Bad = "Harassment";
-                      Navigator.push(context,MaterialPageRoute(builder: (context) => ReportFinish(Bad : Bad)));
+                      Navigator.push(context,MaterialPageRoute(builder: (context) => ReportFinish(
+                          Bad : Bad,
+                          my_username : widget.my_username,
+                          idpost: widget.idpost,
+                      )));
                     },
                   ),
                   ListTile(
@@ -115,7 +121,11 @@ class _ReportPageState extends State<ReportPage> {
                     trailing: Icon(Icons.keyboard_arrow_right_sharp),
                     onTap: () {
                       Bad = "Nudity";
-                      Navigator.push(context,MaterialPageRoute(builder: (context) => ReportFinish(Bad : Bad)));
+                      Navigator.push(context,MaterialPageRoute(builder: (context) => ReportFinish(
+                        Bad : Bad,
+                        my_username : widget.my_username,
+                        idpost: widget.idpost,
+                      )));
                     },
                   ),
                   ListTile(
@@ -123,7 +133,11 @@ class _ReportPageState extends State<ReportPage> {
                     trailing: Icon(Icons.keyboard_arrow_right_sharp),
                     onTap: () {
                       Bad = "Spam";
-                      Navigator.push(context,MaterialPageRoute(builder: (context) => ReportFinish(Bad : Bad)));
+                      Navigator.push(context,MaterialPageRoute(builder: (context) => ReportFinish(
+                        Bad : Bad,
+                        my_username : widget.my_username,
+                        idpost: widget.idpost,
+                      )));
                     },
                   ),
                   ListTile(
@@ -131,7 +145,11 @@ class _ReportPageState extends State<ReportPage> {
                     trailing: Icon(Icons.keyboard_arrow_right_sharp),
                     onTap: () {
                       Bad = "Hate Speech";
-                      Navigator.push(context,MaterialPageRoute(builder: (context) => ReportFinish(Bad : Bad)));
+                      Navigator.push(context,MaterialPageRoute(builder: (context) => ReportFinish(
+                        Bad : Bad,
+                        my_username : widget.my_username,
+                        idpost: widget.idpost,
+                      )));
                     },
                   ),
                   ListTile(
@@ -139,7 +157,11 @@ class _ReportPageState extends State<ReportPage> {
                     trailing: Icon(Icons.keyboard_arrow_right_sharp),
                     onTap: () {
                       Bad = "False Information";
-                      Navigator.push(context,MaterialPageRoute(builder: (context) => ReportFinish(Bad : Bad)));
+                      Navigator.push(context,MaterialPageRoute(builder: (context) => ReportFinish(
+                        Bad : Bad,
+                        my_username : widget.my_username,
+                        idpost: widget.idpost,
+                      )));
                     },
                   ),
                   ListTile(
@@ -147,7 +169,11 @@ class _ReportPageState extends State<ReportPage> {
                     trailing: Icon(Icons.keyboard_arrow_right_sharp),
                     onTap: () {
                       Bad = "Terrorism";
-                      Navigator.push(context,MaterialPageRoute(builder: (context) => ReportFinish(Bad : Bad)));
+                      Navigator.push(context,MaterialPageRoute(builder: (context) => ReportFinish(
+                        Bad : Bad,
+                        my_username : widget.my_username,
+                        idpost: widget.idpost,
+                      )));
                     },
                   ),
                   ListTile(
@@ -155,7 +181,11 @@ class _ReportPageState extends State<ReportPage> {
                     trailing: Icon(Icons.keyboard_arrow_right_sharp),
                     onTap: () {
                       Bad = "Something Else";
-                      Navigator.push(context,MaterialPageRoute(builder: (context) => ReportFinish(Bad : Bad)));
+                      Navigator.push(context,MaterialPageRoute(builder: (context) => ReportFinish(
+                        Bad : Bad,
+                        my_username : widget.my_username,
+                        idpost: widget.idpost,
+                      )));
                     },
                   ),
                 ],

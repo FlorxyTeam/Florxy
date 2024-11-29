@@ -381,6 +381,7 @@ class _CreateWithEmailState extends State<CreateWithEmail> {
                         String? username =
                         await storage.read(key: "username");
                         if (_globalkey.currentState!.validate() && validate) {
+
                           Map<String, String> data = {
                             "email": _emailController.text,
                             "username": "$username",

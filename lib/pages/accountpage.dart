@@ -1,3 +1,4 @@
+import 'package:Florxy/pages/personalinformation.dart';
 import 'package:boxicons/boxicons.dart';
 import 'package:flutter/material.dart';
 import 'package:Florxy/pages/navbar.dart';
@@ -98,7 +99,9 @@ class _AccountState extends State<Account> {
                     Column(
                     children: [
                         InkWell(
-                          onTap: (){},
+                          onTap: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => PersonalInformation()));
+                          },
                           child: Padding(
                             padding: const EdgeInsets.only(top: 10, right: 0,left: 0,bottom: 10),
                             child: Row(

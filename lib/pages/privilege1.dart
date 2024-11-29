@@ -12,7 +12,8 @@ import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 
 class Privilege1 extends StatefulWidget {
-  Privilege1({Key? key}) : super(key: key);
+  String? my_username;
+  Privilege1({Key? key, this.my_username}) : super(key: key);
 
   @override
   _Privilege1State createState() => _Privilege1State();

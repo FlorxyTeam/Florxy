@@ -18,6 +18,17 @@ router.route("/getProductData/:id").get(middleware.checkToken, (req, res) => {
     else return res.json({ data: result });
   });
 });
+
+router.route("/getIngredientInfo/:id").get( (req, res) => {
+  Ingredient.findOne({ _id: req.params.id }).exec(function(err, result){
+    if(err) {
+      return console.log(err);
+    } else {
+      return res.json({ ingredient: result });
+    }
+  });
+});
+
 router.route("/add/brand").post((req, res)=> {
   // eslint-disable-next-line new-cap
   Brand.find({name:req.body.name},(err, result) =>{
